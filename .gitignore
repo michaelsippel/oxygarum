@@ -1,5 +1,6 @@
-.c~
-.h~
-.o
+*.c~
+*.h~
+*.o
 .gitignore~
-
+makefile~
+Maekfile~
