@@ -1,5 +1,5 @@
 /**
- *  include/face.h
+ *  object.c
  *
  *  (C) Copyright 2012 Michael Sippel
  *
@@ -16,19 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FACE_H
-#define _FACE_H
+#include <stdlib.h>
 
 #include "vertex.h"
+#include "face.h"
+#include "object.h"
 
-typedef struct face {
-  vertex_id vertex_counter;
-  vertex_id *vertices;
-} face_t;
-
-typedef unsigned int face_id;
-
-/// allocates memory and adds vertices to the face
-face_t *create_face(vertex_t vertices[]);
-
-#endif
+object_t *create_object(face_t faces[]) {
+  object_t *object = malloc(sizeof(object_t));
+  
+  object->face_counter = sizeof(faces);
+  object->faces = (void*)&faces;
+  
+  return object;
+}

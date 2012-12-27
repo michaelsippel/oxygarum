@@ -1,6 +1,7 @@
 *.c~
 *.h~
 *.o
+*.a
 .gitignore~
 makefile~
 Maekfile~

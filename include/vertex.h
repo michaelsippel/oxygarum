@@ -34,4 +34,7 @@ typedef unsigned int vertex_id;
 extern vertex_t vertices[MAX_VERTICES];
 #endif
 
+/// adds the vertex to the vertices array and returns the id
+vertex_id add_vertex(vertex_t vertex);
+
 #endif
