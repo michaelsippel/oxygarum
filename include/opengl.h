@@ -1,5 +1,5 @@
 /**
- *  include/vertex.h
+ *  include/opengl.h
  *
  *  (C) Copyright 2012 Michael Sippel
  *
@@ -16,25 +16,18 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _VERTEX_H
-#define _VERTEX_H
+#ifndef _OPENGL_H
+#define _OPENGL_H
 
-#define MAX_VERTICES 20000
+#include <GL/glut.h>
 
-typedef struct vertex {
-  double x;
-  double y;
-  double z;
-} vertex_t;
+#define CLITER_FULLSCREEN 0
 
-typedef unsigned int vertex_id;
+void cliter_init_glut(int argc, char **argv);
+void cliter_init_opengl(int argc, char **argv);
 
-#ifndef _VERTICES
-#define _VERTICES
-extern vertex_t vertices[MAX_VERTICES];
-#endif
-
-/// adds the vertex to the vertices array and returns the id
-vertex_id cliter_add_vertex(vertex_t vertex);
+void cliter_set_resolution(int _width, int _height);
+void cliter_set_title(const char *_title);
+void cliter_set_flag(int mask, int value);
 
 #endif

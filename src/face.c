@@ -1,5 +1,5 @@
 /**
- *  face.c
+ *  src/face.c
  *
  *  (C) Copyright 2012 Michael Sippel
  *
@@ -21,7 +21,7 @@
 #include "vertex.h"
 #include "face.h"
 
-face_t *create_face(vertex_t vertices[]) {
+face_t *cliter_create_face(vertex_t vertices[]) {
   face_t *face = malloc(sizeof(face_t));
   
   face->vertex_counter = sizeof(vertices);

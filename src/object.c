@@ -1,5 +1,5 @@
 /**
- *  object.c
+ *  src/object.c
  *
  *  (C) Copyright 2012 Michael Sippel
  *
@@ -22,7 +22,7 @@
 #include "face.h"
 #include "object.h"
 
-object_t *create_object(face_t faces[]) {
+object_t *cliter_create_object(face_t faces[]) {
   object_t *object = malloc(sizeof(object_t));
   
   object->face_counter = sizeof(faces);

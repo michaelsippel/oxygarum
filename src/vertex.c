@@ -1,5 +1,5 @@
 /**
- *  vertex.c
+ *  src/vertex.c
  *
  *  (C) Copyright 2012 Michael Sippel
  *
@@ -23,7 +23,7 @@ static vertex_id vertex_counter = 0;
 #define _VERTICES
 vertex_t vertices[MAX_VERTICES];
 
-vertex_id add_vertex(vertex_t vertex) {
+vertex_id cliter_add_vertex(vertex_t vertex) {
   vertex_id id = vertex_counter++;
   if(id <= MAX_VERTICES) {
     vertices[id] = vertex;

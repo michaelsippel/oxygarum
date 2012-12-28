@@ -2,6 +2,7 @@
 *.h~
 *.o
 *.a
+demo
 .gitignore~
 makefile~
 Maekfile~

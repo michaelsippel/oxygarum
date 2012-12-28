@@ -29,6 +29,6 @@ typedef struct face {
 typedef unsigned int face_id;
 
 /// allocates memory and adds vertices to the face
-face_t *create_face(vertex_t vertices[]);
+face_t *cliter_create_face(vertex_t vertices[]);
 
 #endif

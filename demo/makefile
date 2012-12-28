@@ -7,14 +7,13 @@ LIBDIR  = -L/usr/X11R6/lib
 CC = gcc
 CFLAGS = -Wall $(INCLUDE)
 LIBRARIES = -lX11 -lXi -lXmu -lglut -lGL -lGLU -lm -lpng
+CLITER = ../src/cliter.a
 
-all: $(OBJS) lib
+demo: $(OBJS)
+	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(CLITER)
 
 %.c : %.o
 	$(CC) $(CFLAGS) -o $@ $(LIBDIR) $< $(LIBRARIES)  
-
-lib: $(OBJS)
-	ar -rcs cliter.a $^
 
 clean:
 	rm $(OBJS)

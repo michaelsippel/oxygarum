@@ -28,6 +28,6 @@ typedef struct object {
 } object_t;
 
 /// allocates memory and adds faces to the object
-object_t *create_object(face_t faces[]);
+object_t *cliter_create_object(face_t faces[]);
 
 #endif
