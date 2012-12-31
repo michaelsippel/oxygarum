@@ -24,23 +24,16 @@ int width, height;
 unsigned int flags;
 const char *title;
 
-void display(void) {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.1, 0.1, 0.1, 1.0);
-  glLoadIdentity();
-  glutSwapBuffers();
-}
-
 void cliter_init_glut(int argc, char **argv) {
   glutInit((void*)&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);  
   glutInitWindowSize(width, height);  
   glutInitWindowPosition(0, 0);
   window = glutCreateWindow(title);
-//   glutSetCursor(GLUT_CURSOR_NONE);
-  glutDisplayFunc(&display);
+  glutSetCursor(GLUT_CURSOR_NONE);
+  glutDisplayFunc(&cliter_display);
   if(flags & CLITER_FULLSCREEN) glutFullScreen();
-  glutIdleFunc(&display);
+  glutIdleFunc(&cliter_display);
   glClearColor(0, 0, 0, 0);
   glMatrixMode(GL_PROJECTION);
   gluPerspective(45.0, 1.0, 1.0, 100.0);
