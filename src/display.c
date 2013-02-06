@@ -16,12 +16,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <unistd.h>
 #include <GL/glut.h>
 #include "opengl.h"
 #include "vertex.h"
+#include "object.h"
 
 vertex_t loc = {.x = 0, .y = 0, .z = -3};
 vertex_t rot = {.x = 0, .y = 0, .z = 0};
+
+unsigned int display_object_counter = 0;
+object_t *display_objects[2];
+
+void cliter_ilde(void) {
+  
+  glutPostRedisplay();
+}
 
 void cliter_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -31,17 +41,21 @@ void cliter_display(void) {
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
   glRotatef(rot.z, 0.0f,0.0f,1.0f);
   
+  rot.x += 0.05;
+  rot.y += 0.05;
+  rot.z += 0.05;
+  
   glTranslatef(loc.x, loc.y, loc.z);
   
-  glBegin(GL_POLYGON);
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    
-    glVertex3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 1.0f, 0.0f);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, 0.0f, 0.0f);
-  glEnd();
+  int i;
+  for(i = 0; i < display_object_counter; i++) {
+    cliter_display_object(display_objects[i]);
+  }
   
   glLoadIdentity();
   glutSwapBuffers();
+}
+
+void cliter_add_object(object_t *object) {
+  display_objects[display_object_counter++] = object;
 }

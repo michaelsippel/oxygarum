@@ -28,6 +28,8 @@ typedef struct object {
 } object_t;
 
 /// allocates memory and adds faces to the object
-object_t *cliter_create_object(face_t faces[]);
+object_t *cliter_create_object(unsigned int num, face_t *faces);
+/// draw the object to the OpenGL scene
+void cliter_display_object(object_t *object);
 
 #endif

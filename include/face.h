@@ -29,6 +29,8 @@ typedef struct face {
 typedef unsigned int face_id;
 
 /// allocates memory and adds vertices to the face
-face_t *cliter_create_face(vertex_t vertices[]);
+face_t *cliter_create_face(unsigned int num, vertex_id *vertices);
+/// Draw the face to the OpenGL scene
+void cliter_display_face(face_t *face);
 
 #endif

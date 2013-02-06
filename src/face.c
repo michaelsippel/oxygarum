@@ -17,15 +17,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdlib.h>
-
+#include <GL/glut.h>
 #include "vertex.h"
 #include "face.h"
 
-face_t *cliter_create_face(vertex_t vertices[]) {
+face_t *cliter_create_face(unsigned int num, vertex_id *vertices) {
   face_t *face = malloc(sizeof(face_t));
   
-  face->vertex_counter = sizeof(vertices);
-  face->vertices = (void*)&vertices;
+  face->vertex_counter = num;
+  face->vertices = vertices;
   
   return face;
+}
+
+void cliter_display_face(face_t *face) {
+  int i;
+  glBegin(GL_POLYGON);
+  for(i = 0; i < face->vertex_counter; i++) {
+    glVertex3f(
+ 	vertices[i].x,
+ 	vertices[i].y,
+ 	vertices[i].z
+    );
+  }
+  glEnd();
 }

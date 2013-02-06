@@ -32,12 +32,8 @@ void cliter_init_glut(int argc, char **argv) {
   window = glutCreateWindow(title);
   glutSetCursor(GLUT_CURSOR_NONE);
   glutDisplayFunc(&cliter_display);
+  glutIdleFunc(&cliter_ilde);
   if(flags & CLITER_FULLSCREEN) glutFullScreen();
-  glutIdleFunc(&cliter_display);
-  glClearColor(0, 0, 0, 0);
-  glMatrixMode(GL_PROJECTION);
-  gluPerspective(45.0, 1.0, 1.0, 100.0);
-  glMatrixMode(GL_MODELVIEW);
 }
 
 void cliter_init_opengl(int argc, char **argv) {  

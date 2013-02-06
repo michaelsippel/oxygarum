@@ -22,11 +22,18 @@
 #include "face.h"
 #include "object.h"
 
-object_t *cliter_create_object(face_t faces[]) {
+object_t *cliter_create_object(unsigned int num, face_t *faces) {
   object_t *object = malloc(sizeof(object_t));
   
-  object->face_counter = sizeof(faces);
-  object->faces = (void*)&faces;
+  object->face_counter = num;
+  object->faces = faces;
   
   return object;
+}
+
+void cliter_display_object(object_t *object) {
+  int i;
+  for(i = 0; i < object->face_counter; i++) {
+    cliter_display_face(object->faces);
+  }
 }

@@ -23,6 +23,7 @@
 
 #define CLITER_FULLSCREEN 0
 
+void cliter_ilde(void);
 void cliter_display(void);
 
 void cliter_init_glut(int argc, char **argv);
