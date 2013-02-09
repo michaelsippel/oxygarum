@@ -1,7 +1,7 @@
 /**
- *  include/cliter.h
+ *  include/material.h
  *
- *  (C) Copyright 2012 Michael Sippel
+ *  (C) Copyright 2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,15 +16,34 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CLITER_H
-#define _CLITER_H
+#ifndef _MATERIAL_H
+#define _MATERIAL_H
 
-#include "vertex.h"
-#include "face.h"
-#include "object.h"
-#include "opengl.h"
-#include "material.h"
+typedef unsigned int material_id;
 
-void init_cliter(int argc, char **argv);
+typedef struct color_st {
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
+} color_st_t;
+
+typedef union color {
+  color_st_t rgb;
+  unsigned char color[3];
+} color_t;
+
+typedef struct material {
+  const char name[20];
+  material_id id;
+  color_t color;
+//   texture_t texture; //TODO
+} material_t;
+
+#define MAX_MATERIALS 100
+#ifndef _MATERIALS
+extern material_t *materials;
+#endif
+
+material_id cliter_create_material(const char name[20], color_t color);
 
 #endif

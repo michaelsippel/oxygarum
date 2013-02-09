@@ -37,6 +37,8 @@ void cliter_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);
   
+  glMatrixMode(GL_MODELVIEW);
+  
   glRotatef(rot.x, 1.0f,0.0f,0.0f);
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
   glRotatef(rot.z, 0.0f,0.0f,1.0f);

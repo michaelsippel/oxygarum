@@ -21,17 +21,22 @@
 #include "vertex.h"
 #include "face.h"
 
-face_t *cliter_create_face(unsigned int num, vertex_id *vertices) {
+face_t *cliter_create_face(unsigned int num, vertex_id *vertices, material_id material) {
   face_t *face = malloc(sizeof(face_t));
   
   face->vertex_counter = num;
   face->vertices = vertices;
+  face->material = material;
   
   return face;
 }
 
 void cliter_display_face(face_t *face) {
   int i;
+  glColor4f(materials[face->material].color.color[0], 
+	    materials[face->material].color.color[1],
+	    materials[face->material].color.color[2],
+	    1);
   glBegin(GL_POLYGON);
   for(i = 0; i < face->vertex_counter; i++) {
     glVertex3f(

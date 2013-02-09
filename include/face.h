@@ -20,16 +20,18 @@
 #define _FACE_H
 
 #include "vertex.h"
+#include "material.h"
 
 typedef struct face {
   vertex_id vertex_counter;
   vertex_id *vertices;
+  material_id material;
 } face_t;
 
 typedef unsigned int face_id;
 
 /// allocates memory and adds vertices to the face
-face_t *cliter_create_face(unsigned int num, vertex_id *vertices);
+face_t *cliter_create_face(unsigned int num, vertex_id *vertices, material_id material);
 /// Draw the face to the OpenGL scene
 void cliter_display_face(face_t *face);
 
