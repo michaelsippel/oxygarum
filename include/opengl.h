@@ -28,6 +28,7 @@ void cliter_display(void);
 
 void cliter_init_glut(int argc, char **argv);
 void cliter_init_opengl(int argc, char **argv);
+void cliter_rehape(int _width, int _height);
 
 void cliter_set_resolution(int _width, int _height);
 void cliter_set_title(const char *_title);

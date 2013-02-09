@@ -38,23 +38,24 @@ void cliter_display(void) {
   glClearColor(0.1, 0.1, 0.1, 1.0);
   
   glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  
+  glTranslatef(loc.x, loc.y, loc.z);
   
   glRotatef(rot.x, 1.0f,0.0f,0.0f);
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
   glRotatef(rot.z, 0.0f,0.0f,1.0f);
   
   rot.x += 0.05;
-  rot.y += 0.05;
-  rot.z += 0.05;
-  
-  glTranslatef(loc.x, loc.y, loc.z);
+//   rot.y += 0.05;
+//   rot.z += 0.05;
   
   int i;
   for(i = 0; i < display_object_counter; i++) {
     cliter_display_object(display_objects[i]);
   }
   
-  glLoadIdentity();
+  glFlush();
   glutSwapBuffers();
 }
 

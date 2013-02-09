@@ -33,7 +33,8 @@ void cliter_init_glut(int argc, char **argv) {
   glutSetCursor(GLUT_CURSOR_NONE);
   glutDisplayFunc(&cliter_display);
   glutIdleFunc(&cliter_ilde);
-  if(flags & CLITER_FULLSCREEN) glutFullScreen();
+  glutReshapeFunc(&cliter_rehape);
+  if(flags & CLITER_FULLSCREEN) glutFullscreen();
 }
 
 void cliter_init_opengl(int argc, char **argv) {  
@@ -51,6 +52,20 @@ void cliter_init_opengl(int argc, char **argv) {
   glMatrixMode(GL_MODELVIEW);
   
   glutMainLoop();
+}
+
+void cliter_rehape(int _width, int _height) {
+  width= _width;
+  height = _height;
+
+  glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glViewport(0, 0, width, height);
+
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluPerspective(45.0f, (GLfloat)width/(GLfloat)height, 1.0f, 1000.0f);
+
+  glutPostRedisplay();
 }
 
 void cliter_set_resolution(int _width, int _height) {
