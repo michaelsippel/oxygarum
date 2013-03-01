@@ -21,17 +21,17 @@
 
 #include <GL/glut.h>
 
-#define CLITER_FULLSCREEN 0
+#define OXYGARUM_FULLSCREEN 0
 
-void cliter_ilde(void);
-void cliter_display(void);
+void oxygarum_ilde(void);
+void oxygarum_display(void);
 
-void cliter_init_glut(int argc, char **argv);
-void cliter_init_opengl(int argc, char **argv);
-void cliter_rehape(int _width, int _height);
+void oxygarum_init_glut(int argc, char **argv);
+void oxygarum_init_opengl(int argc, char **argv);
+void oxygarum_rehape(int _width, int _height);
 
-void cliter_set_resolution(int _width, int _height);
-void cliter_set_title(const char *_title);
-void cliter_set_flag(int mask, int value);
+void oxygarum_set_resolution(int _width, int _height);
+void oxygarum_set_title(const char *_title);
+void oxygarum_set_flag(int mask, int value);
 
 #endif

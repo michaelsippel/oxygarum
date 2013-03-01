@@ -21,7 +21,7 @@
 #include "vertex.h"
 #include "face.h"
 
-face_t *cliter_create_face(unsigned int num, vertex_id *vertices, material_id material) {
+face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_id material) {
   face_t *face = malloc(sizeof(face_t));
   
   face->vertex_counter = num;
@@ -31,7 +31,7 @@ face_t *cliter_create_face(unsigned int num, vertex_id *vertices, material_id ma
   return face;
 }
 
-void cliter_display_face(face_t *face) {
+void oxygarum_display_face(face_t *face) {
   int i;
   glColor4f(materials[face->material].color.color[0], 
 	    materials[face->material].color.color[1],

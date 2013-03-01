@@ -14,8 +14,9 @@ all: $(OBJS) lib
 	$(CC) $(CFLAGS) -o $@ $(LIBDIR) $< $(LIBRARIES)  
 
 lib: $(OBJS)
-	ar -rcs cliter.a $^
+	ar -rcs oxygarum.a $^
 
 clean:
 	rm $(OBJS)
+	rm oxygarum.a
 

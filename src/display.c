@@ -28,12 +28,12 @@ vertex_t rot = {.x = 0, .y = 0, .z = 0};
 unsigned int display_object_counter = 0;
 object_t *display_objects[2];
 
-void cliter_ilde(void) {
+void oxygarum_ilde(void) {
   
   glutPostRedisplay();
 }
 
-void cliter_display(void) {
+void oxygarum_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);
   
@@ -52,13 +52,13 @@ void cliter_display(void) {
   
   int i;
   for(i = 0; i < display_object_counter; i++) {
-    cliter_display_object(display_objects[i]);
+    oxygarum_display_object(display_objects[i]);
   }
   
   glFlush();
   glutSwapBuffers();
 }
 
-void cliter_add_object(object_t *object) {
+void oxygarum_add_object(object_t *object) {
   display_objects[display_object_counter++] = object;
 }

@@ -7,7 +7,7 @@ LIBDIR  = -L/usr/X11R6/lib
 CC = gcc
 CFLAGS = -Wall $(INCLUDE)
 LIBRARIES = -lX11 -lXi -lXmu -lglut -lGL -lGLU -lm -lpng
-CLITER = ../src/cliter.a
+CLITER = ../src/oxygarum.a
 
 demo: $(OBJS)
 	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(CLITER)

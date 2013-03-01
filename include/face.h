@@ -31,8 +31,8 @@ typedef struct face {
 typedef unsigned int face_id;
 
 /// allocates memory and adds vertices to the face
-face_t *cliter_create_face(unsigned int num, vertex_id *vertices, material_id material);
+face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_id material);
 /// Draw the face to the OpenGL scene
-void cliter_display_face(face_t *face);
+void oxygarum_display_face(face_t *face);
 
 #endif

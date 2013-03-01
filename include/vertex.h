@@ -35,6 +35,6 @@ extern vertex_t vertices[MAX_VERTICES];
 #endif
 
 /// adds the vertex to the vertices array and returns the id
-vertex_id cliter_add_vertex(vertex_t vertex);
+vertex_id oxygarum_add_vertex(vertex_t vertex);
 
 #endif

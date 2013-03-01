@@ -44,6 +44,6 @@ typedef struct material {
 extern material_t *materials;
 #endif
 
-material_id cliter_create_material(const char name[20], color_t color);
+material_id oxygarum_create_material(const char name[20], color_t color);
 
 #endif

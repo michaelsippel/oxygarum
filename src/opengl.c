@@ -24,21 +24,21 @@ int width, height;
 unsigned int flags;
 const char *title;
 
-void cliter_init_glut(int argc, char **argv) {
+void oxygarum_init_glut(int argc, char **argv) {
   glutInit((void*)&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);  
   glutInitWindowSize(width, height);  
   glutInitWindowPosition(0, 0);
   window = glutCreateWindow(title);
   glutSetCursor(GLUT_CURSOR_NONE);
-  glutDisplayFunc(&cliter_display);
-  glutIdleFunc(&cliter_ilde);
-  glutReshapeFunc(&cliter_rehape);
-  if(flags & CLITER_FULLSCREEN) glutFullscreen();
+  glutDisplayFunc(&oxygarum_display);
+  glutIdleFunc   (&oxygarum_ilde);
+  glutReshapeFunc(&oxygarum_rehape);
+  if(flags & OXYGARUM_FULLSCREEN) glutFulscreen();
 }
 
-void cliter_init_opengl(int argc, char **argv) {  
-  cliter_init_glut(argc, argv);
+void oxygarum_init_opengl(int argc, char **argv) {  
+  oxygarum_init_glut(argc, argv);
   
   glClearColor(0.0, 0.0, 0.2, 0.0);
   glClearDepth(1.0);
@@ -54,7 +54,7 @@ void cliter_init_opengl(int argc, char **argv) {
   glutMainLoop();
 }
 
-void cliter_rehape(int _width, int _height) {
+void oxygarum_rehape(int _width, int _height) {
   width= _width;
   height = _height;
 
@@ -68,16 +68,16 @@ void cliter_rehape(int _width, int _height) {
   glutPostRedisplay();
 }
 
-void cliter_set_resolution(int _width, int _height) {
+void oxygarum_set_resolution(int _width, int _height) {
   width = _width;
   height = _height;
 }
 
-void cliter_set_title(const char *_title) {
+void oxygarum_set_title(const char *_title) {
   title = _title;
 }
 
-void cliter_set_flag(int mask, int value) {
+void oxygarum_set_flag(int mask, int value) {
   if(value) {
     flags |= mask;
   } else {

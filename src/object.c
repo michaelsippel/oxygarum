@@ -22,7 +22,7 @@
 #include "face.h"
 #include "object.h"
 
-object_t *cliter_create_object(unsigned int num, face_t *faces) {
+object_t *oxygarum_create_object(unsigned int num, face_t *faces) {
   object_t *object = malloc(sizeof(object_t));
   
   object->face_counter = num;
@@ -31,9 +31,9 @@ object_t *cliter_create_object(unsigned int num, face_t *faces) {
   return object;
 }
 
-void cliter_display_object(object_t *object) {
+void oxygarum_display_object(object_t *object) {
   int i;
   for(i = 0; i < object->face_counter; i++) {
-    cliter_display_face(object->faces);
+    oxygarum_display_face(&object->faces[i]);
   }
 }
