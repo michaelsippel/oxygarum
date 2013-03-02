@@ -1,5 +1,5 @@
 /**
- *  include/object.h
+ *  src/oxygarum.c
  *
  *  (C) Copyright 2012 Michael Sippel
  *
@@ -16,20 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _OBJECT_H
-#define _OBJECT_H
+#include <GL/glut.h>
+#include "opengl.h"
 
-#include "vertex.h"
-#include "face.h"
+#include "oxygarum.h"
 
-typedef struct object {
-  face_id face_counter;
-  face_t **faces;
-} object_t;
-
-/// allocates memory and adds faces to the object
-object_t oxygarum_create_object(unsigned int num, face_t **faces);
-/// draw the object to the OpenGL scene
-void oxygarum_display_object(object_t *object);
-
-#endif
+void init_oxygarum(int argc, char **argv) {
+  oxygarum_init_opengl(argc, argv);
+}

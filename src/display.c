@@ -29,7 +29,7 @@ unsigned int display_object_counter = 0;
 object_t *display_objects[2];
 
 void oxygarum_ilde(void) {
-  
+  usleep(50);
   glutPostRedisplay();
 }
 
