@@ -22,28 +22,28 @@
 #include "face.h"
 
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_id material) {
-  face_t face;
+  face_t *face = malloc(sizeof(face_t));
   
-  face.vertex_counter = num;
-  face.vertices = vertices;
-  face.material = material;
+  face->vertex_counter = num;
+  face->vertices = vertices;
+  face->material = material;
   
-  return &face;
+  return face;
 }
 
 void oxygarum_display_face(face_t *face) {
   int i;
-//   glColor4f(materials[face.material].color.color[0], 
-// 	    materials[face.material].color.color[1],
-// 	    materials[face.material].color.color[2],
-// 	    1);
-//   glBegin(GL_POLYGON);
-//   for(i = 0; i < face->vertex_counter; i++) {
-//     glVertex3f(
-//  	vertices[face->vertices[i]].x,
-//  	vertices[face->vertices[i]].y,
-//  	vertices[face->vertices[i]].z
-//     );
-//   }
-//   glEnd();
+  glColor4f(materials[face->material]->color.color[0], 
+	    materials[face->material]->color.color[1],
+	    materials[face->material]->color.color[2],
+	    0.5);
+  glBegin(GL_POLYGON);
+  for(i = 0; i < face->vertex_counter; i++) {
+    glVertex3f(
+ 	vertices[face->vertices[i]].x,
+ 	vertices[face->vertices[i]].y,
+ 	vertices[face->vertices[i]].z
+    );
+  }
+  glEnd();
 }

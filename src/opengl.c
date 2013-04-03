@@ -34,7 +34,7 @@ void oxygarum_init_glut(int argc, char **argv) {
   glutDisplayFunc(&oxygarum_display);
   glutIdleFunc   (&oxygarum_ilde);
   glutReshapeFunc(&oxygarum_rehape);
-  if(flags & OXYGARUM_FULLSCREEN) glutFulscreen();
+  if(flags & OXYGARUM_FULLSCREEN) glutFullscreen();
 }
 
 void oxygarum_init_opengl(int argc, char **argv) {  

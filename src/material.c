@@ -25,12 +25,12 @@
 material_t *materials[MAX_MATERIALS];
 static material_id material_counter = 0;
 
-material_id oxygarum_create_material(const char name[20], color_t color) {
+material_id oxygarum_create_material(const char *name, color_t color) {
   material_id id = material_counter++;
   materials[id] = malloc(sizeof(material_t));
   
   materials[id]->id = id;
-//   materials[id]->name = name;
+  materials[id]->name = name;
   materials[id]->color = color;
   
   return id;

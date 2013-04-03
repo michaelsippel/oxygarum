@@ -33,7 +33,7 @@ typedef union color {
 } color_t;
 
 typedef struct material {
-  const char name[20];
+  const char *name;
   material_id id;
   color_t color;
 //   texture_t texture; //TODO
@@ -41,9 +41,10 @@ typedef struct material {
 
 #define MAX_MATERIALS 100
 #ifndef _MATERIALS
-extern material_t *materials;
+#define _MATERIALS
+extern material_t *materials[MAX_MATERIALS];
 #endif
 
-material_id oxygarum_create_material(const char name[20], color_t color);
+material_id oxygarum_create_material(const char *name, color_t color);
 
 #endif

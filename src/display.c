@@ -26,7 +26,7 @@ vertex_t loc = {.x = 0, .y = 0, .z = -3};
 vertex_t rot = {.x = 0, .y = 0, .z = 0};
 
 unsigned int display_object_counter = 0;
-object_t *display_objects[2];
+object_t *display_objects[1];
 
 void oxygarum_ilde(void) {
   usleep(50);
