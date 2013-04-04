@@ -27,16 +27,16 @@ int main(int argc, char **argv) {
   vertex_id va0[] = {v0, v1, v2, v3};
   vertex_id va1[] = {v4, v5, v6, v7};
   vertex_id va2[] = {v0, v1, v5, v4};
-  vertex_id va3[] = {v2, v3, v6, v7};
+  vertex_id va3[] = {v2, v3, v7, v6};
   vertex_id va4[] = {v0, v3, v7, v4};
   vertex_id va5[] = {v1, v2, v6, v5};
   
   faces[0] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va0, material1); // Front
-  faces[1] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va1, material2); // Back
-  faces[2] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va2, material1); // Left
-  faces[3] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va3, material1); // Right
-  faces[4] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va4, material2); // Top
-  faces[5] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va5, material1); // Bottom
+  faces[1] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va1, material1); // Back
+  faces[2] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va2, material2); // Left
+  faces[3] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va3, material2); // Right
+  faces[4] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va4, material1); // Top
+  faces[5] = (face_t*)oxygarum_create_face(4, (vertex_id*) &va5, material2); // Bottom
   
   object_t *cube = oxygarum_create_object(6, faces);
   oxygarum_add_object(cube);

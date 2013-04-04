@@ -22,20 +22,43 @@
 #include "vertex.h"
 #include "object.h"
 
-vertex_t loc = {.x = 0, .y = 0, .z = -3};
+vertex_t loc = {.x = 0, .y = 0, .z = -5};
 vertex_t rot = {.x = 0, .y = 0, .z = 0};
 
 unsigned int display_object_counter = 0;
 object_t *display_objects[1];
 
+int frame_counter = 0;
+int time_cur = 0, time_prev = 0;
+float fps = 0;
+
+void oxygarum_calc_fps() {
+  frame_counter++;
+  time_cur = glutGet(GLUT_ELAPSED_TIME);
+  
+  int diff = time_cur - time_prev;
+  
+  if(diff > 1000) {
+    fps = frame_counter / (diff / 1000.0f);
+    time_prev = time_cur;
+    frame_counter = 0;
+  }
+}
+
 void oxygarum_ilde(void) {
-  usleep(50);
+//   rot.x += 0.02;
+  rot.y += 0.05;
+//   rot.z += 0.05;
+  
+  oxygarum_calc_fps();
   glutPostRedisplay();
 }
 
 void oxygarum_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);
+  
+  printf("%f fps\n", fps);
   
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -45,10 +68,6 @@ void oxygarum_display(void) {
   glRotatef(rot.x, 1.0f,0.0f,0.0f);
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
   glRotatef(rot.z, 0.0f,0.0f,1.0f);
-  
-  rot.x += 0.05;
-//   rot.y += 0.05;
-//   rot.z += 0.05;
   
   int i;
   for(i = 0; i < display_object_counter; i++) {
