@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#define _OBJECT_OFFSET
 #include <unistd.h>
 #include <GL/glut.h>
 #include "opengl.h"
@@ -24,9 +25,10 @@
 
 vertex_t loc = {.x = 0, .y = 0, .z = -5};
 vertex_t rot = {.x = 0, .y = 0, .z = 0};
+vertex_t object_offset;
 
 unsigned int display_object_counter = 0;
-object_t *display_objects[1];
+display_obj_t display_objects[10];
 
 int frame_counter = 0;
 int time_cur = 0, time_prev = 0;
@@ -70,14 +72,20 @@ void oxygarum_display(void) {
   
   int i;
   for(i = 0; i < display_object_counter; i++) {
-    oxygarum_display_object(display_objects[i]);
+    object_offset = display_objects[i].pos;
+    oxygarum_display_object(display_objects[i].object);
   }
   
   glFlush();
   glutSwapBuffers();
 }
 
-void oxygarum_add_object(object_t *object) {
-  display_objects[display_object_counter++] = object;
+int oxygarum_add_object(object_t *object, double x, double y, double  z) {
+  display_objects[display_object_counter].object = object;
+  display_objects[display_object_counter].pos.x = x;
+  display_objects[display_object_counter].pos.y = y;
+  display_objects[display_object_counter].pos.z = z;
+  
+  return display_object_counter++;
 }
 

@@ -20,6 +20,7 @@
 #include <GL/glut.h>
 #include "vertex.h"
 #include "face.h"
+#include "object.h"
 
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map) {
   face_t *face = malloc(sizeof(face_t));
@@ -43,9 +44,9 @@ void oxygarum_display_face(face_t *face) {
   for(i = 0; i < face->vertex_counter; i++) {
     glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
     glVertex3f(
- 	vertices[face->vertices[i]].x,
- 	vertices[face->vertices[i]].y,
- 	vertices[face->vertices[i]].z
+ 	vertices[face->vertices[i]].x + object_offset.x,
+ 	vertices[face->vertices[i]].y + object_offset.y,
+ 	vertices[face->vertices[i]].z + object_offset.z
     );
   }
   glEnd();

@@ -55,8 +55,15 @@ int main(int argc, char **argv) {
   faces[5] = oxygarum_create_face(4, (vertex_id*) &va5, material, uvmap); // Bottom
   
   object_t *cube = oxygarum_create_object(6, faces);
-  oxygarum_add_object(cube);
-  
+  oxygarum_add_object(cube, 2, 2, -2);
+  oxygarum_add_object(cube, -2, 2, -2);
+  oxygarum_add_object(cube, 2, -2, -2);
+  oxygarum_add_object(cube, -2, -2, -2);
+  oxygarum_add_object(cube, 2, 2, 2);
+  oxygarum_add_object(cube, -2, 2, 2);
+  oxygarum_add_object(cube, 2, -2, 2);
+  oxygarum_add_object(cube, -2, -2, 2);  
+
   glutMainLoop();  
   
   return 0;

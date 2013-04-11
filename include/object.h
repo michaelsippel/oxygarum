@@ -27,10 +27,21 @@ typedef struct object {
   face_t **faces;
 } object_t;
 
+typedef struct display_obj {
+  object_t *object;
+  vertex_t pos;
+} display_obj_t;
+
+#ifndef _OBJECT_OFFSET
+#define _OBJECT_OFFSET
+extern vertex_t object_offset;
+#endif
+
 /// allocates memory and adds faces to the object
 object_t *oxygarum_create_object(unsigned int num, face_t **faces);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object(object_t *object);
-void oxygarum_add_object(object_t *object);
+int oxygarum_add_object(object_t *object, double x, double y, double  z);
 
 #endif
+
