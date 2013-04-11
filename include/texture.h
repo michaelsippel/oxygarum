@@ -1,7 +1,7 @@
 /**
- *  include/opengl.h
+ *  src/texture.h
  *
- *  (C) Copyright 2012 Michael Sippel
+ *  (C) Copyright 2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,22 +16,27 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _OPENGL_H
-#define _OPENGL_H
+#ifndef _TEXTURE_H
+#define _TEXTURE_H
+#include <stdint.h>
 
-#include <GL/glut.h>
+typedef unsigned int texture_id;
 
-#define OXYGARUM_FULLSCREEN 0
+typedef struct uv_t {
+  double u;
+  double v;
+} uv_t;
 
-void oxygarum_ilde(void);
-void oxygarum_display(void);
+typedef struct texture {
+  unsigned int width;
+  unsigned int height;
+  
+  uint8_t *data;
+  texture_id id;
+} texture_t;
 
-void oxygarum_init_glut(int argc, char **argv);
-void oxygarum_init_opengl(int argc, char **argv);
-void oxygarum_reshape(int _width, int _height);
-
-void oxygarum_set_resolution(int _width, int _height);
-void oxygarum_set_title(const char *_title);
-void oxygarum_set_flag(int mask, int value);
+uint8_t *oxygarum_load_png(const char *path, unsigned int *width, unsigned int *height);
+texture_t *oxygarum_load_texture(const char *path);
 
 #endif
+

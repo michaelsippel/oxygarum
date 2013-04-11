@@ -46,9 +46,8 @@ void oxygarum_calc_fps() {
 }
 
 void oxygarum_ilde(void) {
-//   rot.x += 0.02;
-  rot.y += 0.05;
-//   rot.z += 0.05;
+  rot.x += 0.1;
+  rot.y += 0.5;
   
   oxygarum_calc_fps();
   glutPostRedisplay();
@@ -81,3 +80,4 @@ void oxygarum_display(void) {
 void oxygarum_add_object(object_t *object) {
   display_objects[display_object_counter++] = object;
 }
+

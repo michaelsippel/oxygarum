@@ -19,6 +19,8 @@
 #ifndef _MATERIAL_H
 #define _MATERIAL_H
 
+#include "texture.h"
+
 typedef unsigned int material_id;
 
 typedef struct color_st {
@@ -36,15 +38,12 @@ typedef struct material {
   const char *name;
   material_id id;
   color_t color;
-//   texture_t texture; //TODO
+  texture_t *texture;
 } material_t;
 
-#define MAX_MATERIALS 100
-#ifndef _MATERIALS
-#define _MATERIALS
-extern material_t *materials[MAX_MATERIALS];
-#endif
-
-material_id oxygarum_create_material(const char *name, color_t color);
+material_t *oxygarum_create_material(const char *name);
+void oxygarum_set_texture(material_id material, texture_t *texture);
+void oxygarum_set_color(material_id material, color_t color);
 
 #endif
+

@@ -19,19 +19,16 @@
 #include <stdlib.h>
 #include <GL/glut.h>
 
-#define _MATERIALS
 #include "material.h"
 
-material_t *materials[MAX_MATERIALS];
 static material_id material_counter = 0;
 
-material_id oxygarum_create_material(const char *name, color_t color) {
-  material_id id = material_counter++;
-  materials[id] = malloc(sizeof(material_t));
+material_t *oxygarum_create_material(const char *name) {
+  material_t *material = malloc(sizeof(material_t));
   
-  materials[id]->id = id;
-  materials[id]->name = name;
-  materials[id]->color = color;
+  material->id = material_counter++;;
+  material->name = name;
   
-  return id;
+  return material;
 }
+

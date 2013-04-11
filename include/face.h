@@ -1,7 +1,7 @@
 /**
  *  include/face.h
  *
- *  (C) Copyright 2012 Michael Sippel
+ *  (C) Copyright 2012-2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,14 +25,16 @@
 typedef struct face {
   vertex_id vertex_counter;
   vertex_id *vertices;
-  material_id material;
+  uv_t *uv_map;
+  material_t *material;
 } face_t;
 
 typedef unsigned int face_id;
 
 /// allocates memory and adds vertices to the face
-face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_id material);
+face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map);
 /// Draw the face to the OpenGL scene
 void oxygarum_display_face(face_t *face);
 
 #endif
+

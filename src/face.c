@@ -1,7 +1,7 @@
 /**
  *  src/face.c
  *
- *  (C) Copyright 2012 Michael Sippel
+ *  (C) Copyright 2012-2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,24 +21,27 @@
 #include "vertex.h"
 #include "face.h"
 
-face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_id material) {
+face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map) {
   face_t *face = malloc(sizeof(face_t));
   
   face->vertex_counter = num;
   face->vertices = vertices;
   face->material = material;
+  face->uv_map = uv_map;  
   
   return face;
 }
 
 void oxygarum_display_face(face_t *face) {
   int i;
-  glColor4f(materials[face->material]->color.color[0], 
-	    materials[face->material]->color.color[1],
-	    materials[face->material]->color.color[2],
+  glColor4f(face->material->color.color[0], 
+	    face->material->color.color[1],
+	    face->material->color.color[2],
 	    0.5);
+  glBindTexture(GL_TEXTURE_2D, face->material->texture->id);
   glBegin(GL_POLYGON);
   for(i = 0; i < face->vertex_counter; i++) {
+    glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
     glVertex3f(
  	vertices[face->vertices[i]].x,
  	vertices[face->vertices[i]].y,
@@ -47,3 +50,4 @@ void oxygarum_display_face(face_t *face) {
   }
   glEnd();
 }
+
