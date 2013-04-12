@@ -18,6 +18,7 @@
  */
 #define _OBJECT_OFFSET
 #include <unistd.h>
+#include <stdio.h>
 #include <GL/glut.h>
 #include "opengl.h"
 #include "vertex.h"

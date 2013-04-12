@@ -17,6 +17,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <GL/glut.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include "opengl.h"
 
 int window;

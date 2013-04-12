@@ -3,7 +3,7 @@
 *.o
 *.a
 demo/demo
-.3d~
+.oxy3d~
 .gitignore~
 makefile~
 Maekfile~

@@ -24,7 +24,9 @@
 #include "object.h"
 #include "opengl.h"
 #include "material.h"
+#include "texture.h"
 
 void init_oxygarum(int argc, char **argv);
+object_t *oxygarum_load_oxy3d_file(const char *path);
 
 #endif
