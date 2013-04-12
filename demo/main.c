@@ -8,63 +8,116 @@
 
 #include <oxygarum.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+void readstr(FILE *f, char *string) {
+    do {
+	fgets(string, 255, f);
+    } while ((string[0] == '/') || (string[0] == '\n'));
+    return;
+}
 
 int main(int argc, char **argv) {
   oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
   oxygarum_set_flag(OXYGARUM_FULLSCREEN, 0);
   init_oxygarum(argc, argv);  
-
-  vertex_id v0 = oxygarum_add_vertex((vertex_t){-1, 1,-1});
-  vertex_id v1 = oxygarum_add_vertex((vertex_t){-1,-1,-1});
-  vertex_id v2 = oxygarum_add_vertex((vertex_t){ 1,-1,-1});
-  vertex_id v3 = oxygarum_add_vertex((vertex_t){ 1, 1,-1});
   
-  vertex_id v4 = oxygarum_add_vertex((vertex_t){-1, 1, 1});
-  vertex_id v5 = oxygarum_add_vertex((vertex_t){-1,-1, 1});
-  vertex_id v6 = oxygarum_add_vertex((vertex_t){ 1,-1, 1});
-  vertex_id v7 = oxygarum_add_vertex((vertex_t){ 1, 1, 1});
-  
-  material_t *material = oxygarum_create_material("material");
-  material->texture = oxygarum_load_texture("texture.png");
-  material->color.rgb = (color_st_t) {.r = 1, .g = 1, .b = 1};
-  if(! material->texture) {
-    printf("Fehler beim Laden der Textur!\n");
-    exit(0);
+  printf("Loading object from \'%s\'...\n", "cube.3d");
+  FILE *f = fopen("cube.3d", "rt");
+  if(!f) {
+    printf("Fehler beim öffnen!\n");
+    exit(1);
   }
-  
-  uv_t *uvmap = calloc(4, sizeof(uv_t));
-  uvmap[0] = (uv_t){0,1};
-  uvmap[1] = (uv_t){0,0};
-  uvmap[2] = (uv_t){1,0};
-  uvmap[3] = (uv_t){1,1};
-  
-  vertex_id va0[] = {v0, v1, v2, v3};
-  vertex_id va1[] = {v4, v5, v6, v7};
-  vertex_id va2[] = {v0, v1, v5, v4};
-  vertex_id va3[] = {v2, v3, v7, v6};
-  vertex_id va4[] = {v0, v3, v7, v4};
-  vertex_id va5[] = {v1, v2, v6, v5};
-  
-  face_t **faces = calloc(6, sizeof(face_t));
-  faces[0] = oxygarum_create_face(4, (vertex_id*) &va0, material, uvmap); // Front
-  faces[1] = oxygarum_create_face(4, (vertex_id*) &va1, material, uvmap); // Back
-  faces[2] = oxygarum_create_face(4, (vertex_id*) &va2, material, uvmap); // Left
-  faces[3] = oxygarum_create_face(4, (vertex_id*) &va3, material, uvmap); // Right
-  faces[4] = oxygarum_create_face(4, (vertex_id*) &va4, material, uvmap); // Top
-  faces[5] = oxygarum_create_face(4, (vertex_id*) &va5, material, uvmap); // Bottom
-  
-  object_t *cube = oxygarum_create_object(6, faces);
-  oxygarum_add_object(cube, 2, 2, -2);
-  oxygarum_add_object(cube, -2, 2, -2);
-  oxygarum_add_object(cube, 2, -2, -2);
-  oxygarum_add_object(cube, -2, -2, -2);
-  oxygarum_add_object(cube, 2, 2, 2);
-  oxygarum_add_object(cube, -2, 2, 2);
-  oxygarum_add_object(cube, 2, -2, 2);
-  oxygarum_add_object(cube, -2, -2, 2);  
 
-  glutMainLoop();  
+  char line[256];
+  
+  int num_materials;
+  int num_verticies;
+  int num_uvmaps;
+  int num_faces;  
+  int i,j;  
+
+  readstr(f, line);
+  sscanf(line, "MATERIALS %d\n", &num_materials);
+  material_t **materials = calloc(num_materials, sizeof(material_t));
+  printf("%d materials\n", num_materials);
+  for(i = 0; i < num_materials; i++) {
+    int id;
+    char path[256];
+    
+    readstr(f, line);
+    sscanf(line, "%d : %s\n", &id, path);
+    
+    materials[id] = oxygarum_create_material("material");
+    materials[id]->texture = oxygarum_load_texture(path);
+    printf("\t%d(%d): texture path: \'%s\'\n", id, i, path);
+  }
+
+  readstr(f, line);
+  sscanf(line, "VERTICIES %d\n", &num_verticies);
+  vertex_id *verticies = calloc(num_verticies, sizeof(vertex_id));
+  printf("%d verticies\n", num_verticies);
+  for(i = 0; i < num_verticies; i++) {
+    int id;
+    vertex_t vertex;
+    
+    readstr(f, line);
+    sscanf(line, "%d : %lf %lf %lf\n", &id, &vertex.x, &vertex.y, &vertex.z);
+    
+    verticies[id] = oxygarum_add_vertex(vertex);
+    printf("\t%d(%d): %lf, %lf, %lf\n", id, i, vertex.x, vertex.y, vertex.z);
+  }
+
+  readstr(f, line);
+  sscanf(line, "UVMAPS %d\n", &num_uvmaps);
+  uv_t **uvmaps = calloc(num_uvmaps, sizeof(uv_t*));
+  printf("%d uvmaps\n", num_uvmaps);
+  for(i = 0; i < num_uvmaps; i++) {
+    int id;
+    int size;
+
+    readstr(f, line);
+    sscanf(line, "%d : SIZE %d\n", &id, &size);
+
+    uvmaps[id] = calloc(size, sizeof(uv_t));
+    printf("\t%d(%d): size %d\n", id, i, size);
+    for(j = 0; j < size; j++) {
+      readstr(f, line);
+      sscanf(line, "%lf %lf\n", &uvmaps[id][j].u, &uvmaps[id][j].v);
+      printf("\t\t%d: %lf, %lf\n", j, uvmaps[id][j].u, uvmaps[id][j].v);
+    }
+  }
+
+  readstr(f, line);
+  sscanf(line, "FACES %d\n", &num_faces);
+  face_t **faces = calloc(num_faces, sizeof(face_t*));
+  printf("%d faces\n", num_faces);
+  for(i = 0; i < num_faces; i++) {
+    int id;
+    int size;
+    
+    readstr(f, line);
+    sscanf(line, "%d : SIZE %d\n", &id, &size);
+    
+    int uv_id, mat_id;
+    vertex_id *va = calloc(size, sizeof(vertex_id));
+    fscanf(f, "%d %d", &uv_id, &mat_id);
+    printf("\t%d(%d): size %d\n", id, i, size);
+    for(j = 0; j < size; j++) {
+      fscanf(f, " %d", &va[j]);
+      printf("\t\t%d: %d\n", j, va[j]);
+    }
+    faces[id] = oxygarum_create_face(size, va, materials[mat_id], uvmaps[uv_id]);
+  }
+
+  object_t *obj = oxygarum_create_object(num_faces, faces);
+  oxygarum_add_object(obj, 0, 0, 0);
+
+  fclose(f);
+
+  glutMainLoop();
   
   return 0;
 }
