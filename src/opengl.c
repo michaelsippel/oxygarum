@@ -23,7 +23,7 @@
 
 int window;
 int width, height;
-unsigned int flags;
+static unsigned int flags;
 const char *title;
 
 void oxygarum_init_glut(int argc, char **argv) {
@@ -36,7 +36,7 @@ void oxygarum_init_glut(int argc, char **argv) {
   glutDisplayFunc(&oxygarum_display);
   glutIdleFunc   (&oxygarum_ilde);
   glutReshapeFunc(&oxygarum_reshape);
-  if(flags & OXYGARUM_FULLSCREEN) glutFullscreen();
+  if(flags & OXYGARUM_FULLSCREEN) glutFullScreen();
 }
 
 void oxygarum_init_opengl(int argc, char **argv) {  

@@ -2,8 +2,8 @@
 *.h~
 *.o
 *.a
+*.oxy3d~
 demo/demo
-.oxy3d~
 .gitignore~
 makefile~
 Maekfile~

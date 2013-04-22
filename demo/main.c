@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
   oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
   oxygarum_set_flag(OXYGARUM_FULLSCREEN, 0);
-  init_oxygarum(argc, argv);  
+  init_oxygarum(argc, argv);
   
   object_t *object = oxygarum_load_oxy3d_file("cube.oxy3d");
   oxygarum_add_object(object, 0, 0, 0);
