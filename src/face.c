@@ -61,9 +61,13 @@ void oxygarum_display_face(face_t *face) {
 	    face->material->color.color[2],
 	    0.5);
   glBindTexture(GL_TEXTURE_2D, face->material->texture->id);
+  glNormal3f(face->normal->x, face->normal->y, face->normal->z);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, face->material->ambient);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, face->material->diffuse);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, face->material->specular);
+  glMaterialfv(GL_FRONT, GL_SHININESS, face->material->shininess);
   glBegin(GL_POLYGON);
   for(i = 0; i < face->vertex_counter; i++) {
-    glNormal3f(face->normal->x, face->normal->y, face->normal->z);
     glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
     glVertex3f(
  	vertices[face->vertices[i]].x + object_offset.x,

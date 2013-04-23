@@ -19,6 +19,7 @@
 #ifndef _MATERIAL_H
 #define _MATERIAL_H
 
+#include <GL/gl.h>
 #include "texture.h"
 
 typedef unsigned int material_id;
@@ -39,6 +40,11 @@ typedef struct material {
   material_id id;
   color_t color;
   texture_t *texture;
+  
+  GLfloat ambient[4];
+  GLfloat diffuse[4];
+  GLfloat specular[4];
+  GLfloat shininess[1];
 } material_t;
 
 material_t *oxygarum_create_material(const char *name);

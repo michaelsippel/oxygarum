@@ -23,6 +23,14 @@
 
 #define OXYGARUM_FULLSCREEN 0
 
+#ifndef _LIGHT
+#define _LIGHT
+extern GLfloat light_ambient[4];
+extern GLfloat light_diffuse[4];
+extern GLfloat light_specular[4];
+extern GLfloat light_position[4];
+#endif
+
 void oxygarum_ilde(void);
 void oxygarum_display(void);
 

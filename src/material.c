@@ -26,8 +26,13 @@ static material_id material_counter = 0;
 material_t *oxygarum_create_material(const char *name) {
   material_t *material = malloc(sizeof(material_t));
   
-  material->id = material_counter++;;
+  material->id = material_counter++;
   material->name = name;
+  
+  memcpy(&material->ambient,  (GLfloat[]){ 0.2f, 0.2f, 0.2f, 0.0f }, sizeof(material->ambient));
+  memcpy(&material->diffuse,  (GLfloat[]){ 1.0f, 1.0f, 1.0f, 0.0f }, sizeof(material->diffuse));
+  memcpy(&material->specular, (GLfloat[]){ 0.2f, 0.2f, 0.2f, 0.0f }, sizeof(material->specular));
+  memcpy(&material->shininess,(GLfloat[]){ 1.0f },                   sizeof(material->shininess));
   
   return material;
 }
