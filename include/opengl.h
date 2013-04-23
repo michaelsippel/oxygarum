@@ -23,14 +23,6 @@
 
 #define OXYGARUM_FULLSCREEN 0
 
-#ifndef _LIGHT
-#define _LIGHT
-extern GLfloat light_ambient[4];
-extern GLfloat light_diffuse[4];
-extern GLfloat light_specular[4];
-extern GLfloat light_position[4];
-#endif
-
 void oxygarum_ilde(void);
 void oxygarum_display(void);
 
@@ -38,6 +30,7 @@ void oxygarum_init_glut(int argc, char **argv);
 void oxygarum_init_opengl(int argc, char **argv);
 void oxygarum_reshape(int _width, int _height);
 
+void oxygarum_set_light(GLenum light, GLfloat *ambient, GLfloat *diffuse, GLfloat *specular, GLfloat *position);
 void oxygarum_set_resolution(int _width, int _height);
 void oxygarum_set_title(const char *_title);
 void oxygarum_set_flag(int mask, int value);

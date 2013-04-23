@@ -19,6 +19,8 @@
 #ifndef _OXYGARUM_H
 #define _OXYGARUM_H
 
+#include <GL/gl.h>
+
 #include "vertex.h"
 #include "face.h"
 #include "object.h"

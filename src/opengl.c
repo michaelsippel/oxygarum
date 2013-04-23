@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#define _LIGHT
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
@@ -30,7 +29,7 @@ const char *title;
 GLfloat light_ambient[]=  { 0.5f, 0.5f, 0.5f, 1.0f };
 GLfloat light_diffuse[]=  { 1.0f, 1.0f, 1.0f, 1.0f };
 GLfloat light_specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
-GLfloat light_position[]= { 0.0f, 0.0f, 2.0f, 1.0f };  
+GLfloat light_position[]= { 0.0f, 0.0f, 2.0f, 1.0f };
 
 void oxygarum_init_glut(int argc, char **argv) {
   glutInit((void*)&argc, argv);
@@ -59,14 +58,17 @@ void oxygarum_init_opengl(int argc, char **argv) {
   gluPerspective(45.0f, (GLfloat)width/(GLfloat)height, 0.1f, 100.0f);
   glMatrixMode(GL_MODELVIEW);  
   glEnable(GL_TEXTURE_2D);
-
-  glLightfv(GL_LIGHT1, GL_AMBIENT,  light_ambient);
-  glLightfv(GL_LIGHT1, GL_DIFFUSE,  light_diffuse);
-  glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular);
-  glLightfv(GL_LIGHT1, GL_POSITION, light_position);
   
-  glEnable(GL_LIGHT1);
   glEnable(GL_LIGHTING);
+}
+
+void oxygarum_set_light(GLenum light, GLfloat *ambient, GLfloat *diffuse, GLfloat *specular, GLfloat *position) {
+  glLightfv(light, GL_AMBIENT,  ambient);
+  glLightfv(light, GL_DIFFUSE,  diffuse);
+  glLightfv(light, GL_SPECULAR, specular);
+  glLightfv(light, GL_POSITION, position);
+  
+  glEnable(light);
 }
 
 void oxygarum_reshape(int _width, int _height) {

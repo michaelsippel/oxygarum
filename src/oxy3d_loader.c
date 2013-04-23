@@ -62,8 +62,35 @@ object_t *oxygarum_load_oxy3d_file(const char *path) {
     materials[id] = oxygarum_create_material("material");
     materials[id]->texture = oxygarum_load_texture(path);
     printf("\t%d(%d): texture path: \'%s\'\n", id, i, path);
+    
+    readstr(f, line);
+    sscanf(line, "AMBIENT %f %f %f %f\n", 
+      &materials[id]->ambient[0], 
+      &materials[id]->ambient[1], 
+      &materials[id]->ambient[2], 
+      &materials[id]->ambient[3]
+    );
+    
+    readstr(f, line);
+    sscanf(line, "DIFFUSE %f %f %f %f\n", 
+      &materials[id]->diffuse[0], 
+      &materials[id]->diffuse[1], 
+      &materials[id]->diffuse[2], 
+      &materials[id]->diffuse[3]
+    );
+    
+    readstr(f, line);
+    sscanf(line, "SPECULAR %f %f %f %f\n", 
+      &materials[id]->specular[0], 
+      &materials[id]->specular[1], 
+      &materials[id]->specular[2], 
+      &materials[id]->specular[3]
+    );
+    
+    readstr(f, line);
+    sscanf(line, "SHININESS %f\n", &materials[id]->shininess[0]);
   }
-
+  
   readstr(f, line);
   sscanf(line, "VERTICIES %d\n", &num_verticies);
   vertex_id *verticies = calloc(num_verticies, sizeof(vertex_id));
