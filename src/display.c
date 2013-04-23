@@ -24,8 +24,8 @@
 #include "vertex.h"
 #include "object.h"
 
-vertex_t loc = {.x = 0, .y = 0, .z = -5};
-vertex_t rot = {.x = 0, .y = 0, .z = 0};
+static vertex_t loc = {.x = 0, .y = 0, .z = -5};
+static vertex_t rot = {.x = 0, .y = 0, .z = 0};
 vertex_t object_offset;
 
 unsigned int display_object_counter = 0;

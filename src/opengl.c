@@ -19,7 +19,9 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
+
 #include "opengl.h"
+#include "keyboard.h"
 
 int window;
 int width, height;
@@ -41,6 +43,7 @@ void oxygarum_init_glut(int argc, char **argv) {
   glutDisplayFunc(&oxygarum_display);
   glutIdleFunc   (&oxygarum_ilde);
   glutReshapeFunc(&oxygarum_reshape);
+  glutKeyboardFunc(&oxygarum_handle_keyboard_event);
   if(flags & OXYGARUM_FULLSCREEN) glutFullScreen();
 }
 

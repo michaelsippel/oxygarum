@@ -3,7 +3,8 @@
 *.o
 *.a
 *.oxy3d~
-demo/demo
+demo/cube/cube
+demo/walk/walk
 .gitignore~
 makefile~
 Maekfile~
