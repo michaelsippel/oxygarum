@@ -30,6 +30,7 @@ typedef struct object {
 typedef struct display_obj {
   object_t *object;
   vertex_t pos;
+  vertex_t rot;
 } display_obj_t;
 
 #ifndef _OBJECT_OFFSET
@@ -42,6 +43,14 @@ object_t *oxygarum_create_object(unsigned int num, face_t **faces);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object(object_t *object);
 int oxygarum_add_object(object_t *object, double x, double y, double  z);
+
+/// move and rotate objects
+void oxygarum_move_object_to(int id, double new_x, double new_y, double new_z);
+void oxygarum_rotate_object_to(int id, double new_x, double new_y, double new_z);
+
+/// move and rotate the camera
+void oxygarum_translate_camera_to(double new_x, double new_y, double new_z);
+void oxygarum_rotate_camera_to(double new_x, double new_y, double new_z);
 
 #endif
 

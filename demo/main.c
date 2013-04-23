@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);
   
   object_t *object = oxygarum_load_oxy3d_file("cube.oxy3d");
-  oxygarum_add_object(object, 0, 0, 0);
+  int id = oxygarum_add_object(object, 0, 0, 0);
   
   glutMainLoop();
   
