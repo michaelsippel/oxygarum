@@ -6,11 +6,10 @@ LIBDIR  = -L/usr/X11R6/lib
 
 CC = gcc
 CFLAGS = -Wall $(INCLUDE)
-LIBRARIES = -lX11 -lXi -lXmu -lglut -lGL -lGLU -lm -lpng
-CLITER = ../../src/oxygarum.a
+OXY = ../../src/oxygarum.a
 
 cube: $(OBJS)
-	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(CLITER)
+	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(OXY)
 
 %.c : %.o
 	$(CC) $(CFLAGS) -o $@ $(LIBDIR) $< $(LIBRARIES)  

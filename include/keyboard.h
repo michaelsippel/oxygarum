@@ -19,6 +19,10 @@
 #ifndef _KEYBOARD_H
 #define _KEYBOARD_H
 
+#define MOUSE_ACTIVE_MOTION  0x0
+#define MOUSE_PASSIVE_MOTION 0x1
+#define MOUSE_CLICK          0x2
+
 void oxygarum_handle_keyboard_event(unsigned char key, int x, int y);
 void oxygarum_set_keyborad_event(unsigned char key, void (*handler)(void));
 
