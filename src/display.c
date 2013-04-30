@@ -70,9 +70,11 @@ void oxygarum_display(void) {
   
   int i;
   for(i = 0; i < display_object_counter; i++) {
-    glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
-    glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
-    glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);
+    //glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
+    //glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
+    //glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);
+    
+    //glTranslatef(loc.x, loc.y, loc.z);    
     
     object_offset = display_objects[i].pos;
     oxygarum_display_object(display_objects[i].object);

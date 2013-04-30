@@ -39,7 +39,7 @@ void oxygarum_init_glut(int argc, char **argv) {
   glutInitWindowSize(width, height);
   glutInitWindowPosition(0, 0);
   window = glutCreateWindow(title);
-  glutSetCursor(GLUT_CURSOR_NONE);
+  //glutSetCursor(GLUT_CURSOR_NONE);
   glutDisplayFunc(&oxygarum_display);
   glutIdleFunc   (&oxygarum_ilde);
   glutReshapeFunc(&oxygarum_reshape);

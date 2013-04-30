@@ -32,7 +32,6 @@ face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *
   face->material = material;
   face->uv_map = uv_map;
   
-  printf("Calcultating Normals...\n");
   oxygarum_calc_normals(face);
   
   return face;
@@ -56,6 +55,7 @@ void oxygarum_calc_normals(face_t *face) {
 
 void oxygarum_display_face(face_t *face) {
   int i;
+  
   glColor4f(face->material->color.color[0], 
 	    face->material->color.color[1],
 	    face->material->color.color[2],
@@ -66,6 +66,7 @@ void oxygarum_display_face(face_t *face) {
   glMaterialfv(GL_FRONT, GL_DIFFUSE, face->material->diffuse);
   glMaterialfv(GL_FRONT, GL_SPECULAR, face->material->specular);
   glMaterialfv(GL_FRONT, GL_SHININESS, face->material->shininess);
+  
   glBegin(GL_POLYGON);
   for(i = 0; i < face->vertex_counter; i++) {
     glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);

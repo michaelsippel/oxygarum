@@ -24,3 +24,4 @@
 void init_oxygarum(int argc, char **argv) {
   oxygarum_init_opengl(argc, argv);
 }
+

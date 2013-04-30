@@ -32,3 +32,4 @@ vertex_id oxygarum_add_vertex(vertex_t vertex) {
   
   return -1;
 }
+

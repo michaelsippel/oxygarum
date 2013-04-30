@@ -37,3 +37,4 @@ void oxygarum_display_object(object_t *object) {
     oxygarum_display_face(object->faces[i]);
   }
 }
+
