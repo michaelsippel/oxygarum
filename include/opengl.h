@@ -23,6 +23,7 @@
 
 #define OXYGARUM_FULLSCREEN 0
 
+void oxygarum_animation_func(void (*handler)(void));
 void oxygarum_ilde(void);
 void oxygarum_display(void);
 

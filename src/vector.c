@@ -24,7 +24,7 @@
 
 vector_t *oxygarum_create_vector(vertex_t *o, vertex_t *p) {
   vector_t *vector = malloc(sizeof(vector_t));
-
+  
   vector->x = o->x - p->x;
   vector->y = o->y - p->y;
   vector->z = o->z - p->z;

@@ -64,7 +64,7 @@ void oxygarum_init_opengl(int argc, char **argv) {
 }
 
 void oxygarum_set_light(GLenum light, GLfloat *ambient, GLfloat *diffuse, GLfloat *specular, GLfloat *position) {
-    glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHTING);
   glLightfv(light, GL_AMBIENT,  ambient);
   glLightfv(light, GL_DIFFUSE,  diffuse);
   glLightfv(light, GL_SPECULAR, specular);

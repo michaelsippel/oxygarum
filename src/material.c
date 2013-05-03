@@ -29,6 +29,8 @@ material_t *oxygarum_create_material(const char *name) {
   material->id = material_counter++;
   material->name = name;
   
+  material->color.rgb = (color_st_t) {.r=1,.g=1,.b=1};  
+  
   memcpy(&material->ambient,  (GLfloat[]){ 0.2f, 0.2f, 0.2f, 0.0f }, sizeof(material->ambient));
   memcpy(&material->diffuse,  (GLfloat[]){ 1.0f, 1.0f, 1.0f, 0.0f }, sizeof(material->diffuse));
   memcpy(&material->specular, (GLfloat[]){ 0.2f, 0.2f, 0.2f, 0.0f }, sizeof(material->specular));

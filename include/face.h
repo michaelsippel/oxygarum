@@ -23,11 +23,13 @@
 #include "vector.h"
 #include "material.h"
 
+typedef struct object object_t;
+
 typedef struct face {
   vertex_id vertex_counter;
   vertex_id *vertices;
+  vector_t face_normal;
   uv_t *uv_map;
-  vector_t *normal;
   material_t *material;
 } face_t;
 
@@ -36,9 +38,7 @@ typedef unsigned int face_id;
 /// allocates memory and adds vertices to the face
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map);
 /// Draw the face to the OpenGL scene
-void oxygarum_display_face(face_t *face);
-/// Calculate the normals of the face
-void oxygarum_calc_normals(face_t *face);
+void oxygarum_display_face(object_t *object, face_t *face);
 
 #endif
 

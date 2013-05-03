@@ -24,7 +24,10 @@
 
 typedef struct object {
   face_id face_counter;
+  vertex_id vertex_counter;
   face_t **faces;
+  vertex_t **vertices;
+  vector_t **normals;
 } object_t;
 
 typedef struct display_obj {
@@ -39,7 +42,8 @@ extern vertex_t object_offset;
 #endif
 
 /// allocates memory and adds faces to the object
-object_t *oxygarum_create_object(unsigned int num, face_t **faces);
+object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, face_id num_faces, face_t **faces);
+void oxygarum_calc_normals(object_t *object);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object(object_t *object);
 int oxygarum_add_object(object_t *object, double x, double y, double  z);
@@ -47,10 +51,14 @@ int oxygarum_add_object(object_t *object, double x, double y, double  z);
 /// move and rotate objects
 void oxygarum_move_object_to(int id, double new_x, double new_y, double new_z);
 void oxygarum_rotate_object_to(int id, double new_x, double new_y, double new_z);
+void oxygarum_translate_object(int id, double x_off, double y_off, double z_off);
+void oxygarum_rotate_object(int id, double x_off, double y_off, double z_off);
 
 /// move and rotate the camera
 void oxygarum_translate_camera_to(double new_x, double new_y, double new_z);
 void oxygarum_rotate_camera_to(double new_x, double new_y, double new_z);
+void oxygarum_translate_camera(double x_off, double y_off, double z_off);
+void oxygarum_rotate_camera(double x_off, double y_off, double z_off);
 
 #endif
 

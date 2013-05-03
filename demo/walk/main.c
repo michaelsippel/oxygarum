@@ -15,14 +15,14 @@
 GLfloat ambient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
 GLfloat diffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
 GLfloat specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
-GLfloat position[]= { 0.0f, 0.0f, 2.0f, 1.0f };
+GLfloat position[]= { 1.0f, 0.5f, -0.1f, 1.0f };
 
 #define piover180 0.0174532925f
 #define SPEED 0.2
 
 int world_id, cube_id;
 vertex_t rot = {0,0,0};
-vertex_t loc = {0,0,0};
+vertex_t loc = {0,0,-2};
 
 void left(void) {
   rot.y -= 1;
@@ -46,11 +46,16 @@ void back(void) {
   oxygarum_translate_camera_to(loc.x, loc.y, loc.z);
 }
 
+void anim(void) {
+  oxygarum_rotate_object(cube_id, 0, 1, 0);
+}
+
 int main(int argc, char **argv) {
   oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
   oxygarum_set_flag(OXYGARUM_FULLSCREEN, 0);
   
+  oxygarum_animation_func(&anim);
   oxygarum_set_keyboard_event('w', &forwards);
   oxygarum_set_keyboard_event('a', &left);
   oxygarum_set_keyboard_event('s', &back);
@@ -67,6 +72,7 @@ int main(int argc, char **argv) {
   object_t *cube = oxygarum_load_oxy3d_file("cube.oxy3d");
   world_id = oxygarum_add_object(world, 0, 0, 0);
   cube_id = oxygarum_add_object(cube, 0, 0, 0);
+  oxygarum_rotate_object(cube_id, 30, 0, 0);
   
   glutMainLoop();
   

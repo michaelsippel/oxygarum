@@ -27,6 +27,7 @@
 static vertex_t loc = {.x = 0, .y = 0, .z = -5};
 static vertex_t rot = {.x = 0, .y = 0, .z = 0};
 vertex_t object_offset;
+void (*oxygarum_animate)(void);
 
 unsigned int display_object_counter = 0;
 display_obj_t *display_objects;
@@ -48,8 +49,16 @@ void oxygarum_calc_fps() {
   }
 }
 
+void oxygarum_animation_func(void (*handler)(void)) {
+  oxygarum_animate = handler;
+}
+
 void oxygarum_ilde(void) {
   oxygarum_calc_fps();
+  
+  // Animate
+  oxygarum_animate();
+  
   glutPostRedisplay();
 }
 
@@ -57,11 +66,11 @@ void oxygarum_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);
   
-  printf("%f fps\n", fps);
+  //printf("%f fps\n", fps);
   
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
+  
   glRotatef(rot.x, 1.0f,0.0f,0.0f);
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
   glRotatef(rot.z, 0.0f,0.0f,1.0f);  
@@ -70,12 +79,12 @@ void oxygarum_display(void) {
   
   int i;
   for(i = 0; i < display_object_counter; i++) {
-    //glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
-    //glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
-    //glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);
-    
-    //glTranslatef(loc.x, loc.y, loc.z);    
-    
+    glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
+    glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
+    glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f); 
+
+        glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);    
+
     object_offset = display_objects[i].pos;
     oxygarum_display_object(display_objects[i].object);
   }
@@ -111,6 +120,18 @@ void oxygarum_rotate_object_to(int id, double new_x, double new_y, double new_z)
   display_objects[id].rot.z = new_z;
 }
 
+void oxygarum_translate_object(int id, double x_off, double y_off, double z_off) {
+  display_objects[id].pos.x += x_off;
+  display_objects[id].pos.y += y_off;
+  display_objects[id].pos.z += z_off;
+}
+
+void oxygarum_rotate_object(int id, double x_off, double y_off, double z_off) {
+  display_objects[id].rot.x += x_off;
+  display_objects[id].rot.y += y_off;
+  display_objects[id].rot.z += z_off;
+}
+
 void oxygarum_translate_camera_to(double new_x, double new_y, double new_z) {
   loc.x = new_x;
   loc.y = new_y;
@@ -121,5 +142,17 @@ void oxygarum_rotate_camera_to(double new_x, double new_y, double new_z) {
   rot.x = new_x;
   rot.y = new_y;
   rot.z = new_z;
+}
+
+void oxygarum_translate_camera(double x_off, double y_off, double z_off) {
+  loc.x += x_off;
+  loc.y += y_off;
+  loc.z += z_off;
+}
+
+void oxygarum_rotate_camera(double x_off, double y_off, double z_off) {
+  rot.x += x_off;
+  rot.y += y_off;
+  rot.z += z_off;
 }
 

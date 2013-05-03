@@ -32,28 +32,10 @@ face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *
   face->material = material;
   face->uv_map = uv_map;
   
-  oxygarum_calc_normals(face);
-  
   return face;
 }
 
-void oxygarum_calc_normals(face_t *face) {
-  int i;
-  vector_t **vectors = calloc(face->vertex_counter, sizeof(vector_t));
-  vector_t *product;
-  for(i = 0; i < face->vertex_counter-1; i++) {
-    vectors[i] = oxygarum_create_vector(&vertices[face->vertices[0]], &vertices[face->vertices[i+1]]);
-  }
-  
-  product = oxygarum_vector_multiply_cross(vectors[0], vectors[1]);
-  for(i = 0; i < face->vertex_counter-1; i++) {
-    product = oxygarum_vector_multiply_cross(product, vectors[i]);
-    oxygarum_normalize_vector(product);
-  }
-  face->normal = product;
-}
-
-void oxygarum_display_face(face_t *face) {
+void oxygarum_display_face(object_t *object, face_t *face) {
   int i;
   
   glColor4f(face->material->color.color[0], 
@@ -61,19 +43,23 @@ void oxygarum_display_face(face_t *face) {
 	    face->material->color.color[2],
 	    0.5);
   glBindTexture(GL_TEXTURE_2D, face->material->texture->id);
-  glNormal3f(face->normal->x, face->normal->y, face->normal->z);
   glMaterialfv(GL_FRONT, GL_AMBIENT, face->material->ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, face->material->diffuse);
   glMaterialfv(GL_FRONT, GL_SPECULAR, face->material->specular);
   glMaterialfv(GL_FRONT, GL_SHININESS, face->material->shininess);
   
+  //glNormal3f(face->face_normal.x, face->face_normal.y, face->face_normal.z);  
+  
   glBegin(GL_POLYGON);
   for(i = 0; i < face->vertex_counter; i++) {
+    vertex_id id = face->vertices[i];
+    
     glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
+    glNormal3f(object->normals[id]->x, object->normals[id]->y, object->normals[id]->z);
     glVertex3f(
- 	vertices[face->vertices[i]].x + object_offset.x,
- 	vertices[face->vertices[i]].y + object_offset.y,
- 	vertices[face->vertices[i]].z + object_offset.z
+ 	object->vertices[id]->x + object_offset.x,
+ 	object->vertices[id]->y + object_offset.y,
+ 	object->vertices[id]->z + object_offset.z
     );
   }
   glEnd();

@@ -5,7 +5,7 @@ INCLUDE = -I/usr/include/ -I../include
 LIBDIR  = -L/usr/X11R6/lib 
 
 CC = gcc
-CFLAGS = -Wall $(INCLUDE)
+CFLAGS = -Wall -O4 $(INCLUDE)
 LIBRARIES = -lX11 -lXi -lXmu -lglut -lGL -lGLU -lm -lpng
 
 all: $(OBJS) lib

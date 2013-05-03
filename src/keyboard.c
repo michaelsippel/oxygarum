@@ -31,7 +31,6 @@ void oxygarum_handle_keyboard_event(unsigned char key, int x, int y) {
 }
 
 void oxygarum_set_keyboard_event(unsigned char key, void (*handler)(void)) {
-  printf("Hallo!");
   kbd_events[key] = handler;
 }
 

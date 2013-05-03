@@ -22,6 +22,7 @@
 #include "vertex.h"
 
 typedef vertex_t vector_t;
+typedef unsigned int normal_id;
 
 vector_t *oxygarum_create_vector(vertex_t *o, vertex_t *p);
 vector_t *oxygarum_normalize_vector(vector_t *vector);

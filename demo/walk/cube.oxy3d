@@ -1,11 +1,11 @@
 MATERIALS 1
-0: texture.png
+0: cube.png
 AMBIENT   0.2 0.2 0.2 0.0
 DIFFUSE   1.0 1.0 1.0 0.0
 SPECULAR  0.2 0.2 0.2 0.0
 SHININESS 1.0
 
-VERTICIES 8
+VERTICES 8
 0 : -0.2  0.2 -0.2
 1 : -0.2 -0.2 -0.2
 2 :  0.2 -0.2 -0.2
