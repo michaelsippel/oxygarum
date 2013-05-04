@@ -87,10 +87,10 @@ void oxygarum_calc_normals(object_t *object) {
   free(common_face_count);
 }
 
-void oxygarum_display_object(object_t *object) {
+void oxygarum_display_object(object_t *object, int shade_mode) {
   int i;
   for(i = 0; i < object->face_counter; i++) {
-    oxygarum_display_face(object, object->faces[i]);
+    oxygarum_display_face(object, object->faces[i], shade_mode);
   }
 }
 

@@ -23,6 +23,7 @@
 #include "vertex.h"
 #include "face.h"
 #include "object.h"
+#include "opengl.h"
 
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map) {
   face_t *face = malloc(sizeof(face_t));
@@ -35,7 +36,7 @@ face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *
   return face;
 }
 
-void oxygarum_display_face(object_t *object, face_t *face) {
+void oxygarum_display_face(object_t *object, face_t *face, int shade_mode) {
   int i;
   
   glColor4f(face->material->color.color[0], 
@@ -48,13 +49,15 @@ void oxygarum_display_face(object_t *object, face_t *face) {
   glMaterialfv(GL_FRONT, GL_SPECULAR, face->material->specular);
   glMaterialfv(GL_FRONT, GL_SHININESS, face->material->shininess);
   
-  //glNormal3f(face->face_normal.x, face->face_normal.y, face->face_normal.z);  
+  if(shade_mode == SHADE_FLAT)
+  glNormal3f(face->face_normal.x, face->face_normal.y, face->face_normal.z);  
   
   glBegin(GL_POLYGON);
   for(i = 0; i < face->vertex_counter; i++) {
     vertex_id id = face->vertices[i];
     
     glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
+    if(shade_mode == SHADE_SMOOTH)
     glNormal3f(object->normals[id]->x, object->normals[id]->y, object->normals[id]->z);
     glVertex3f(
  	object->vertices[id]->x,

@@ -34,14 +34,16 @@ typedef struct display_obj {
   object_t *object;
   vertex_t pos;
   vertex_t rot;
+  int shade_mode;
 } display_obj_t;
 
 /// allocates memory and adds faces to the object
 object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, face_id num_faces, face_t **faces);
 void oxygarum_calc_normals(object_t *object);
 /// draw the object to the OpenGL scene
-void oxygarum_display_object(object_t *object);
+void oxygarum_display_object(object_t *object, int shade_mode);
 int oxygarum_add_object(object_t *object, double x, double y, double  z);
+void oxygarum_set_shade_mode(int id, int mode);
 
 /// move and rotate objects
 void oxygarum_move_object_to(int id, double new_x, double new_y, double new_z);

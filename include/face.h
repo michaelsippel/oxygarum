@@ -38,7 +38,7 @@ typedef unsigned int face_id;
 /// allocates memory and adds vertices to the face
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map);
 /// Draw the face to the OpenGL scene
-void oxygarum_display_face(object_t *object, face_t *face);
+void oxygarum_display_face(object_t *object, face_t *face, int shade_mode);
 
 #endif
 
