@@ -36,11 +36,6 @@ typedef struct display_obj {
   vertex_t rot;
 } display_obj_t;
 
-#ifndef _OBJECT_OFFSET
-#define _OBJECT_OFFSET
-extern vertex_t object_offset;
-#endif
-
 /// allocates memory and adds faces to the object
 object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, face_id num_faces, face_t **faces);
 void oxygarum_calc_normals(object_t *object);

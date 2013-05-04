@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
   oxygarum_set_flag(OXYGARUM_FULLSCREEN, 0);
   init_oxygarum(argc, argv);
   
-  oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);
+  //oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);
   
   object_t *object = oxygarum_load_oxy3d_file("cube.oxy3d");
   int id = oxygarum_add_object(object, 0, 0, 0);

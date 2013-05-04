@@ -16,7 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#define _OBJECT_OFFSET
 #include <unistd.h>
 #include <stdio.h>
 #include <GL/glut.h>
@@ -24,9 +23,8 @@
 #include "vertex.h"
 #include "object.h"
 
-static vertex_t loc = {.x = 0, .y = 0, .z = -5};
+static vertex_t loc = {.x = 0, .y = 0, .z = 0};
 static vertex_t rot = {.x = 0, .y = 0, .z = 0};
-vertex_t object_offset;
 void (*oxygarum_animate)(void);
 
 unsigned int display_object_counter = 0;
@@ -75,20 +73,19 @@ void oxygarum_display(void) {
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
   glRotatef(rot.z, 0.0f,0.0f,1.0f);  
   
-  glTranslatef(loc.x, loc.y, loc.z);
+  glTranslatef(loc.x, loc.y, loc.z);  
   
-  int i;
+  int i = 0;
   for(i = 0; i < display_object_counter; i++) {
+    glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);
+    
     glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
     glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
-    glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f); 
-
-        glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);    
-
-    object_offset = display_objects[i].pos;
+    glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);   
+    
     oxygarum_display_object(display_objects[i].object);
   }
-  
+
   glFlush();
   glutSwapBuffers();
 }

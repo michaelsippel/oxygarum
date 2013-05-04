@@ -12,9 +12,9 @@
 #include <unistd.h>
 #include <math.h>
 
-GLfloat ambient[]= { 0.5f, 0.5f, 0.5f, 1.0f };
+GLfloat ambient[]= { 0.8f, 0.7f, 0.9f, 1.0f };
 GLfloat diffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
+GLfloat specular[]= { 0.0f, 0.0f, 0.0f, 0.0f };
 GLfloat position[]= { 1.0f, 0.5f, -0.1f, 1.0f };
 
 #define piover180 0.0174532925f

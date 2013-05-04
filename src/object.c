@@ -53,18 +53,18 @@ void oxygarum_calc_normals(object_t *object) {
     face = object->faces[i];    
     
     vector_t *edge1 = oxygarum_create_vector(object->vertices[face->vertices[0]], object->vertices[face->vertices[1]]);
-    vector_t *edge2 = oxygarum_create_vector(object->vertices[face->vertices[0]], object->vertices[face->vertices[2]]);
+    vector_t *edge2 = oxygarum_create_vector(object->vertices[face->vertices[1]], object->vertices[face->vertices[2]]);
     
     vector_t *normal = oxygarum_vector_multiply_cross(edge1, edge2);
     oxygarum_normalize_vector(normal);
     
     free(edge1);
-    free(edge2);    
+    free(edge2);
     
     face->face_normal.x = normal->x;
     face->face_normal.y = normal->y;
     face->face_normal.z = normal->z;
-    printf("flat: x = %lf, y = %lf, z = %lf\n", face->face_normal.x, face->face_normal.y, face->face_normal.z);    
+    printf("%d: flat: x = %lf, y = %lf, z = %lf\n", i, normal->x, normal->y, normal->z);    
     
     for(j = 0; j < face->vertex_counter; j++) {
       object->normals[face->vertices[j]]->x += normal->x;
