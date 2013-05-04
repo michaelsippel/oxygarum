@@ -11,6 +11,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+GLfloat ambient[]= { 0.8f, 0.7f, 0.9f, 1.0f };
+GLfloat diffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
+GLfloat specular[]= { 0.0f, 0.0f, 0.0f, 0.0f };
+GLfloat position[]= { 1.0f, 0.5f, -0.1f, 1.0f };
+
 int id;
 
 void anim(void) {
@@ -24,7 +29,8 @@ int main(int argc, char **argv) {
   oxygarum_animation_func(&anim);
   
   init_oxygarum(argc, argv);
-  
+  oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);  
+
   object_t *bunny = oxygarum_load_oxy3d_file("bunny.oxy3d");
   id = oxygarum_add_object(bunny, 0, -1.5, -5);
   

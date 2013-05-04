@@ -84,13 +84,27 @@ int main(int argc, char **argv) {
         v++;
         break;
       case 'f':
-        //FIXME: hier sind nur quads
-        size[f] = 4;
+        size[f] = 0;
+	char buf[256];
+        pos = 1;
+        do {
+          sscanf(line+pos, " %d", &d);
+          pos += sprintf(&buf, " %d", d);
+          size[f]++;
+        } while(d != 0);
+        
         faces[f] = calloc(size[f], sizeof(int));
-        sscanf(line, "f %d %d %d %d\n", &faces[f][0], &faces[f][1], &faces[f][2], &faces[f][3]);
-
-        if(faces[f][3] == 0) size[f]--;
-
+        
+        pos = 1;
+        for(i = 0; i < size[f]; i++) {
+          sscanf(line+pos, " %d", &faces[f][i]);
+          pos += sprintf(&buf, " %d", faces[f][i]);
+          
+          if(faces[f][i] == 0) {
+            break;
+          }
+        }
+        size[f] = i;
         f++;
         break;
     }
@@ -111,7 +125,7 @@ int main(int argc, char **argv) {
   }
   
   fprintf(dest, "\n");
-
+  
   fprintf(dest,
 	"UVMAPS 1\n"
 	"0: SIZE 4\n"
