@@ -55,7 +55,8 @@ void oxygarum_ilde(void) {
   oxygarum_calc_fps();
   
   // Animate
-  oxygarum_animate();
+  if(oxygarum_animate)
+    oxygarum_animate();
   
   glutPostRedisplay();
 }
@@ -64,7 +65,7 @@ void oxygarum_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);
   
-  //printf("%f fps\n", fps);
+  printf("%f fps\n", fps);
   
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -75,7 +76,7 @@ void oxygarum_display(void) {
   
   glTranslatef(loc.x, loc.y, loc.z);  
   
-  int i = 0;
+  int i;
   for(i = 0; i < display_object_counter; i++) {
     glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);
     
@@ -85,7 +86,7 @@ void oxygarum_display(void) {
     
     oxygarum_display_object(display_objects[i].object);
   }
-
+  
   glFlush();
   glutSwapBuffers();
 }

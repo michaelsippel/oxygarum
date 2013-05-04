@@ -1,11 +1,10 @@
 all:
 	make -C src
-	make -C demo/cube
-	make -C demo/walk
+	make -C converters
+	make -C demo
 
 clean:
 	make -C src clean
-	make -C demo/cube clean
-	make -C demo/walk clean
-
+	make -C converters clean
+	make -C demo clean
 

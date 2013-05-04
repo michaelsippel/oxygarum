@@ -3,8 +3,11 @@
 *.o
 *.a
 *.oxy3d~
+*.obj~
+convert_obj
 demo/cube/cube
 demo/walk/walk
+demo/easter_bunny/bunny
 .gitignore~
 makefile~
 Maekfile~
