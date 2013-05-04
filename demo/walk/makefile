@@ -10,6 +10,7 @@ CFLAGS = -Wall $(INCLUDE)
 OXY = ../../src/oxygarum.a
 
 walk: $(OBJS)
+	../../converters/obj/convert_obj suzanne.obj suzanne.oxy3d
 	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(OXY)
 
 %.c : %.o

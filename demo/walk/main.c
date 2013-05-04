@@ -20,7 +20,7 @@ GLfloat position[]= { 1.0f, 0.5f, -0.1f, 1.0f };
 #define piover180 0.0174532925f
 #define SPEED 0.2
 
-int world_id, cube_id;
+int world_id, suzanne_id;
 vertex_t rot = {0,0,0};
 vertex_t loc = {0,0,-2};
 
@@ -47,7 +47,7 @@ void back(void) {
 }
 
 void anim(void) {
-  oxygarum_rotate_object(cube_id, 0, 1, 0);
+  oxygarum_rotate_object(suzanne_id, 0,1, 0);
 }
 
 int main(int argc, char **argv) {
@@ -69,10 +69,10 @@ int main(int argc, char **argv) {
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);
   
   object_t *world = oxygarum_load_oxy3d_file("world.oxy3d");
-  object_t *cube = oxygarum_load_oxy3d_file("cube.oxy3d");
+  object_t *suzanne = oxygarum_load_oxy3d_file("suzanne.oxy3d");
   world_id = oxygarum_add_object(world, 0, 0, 0);
-  cube_id = oxygarum_add_object(cube, 0, 0, 0);
-  oxygarum_rotate_object(cube_id, 30, 0, 0);
+  suzanne_id = oxygarum_add_object(suzanne, 0, 0, 0);
+  oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
   
   glutMainLoop();
   
