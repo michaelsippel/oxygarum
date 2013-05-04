@@ -52,7 +52,13 @@ void oxygarum_display_face(object_t *object, face_t *face, int shade_mode) {
   if(shade_mode == SHADE_FLAT)
   glNormal3f(face->face_normal.x, face->face_normal.y, face->face_normal.z);  
   
-  glBegin(GL_POLYGON);
+  if(face->vertex_counter == 3)
+    glBegin(GL_TRIANGLES);
+  else if(face->vertex_counter == 4)
+    glBegin(GL_QUADS);
+  else
+    glBegin(GL_POLYGON);
+  
   for(i = 0; i < face->vertex_counter; i++) {
     vertex_id id = face->vertices[i];
     
