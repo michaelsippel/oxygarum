@@ -1,6 +1,5 @@
 # Blender v2.66 (sub 1) OBJ File: ''
 # www.blender.org
-mtllib suzanne.mtl
 o Suzanne
 v 0.189085 0.226856 0.251113
 v -0.189085 0.226856 0.251113

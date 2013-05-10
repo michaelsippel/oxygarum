@@ -42,20 +42,20 @@ object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, fa
 void oxygarum_calc_normals(object_t *object);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object(object_t *object, int shade_mode);
-int oxygarum_add_object(object_t *object, double x, double y, double  z);
+int oxygarum_add_object(object_t *object, float x, float y, float  z);
 void oxygarum_set_shade_mode(int id, int mode);
 
 /// move and rotate objects
-void oxygarum_move_object_to(int id, double new_x, double new_y, double new_z);
-void oxygarum_rotate_object_to(int id, double new_x, double new_y, double new_z);
-void oxygarum_translate_object(int id, double x_off, double y_off, double z_off);
-void oxygarum_rotate_object(int id, double x_off, double y_off, double z_off);
+void oxygarum_move_object_to(int id, float new_x, float new_y, float new_z);
+void oxygarum_rotate_object_to(int id, float new_x, float new_y, float new_z);
+void oxygarum_translate_object(int id, float x_off, float y_off, float z_off);
+void oxygarum_rotate_object(int id, float x_off, float y_off, float z_off);
 
 /// move and rotate the camera
-void oxygarum_translate_camera_to(double new_x, double new_y, double new_z);
-void oxygarum_rotate_camera_to(double new_x, double new_y, double new_z);
-void oxygarum_translate_camera(double x_off, double y_off, double z_off);
-void oxygarum_rotate_camera(double x_off, double y_off, double z_off);
+void oxygarum_translate_camera_to(float new_x, float new_y, float new_z);
+void oxygarum_rotate_camera_to(float new_x, float new_y, float new_z);
+void oxygarum_translate_camera(float x_off, float y_off, float z_off);
+void oxygarum_rotate_camera(float x_off, float y_off, float z_off);
 
 #endif
 

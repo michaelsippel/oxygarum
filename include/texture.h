@@ -23,8 +23,8 @@
 typedef unsigned int texture_id;
 
 typedef struct uv_t {
-  double u;
-  double v;
+  float u;
+  float v;
 } uv_t;
 
 typedef struct texture {

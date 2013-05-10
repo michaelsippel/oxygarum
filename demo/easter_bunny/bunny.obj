@@ -1,6 +1,5 @@
 # Blender v2.66 (sub 1) OBJ File: 'bunny.blend'
 # www.blender.org
-mtllib bunny.mtl
 o Cube
 v 0.136617 3.377299 0.005036
 v 0.238476 3.248814 -0.126073

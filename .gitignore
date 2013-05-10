@@ -4,6 +4,7 @@
 *.a
 *.oxy3d~
 *.obj~
+*.mtl~
 convert_obj
 demo/cube/cube
 demo/walk/walk

@@ -24,6 +24,16 @@
 #include "vertex.h"
 #include "face.h"
 
+typedef struct mat {
+  char texD[256];
+  char texA[256];
+  char texS[256];
+  float d[3];
+  float a[3];
+  float s[3];
+  float sh;
+} mat_t;
+
 int readstr(FILE *f, char *string) {
   do {
     if(fgets(string, 255, f) == NULL) {
@@ -36,23 +46,25 @@ int readstr(FILE *f, char *string) {
 int main(int argc, char **argv) {
   if(argc < 3) {
     printf("Usage: %s [source] [output]\n", argv[0]);
-    return -1;
+    return EXIT_FAILURE;
   }
   
   FILE *src = fopen(argv[1], "rt");
   if(src == NULL) {
     printf("Error.\n");
-    return -1;
+    return EXIT_FAILURE;
   }
   
   FILE *dest = fopen(argv[2], "wb");
   if(dest == NULL) {
     printf("Error.\n");
-    return -1;
+    return EXIT_FAILURE;
   }
   
   int i,j;  
   
+  mat_t material;
+  int have_material = 0;
   int num_vertices = 0;
   int num_faces = 0;
   int num_texcoords = 0;
@@ -60,6 +72,30 @@ int main(int argc, char **argv) {
   char line[256];
   
   fseek(src, SEEK_SET, 0);
+  
+  readstr(src, line);
+  char mtllib[256];
+  char mat_name[256];
+  if(sscanf(line, "mtllib %s\n", mtllib) != NULL) {
+    printf("Material: %s\n", mtllib);
+    FILE *mtl = fopen(mtllib, "rt");
+    if(mtl == NULL) {
+      printf("Error.\n");
+      return EXIT_FAILURE;
+    } else {
+      readstr(mtl, line); sscanf(line, "newmtl %s\n", mat_name);
+      readstr(mtl, line); sscanf(line, "Ka %f %f %f\n", &material.a[0], &material.a[1], &material.a[2]);
+      readstr(mtl, line); sscanf(line, "Kd %f %f %f\n", &material.d[0], &material.d[1], &material.d[2]);
+      readstr(mtl, line); sscanf(line, "Ks %f %f %f\n", &material.s[0], &material.s[1], &material.s[2]);
+      readstr(mtl, line);
+      readstr(mtl, line); sscanf(line, "Ns %f\n", &material.sh);
+      readstr(mtl, line); sscanf(line, "map_Kd %s\n", &material.texD);
+      readstr(mtl, line); sscanf(line, "map_Ka %s\n", &material.texA);
+      readstr(mtl, line); sscanf(line, "map_Ks %s\n", &material.texS);
+      have_material = 1;
+    }
+  }
+  
   while(readstr(src, line) == 0) {
     switch(line[0]) {
       case 'v':
@@ -103,7 +139,7 @@ int main(int argc, char **argv) {
       case 'v':
         switch(line[1]) {
           case 't':
-            sscanf(line, "vt %lf %lf\n", &texcoords[t].u, &texcoords[t].v);
+            sscanf(line, "vt %f %f\n", &texcoords[t].u, &texcoords[t].v);
             t++;
             break;
           case 'n':
@@ -111,7 +147,7 @@ int main(int argc, char **argv) {
             n++;
             break;
           default:
-            sscanf(line, "v %lf %lf %lf\n", &vertices[v].x, &vertices[v].y, &vertices[v].z);
+            sscanf(line, "v %f %f %f\n", &vertices[v].x, &vertices[v].y, &vertices[v].z);
             v++;
             break;
         }
@@ -155,27 +191,34 @@ int main(int argc, char **argv) {
             sprintf(buf, " %d/%d/%d", faces[f][i], uv_maps[f][i], e);
             pos += strlen(buf);
           }
-          printf("%s", buf);
         }
-        printf("\n");
         f++;
         break;
       default: break;
     }
   }
   
-  fprintf(dest, 
+  if(! have_material) {
+    fprintf(dest, 
 	"MATERIALS 1\n"
 	"0: texture.png\n"
 	"AMBIENT   0.2 0.2 0.2 0.0\n"
 	"DIFFUSE   1.0 1.0 1.0 0.0\n"
 	"SPECULAR  0.2 0.2 0.2 0.0\n"
 	"SHININESS 1.0\n\n"
-	);  
+	); 
+  } else {
+    fprintf(dest, "MATERIALS 1\n");
+    fprintf(dest, "0: %s\n", material.texD);
+    fprintf(dest, "AMBIENT   %f %f %f %f\n", material.a[0], material.a[1], material.a[2]);
+    fprintf(dest, "DIFFUSE   %f %f %f %f\n", material.d[0], material.d[1], material.d[2]);
+    fprintf(dest, "SPECULAR  %f %f %f %f\n", material.s[0], material.s[1], material.s[2]);
+    fprintf(dest, "SHININESS %f\n\n", material.sh);
+  }
   
   fprintf(dest, "VERTICES %d\n", num_vertices);  
   for(i = 0; i < num_vertices; i++) {
-    fprintf(dest, "%d: %lf %lf %lf\n", i, vertices[i].x, vertices[i].y, vertices[i].z);
+    fprintf(dest, "%d: %f %f %f\n", i, vertices[i].x, vertices[i].y, vertices[i].z);
   }
   
   fprintf(dest, "\n");
@@ -185,7 +228,7 @@ int main(int argc, char **argv) {
     for(i = 0; i < num_faces; i++) {
       fprintf(dest, "%d: SIZE %d\n", i, size[i]);
       for(j = 0; j < size[i]; j++) {
-        fprintf(dest, "%lf %lf\n", texcoords[uv_maps[i][j]-1].u, texcoords[uv_maps[i][j]-1].v);
+        fprintf(dest, "%f %f\n", texcoords[uv_maps[i][j]-1].u, texcoords[uv_maps[i][j]-1].v);
       }
     }
   } else {

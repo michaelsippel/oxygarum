@@ -19,12 +19,10 @@
 #ifndef _VERTEX_H
 #define _VERTEX_H
 
-#define MAX_VERTICES 20000
-
 typedef struct vertex {
-  double x;
-  double y;
-  double z;
+  float x;
+  float y;
+  float z;
 } vertex_t;
 
 typedef unsigned int vertex_id;

@@ -100,10 +100,10 @@ object_t *oxygarum_load_oxy3d_file(const char *path) {
     vertex_t *vertex = malloc(sizeof(vertex_t));
     
     readstr(f, line);
-    sscanf(line, "%d : %lf %lf %lf\n", &id, &vertex->x, &vertex->y, &vertex->z);
+    sscanf(line, "%d : %f %f %f\n", &id, &vertex->x, &vertex->y, &vertex->z);
     
     vertices[id] = vertex;
-    printf("\t%d(%d): %lf, %lf, %lf\n", id, i, vertex->x, vertex->y, vertex->z);
+    printf("\t%d(%d): %f, %f, %f\n", id, i, vertex->x, vertex->y, vertex->z);
   }
   
   readstr(f, line);
@@ -121,8 +121,8 @@ object_t *oxygarum_load_oxy3d_file(const char *path) {
     printf("\t%d(%d): size %d\n", id, i, size);
     for(j = 0; j < size; j++) {
       readstr(f, line);
-      sscanf(line, "%lf %lf\n", &uvmaps[id][j].u, &uvmaps[id][j].v);
-      printf("\t\t%d: %lf, %lf\n", j, uvmaps[id][j].u, uvmaps[id][j].v);
+      sscanf(line, "%f %f\n", &uvmaps[id][j].u, &uvmaps[id][j].v);
+      printf("\t\t%d: %f, %f\n", j, uvmaps[id][j].u, uvmaps[id][j].v);
     }
   }
   

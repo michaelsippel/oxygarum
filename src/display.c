@@ -91,7 +91,7 @@ void oxygarum_display(void) {
   glutSwapBuffers();
 }
 
-int oxygarum_add_object(object_t *object, double x, double y, double  z) {
+int oxygarum_add_object(object_t *object, float x, float y, float  z) {
   if(display_object_counter > 0) {
     display_objects = realloc(display_objects, (display_object_counter+1) * sizeof(display_obj_t));
   } else {
@@ -111,49 +111,49 @@ void oxygarum_set_shade_mode(int id, int mode) {
   display_objects[id].shade_mode = mode;
 }
 
-void oxygarum_translate_object_to(int id, double new_x, double new_y, double new_z) {
+void oxygarum_translate_object_to(int id, float new_x, float new_y, float new_z) {
   display_objects[id].pos.x = new_x;
   display_objects[id].pos.y = new_y;
   display_objects[id].pos.z = new_z;
 }
 
-void oxygarum_rotate_object_to(int id, double new_x, double new_y, double new_z) {
+void oxygarum_rotate_object_to(int id, float new_x, float new_y, float new_z) {
   display_objects[id].rot.x = new_x;
   display_objects[id].rot.y = new_y;
   display_objects[id].rot.z = new_z;
 }
 
-void oxygarum_translate_object(int id, double x_off, double y_off, double z_off) {
+void oxygarum_translate_object(int id, float x_off, float y_off, float z_off) {
   display_objects[id].pos.x += x_off;
   display_objects[id].pos.y += y_off;
   display_objects[id].pos.z += z_off;
 }
 
-void oxygarum_rotate_object(int id, double x_off, double y_off, double z_off) {
+void oxygarum_rotate_object(int id, float x_off, float y_off, float z_off) {
   display_objects[id].rot.x += x_off;
   display_objects[id].rot.y += y_off;
   display_objects[id].rot.z += z_off;
 }
 
-void oxygarum_translate_camera_to(double new_x, double new_y, double new_z) {
+void oxygarum_translate_camera_to(float new_x, float new_y, float new_z) {
   loc.x = new_x;
   loc.y = new_y;
   loc.z = new_z;
 }
 
-void oxygarum_rotate_camera_to(double new_x, double new_y, double new_z) {
+void oxygarum_rotate_camera_to(float new_x, float new_y, float new_z) {
   rot.x = new_x;
   rot.y = new_y;
   rot.z = new_z;
 }
 
-void oxygarum_translate_camera(double x_off, double y_off, double z_off) {
+void oxygarum_translate_camera(float x_off, float y_off, float z_off) {
   loc.x += x_off;
   loc.y += y_off;
   loc.z += z_off;
 }
 
-void oxygarum_rotate_camera(double x_off, double y_off, double z_off) {
+void oxygarum_rotate_camera(float x_off, float y_off, float z_off) {
   rot.x += x_off;
   rot.y += y_off;
   rot.z += z_off;
