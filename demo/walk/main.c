@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
   object_t *suzanne = oxygarum_load_oxy3d_file("suzanne.oxy3d");
   world_id = oxygarum_add_object(world, 0, 0, 0);
   suzanne_id = oxygarum_add_object(suzanne, 0, 0, 0);
-  oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
+  oxygarum_set_shade_mode(suzanne_id, SHADE_FLAT);
   
   glutMainLoop();
   

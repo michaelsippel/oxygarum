@@ -1,7 +1,7 @@
 SRCS = $(shell find -name '*.c')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-CFLAGS = -Wall -I../../include
+CFLAGS = -Wall -O4 -I../../include
 
 convert_obj: $(OBJS)
 	$(CC) -o $@ $^
