@@ -1,0 +1,55 @@
+CPP  = C:/Dev-Cpp/bin/g++.exe
+CC   = C:/Dev-Cpp/bin/gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = display.o face.o keyboard.o material.o object.o opengl.o oxy3d_loader.o oxygarum.o texture.o vector.o $(RES)
+LINKOBJ  = display.o face.o keyboard.o material.o object.o opengl.o oxy3d_loader.o oxygarum.o texture.o vector.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib" C:/Dev-Cpp/lib/libopengl32.a C:/Dev-Cpp/lib/libglu32.a C:/Dev-Cpp/lib/libglut32.a C:/Dev-Cpp/lib/libpng.lib C:/Dev-Cpp/lib/libz.a
+INCS =  -I"C:/Dev-Cpp/include" 
+CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
+BIN  = oxygarum-win32.a
+CXXFLAGS = $(CXXINCS)  
+CFLAGS = $(INCS) -I "../include"  
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before oxygarum-win32.a all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(LINKOBJ)
+	ar r $(BIN) $(LINKOBJ)
+	ranlib $(BIN)
+
+display.o: display.c
+	$(CC) -c display.c -o display.o $(CFLAGS)
+
+face.o: face.c
+	$(CC) -c face.c -o face.o $(CFLAGS)
+
+keyboard.o: keyboard.c
+	$(CC) -c keyboard.c -o keyboard.o $(CFLAGS)
+
+material.o: material.c
+	$(CC) -c material.c -o material.o $(CFLAGS)
+
+object.o: object.c
+	$(CC) -c object.c -o object.o $(CFLAGS)
+
+opengl.o: opengl.c
+	$(CC) -c opengl.c -o opengl.o $(CFLAGS)
+
+oxy3d_loader.o: oxy3d_loader.c
+	$(CC) -c oxy3d_loader.c -o oxy3d_loader.o $(CFLAGS)
+
+oxygarum.o: oxygarum.c
+	$(CC) -c oxygarum.c -o oxygarum.o $(CFLAGS)
+
+texture.o: texture.c
+	$(CC) -c texture.c -o texture.o $(CFLAGS)
+
+vector.o: vector.c
+	$(CC) -c vector.c -o vector.o $(CFLAGS)

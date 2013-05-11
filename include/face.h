@@ -23,8 +23,6 @@
 #include "vector.h"
 #include "material.h"
 
-typedef struct object object_t;
-
 typedef struct face {
   vertex_id vertex_counter;
   vertex_id *vertices;
@@ -35,10 +33,13 @@ typedef struct face {
 
 typedef unsigned int face_id;
 
+#ifndef _OBJECT_H
+#include "object.h"
+
 /// allocates memory and adds vertices to the face
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map);
 /// Draw the face to the OpenGL scene
 void oxygarum_display_face(object_t *object, face_t *face, int shade_mode);
 
 #endif
-
+#endif

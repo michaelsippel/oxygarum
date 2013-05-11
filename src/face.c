@@ -22,8 +22,8 @@
 
 #include "vertex.h"
 #include "face.h"
-#include "object.h"
 #include "opengl.h"
+#include "object.h"
 
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map) {
   face_t *face = malloc(sizeof(face_t));

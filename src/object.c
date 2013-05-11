@@ -22,6 +22,8 @@
 #include "face.h"
 #include "object.h"
 
+#define DEBUG 0
+
 object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, face_id num_faces, face_t **faces) {
   object_t *object = malloc(sizeof(object_t));
   
@@ -37,7 +39,9 @@ object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, fa
     object->normals[i] = malloc(sizeof(vector_t));
   }
   
+#if DEBUG == 1
   printf("Calculating normals...\n");
+#endif
   oxygarum_calc_normals(object);
   
   return object;
@@ -64,8 +68,10 @@ void oxygarum_calc_normals(object_t *object) {
     face->face_normal.x = normal->x;
     face->face_normal.y = normal->y;
     face->face_normal.z = normal->z;
+#if DEBUG == 1
     printf("%d: flat: x = %lf, y = %lf, z = %lf\n", i, normal->x, normal->y, normal->z);    
-    
+#endif
+
     for(j = 0; j < face->vertex_counter; j++) {
       object->normals[face->vertices[j]]->x += normal->x;
       object->normals[face->vertices[j]]->y += normal->y;
@@ -81,7 +87,9 @@ void oxygarum_calc_normals(object_t *object) {
       object->normals[i]->y /= common_face_count[i];
       object->normals[i]->z /= common_face_count[i];
     }
+#if DEBUG == 1
     printf("%d: X = %lf, Y = %lf, Z = %lf\n", i, object->normals[i]->x, object->normals[i]->y, object->normals[i]->z);
+#endif
   }
 
   free(common_face_count);

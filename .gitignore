@@ -5,6 +5,7 @@
 *.oxy3d~
 *.obj~
 *.mtl~
+*.exe
 convert_obj
 demo/cube/cube
 demo/walk/walk
@@ -12,6 +13,7 @@ demo/easter_bunny/bunny
 demo/human/human
 .gitignore~
 makefile~
-Maekfile~
+makefile.linux~
+makefile.win32~
 README.md~
 

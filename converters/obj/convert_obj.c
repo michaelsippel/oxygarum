@@ -21,8 +21,8 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "vertex.h"
-#include "face.h"
+#include "../../include/vertex.h"
+#include "../../include/face.h"
 
 typedef struct mat {
   char texD[256];
@@ -122,11 +122,11 @@ int main(int argc, char **argv) {
   printf("%d normals\n", num_normals);
   printf("%d faces\n", num_faces);
   
-  vertex_t *vertices = calloc(num_vertices, sizeof(vertex_t));
-  uv_t *texcoords = calloc(num_texcoords, sizeof(uv_t));
-  int **uv_maps = calloc(num_faces, sizeof(int*));
-  int *size = calloc(num_faces, sizeof(int));
-  int **faces = calloc(num_faces, sizeof(int*));
+  vertex_t *vertices = (vertex_t*) calloc(num_vertices, sizeof(vertex_t));
+  uv_t *texcoords = (uv_t*) calloc(num_texcoords, sizeof(uv_t));
+  int **uv_maps = (int**) calloc(num_faces, sizeof(int*));
+  int *size = (int*) calloc(num_faces, sizeof(int));
+  int **faces = (int**) calloc(num_faces, sizeof(int*));
   
   fseek(src, SEEK_SET, 0);
   int v = 0, t = 0, n = 0, f = 0, pos;
@@ -171,9 +171,9 @@ int main(int argc, char **argv) {
           }
           size[f]++;
         }
-        faces[f] = calloc(size[f], sizeof(int));
+        faces[f] = (int*) calloc(size[f], sizeof(int));
         if(num_texcoords != 0) {
-          uv_maps[f] = calloc(size[f], sizeof(int));
+          uv_maps[f] = (int*) calloc(size[f], sizeof(int));
         }
         
         pos = 1;
@@ -260,4 +260,3 @@ int main(int argc, char **argv) {
   
   return EXIT_SUCCESS;
 }
-

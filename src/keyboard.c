@@ -23,7 +23,7 @@
 static void (*kbd_events[256]) (void);
 
 void oxygarum_handle_keyboard_event(unsigned char key, int x, int y) {
-  usleep(100);
+  //usleep(100);
   
   if(kbd_events[key] != NULL) {
     kbd_events[key]();
@@ -35,6 +35,7 @@ void oxygarum_set_keyboard_event(unsigned char key, void (*handler)(void)) {
 }
 
 void oxygarum_set_mouse_func(int type, void *handler) {
+/*
   switch(type) {
     case MOUSE_PASSIVE_MOTION:
       glutPassiveMotionFunc(handler);
@@ -46,5 +47,6 @@ void oxygarum_set_mouse_func(int type, void *handler) {
       glutMouseFunc(handler);
       break;
   }
+  */
 }
 
