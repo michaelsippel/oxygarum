@@ -26,7 +26,8 @@ void change_shade(void) {
 }
 
 void anim(void) {
-  oxygarum_rotate_object(id, 0, 1, 0);
+  float anim_sens = 100 / 25;
+  oxygarum_rotate_object(id, 0, anim_sens, 0);
 }
 
 int main(int argc, char **argv) {
@@ -43,6 +44,7 @@ int main(int argc, char **argv) {
   object_t *bunny = oxygarum_load_oxy3d_file("bunny.oxy3d");
   id = oxygarum_add_object(bunny, 0, -1.5, -5);
   oxygarum_set_shade_mode(id, shade_mode);  
+  oxygarum_set_max_fps(30);  
   
   glutMainLoop();
   

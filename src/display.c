@@ -30,18 +30,19 @@ void (*oxygarum_animate)(void);
 unsigned int display_object_counter = 0;
 display_obj_t *display_objects;
 
-int frame_counter = 0;
-int time_cur = 0, time_prev = 0;
-float fps = 0;
+static int frame_counter = 0;
+static int time_cur = 0, time_prev = 0, time_diff = 0;
+static float fps = 0;
+static float max_fps = 0;
 
 void oxygarum_calc_fps() {
   frame_counter++;
   time_cur = glutGet(GLUT_ELAPSED_TIME);
   
-  int diff = time_cur - time_prev;
+  time_diff = time_cur - time_prev;
   
-  if(diff > 1000) {
-    fps = frame_counter / (diff / 1000.0f);
+  if(time_diff > 1000) {
+    fps = frame_counter / (time_diff / 1000.0f);
     time_prev = time_cur;
     frame_counter = 0;
   }
@@ -51,12 +52,31 @@ void oxygarum_animation_func(void (*handler)(void)) {
   oxygarum_animate = handler;
 }
 
+float oxygarum_get_fps(void) {
+  return fps;
+}
+
+float oxygarum_get_frametime(void) {
+  return (float) (frame_counter / time_diff) * 1000;
+}
+
+void oxygarum_set_max_fps(float _max_fps) {
+  max_fps = _max_fps;
+}
+
 void oxygarum_ilde(void) {
   oxygarum_calc_fps();
   
   // Animate
   if(oxygarum_animate)
-    oxygarum_animate();
+    oxygarum_animate();  
+  
+  if(max_fps != 0) {
+    float min_time =   (1/max_fps) * 1000000;
+    float frame_time = oxygarum_get_frametime();
+    float wait_time = min_time - frame_time;
+    usleep(wait_time);
+  }
   
   glutPostRedisplay();
 }
@@ -65,7 +85,7 @@ void oxygarum_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);
   
-  //printf("%f fps\n", fps);
+  printf("%f fps\n", fps);
   
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
