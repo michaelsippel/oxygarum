@@ -22,6 +22,9 @@
 #include "vertex.h"
 #include "face.h"
 
+#define OBJECT_VISIBLE   0x0
+#define OBJECT_INVISIBLE 0x1
+
 typedef struct object {
   face_id face_counter;
   vertex_id vertex_counter;
@@ -35,6 +38,7 @@ typedef struct display_obj {
   vertex_t pos;
   vertex_t rot;
   int shade_mode;
+  int status;
 } display_obj_t;
 
 /// allocates memory and adds faces to the object
@@ -44,6 +48,7 @@ void oxygarum_calc_normals(object_t *object);
 void oxygarum_display_object(object_t *object, int shade_mode);
 int oxygarum_add_object(object_t *object, float x, float y, float  z);
 void oxygarum_set_shade_mode(int id, int mode);
+void oxygarum_set_object_status(int id, int status);
 
 /// move and rotate objects
 void oxygarum_move_object_to(int id, float new_x, float new_y, float new_z);

@@ -57,7 +57,7 @@ float oxygarum_get_fps(void) {
 }
 
 float oxygarum_get_frametime(void) {
-  return (float) (frame_counter / time_diff) * 1000;
+  return (float) (1 / fps);
 }
 
 void oxygarum_set_max_fps(float _max_fps) {
@@ -85,8 +85,6 @@ void oxygarum_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);
   
-  printf("%f fps\n", fps);
-  
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   
@@ -98,13 +96,15 @@ void oxygarum_display(void) {
   
   int i;
   for(i = 0; i < display_object_counter; i++) {
-    glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);
-    
-    glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
-    glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
-    glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);   
-    
-    oxygarum_display_object(display_objects[i].object, display_objects[i].shade_mode);
+    if(display_objects[i].status == OBJECT_VISIBLE) {
+      glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);
+      
+      glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
+      glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
+      glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);   
+      
+      oxygarum_display_object(display_objects[i].object, display_objects[i].shade_mode);
+    }
   }
   
   glFlush();
@@ -123,12 +123,17 @@ int oxygarum_add_object(object_t *object, float x, float y, float  z) {
   display_objects[display_object_counter].pos.y = y;
   display_objects[display_object_counter].pos.z = z;
   display_objects[display_object_counter].shade_mode = SHADE_FLAT;
+  display_objects[display_object_counter].status = OBJECT_VISIBLE;
   
   return display_object_counter++;
 }
 
 void oxygarum_set_shade_mode(int id, int mode) {
   display_objects[id].shade_mode = mode;
+}
+
+void oxygarum_set_object_status(int id, int status) {
+  display_objects[id].status = status;
 }
 
 void oxygarum_translate_object_to(int id, float new_x, float new_y, float new_z) {
