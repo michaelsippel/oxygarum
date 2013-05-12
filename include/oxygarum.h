@@ -29,6 +29,10 @@
 #include "texture.h"
 #include "keyboard.h"
 
+#ifdef __WIN32__
+void usleep(int usec);
+#endif
+
 void init_oxygarum(int argc, char **argv);
 object_t *oxygarum_load_oxy3d_file(const char *path);
 float oxygarum_get_fps(void);

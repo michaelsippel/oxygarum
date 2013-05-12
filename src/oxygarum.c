@@ -21,6 +21,13 @@
 
 #include "oxygarum.h"
 
+#ifdef __WIN32__
+#include <windows.h>
+void usleep(int usec) {
+  Sleep(usec * 1000);
+}
+#endif
+
 void init_oxygarum(int argc, char **argv) {
   oxygarum_init_opengl(argc, argv);
 }
