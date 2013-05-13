@@ -34,7 +34,7 @@ float sens = 0.1;
 #define DIRECTION_FORWARD 0
 #define DIRECTION_BACK 1
 
-float ball_x = 0, ball_y = -4;
+float ball_x = 0, ball_y = -1;
 int direction_x = DIRECTION_LEFT;
 int direction_y = DIRECTION_BACK;
 
@@ -55,7 +55,7 @@ void anim(void) {
   if(game_over) {
     return;
   }
-  float anim_sens = oxygarum_get_frametime();
+  float anim_sens = oxygarum_get_frametime()*0.005;
   
   player1_x = (player1_loc-0.5)*3;
   oxygarum_translate_object_to(player1_id, player1_x, 0, 0);
