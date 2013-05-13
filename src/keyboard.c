@@ -23,7 +23,7 @@
 static void (*kbd_events[256]) (void);
 
 void oxygarum_handle_keyboard_event(unsigned char key, int x, int y) {
-  //usleep(100);
+  usleep(100);
   
   if(kbd_events[key] != NULL) {
     kbd_events[key]();

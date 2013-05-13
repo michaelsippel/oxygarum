@@ -24,7 +24,7 @@
 #ifdef __WIN32__
 #include <windows.h>
 void usleep(int usec) {
-  Sleep(usec * 1000);
+  Sleep(usec/1000);
 }
 #endif
 

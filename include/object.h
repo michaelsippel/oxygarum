@@ -51,7 +51,7 @@ void oxygarum_set_shade_mode(int id, int mode);
 void oxygarum_set_object_status(int id, int status);
 
 /// move and rotate objects
-void oxygarum_move_object_to(int id, float new_x, float new_y, float new_z);
+void oxygarum_translate_object_to(int id, float new_x, float new_y, float new_z);
 void oxygarum_rotate_object_to(int id, float new_x, float new_y, float new_z);
 void oxygarum_translate_object(int id, float x_off, float y_off, float z_off);
 void oxygarum_rotate_object(int id, float x_off, float y_off, float z_off);

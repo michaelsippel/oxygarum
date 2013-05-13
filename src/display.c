@@ -104,6 +104,7 @@ void oxygarum_display(void) {
       glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);   
       
       oxygarum_display_object(display_objects[i].object, display_objects[i].shade_mode);
+      glTranslatef(-display_objects[i].pos.x, -display_objects[i].pos.y, -display_objects[i].pos.z);
     }
   }
   
@@ -122,6 +123,9 @@ int oxygarum_add_object(object_t *object, float x, float y, float  z) {
   display_objects[display_object_counter].pos.x = x;
   display_objects[display_object_counter].pos.y = y;
   display_objects[display_object_counter].pos.z = z;
+  display_objects[display_object_counter].rot.x = 0;
+  display_objects[display_object_counter].rot.y = 0;
+  display_objects[display_object_counter].rot.z = 0;
   display_objects[display_object_counter].shade_mode = SHADE_FLAT;
   display_objects[display_object_counter].status = OBJECT_VISIBLE;
   
