@@ -30,7 +30,7 @@ void change_shade(void) {
 }
 
 void anim(void) {
-  float anim_sens = oxygarum_get_frametime()*100;
+  float anim_sens = oxygarum_get_frametime()*0.1;
   oxygarum_rotate_object(id, 0, anim_sens, 0);
 }
 
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
   
   load_screen = oxygarum_load_oxy3d_file("../load_screen.oxy3d");
   load_screen_id = oxygarum_add_object(load_screen, 0, 0, -0.4);
-  oxygarum_set_max_fps(50);
+  oxygarum_set_max_fps(60);
   
   glutMainLoop();
   

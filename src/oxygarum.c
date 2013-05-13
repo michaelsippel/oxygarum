@@ -23,8 +23,15 @@
 
 #ifdef __WIN32__
 #include <windows.h>
-void usleep(int usec) {
-  Sleep(usec/1000);
+void usleep(unsigned int usec) {
+  HANDLE timer = NULL;
+  LARGE_INTEGER sleepTime;
+  sleepTime.QuadPart = usec * 10000;
+  
+  timer = CreateWaitableTimer (NULL, TRUE, NULL);
+  SetWaitableTimer(timer, &sleepTime, 0, NULL, NULL, 0);
+  WaitForSingleObject(timer, INFINITE);
+  CloseHandle(timer);
 }
 #endif
 

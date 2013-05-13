@@ -30,7 +30,7 @@
 #include "keyboard.h"
 
 #ifdef __WIN32__
-void usleep(int usec);
+void usleep(unsigned int usec);
 #endif
 
 void init_oxygarum(int argc, char **argv);

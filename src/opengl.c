@@ -41,7 +41,8 @@ void oxygarum_init_glut(int argc, char **argv) {
   window = glutCreateWindow(title);
   //glutSetCursor(GLUT_CURSOR_NONE);
   glutDisplayFunc(&oxygarum_display);
-  glutIdleFunc   (&oxygarum_ilde);
+  glutIdleFunc   (&oxygarum_idle);
+  glutTimerFunc  (25, &oxygarum_timer, 0);
   glutReshapeFunc(&oxygarum_reshape);
   glutKeyboardFunc(&oxygarum_handle_keyboard_event);
   if(flags & OXYGARUM_FULLSCREEN) glutFullScreen();

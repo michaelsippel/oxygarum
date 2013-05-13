@@ -27,7 +27,10 @@
 #define SHADE_SMOOTH 1
 
 void oxygarum_animation_func(void (*handler)(void));
+void oxygarum_update(void);
 void oxygarum_ilde(void);
+void oxygarum_timer(int value);
+void oxygarum_idle(void);
 void oxygarum_display(void);
 
 void oxygarum_init_glut(int argc, char **argv);

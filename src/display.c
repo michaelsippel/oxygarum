@@ -33,6 +33,7 @@ display_obj_t *display_objects;
 static int frame_counter = 0;
 static int time_cur = 0, time_prev = 0, time_diff = 0;
 static float fps = 0;
+static float frame_time = 0;
 static float max_fps = 0;
 
 void oxygarum_calc_fps() {
@@ -40,7 +41,7 @@ void oxygarum_calc_fps() {
   time_cur = glutGet(GLUT_ELAPSED_TIME);
   
   time_diff = time_cur - time_prev;
-  
+  frame_time = time_diff / frame_counter;
   if(time_diff > 1000) {
     fps = frame_counter / (time_diff / 1000.0f);
     time_prev = time_cur;
@@ -57,28 +58,36 @@ float oxygarum_get_fps(void) {
 }
 
 float oxygarum_get_frametime(void) {
-  return (float) (1 / fps);
+  return frame_time;
 }
 
 void oxygarum_set_max_fps(float _max_fps) {
   max_fps = _max_fps;
 }
 
-void oxygarum_ilde(void) {
+void oxygarum_update(void) {
   oxygarum_calc_fps();
   
   // Animate
   if(oxygarum_animate)
-    oxygarum_animate();  
-  
-  if(max_fps != 0) {
-    float min_time =   (1/max_fps) * 1000000;
-    float frame_time = oxygarum_get_frametime();
-    float wait_time = min_time - frame_time;
-    usleep(wait_time);
-  }
+    oxygarum_animate();
   
   glutPostRedisplay();
+}
+
+void oxygarum_timer(int value) {
+  oxygarum_update();
+  if(max_fps > 0) {
+    float min_time = 1000000/max_fps;
+    float wait_time = min_time - frame_time;
+    glutTimerFunc(wait_time/1000, &oxygarum_timer, 0);
+  }
+}
+
+void oxygarum_idle(void) {
+  if(! (max_fps > 0)) {
+    oxygarum_update();
+  }
 }
 
 void oxygarum_display(void) {
