@@ -28,6 +28,7 @@ static vertex_t rot = {.x = 0, .y = 0, .z = 0};
 void (*oxygarum_animate)(void);
 
 unsigned int display_object_counter = 0;
+unsigned int display_text_counter = 0;
 display_obj_t *display_objects;
 
 static int frame_counter = 0;
@@ -36,7 +37,7 @@ static float fps = 0;
 static float frame_time = 0;
 static float max_fps = 0;
 
-void oxygarum_calc_fps() {
+void oxygarum_calc_fps(void) {
   frame_counter++;
   time_cur = glutGet(GLUT_ELAPSED_TIME);
   
@@ -103,7 +104,7 @@ void oxygarum_display(void) {
   
   glTranslatef(loc.x, loc.y, loc.z);  
   
-  int i;
+  int i; 
   for(i = 0; i < display_object_counter; i++) {
     if(display_objects[i].status == OBJECT_VISIBLE) {
       glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);

@@ -23,10 +23,11 @@
 #include "opengl.h"
 #include "keyboard.h"
 
-int window;
-int width, height;
-static unsigned int flags;
-const char *title;
+static int window;
+static int width, height;
+static int view_x, view_y;
+static float fov = 45.0f;
+static const char *title;
 
 GLfloat light_ambient[]=  { 0.5f, 0.5f, 0.5f, 1.0f };
 GLfloat light_diffuse[]=  { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -39,13 +40,11 @@ void oxygarum_init_glut(int argc, char **argv) {
   glutInitWindowSize(width, height);
   glutInitWindowPosition(0, 0);
   window = glutCreateWindow(title);
-  //glutSetCursor(GLUT_CURSOR_NONE);
   glutDisplayFunc(&oxygarum_display);
   glutIdleFunc   (&oxygarum_idle);
   glutTimerFunc  (25, &oxygarum_timer, 0);
   glutReshapeFunc(&oxygarum_reshape);
   glutKeyboardFunc(&oxygarum_handle_keyboard_event);
-  if(flags & OXYGARUM_FULLSCREEN) glutFullScreen();
 }
 
 void oxygarum_init_opengl(int argc, char **argv) {  
@@ -56,10 +55,10 @@ void oxygarum_init_opengl(int argc, char **argv) {
   glDepthFunc(GL_LESS);
   glEnable(GL_DEPTH_TEST);
   glShadeModel(GL_SMOOTH);
-  glViewport(0, 0, width, height);
+  glViewport(view_x, view_y, width, height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(45.0f, (GLfloat)width/(GLfloat)height, 0.1f, 100.0f);
+  gluPerspective(fov, (GLfloat)width/(GLfloat)height, 0.1f, 100.0f);
   glMatrixMode(GL_MODELVIEW);  
   glEnable(GL_TEXTURE_2D);
 }
@@ -79,11 +78,11 @@ void oxygarum_reshape(int _width, int _height) {
   height = _height;
   
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glViewport(0, 0, width, height);
+  glViewport(view_x, view_y, width, height);
   
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(45.0f, (GLfloat)width/(GLfloat)height, 1.0f, 1000.0f);
+  gluPerspective(fov, (GLfloat)width/(GLfloat)height, 1.0f, 1000.0f);
   
   glutPostRedisplay();
 }
@@ -93,15 +92,16 @@ void oxygarum_set_resolution(int _width, int _height) {
   height = _height;
 }
 
+void oxygarum_set_viewport(int _x, int _y) {
+  view_x = _x;
+  view_y = _y;
+}
+
 void oxygarum_set_title(const char *_title) {
   title = _title;
 }
 
-void oxygarum_set_flag(int mask, int value) {
-  if(value) {
-    flags |= mask;
-  } else {
-    flags &= ~mask;
-  }
+void oxygarum_set_fov(float _fov) {
+  fov = _fov;
 }
 

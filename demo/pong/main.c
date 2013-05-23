@@ -118,7 +118,6 @@ void wait_for_begin(void) {
 int main(int argc, char **argv) {
   oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
-  oxygarum_set_flag(OXYGARUM_FULLSCREEN, 0);
   oxygarum_animation_func(&wait_for_begin);
   
   oxygarum_set_keyboard_event('a', &player1_up);

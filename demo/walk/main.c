@@ -52,8 +52,8 @@ void anim(void) {
 
 int main(int argc, char **argv) {
   oxygarum_set_resolution(800, 600);
+  oxygarum_set_fov(45);
   oxygarum_set_title("Oxygarum test");
-  oxygarum_set_flag(OXYGARUM_FULLSCREEN, 0);
   
   oxygarum_animation_func(&anim);
   oxygarum_set_keyboard_event('w', &forwards);
@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
   suzanne_id = oxygarum_add_object(suzanne, 0, 0, 0);
   oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
   oxygarum_set_max_fps(60);  
-
+  
   glutMainLoop();
   
   return 0;

@@ -39,7 +39,9 @@ void oxygarum_reshape(int _width, int _height);
 
 void oxygarum_set_light(GLenum light, GLfloat *ambient, GLfloat *diffuse, GLfloat *specular, GLfloat *position);
 void oxygarum_set_resolution(int _width, int _height);
+void oxygarum_set_viewport(int _x, int _y);
 void oxygarum_set_title(const char *_title);
-void oxygarum_set_flag(int mask, int value);
+void oxygarum_set_fov(float _fov);
 
 #endif
+
