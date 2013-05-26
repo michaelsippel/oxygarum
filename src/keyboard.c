@@ -21,6 +21,7 @@
 #include "keyboard.h"
 
 static void (*kbd_events[256]) (void);
+static void (*kbd_events_up[256]) (void);
 
 void oxygarum_handle_keyboard_event(unsigned char key, int x, int y) {
   usleep(100);
@@ -30,8 +31,20 @@ void oxygarum_handle_keyboard_event(unsigned char key, int x, int y) {
   }
 }
 
+void oxygarum_handle_keyboard_event_up(unsigned char key, int x, int y) {
+  usleep(100);
+  
+  if(kbd_events_up[key] != NULL) {
+    kbd_events_up[key]();
+  }
+}
+
 void oxygarum_set_keyboard_event(unsigned char key, void (*handler)(void)) {
   kbd_events[key] = handler;
+}
+
+void oxygarum_set_keyboard_event_up(unsigned char key, void (*handler)(void)) {
+  kbd_events_up[key] = handler;
 }
 
 void oxygarum_set_mouse_func(int type, void *handler) {

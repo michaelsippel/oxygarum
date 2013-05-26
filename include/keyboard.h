@@ -24,7 +24,9 @@
 #define MOUSE_CLICK          0x2
 
 void oxygarum_handle_keyboard_event(unsigned char key, int x, int y);
+void oxygarum_handle_keyboard_event_up(unsigned char key, int x, int y);
 void oxygarum_set_keyborad_event(unsigned char key, void (*handler)(void));
+void oxygarum_set_keyboard_event_up(unsigned char key, void (*handler)(void));
 void oxygarum_set_mouse_func(int type, void *handler);
 
 #endif

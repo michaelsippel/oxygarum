@@ -27,7 +27,6 @@ int load_screen_id;
 float player1_loc = 0.5;
 float player1_x = 0;
 float player2_loc = 0.5;
-float sens = 0.15;
 
 #define DIRECTION_LEFT 0
 #define DIRECTION_RIGHT 1
@@ -38,16 +37,18 @@ float ball_x = 0, ball_y = -1;
 int direction_x = DIRECTION_LEFT;
 int direction_y = DIRECTION_BACK;
 
+int dir = 0;
+
 void player1_up(void) {
-  if(player1_loc > 0) {
-    player1_loc -= sens;
-  }
+  dir = -1;
 }
 
 void player1_down(void) {
-  if(player1_loc < 1) {
-    player1_loc += sens;
-  }
+  dir = 1;
+}
+
+void up(void) {
+  dir = 0;
 }
 
 void anim(void) {
@@ -56,7 +57,9 @@ void anim(void) {
     return;
   }
   float anim_sens = oxygarum_get_frametime()*0.005;
-  
+
+  player1_loc += dir * anim_sens * 0.5;
+
   player1_x = (player1_loc-0.5)*3;
   oxygarum_translate_object_to(player1_id, player1_x, 0, 0);
   
@@ -121,7 +124,9 @@ int main(int argc, char **argv) {
   oxygarum_animation_func(&wait_for_begin);
   
   oxygarum_set_keyboard_event('a', &player1_up);
-  oxygarum_set_keyboard_event('d', &player1_down);  
+  oxygarum_set_keyboard_event('d', &player1_down);
+  oxygarum_set_keyboard_event_up('a', &up);
+  oxygarum_set_keyboard_event_up('d', &up);  
   
   init_oxygarum(argc, argv);
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);  

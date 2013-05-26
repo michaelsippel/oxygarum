@@ -44,7 +44,9 @@ void oxygarum_init_glut(int argc, char **argv) {
   glutIdleFunc   (&oxygarum_idle);
   glutTimerFunc  (25, &oxygarum_timer, 0);
   glutReshapeFunc(&oxygarum_reshape);
+  glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
   glutKeyboardFunc(&oxygarum_handle_keyboard_event);
+  glutKeyboardUpFunc(&oxygarum_handle_keyboard_event_up);
 }
 
 void oxygarum_init_opengl(int argc, char **argv) {  

@@ -24,30 +24,46 @@ int world_id, suzanne_id;
 vertex_t rot = {0,0,0};
 vertex_t loc = {0,0,-2};
 
+int dir = 0;
+float speed = 0;
+
 void left(void) {
-  rot.y -= 1;
-  oxygarum_rotate_camera_to(rot.x, rot.y, rot.z);
+  dir = -1;
 }
 
 void right(void) {
-  rot.y += 1;
-  oxygarum_rotate_camera_to(rot.x, rot.y, rot.z);
+  dir = 1;
+
 }
 
 void forwards(void) {
-  loc.z += cos(rot.y*piover180) * SPEED;
-  loc.x -= sin(rot.y*piover180) * SPEED;
-  oxygarum_translate_camera_to(loc.x, loc.y, loc.z);
+  speed = SPEED;
 }
 
 void back(void) {
-  loc.z -= cos(rot.y*piover180) * SPEED;
-  loc.x += sin(rot.y*piover180) * SPEED;
-  oxygarum_translate_camera_to(loc.x, loc.y, loc.z);
+  speed = - SPEED;
+}
+
+void speed_up(void) {
+  speed = 0;
+}
+
+void dir_up(void) {
+  dir = 0;
 }
 
 void anim(void) {
-  oxygarum_rotate_object(suzanne_id, 0,1, 0);
+  float anim_sens = oxygarum_get_frametime()*0.1;
+
+  rot.y += anim_sens * dir;
+  
+  loc.z += cos(rot.y*piover180) * speed;
+  loc.x -= sin(rot.y*piover180) * speed;
+  
+  oxygarum_rotate_object(suzanne_id, 0, anim_sens, 0);
+  
+  oxygarum_rotate_camera_to(rot.x, rot.y, rot.z);
+  oxygarum_translate_camera_to(loc.x, loc.y, loc.z);
 }
 
 int main(int argc, char **argv) {
@@ -60,6 +76,10 @@ int main(int argc, char **argv) {
   oxygarum_set_keyboard_event('a', &left);
   oxygarum_set_keyboard_event('s', &back);
   oxygarum_set_keyboard_event('d', &right);
+  oxygarum_set_keyboard_event_up('w', &speed_up);
+  oxygarum_set_keyboard_event_up('a', &dir_up);
+  oxygarum_set_keyboard_event_up('s', &speed_up);
+  oxygarum_set_keyboard_event_up('d', &dir_up);  
   
   oxygarum_translate_camera_to(loc.x, loc.y, loc.z);
   oxygarum_rotate_camera_to(rot.x, rot.y, rot.z);
