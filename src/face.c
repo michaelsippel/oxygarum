@@ -42,7 +42,7 @@ void oxygarum_display_face(object_t *object, face_t *face, int shade_mode) {
   glColor4f(face->material->color.color[0], 
 	    face->material->color.color[1],
 	    face->material->color.color[2],
-	    0.5);
+	    face->material->color.color[3]);
   glBindTexture(GL_TEXTURE_2D, face->material->texture->id);
   glMaterialfv(GL_FRONT, GL_AMBIENT, face->material->ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, face->material->diffuse);

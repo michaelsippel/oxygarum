@@ -59,7 +59,7 @@ void oxygarum_init_opengl(int argc, char **argv) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(fov, (GLfloat)width/(GLfloat)height, 0.1f, 100.0f);
-  glMatrixMode(GL_MODELVIEW);  
+  glMatrixMode(GL_MODELVIEW);
   glEnable(GL_TEXTURE_2D);
 }
 

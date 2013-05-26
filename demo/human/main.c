@@ -29,12 +29,13 @@ void change_shade(void) {
 }
 
 void anim(void) {
-  oxygarum_rotate_object(id, 0, 1, 0);
+  float anim_sens = oxygarum_get_frametime()*0.1;
+  oxygarum_rotate_object(id, 0, anim_sens, 0);
 }
 
 void wait_for_begin(void) {
   if(oxygarum_get_fps() > 0 && human != NULL) {
-    oxygarum_set_object_status(load_screen_id, OBJECT_INVISIBLE);
+    oxygarum_disable_object_status(load_screen_id, OBJECT_VISIBLE);
     oxygarum_animation_func(&anim);
   } else if(human == NULL) {
     human = oxygarum_load_oxy3d_file("human.oxy3d");
@@ -52,6 +53,7 @@ int main(int argc, char **argv) {
   
   init_oxygarum(argc, argv);
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);  
+  glEnable(GL_CULL_FACE);  // Enable backface culling
   
   load_screen = oxygarum_load_oxy3d_file("../load_screen.oxy3d");
   load_screen_id = oxygarum_add_object(load_screen, 0, 0, -0.4);

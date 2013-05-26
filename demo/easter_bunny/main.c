@@ -36,7 +36,7 @@ void anim(void) {
 
 void wait_for_begin(void) {
   if(oxygarum_get_fps() > 0 && bunny != NULL) {
-    oxygarum_set_object_status(load_screen_id, OBJECT_INVISIBLE);
+    oxygarum_disable_object_status(load_screen_id, OBJECT_VISIBLE);
     oxygarum_animation_func(&anim);
   } else if(bunny == NULL) {
     bunny = oxygarum_load_oxy3d_file("bunny.oxy3d");
@@ -54,6 +54,7 @@ int main(int argc, char **argv) {
   
   init_oxygarum(argc, argv);
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);  
+  glEnable(GL_CULL_FACE);  // Enable backface culling  
   
   load_screen = oxygarum_load_oxy3d_file("../load_screen.oxy3d");
   load_screen_id = oxygarum_add_object(load_screen, 0, 0, -0.4);

@@ -28,11 +28,12 @@ typedef struct color_st {
   unsigned char r;
   unsigned char g;
   unsigned char b;
+  unsigned char a;
 } color_st_t;
 
 typedef union color {
   color_st_t rgb;
-  unsigned char color[3];
+  unsigned char color[4];
 } color_t;
 
 typedef struct material {

@@ -102,11 +102,19 @@ void oxygarum_display(void) {
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
   glRotatef(rot.z, 0.0f,0.0f,1.0f);  
   
-  glTranslatef(loc.x, loc.y, loc.z);  
+  glTranslatef(loc.x, loc.y, loc.z);
   
-  int i; 
+  int i;
   for(i = 0; i < display_object_counter; i++) {
-    if(display_objects[i].status == OBJECT_VISIBLE) {
+    if(display_objects[i].status & OBJECT_VISIBLE) {
+      glPushMatrix();
+      
+      if(display_objects[i].status & OBJECT_TRANSPARENT) {
+        glDisable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      }
+      
       glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);
       
       glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
@@ -114,7 +122,8 @@ void oxygarum_display(void) {
       glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);   
       
       oxygarum_display_object(display_objects[i].object, display_objects[i].shade_mode);
-      glTranslatef(-display_objects[i].pos.x, -display_objects[i].pos.y, -display_objects[i].pos.z);
+      
+      glPopMatrix();
     }
   }
   
@@ -146,8 +155,12 @@ void oxygarum_set_shade_mode(int id, int mode) {
   display_objects[id].shade_mode = mode;
 }
 
-void oxygarum_set_object_status(int id, int status) {
-  display_objects[id].status = status;
+void oxygarum_enable_object_status(int id, int status) {
+  display_objects[id].status |= status;
+}
+
+void oxygarum_disable_object_status(int id, int status) {
+  display_objects[id].status &= ~status;
 }
 
 void oxygarum_translate_object_to(int id, float new_x, float new_y, float new_z) {

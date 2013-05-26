@@ -17,10 +17,10 @@ VERTICES 8
 
 UVMAPS 1
 0: SIZE 4
-0 1
+0 2
 0 0
-1 0
-1 1
+2 0
+2 2
 
 FACES 6
 0 : SIZE 4
