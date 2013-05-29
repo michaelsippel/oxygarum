@@ -109,20 +109,30 @@ void oxygarum_display(void) {
     if(display_objects[i].status & OBJECT_VISIBLE) {
       glPushMatrix();
       
-      if(display_objects[i].status & OBJECT_TRANSPARENT) {
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-      }
-      
       glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);
-      
       glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
       glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
       glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);   
       
+      if(display_objects[i].status & OBJECT_TRANSPARENT) {
+        glDisable(GL_CULL_FACE);
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_LIGHTING);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      }
+      
       oxygarum_display_object(display_objects[i].object, display_objects[i].shade_mode);
+      
+      if(display_objects[i].status & OBJECT_TRANSPARENT &&
+         i < display_object_counter)
+      {
+        if(! (display_objects[i+1].status & OBJECT_TRANSPARENT) ) {
+          glDisable(GL_BLEND);
+          glEnable(GL_DEPTH_TEST);
+          glEnable(GL_LIGHTING);
+        }
+      }
       
       glPopMatrix();
     }

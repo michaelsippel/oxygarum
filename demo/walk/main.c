@@ -94,7 +94,9 @@ int main(int argc, char **argv) {
   world_id = oxygarum_add_object(world, 0, 0, 0);
   suzanne_id = oxygarum_add_object(suzanne, 0, 0, 0);
   oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
-  oxygarum_set_max_fps(60);  
+  oxygarum_enable_object_status(suzanne_id, OBJECT_TRANSPARENT);
+  
+  oxygarum_set_max_fps(60);
   
   glutMainLoop();
   
