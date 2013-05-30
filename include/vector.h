@@ -21,14 +21,19 @@
 
 #include "vertex.h"
 
-typedef vertex_t vector_t;
+typedef vertex3d_t vector3d_t;
+typedef vertex2d_t vector2d_t;
 typedef unsigned int normal_id;
 
-vector_t *oxygarum_create_vector(vertex_t *o, vertex_t *p);
-vector_t *oxygarum_normalize_vector(vector_t *vector);
+vector3d_t *oxygarum_create_vector3d(vertex3d_t *o, vertex3d_t *p);
+vector3d_t *oxygarum_normalize_vector3d(vector3d_t *vector);
+double oxygarum_vector3d_multiply_scalar(vector3d_t *v1, vector3d_t *v2);
+vector3d_t *oxygarum_vector3d_multiply_cross(vector3d_t *v1, vector3d_t *v2);
 
-double oxygarum_vector_multiply_scalar(vector_t *v1, vector_t *v2);
-vector_t *oxygarum_vector_multiply_cross(vector_t *v1, vector_t *v2);
+vector2d_t *oxygarum_create_vector2d(vertex2d_t *o, vertex2d_t *p);
+vector2d_t *oxygarum_normalize_vector2d(vector2d_t *vector);
+double oxygarum_vector2d_multiply_scalar(vector2d_t *v1, vector2d_t *v2);
+vector2d_t *oxygarum_vector2d_multiply_cross(vector2d_t *v1, vector2d_t *v2);
 
 #endif
 

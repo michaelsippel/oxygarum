@@ -1,7 +1,7 @@
 /**
  *  include/object.h
  *
- *  (C) Copyright 2012 Michael Sippel
+ *  (C) Copyright 2012-2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,40 +22,65 @@
 #include "vertex.h"
 #include "face.h"
 
-#define OBJECT_VISIBLE   0x1
+#define OBJECT_VISIBLE     0x1
 #define OBJECT_TRANSPARENT 0x2
 
-typedef struct object {
+typedef struct object3d {
   face_id face_counter;
   vertex_id vertex_counter;
   face_t **faces;
-  vertex_t **vertices;
-  vector_t **normals;
-} object_t;
+  vertex3d_t **vertices;
+  vector3d_t **normals;
+} object3d_t;
 
-typedef struct display_obj {
-  object_t *object;
-  vertex_t pos;
-  vertex_t rot;
+typedef struct object2d {
+  face_id face_counter;
+  vertex_id vertex_counter;
+  face_t **faces;
+  vertex2d_t **vertices;
+} object2d_t;
+
+typedef struct display_obj3d {
+  object3d_t *object;
+  vertex3d_t pos;
+  vertex3d_t rot;
   int shade_mode;
   int status;
-} display_obj_t;
+} display_obj3d_t;
+
+typedef struct display_obj2d {
+  object2d_t *object;
+  vertex2d_t pos;
+  vertex2d_t rot;
+  int status;
+} display_obj2d_t;
 
 /// allocates memory and adds faces to the object
-object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, face_id num_faces, face_t **faces);
-void oxygarum_calc_normals(object_t *object);
+object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertices, face_id num_faces, face_t **faces);
+object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertices, face_id num_faces, face_t **faces);
+void oxygarum_calc_normals(object3d_t *object);
 /// draw the object to the OpenGL scene
-void oxygarum_display_object(object_t *object, int shade_mode);
-int oxygarum_add_object(object_t *object, float x, float y, float  z);
+void oxygarum_display_object3d(object3d_t *object, int shade_mode);
+int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z);
 void oxygarum_set_shade_mode(int id, int mode);
-void oxygarum_enable_object_status(int id, int status);
-void oxygarum_disable_object_status(int id, int status);
+void oxygarum_enable_object3d_status(int id, int status);
+void oxygarum_disable_object3d_status(int id, int status);
+
+void oxygarum_display_object2d(object2d_t *object);
+int oxygarum_add_object2d(object2d_t *object, float x, float y);
+void oxygarum_enable_object2d_status(int id, int status);
+void oxygarum_disable_object2d_status(int id, int status);
 
 /// move and rotate objects
-void oxygarum_translate_object_to(int id, float new_x, float new_y, float new_z);
-void oxygarum_rotate_object_to(int id, float new_x, float new_y, float new_z);
-void oxygarum_translate_object(int id, float x_off, float y_off, float z_off);
-void oxygarum_rotate_object(int id, float x_off, float y_off, float z_off);
+void oxygarum_translate_object3d_to(int id, float new_x, float new_y, float new_z);
+void oxygarum_rotate_object3d_to(int id, float new_x, float new_y, float new_z);
+void oxygarum_translate_object3d(int id, float x_off, float y_off, float z_off);
+void oxygarum_rotate_object3d(int id, float x_off, float y_off, float z_off);
+
+void oxygarum_translate_object2d_to(int id, float new_x, float new_y);
+void oxygarum_rotate_object2d_to(int id, float new_x, float new_y);
+void oxygarum_translate_object2d(int id, float x_off, float y_off);
+void oxygarum_rotate_object2d(int id, float x_off, float y_off);
 
 /// move and rotate the camera
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z);

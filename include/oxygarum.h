@@ -34,7 +34,7 @@ void usleep(unsigned int usec);
 #endif
 
 void init_oxygarum(int argc, char **argv);
-object_t *oxygarum_load_oxy3d_file(const char *path);
+object3d_t *oxygarum_load_oxy3d_file(const char *path);
 float oxygarum_get_fps(void);
 void oxygarum_set_max_fps(float max_fps);
 float oxygarum_get_frametime(void);

@@ -36,7 +36,7 @@ face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *
   return face;
 }
 
-void oxygarum_display_face(object_t *object, face_t *face, int shade_mode) {
+void oxygarum_display_face3d(object3d_t *object, face_t *face, int shade_mode) {
   int i;
   
   glColor4f(face->material->color.color[0], 
@@ -69,6 +69,34 @@ void oxygarum_display_face(object_t *object, face_t *face, int shade_mode) {
  	object->vertices[id]->x,
  	object->vertices[id]->y,
  	object->vertices[id]->z
+    );
+  }
+  glEnd();
+}
+
+void oxygarum_display_face2d(object2d_t *object, face_t *face) {
+  int i;
+  
+  glColor4f(face->material->color.color[0], 
+	    face->material->color.color[1],
+	    face->material->color.color[2],
+	    face->material->color.color[3]);
+  glBindTexture(GL_TEXTURE_2D, face->material->texture->id);
+  
+  if(face->vertex_counter == 3)
+    glBegin(GL_TRIANGLES);
+  else if(face->vertex_counter == 4)
+    glBegin(GL_QUADS);
+  else
+    glBegin(GL_POLYGON);
+  
+  for(i = 0; i < face->vertex_counter; i++) {
+    vertex_id id = face->vertices[i];
+    
+    glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
+    glVertex2f(
+ 	object->vertices[id]->x,
+ 	object->vertices[id]->y
     );
   }
   glEnd();

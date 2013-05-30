@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
   printf("%d normals\n", num_normals);
   printf("%d faces\n", num_faces);
   
-  vertex_t *vertices = (vertex_t*) calloc(num_vertices, sizeof(vertex_t));
+  vertex3d_t *vertices = (vertex3d_t*) calloc(num_vertices, sizeof(vertex3d_t));
   uv_t *texcoords = (uv_t*) calloc(num_texcoords, sizeof(uv_t));
   int **uv_maps = (int**) calloc(num_faces, sizeof(int*));
   int *size = (int*) calloc(num_faces, sizeof(int));

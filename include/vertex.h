@@ -19,11 +19,17 @@
 #ifndef _VERTEX_H
 #define _VERTEX_H
 
-typedef struct vertex {
+typedef struct vertex3d {
   float x;
   float y;
   float z;
-} vertex_t;
+} vertex3d_t;
+
+typedef struct vertex2d {
+  float x;
+  float y;
+  float z;
+} vertex2d_t;
 
 typedef unsigned int vertex_id;
 

@@ -24,19 +24,19 @@
 
 #define DEBUG 0
 
-object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, face_id num_faces, face_t **faces) {
-  object_t *object = malloc(sizeof(object_t));
+object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertices, face_id num_faces, face_t **faces) {
+  object3d_t *object = malloc(sizeof(object3d_t));
   
   object->face_counter = num_faces;
   object->vertex_counter = num_vertices;
   object->faces = faces;
   object->vertices = vertices;
   
-  object->normals = calloc(num_vertices, sizeof(vector_t*));  
+  object->normals = calloc(num_vertices, sizeof(vector3d_t*));  
   
   int i;
   for( i = 0; i < num_vertices; i++) {
-    object->normals[i] = malloc(sizeof(vector_t));
+    object->normals[i] = malloc(sizeof(vector3d_t));
   }
   
 #if DEBUG == 1
@@ -47,7 +47,7 @@ object_t *oxygarum_create_object(vertex_id num_vertices, vertex_t **vertices, fa
   return object;
 }
 
-void oxygarum_calc_normals(object_t *object) {
+void oxygarum_calc_normals(object3d_t *object) {
   int i, j;
   face_t *face;
   
@@ -56,11 +56,11 @@ void oxygarum_calc_normals(object_t *object) {
   for(i = 0; i < object->face_counter; i++) {
     face = object->faces[i];    
     
-    vector_t *edge1 = oxygarum_create_vector(object->vertices[face->vertices[0]], object->vertices[face->vertices[1]]);
-    vector_t *edge2 = oxygarum_create_vector(object->vertices[face->vertices[1]], object->vertices[face->vertices[2]]);
+    vector3d_t *edge1 = oxygarum_create_vector3d(object->vertices[face->vertices[0]], object->vertices[face->vertices[1]]);
+    vector3d_t *edge2 = oxygarum_create_vector3d(object->vertices[face->vertices[1]], object->vertices[face->vertices[2]]);
     
-    vector_t *normal = oxygarum_vector_multiply_cross(edge1, edge2);
-    oxygarum_normalize_vector(normal);
+    vector3d_t *normal = oxygarum_vector3d_multiply_cross(edge1, edge2);
+    oxygarum_normalize_vector3d(normal);
     
     free(edge1);
     free(edge2);
@@ -95,10 +95,17 @@ void oxygarum_calc_normals(object_t *object) {
   free(common_face_count);
 }
 
-void oxygarum_display_object(object_t *object, int shade_mode) {
+void oxygarum_display_object3d(object3d_t *object, int shade_mode) {
   int i;
   for(i = 0; i < object->face_counter; i++) {
-    oxygarum_display_face(object, object->faces[i], shade_mode);
+    oxygarum_display_face3d(object, object->faces[i], shade_mode);
+  }
+}
+
+void oxygarum_display_object2d(object2d_t *object) {
+  int i;
+  for(i = 0; i < object->face_counter; i++) {
+    oxygarum_display_face2d(object, object->faces[i]);
   }
 }
 

@@ -22,17 +22,17 @@
 
 #include "vector.h"
 
-vector_t *oxygarum_create_vector(vertex_t *o, vertex_t *p) {
-  vector_t *vector = malloc(sizeof(vector_t));
+vector3d_t *oxygarum_create_vector3d(vertex3d_t *o, vertex3d_t *p) {
+  vector3d_t *vector = malloc(sizeof(vector3d_t));
   
   vector->x = o->x - p->x;
   vector->y = o->y - p->y;
   vector->z = o->z - p->z;
   
-  return oxygarum_normalize_vector(vector);
+  return oxygarum_normalize_vector3d(vector);
 }
 
-vector_t *oxygarum_normalize_vector(vector_t *vector) {
+vector3d_t *oxygarum_normalize_vector3d(vector3d_t *vector) {
   double len = sqrt(
     vector->x * vector->x + 
     vector->y * vector->y + 
@@ -46,14 +46,14 @@ vector_t *oxygarum_normalize_vector(vector_t *vector) {
   return vector;
 }
 
-double oxygarum_vector_multiply_scalar(vector_t *v1, vector_t *v2) {
+double oxygarum_vector3d_multiply_scalar(vector3d_t *v1, vector3d_t *v2) {
   return (v1->x * v2->x + 
           v1->y * v2->y + 
           v1->z * v2->z);
 }
 
-vector_t *oxygarum_vector_multiply_cross(vector_t *v1, vector_t *v2) {
-  vector_t *vector = malloc(sizeof(vector_t));
+vector3d_t *oxygarum_vector3d_multiply_cross(vector3d_t *v1, vector3d_t *v2) {
+  vector3d_t *vector = malloc(sizeof(vector3d_t));
   
   vector->x = (v1->y * v2->z) - (v1->z * v2->y);
   vector->y = (v1->z * v2->x) - (v1->x * v2->z);

@@ -35,7 +35,7 @@ void readstr(FILE *f, char *string) {
     return;
 }
 
-object_t *oxygarum_load_oxy3d_file(const char *path) {
+object3d_t *oxygarum_load_oxy3d_file(const char *path) {
   FILE *f = fopen(path, "rt");
   if(!f) {
     printf("Fehler beim öffnen!\n");
@@ -99,13 +99,13 @@ object_t *oxygarum_load_oxy3d_file(const char *path) {
   
   readstr(f, line);
   sscanf(line, "VERTICES %d\n", &num_vertices);
-  vertex_t **vertices = calloc(num_vertices, sizeof(vertex_t*));
+  vertex3d_t **vertices = calloc(num_vertices, sizeof(vertex3d_t*));
 #if DEBUG == 1
   printf("%d vertices\n", num_vertices);
 #endif
   for(i = 0; i < num_vertices; i++) {
     int id;
-    vertex_t *vertex = malloc(sizeof(vertex_t));
+    vertex3d_t *vertex = malloc(sizeof(vertex3d_t));
     
     readstr(f, line);
     sscanf(line, "%d : %f %f %f\n", &id, &vertex->x, &vertex->y, &vertex->z);
@@ -170,7 +170,7 @@ object_t *oxygarum_load_oxy3d_file(const char *path) {
     faces[id] = oxygarum_create_face(size, va, materials[mat_id], uvmaps[uv_id]);
   }
   
-  object_t *obj = oxygarum_create_object(num_vertices, vertices, num_faces, faces);
+  object3d_t *obj = oxygarum_create_object3d(num_vertices, vertices, num_faces, faces);
   fclose(f);
   
   return obj;

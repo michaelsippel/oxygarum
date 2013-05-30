@@ -26,7 +26,7 @@
 typedef struct face {
   vertex_id vertex_counter;
   vertex_id *vertices;
-  vector_t face_normal;
+  vector3d_t face_normal;
   uv_t *uv_map;
   material_t *material;
 } face_t;
@@ -39,7 +39,7 @@ typedef unsigned int face_id;
 /// allocates memory and adds vertices to the face
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map);
 /// Draw the face to the OpenGL scene
-void oxygarum_display_face(object_t *object, face_t *face, int shade_mode);
+void oxygarum_display_face3d(object3d_t *object, face_t *face, int shade_mode);
 
 #endif
 #endif

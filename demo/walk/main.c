@@ -21,8 +21,8 @@ GLfloat position[]= { 1.0f, 0.5f, -0.1f, 1.0f };
 #define SPEED 0.2
 
 int world_id, suzanne_id;
-vertex_t rot = {0,0,0};
-vertex_t loc = {0,0,-2};
+vertex3d_t rot = {0,0,0};
+vertex3d_t loc = {0,0,-2};
 
 int dir = 0;
 float speed = 0;
@@ -33,7 +33,6 @@ void left(void) {
 
 void right(void) {
   dir = 1;
-
 }
 
 void forwards(void) {
@@ -60,7 +59,7 @@ void anim(void) {
   loc.z += cos(rot.y*piover180) * speed;
   loc.x -= sin(rot.y*piover180) * speed;
   
-  oxygarum_rotate_object(suzanne_id, 0, anim_sens, 0);
+  oxygarum_rotate_object3d(suzanne_id, 0, anim_sens, 0);
   
   oxygarum_rotate_camera_to(rot.x, rot.y, rot.z);
   oxygarum_translate_camera_to(loc.x, loc.y, loc.z);
@@ -89,12 +88,12 @@ int main(int argc, char **argv) {
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);
   glEnable(GL_CULL_FACE);  // Enable backface culling
   
-  object_t *world = oxygarum_load_oxy3d_file("world.oxy3d");
-  object_t *suzanne = oxygarum_load_oxy3d_file("suzanne.oxy3d");
-  world_id = oxygarum_add_object(world, 0, 0, 0);
-  suzanne_id = oxygarum_add_object(suzanne, 0, 0, 0);
+  object3d_t *world = oxygarum_load_oxy3d_file("world.oxy3d");
+  object3d_t *suzanne = oxygarum_load_oxy3d_file("suzanne.oxy3d");
+  world_id = oxygarum_add_object3d(world, 0, 0, 0);
+  suzanne_id = oxygarum_add_object3d(suzanne, 0, 0, 0);
   oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
-  oxygarum_enable_object_status(suzanne_id, OBJECT_TRANSPARENT);
+  oxygarum_enable_object3d_status(suzanne_id, OBJECT_TRANSPARENT);
   
   oxygarum_set_max_fps(60);
   

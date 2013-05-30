@@ -23,13 +23,14 @@
 #include "vertex.h"
 #include "object.h"
 
-static vertex_t loc = {.x = 0, .y = 0, .z = 0};
-static vertex_t rot = {.x = 0, .y = 0, .z = 0};
+static vertex3d_t loc = {.x = 0, .y = 0, .z = 0};
+static vertex3d_t rot = {.x = 0, .y = 0, .z = 0};
 void (*oxygarum_animate)(void);
 
-unsigned int display_object_counter = 0;
-unsigned int display_text_counter = 0;
-display_obj_t *display_objects;
+unsigned int display_object3d_counter = 0;
+unsigned int display_object2d_counter = 0;
+display_obj3d_t *display_objects3d;
+display_obj2d_t *display_objects2d;
 
 static int frame_counter = 0;
 static int time_cur = 0, time_prev = 0, time_diff = 0;
@@ -105,16 +106,18 @@ void oxygarum_display(void) {
   glTranslatef(loc.x, loc.y, loc.z);
   
   int i;
-  for(i = 0; i < display_object_counter; i++) {
-    if(display_objects[i].status & OBJECT_VISIBLE) {
+  for(i = 0; i < display_object3d_counter; i++) {
+    if(display_objects3d[i].status & OBJECT_VISIBLE) {
       glPushMatrix();
       
-      glTranslatef(display_objects[i].pos.x, display_objects[i].pos.y, display_objects[i].pos.z);
-      glRotatef(display_objects[i].rot.x, 1.0f,0.0f,0.0f);
-      glRotatef(display_objects[i].rot.y, 0.0f,1.0f,0.0f);
-      glRotatef(display_objects[i].rot.z, 0.0f,0.0f,1.0f);   
+      glTranslatef(display_objects3d[i].pos.x, display_objects3d[i].pos.y, display_objects3d[i].pos.z);
+      glRotatef(display_objects3d[i].rot.x, 1.0f,0.0f,0.0f);
+      glRotatef(display_objects3d[i].rot.y, 0.0f,1.0f,0.0f);
+      glRotatef(display_objects3d[i].rot.z, 0.0f,0.0f,1.0f);   
       
-      if(display_objects[i].status & OBJECT_TRANSPARENT) {
+      if(display_objects3d[i].status & OBJECT_TRANSPARENT) {
+        glPushAttrib(GL_ENABLE_BIT);
+        
         glDisable(GL_CULL_FACE);
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_LIGHTING);
@@ -122,16 +125,10 @@ void oxygarum_display(void) {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
       }
       
-      oxygarum_display_object(display_objects[i].object, display_objects[i].shade_mode);
+      oxygarum_display_object3d(display_objects3d[i].object, display_objects3d[i].shade_mode);
       
-      if(display_objects[i].status & OBJECT_TRANSPARENT &&
-         i < display_object_counter)
-      {
-        if(! (display_objects[i+1].status & OBJECT_TRANSPARENT) ) {
-          glDisable(GL_BLEND);
-          glEnable(GL_DEPTH_TEST);
-          glEnable(GL_LIGHTING);
-        }
+      if(display_objects3d[i].status & OBJECT_TRANSPARENT) {
+        glPopAttrib();
       }
       
       glPopMatrix();
@@ -142,80 +139,111 @@ void oxygarum_display(void) {
   glutSwapBuffers();
 }
 
-int oxygarum_add_object(object_t *object, float x, float y, float  z) {
-  if(display_object_counter > 0) {
-    display_objects = realloc(display_objects, (display_object_counter+1) * sizeof(display_obj_t));
+int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z) {
+  if(display_object3d_counter > 0) {
+    display_objects3d = realloc(display_objects3d, (display_object3d_counter+1) * sizeof(display_obj3d_t));
   } else {
-    display_objects = malloc(sizeof(display_obj_t));
+    display_objects3d = malloc(sizeof(display_obj3d_t));
   }
   
-  display_objects[display_object_counter].object = object;
-  display_objects[display_object_counter].pos.x = x;
-  display_objects[display_object_counter].pos.y = y;
-  display_objects[display_object_counter].pos.z = z;
-  display_objects[display_object_counter].rot.x = 0;
-  display_objects[display_object_counter].rot.y = 0;
-  display_objects[display_object_counter].rot.z = 0;
-  display_objects[display_object_counter].shade_mode = SHADE_FLAT;
-  display_objects[display_object_counter].status = OBJECT_VISIBLE;
+  display_objects3d[display_object3d_counter].object = object;
+  display_objects3d[display_object3d_counter].pos.x = x;
+  display_objects3d[display_object3d_counter].pos.y = y;
+  display_objects3d[display_object3d_counter].pos.z = z;
+  display_objects3d[display_object3d_counter].rot.x = 0;
+  display_objects3d[display_object3d_counter].rot.y = 0;
+  display_objects3d[display_object3d_counter].rot.z = 0;
+  display_objects3d[display_object3d_counter].shade_mode = SHADE_FLAT;
+  display_objects3d[display_object3d_counter].status = OBJECT_VISIBLE;
   
-  return display_object_counter++;
+  return display_object3d_counter++;
 }
-
 void oxygarum_set_shade_mode(int id, int mode) {
-  display_objects[id].shade_mode = mode;
+  display_objects3d[id].shade_mode = mode;
+}
+void oxygarum_enable_object3d_status(int id, int status) {
+  display_objects3d[id].status |= status;
+}
+void oxygarum_disable_object3d_status(int id, int status) {
+  display_objects3d[id].status &= ~status;
+}
+void oxygarum_translate_object3d_to(int id, float new_x, float new_y, float new_z) {
+  display_objects3d[id].pos.x = new_x;
+  display_objects3d[id].pos.y = new_y;
+  display_objects3d[id].pos.z = new_z;
+}
+void oxygarum_rotate_object3d_to(int id, float new_x, float new_y, float new_z) {
+  display_objects3d[id].rot.x = new_x;
+  display_objects3d[id].rot.y = new_y;
+  display_objects3d[id].rot.z = new_z;
+}
+void oxygarum_translate_object3d(int id, float x_off, float y_off, float z_off) {
+  display_objects3d[id].pos.x += x_off;
+  display_objects3d[id].pos.y += y_off;
+  display_objects3d[id].pos.z += z_off;
+}
+void oxygarum_rotate_object3d(int id, float x_off, float y_off, float z_off) {
+  display_objects3d[id].rot.x += x_off;
+  display_objects3d[id].rot.y += y_off;
+  display_objects3d[id].rot.z += z_off;
 }
 
-void oxygarum_enable_object_status(int id, int status) {
-  display_objects[id].status |= status;
+
+int oxygarum_add_object2d(object2d_t *object, float x, float y) {
+  if(display_object2d_counter > 0) {
+    display_objects2d = realloc(display_objects2d, (display_object2d_counter+1) * sizeof(display_obj2d_t));
+  } else {
+    display_objects2d = malloc(sizeof(display_obj2d_t));
+  }
+  
+  display_objects2d[display_object2d_counter].object = object;
+  display_objects2d[display_object2d_counter].pos.x = x;
+  display_objects2d[display_object2d_counter].pos.y = y;
+  display_objects2d[display_object2d_counter].rot.x = 0;
+  display_objects2d[display_object2d_counter].rot.y = 0;
+  display_objects2d[display_object2d_counter].status = OBJECT_VISIBLE;
+  
+  return display_object2d_counter++;
+}
+void oxygarum_enable_object2d_status(int id, int status) {
+  display_objects2d[id].status |= status;
+}
+void oxygarum_disable_object2d_status(int id, int status) {
+  display_objects2d[id].status &= ~status;
+}
+void oxygarum_translate_object2d_to(int id, float new_x, float new_y) {
+  display_objects2d[id].pos.x = new_x;
+  display_objects2d[id].pos.y = new_y;
+}
+void oxygarum_rotate_object2d_to(int id, float new_x, float new_y) {
+  display_objects2d[id].rot.x = new_x;
+  display_objects2d[id].rot.y = new_y;
+}
+void oxygarum_translate_object2d(int id, float x_off, float y_off) {
+  display_objects2d[id].pos.x += x_off;
+  display_objects2d[id].pos.y += y_off;
+}
+void oxygarum_rotate_object2d(int id, float x_off, float y_off) {
+  display_objects2d[id].rot.x += x_off;
+  display_objects2d[id].rot.y += y_off;
 }
 
-void oxygarum_disable_object_status(int id, int status) {
-  display_objects[id].status &= ~status;
-}
-
-void oxygarum_translate_object_to(int id, float new_x, float new_y, float new_z) {
-  display_objects[id].pos.x = new_x;
-  display_objects[id].pos.y = new_y;
-  display_objects[id].pos.z = new_z;
-}
-
-void oxygarum_rotate_object_to(int id, float new_x, float new_y, float new_z) {
-  display_objects[id].rot.x = new_x;
-  display_objects[id].rot.y = new_y;
-  display_objects[id].rot.z = new_z;
-}
-
-void oxygarum_translate_object(int id, float x_off, float y_off, float z_off) {
-  display_objects[id].pos.x += x_off;
-  display_objects[id].pos.y += y_off;
-  display_objects[id].pos.z += z_off;
-}
-
-void oxygarum_rotate_object(int id, float x_off, float y_off, float z_off) {
-  display_objects[id].rot.x += x_off;
-  display_objects[id].rot.y += y_off;
-  display_objects[id].rot.z += z_off;
-}
 
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z) {
   loc.x = new_x;
   loc.y = new_y;
   loc.z = new_z;
 }
-
 void oxygarum_rotate_camera_to(float new_x, float new_y, float new_z) {
   rot.x = new_x;
   rot.y = new_y;
   rot.z = new_z;
 }
-
 void oxygarum_translate_camera(float x_off, float y_off, float z_off) {
   loc.x += x_off;
   loc.y += y_off;
   loc.z += z_off;
 }
-
 void oxygarum_rotate_camera(float x_off, float y_off, float z_off) {
   rot.x += x_off;
   rot.y += y_off;
