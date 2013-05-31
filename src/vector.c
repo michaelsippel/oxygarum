@@ -62,4 +62,39 @@ vector3d_t *oxygarum_vector3d_multiply_cross(vector3d_t *v1, vector3d_t *v2) {
   return vector;
 }
 
+vector2d_t *oxygarum_create_vector2d(vertex2d_t *o, vertex2d_t *p) {
+  vector2d_t *vector = malloc(sizeof(vector2d_t));
+  
+  vector->x = o->x - p->x;
+  vector->y = o->y - p->y;
+  vector->z = o->z - p->z;
+  
+  return oxygarum_normalize_vector2d(vector);
+}
+
+vector2d_t *oxygarum_normalize_vector2d(vector2d_t *vector) {
+  double len = sqrt(
+    vector->x * vector->x + 
+    vector->y * vector->y
+  );
+  
+  vector->x /= len;
+  vector->y /= len;
+  
+  return vector;
+}
+
+double oxygarum_vector2d_multiply_scalar(vector2d_t *v1, vector2d_t *v2) {
+  return (v1->x * v2->x + 
+          v1->y * v2->y);
+}
+
+vector2d_t *oxygarum_vector2d_multiply_cross(vector2d_t *v1, vector2d_t *v2) {
+  vector2d_t *vector = malloc(sizeof(vector2d_t));
+  
+  vector->x = (v1->y * v2->x) - (v1->x * v2->y);
+  vector->y = (v1->x * v2->y) - (v1->y * v2->x);
+  
+  return vector;
+}
 

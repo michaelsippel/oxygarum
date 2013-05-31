@@ -28,7 +28,6 @@ typedef struct vertex3d {
 typedef struct vertex2d {
   float x;
   float y;
-  float z;
 } vertex2d_t;
 
 typedef unsigned int vertex_id;
