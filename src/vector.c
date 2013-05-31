@@ -67,7 +67,6 @@ vector2d_t *oxygarum_create_vector2d(vertex2d_t *o, vertex2d_t *p) {
   
   vector->x = o->x - p->x;
   vector->y = o->y - p->y;
-  vector->z = o->z - p->z;
   
   return oxygarum_normalize_vector2d(vector);
 }

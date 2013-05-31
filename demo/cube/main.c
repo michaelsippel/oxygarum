@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   object3d_t *object = oxygarum_load_oxy3d_file("cube.oxy3d");
   id = oxygarum_add_object3d(object, 0, 0, -4);
   oxygarum_rotate_object3d(id, 10, 30, 10);  
-  oxygarum_enable_object3d_status(id, OBJECT_TRANSPARENT);  
+  oxygarum_enable_object3d_status(id, OBJECT_TRANSPARENT);
   
   glutMainLoop();
   
