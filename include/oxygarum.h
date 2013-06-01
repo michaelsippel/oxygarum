@@ -23,6 +23,7 @@
 
 #include "vertex.h"
 #include "face.h"
+#include "font.h"
 #include "object.h"
 #include "opengl.h"
 #include "material.h"

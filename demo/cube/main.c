@@ -12,8 +12,12 @@
 #include <unistd.h>
 
 int id;
+char text[100];
+char text2[100];
 
 void anim(void) {
+  sprintf(text, "FPS:%f", oxygarum_get_fps());
+  sprintf(text2, "FRAMETIME:%f", oxygarum_get_frametime());
   oxygarum_rotate_object3d(id, 0,1,0);
 }
 
@@ -28,6 +32,11 @@ int main(int argc, char **argv) {
   id = oxygarum_add_object3d(object, 0, 0, -4);
   oxygarum_rotate_object3d(id, 10, 30, 10);  
   oxygarum_enable_object3d_status(id, OBJECT_TRANSPARENT);
+  
+  texture_t *font_tex = oxygarum_load_texture("../font.png");
+  font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
+  oxygarum_add_text(text, font, 0, 30);
+  oxygarum_add_text(text2, font, 0, 0);  
   
   glutMainLoop();
   

@@ -43,5 +43,8 @@ void oxygarum_set_viewport(int _x, int _y);
 void oxygarum_set_title(const char *_title);
 void oxygarum_set_fov(float _fov);
 
+int oxygarum_get_width(void);
+int oxygarum_get_height(void);
+
 #endif
 

@@ -22,6 +22,7 @@
 #include "opengl.h"
 #include "vertex.h"
 #include "object.h"
+#include "font.h"
 
 static vertex3d_t loc = {.x = 0, .y = 0, .z = 0};
 static vertex3d_t rot = {.x = 0, .y = 0, .z = 0};
@@ -29,8 +30,10 @@ void (*oxygarum_animate)(void);
 
 unsigned int display_object3d_counter = 0;
 unsigned int display_object2d_counter = 0;
+unsigned int display_text_counter = 0;
 display_obj3d_t *display_objects3d;
 display_obj2d_t *display_objects2d;
+display_text_t *display_texts;
 
 static int frame_counter = 0;
 static int time_cur = 0, time_prev = 0, time_diff = 0;
@@ -135,6 +138,39 @@ void oxygarum_display(void) {
     }
   }
   
+  // display fonts and 2d-objects
+  glPushAttrib(GL_ENABLE_BIT);
+  
+  glDisable(GL_LIGHTING);
+  glDisable(GL_DEPTH_TEST);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
+  
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();  
+
+  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_width(), -1, 1);
+  
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+  glLoadIdentity();
+  
+  for(i = 0; i < display_text_counter; i++) {
+    glPushMatrix();
+    
+    glTranslated(display_texts[i].pos.x, display_texts[i].pos.y, 0);
+    oxygaurm_display_text(display_texts[i].font, display_texts[i].text);
+    
+    glPopMatrix();
+  }
+  
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  
+  glPopAttrib();  
+  
   glFlush();
   glutSwapBuffers();
 }
@@ -227,6 +263,23 @@ void oxygarum_rotate_object2d(int id, float x_off, float y_off) {
   display_objects2d[id].rot.x += x_off;
   display_objects2d[id].rot.y += y_off;
 }
+
+
+int oxygarum_add_text(char *text, font_t *font, float x, float y) {
+  if(display_text_counter > 0) {
+    display_texts = realloc(display_texts, (display_text_counter+1) * sizeof(display_text_t));
+  } else {
+    display_texts = malloc(sizeof(display_text_t));
+  }
+  
+  display_texts[display_text_counter].text = text;
+  display_texts[display_text_counter].font = font;
+  display_texts[display_text_counter].pos.x = x;
+  display_texts[display_text_counter].pos.y = y;
+  
+  return display_text_counter++;
+}
+
 
 
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z) {

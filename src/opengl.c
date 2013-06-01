@@ -107,3 +107,11 @@ void oxygarum_set_fov(float _fov) {
   fov = _fov;
 }
 
+int oxygarum_get_width(void) {
+  return width;
+}
+
+int oxygarum_get_height(void) {
+  return height;
+}
+

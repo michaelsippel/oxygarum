@@ -39,6 +39,9 @@ int direction_y = DIRECTION_BACK;
 
 int dir = 0;
 
+char text[100];
+char text2[100];
+
 void player1_up(void) {
   dir = -1;
 }
@@ -52,6 +55,9 @@ void up(void) {
 }
 
 void anim(void) {
+  sprintf(text, "FPS:%f", oxygarum_get_fps());
+  sprintf(text2, "FRAMETIME:%f", oxygarum_get_frametime());
+  
   static game_over = 0;
   if(game_over) {
     return;
@@ -135,6 +141,11 @@ int main(int argc, char **argv) {
   load_screen = oxygarum_load_oxy3d_file("../load_screen.oxy3d");
   load_screen_id = oxygarum_add_object3d(load_screen, 0, 0, -0.4);
   oxygarum_set_max_fps(60);
+  
+  texture_t *font_tex = oxygarum_load_texture("../font.png");
+  font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
+  oxygarum_add_text(text, font, 0, 30);
+  oxygarum_add_text(text2, font, 0, 0);   
   
   glutMainLoop();
   

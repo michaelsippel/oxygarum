@@ -22,6 +22,9 @@ object3d_t *human = NULL;
 object3d_t *load_screen = NULL;
 int load_screen_id;
 
+char text[100];
+char text2[100];
+
 void change_shade(void) {
   shade_mode++;
   shade_mode %= 2;
@@ -29,6 +32,9 @@ void change_shade(void) {
 }
 
 void anim(void) {
+  sprintf(text, "FPS:%f", oxygarum_get_fps());
+  sprintf(text2, "FRAMETIME:%f", oxygarum_get_frametime());
+  
   float anim_sens = oxygarum_get_frametime()*0.1;
   oxygarum_rotate_object3d(id, 0, anim_sens, 0);
 }
@@ -57,8 +63,13 @@ int main(int argc, char **argv) {
   
   load_screen = oxygarum_load_oxy3d_file("../load_screen.oxy3d");
   load_screen_id = oxygarum_add_object3d(load_screen, 0, 0, -0.4);
-  oxygarum_set_max_fps(50);
+  oxygarum_set_max_fps(60);
   
+  texture_t *font_tex = oxygarum_load_texture("../font.png");
+  font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
+  oxygarum_add_text(text, font, 0, 30);
+  oxygarum_add_text(text2, font, 0, 0);    
+
   glutMainLoop();
   
   return 0;

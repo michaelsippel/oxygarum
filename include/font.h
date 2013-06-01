@@ -1,5 +1,5 @@
 /**
- *  src/texture.h
+ *  include/font.h
  *
  *  (C) Copyright 2013 Michael Sippel
  *
@@ -16,28 +16,33 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _TEXTURE_H
-#define _TEXTURE_H
+#ifndef _FONT_H
+#define _FONT_H
 
-#include <stdint.h>
+#include "vertex.h"
+#include "texture.h"
 
-typedef unsigned int texture_id;
+typedef struct font {
+  texture_t *texture;
+  int list_base;
+  unsigned int grid_width;
+  unsigned int grid_height;
+  unsigned int font_width;
+  unsigned int font_height;
+  unsigned int num_fonts;
+  char ascii_start;
+} font_t;
 
-typedef struct uv_t {
-  float u;
-  float v;
-} uv_t;
+typedef struct display_text {
+  font_t *font;
+  char *text;
+  vertex2d_t pos;
+} display_text_t;
 
-typedef struct texture {
-  unsigned int width;
-  unsigned int height;
-  
-  uint8_t *data;
-  texture_id id;
-} texture_t;
-
-uint8_t *oxygarum_load_png(const char *path, unsigned int *width, unsigned int *height);
-texture_t *oxygarum_load_texture(const char *path);
+font_t *oxygaurm_create_font(texture_t *texture, int w, int h, char start, float space);
+void oxygaurm_display_text(font_t *font, char *text);
+int oxygarum_add_text(char *text, font_t *font, float x, float y);
+void oxygarum_remove_text(int id);
 
 #endif
 
