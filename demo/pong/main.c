@@ -55,9 +55,6 @@ void up(void) {
 }
 
 void anim(void) {
-  sprintf(text, "FPS:%f", oxygarum_get_fps());
-  sprintf(text2, "FRAMETIME:%f", oxygarum_get_frametime());
-  
   static game_over = 0;
   if(game_over) {
     return;
@@ -107,6 +104,10 @@ void anim(void) {
   }
   
   oxygarum_translate_object3d_to(ball_id, ball_x, 0, ball_y);
+
+  sprintf(text, "FPS:%f", oxygarum_get_fps());
+  sprintf(text2, "FRAMETIME:%f", oxygarum_get_frametime());
+  
 }
 
 void wait_for_begin(void) {
