@@ -63,7 +63,6 @@ void oxygarum_init_opengl(int argc, char **argv) {
   gluPerspective(fov, (GLfloat)width/(GLfloat)height, 0.1f, 100.0f);
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_TEXTURE_2D);
-  //glEnable(GL_MULTISAMPLE);
 }
 
 void oxygarum_set_light(GLenum light, GLfloat *ambient, GLfloat *diffuse, GLfloat *specular, GLfloat *position) {
