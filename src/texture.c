@@ -121,7 +121,7 @@ texture_t *oxygarum_load_texture(const char *path) {
   tex->data = oxygarum_load_png(path, &tex->width, &tex->height);
   tex->id = texture_counter++;
   glBindTexture(GL_TEXTURE_2D, tex->id);
-    
+  
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->width, tex->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->data);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

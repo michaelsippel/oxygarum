@@ -112,7 +112,10 @@ int main(int argc, char **argv) {
   font = oxygaurm_create_font(font_tex, 8, 8, '!', 14);
   oxygarum_add_text(fps, font, 0, 30);
   oxygarum_add_text(frametime, font, 0, 14);
-  name_id = oxygarum_add_text(name, font, 0, 0);  
+  name_id = oxygarum_add_text(name, font, 0, 0);
+  color_t color;
+  color.rgb = (color_st_t) {.r = 1, .g = 0, .b = 0, .a = 1};
+  oxygarum_set_text_color(name_id, color);
   
   oxygarum_set_max_fps(60);
   

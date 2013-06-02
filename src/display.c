@@ -171,6 +171,10 @@ void oxygarum_display(void) {
     glPushMatrix();
     
     glTranslated(display_texts[i].pos.x, display_texts[i].pos.y, 0);
+    glColor4f(display_texts[i].color.color[0], 
+              display_texts[i].color.color[1], 
+              display_texts[i].color.color[2], 
+              display_texts[i].color.color[3]);
     oxygaurm_display_text(display_texts[i].font, display_texts[i].text);
     
     glPopMatrix();
@@ -291,6 +295,7 @@ int oxygarum_add_text(char *text, font_t *font, float x, float y) {
   display_texts[display_text_counter].font = font;
   display_texts[display_text_counter].pos.x = x;
   display_texts[display_text_counter].pos.y = y;
+  display_texts[display_text_counter].color.rgb = (color_st_t) {.r = 1, .b = 1, .g = 1, .a = 1};
   
   return display_text_counter++;
 }
@@ -301,7 +306,9 @@ void oxygarum_update_text(int id, char *text, font_t *font, float x, float y) {
   if(text != NULL) display_texts[id].text = text;
   if(font != NULL) display_texts[id].font = font;
 }
-
+void oxygarum_set_text_color(int id, color_t color) {
+  display_texts[id].color = color;
+}
 
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z) {
   loc.x = new_x;
