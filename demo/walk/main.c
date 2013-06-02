@@ -58,11 +58,15 @@ void dir_up(void) {
 }
 
 void anim(void) {
-  sprintf(fps, "FPS:%f", oxygarum_get_fps());
-  sprintf(frametime, "FRAMETIME:%f", oxygarum_get_frametime());
+  sprintf(fps, "%f FPS", oxygarum_get_fps());
+  sprintf(frametime, "Frametime: %f", oxygarum_get_frametime());
   
   vertex2d_t feedback = oxygarum_get_object3d_feedback(suzanne_id);
-  sprintf(name, "SUZANNE");
+  if(feedback.x == -1 && feedback.y == -1) {
+    sprintf(name, "object not in view");
+  } else {
+    sprintf(name, "Suzanne");
+  }
   oxygarum_update_text(name_id, NULL, NULL, feedback.x, feedback.y+100);
   
   float anim_sens = oxygarum_get_frametime()*0.1;
@@ -106,12 +110,11 @@ int main(int argc, char **argv) {
   world_id = oxygarum_add_object3d(world, 0, 0, 0);
   suzanne_id = oxygarum_add_object3d(suzanne, 0, 0, 0);
   oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
-  //oxygarum_enable_object3d_status(suzanne_id, OBJECT_TRANSPARENT);
   
-  texture_t *font_tex = oxygarum_load_texture("../font.png");
-  font = oxygaurm_create_font(font_tex, 8, 8, '!', 14);
+  texture_t *font_tex = oxygarum_load_texture("../font2.png");
+  font = oxygaurm_create_font(font_tex, 16, 16, 0, 16);
   oxygarum_add_text(fps, font, 0, 30);
-  oxygarum_add_text(frametime, font, 0, 14);
+  oxygarum_add_text(frametime, font, 0, 0);
   name_id = oxygarum_add_text(name, font, 0, 0);
   color_t color;
   color.rgb = (color_st_t) {.r = 1, .g = 0, .b = 0, .a = 1};
