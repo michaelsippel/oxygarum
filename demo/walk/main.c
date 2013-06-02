@@ -24,6 +24,12 @@ int world_id, suzanne_id;
 vertex3d_t rot = {0,0,0};
 vertex3d_t loc = {0,0,-2};
 
+font_t *font;
+char fps[100];
+char frametime[100];
+char name[100];
+int name_id;
+
 int dir = 0;
 float speed = 0;
 
@@ -52,12 +58,19 @@ void dir_up(void) {
 }
 
 void anim(void) {
+  sprintf(fps, "FPS:%f", oxygarum_get_fps());
+  sprintf(frametime, "FRAMETIME:%f", oxygarum_get_frametime());
+  
+  vertex2d_t feedback = oxygarum_get_object3d_feedback(suzanne_id);
+  sprintf(name, "SUZANNE");
+  oxygarum_update_text(name_id, NULL, NULL, feedback.x, feedback.y+100);
+  
   float anim_sens = oxygarum_get_frametime()*0.1;
-
+  
   rot.y += anim_sens * dir;
   
-  loc.z += cos(rot.y*piover180) * speed;
-  loc.x -= sin(rot.y*piover180) * speed;
+  loc.z += cos(rot.y*piover180) * speed * anim_sens;
+  loc.x -= sin(rot.y*piover180) * speed * anim_sens;
   
   oxygarum_rotate_object3d(suzanne_id, 0, anim_sens, 0);
   
@@ -93,7 +106,13 @@ int main(int argc, char **argv) {
   world_id = oxygarum_add_object3d(world, 0, 0, 0);
   suzanne_id = oxygarum_add_object3d(suzanne, 0, 0, 0);
   oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
-  oxygarum_enable_object3d_status(suzanne_id, OBJECT_TRANSPARENT);
+  //oxygarum_enable_object3d_status(suzanne_id, OBJECT_TRANSPARENT);
+  
+  texture_t *font_tex = oxygarum_load_texture("../font.png");
+  font = oxygaurm_create_font(font_tex, 8, 8, '!', 14);
+  oxygarum_add_text(fps, font, 0, 30);
+  oxygarum_add_text(frametime, font, 0, 14);
+  name_id = oxygarum_add_text(name, font, 0, 0);  
   
   oxygarum_set_max_fps(60);
   

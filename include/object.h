@@ -44,6 +44,7 @@ typedef struct display_obj3d {
   object3d_t *object;
   vertex3d_t pos;
   vertex3d_t rot;
+  vertex2d_t feedback;
   int shade_mode;
   int status;
 } display_obj3d_t;
@@ -52,6 +53,7 @@ typedef struct display_obj2d {
   object2d_t *object;
   vertex2d_t pos;
   vertex2d_t rot;
+  vertex2d_t feedback;
   int status;
 } display_obj2d_t;
 
@@ -65,11 +67,13 @@ int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z);
 void oxygarum_set_shade_mode(int id, int mode);
 void oxygarum_enable_object3d_status(int id, int status);
 void oxygarum_disable_object3d_status(int id, int status);
+vertex2d_t oxygarum_get_object3d_feedback(int id);
 
 void oxygarum_display_object2d(object2d_t *object);
 int oxygarum_add_object2d(object2d_t *object, float x, float y);
 void oxygarum_enable_object2d_status(int id, int status);
 void oxygarum_disable_object2d_status(int id, int status);
+vertex2d_t oxygarum_get_object2d_feedback(int id);
 
 /// move and rotate objects
 void oxygarum_translate_object3d_to(int id, float new_x, float new_y, float new_z);

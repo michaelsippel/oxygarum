@@ -108,10 +108,22 @@ void oxygarum_display(void) {
   
   glTranslatef(loc.x, loc.y, loc.z);
   
+  float feedback[3] = {-1.0f, -1.0f, -1.0f};  
+  
   int i;
   for(i = 0; i < display_object3d_counter; i++) {
     if(display_objects3d[i].status & OBJECT_VISIBLE) {
       glPushMatrix();
+      
+      glFeedbackBuffer(3, GL_3D, feedback);      
+      glRenderMode(GL_FEEDBACK);
+      glBegin(GL_POINTS);
+        glVertex3f(0.0f,0.0f,0.0f);
+      glEnd();
+      glRenderMode(GL_RENDER);      
+      
+      display_objects3d[i].feedback.x = feedback[1];
+      display_objects3d[i].feedback.y = feedback[2];
       
       glTranslatef(display_objects3d[i].pos.x, display_objects3d[i].pos.y, display_objects3d[i].pos.z);
       glRotatef(display_objects3d[i].rot.x, 1.0f,0.0f,0.0f);
@@ -144,16 +156,15 @@ void oxygarum_display(void) {
   glDisable(GL_LIGHTING);
   glDisable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();  
-
+  
   glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_width(), -1, 1);
   
   glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
   glLoadIdentity();
   
   for(i = 0; i < display_text_counter; i++) {
@@ -223,7 +234,9 @@ void oxygarum_rotate_object3d(int id, float x_off, float y_off, float z_off) {
   display_objects3d[id].rot.y += y_off;
   display_objects3d[id].rot.z += z_off;
 }
-
+vertex2d_t oxygarum_get_object3d_feedback(int id) {
+  return display_objects3d[id].feedback;
+}
 
 int oxygarum_add_object2d(object2d_t *object, float x, float y) {
   if(display_object2d_counter > 0) {
@@ -263,7 +276,9 @@ void oxygarum_rotate_object2d(int id, float x_off, float y_off) {
   display_objects2d[id].rot.x += x_off;
   display_objects2d[id].rot.y += y_off;
 }
-
+vertex2d_t oxygarum_get_object2d_feedback(int id) {
+  return display_objects2d[id].feedback;
+}
 
 int oxygarum_add_text(char *text, font_t *font, float x, float y) {
   if(display_text_counter > 0) {
@@ -279,7 +294,13 @@ int oxygarum_add_text(char *text, font_t *font, float x, float y) {
   
   return display_text_counter++;
 }
+void oxygarum_update_text(int id, char *text, font_t *font, float x, float y) {
+  display_texts[id].pos.x = x;
+  display_texts[id].pos.y = y;
 
+  if(text != NULL) display_texts[id].text = text;
+  if(font != NULL) display_texts[id].font = font;
+}
 
 
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z) {

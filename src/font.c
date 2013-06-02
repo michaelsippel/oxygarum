@@ -60,7 +60,7 @@ font_t *oxygaurm_create_font(texture_t *texture, int w, int h, char start, float
     
     glTranslated(space, 0.0f, 0.0f);
     glEndList();
-
+    
     if(++x >= w) {
       x = 0;
       y ++;
