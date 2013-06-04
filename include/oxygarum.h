@@ -21,6 +21,10 @@
 
 #include <GL/gl.h>
 
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
 #include "vertex.h"
 #include "face.h"
 #include "font.h"
@@ -39,6 +43,10 @@ object3d_t *oxygarum_load_oxy3d_file(const char *path);
 float oxygarum_get_fps(void);
 void oxygarum_set_max_fps(float max_fps);
 float oxygarum_get_frametime(void);
+
+#if defined(__cplusplus)
+}
+#endif
 
 #endif
 
