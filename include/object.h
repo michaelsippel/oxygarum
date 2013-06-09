@@ -22,8 +22,9 @@
 #include "vertex.h"
 #include "face.h"
 
-#define OBJECT_VISIBLE     0x1
-#define OBJECT_TRANSPARENT 0x2
+#define OBJECT_VISIBLE         0x1
+#define OBJECT_TRANSPARENT     0x2
+#define OBJECT_DEPTH_BUFFERING 0x4
 
 typedef struct object3d {
   face_id face_counter;
@@ -52,7 +53,7 @@ typedef struct display_obj3d {
 typedef struct display_obj2d {
   object2d_t *object;
   vertex2d_t pos;
-  vertex2d_t rot;
+  float rot;
   vertex2d_t feedback;
   int status;
 } display_obj2d_t;
@@ -82,9 +83,9 @@ void oxygarum_translate_object3d(int id, float x_off, float y_off, float z_off);
 void oxygarum_rotate_object3d(int id, float x_off, float y_off, float z_off);
 
 void oxygarum_translate_object2d_to(int id, float new_x, float new_y);
-void oxygarum_rotate_object2d_to(int id, float new_x, float new_y);
+void oxygarum_rotate_object2d_to(int id, float new);
 void oxygarum_translate_object2d(int id, float x_off, float y_off);
-void oxygarum_rotate_object2d(int id, float x_off, float y_off);
+void oxygarum_rotate_object2d(int id, float off);
 
 /// move and rotate the camera
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z);

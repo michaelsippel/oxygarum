@@ -103,7 +103,7 @@ int main(int argc, char **argv) {
   init_oxygarum(argc, argv);
   
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);
-  glEnable(GL_CULL_FACE);  // Enable backface culling
+  //glEnable(GL_CULL_FACE);  // Enable backface culling
   
   object3d_t *world = oxygarum_load_oxy3d_file("world.oxy3d");
   object3d_t *suzanne = oxygarum_load_oxy3d_file("suzanne.oxy3d");
