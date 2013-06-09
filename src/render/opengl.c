@@ -1,5 +1,5 @@
 /**
- *  src/opengl.c
+ *  src/render/opengl.c
  *
  *  (C) Copyright 2012-2013 Michael Sippel
  *

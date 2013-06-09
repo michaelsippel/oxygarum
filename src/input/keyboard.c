@@ -1,5 +1,5 @@
 /**
- *  src/keyboard.c
+ *  src/input/keyboard.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *

@@ -1,5 +1,5 @@
 /**
- *  src/object.c
+ *  src/object/object.c
  *
  *  (C) Copyright 2012-2013 Michael Sippel
  *

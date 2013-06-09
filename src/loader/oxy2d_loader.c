@@ -1,5 +1,5 @@
 /**
- *  src/oxy2d_loader.c
+ *  src/loader/oxy2d_loader.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *

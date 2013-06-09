@@ -27,12 +27,12 @@ typedef unsigned int normal_id;
 
 vector3d_t *oxygarum_create_vector3d(vertex3d_t *o, vertex3d_t *p);
 vector3d_t *oxygarum_normalize_vector3d(vector3d_t *vector);
-double oxygarum_vector3d_multiply_scalar(vector3d_t *v1, vector3d_t *v2);
+float oxygarum_vector3d_multiply_scalar(vector3d_t *v1, vector3d_t *v2);
 vector3d_t *oxygarum_vector3d_multiply_cross(vector3d_t *v1, vector3d_t *v2);
 
 vector2d_t *oxygarum_create_vector2d(vertex2d_t *o, vertex2d_t *p);
 vector2d_t *oxygarum_normalize_vector2d(vector2d_t *vector);
-double oxygarum_vector2d_multiply_scalar(vector2d_t *v1, vector2d_t *v2);
+float oxygarum_vector2d_multiply_scalar(vector2d_t *v1, vector2d_t *v2);
 vector2d_t *oxygarum_vector2d_multiply_cross(vector2d_t *v1, vector2d_t *v2);
 
 #endif

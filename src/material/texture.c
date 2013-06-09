@@ -1,5 +1,5 @@
 /**
- *  src/texture.c
+ *  src/material/texture.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *

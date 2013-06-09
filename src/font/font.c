@@ -1,5 +1,5 @@
 /**
- *  src/font.c
+ *  src/font/font.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *
