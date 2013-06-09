@@ -159,27 +159,45 @@ void oxygarum_display(void) {
     }
   }
   
-  // display fonts and 2d-objects
   glPushAttrib(GL_ENABLE_BIT);
-  
   glDisable(GL_LIGHTING);
   glDisable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
+  // display fonts and 2d-objects
+  
+  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_width(), -1, 1); 
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
-  glLoadIdentity();  
+  glLoadIdentity();
   
-  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_width(), -1, 1);
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
   
+  for(i = 0; i < display_object2d_counter; i++) {
+    if(display_objects2d[i].status & OBJECT_VISIBLE) {
+      glPushMatrix();
+      
+      glTranslatef(display_objects2d[i].pos.x, display_objects2d[i].pos.y, 0);
+      glRotatef(display_objects2d[i].rot, 0.0f,0.0f,1.0f);
+      
+      oxygarum_display_object2d(display_objects2d[i].object);
+      
+      glPopMatrix();
+    }
+  }
+  
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_width(), -1, 1); 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   
   for(i = 0; i < display_text_counter; i++) {
     glPushMatrix();
     
-    glTranslated(display_texts[i].pos.x, display_texts[i].pos.y, 0);
+    glTranslatef(display_texts[i].pos.x, display_texts[i].pos.y, 0);
     glColor4f(display_texts[i].color.color[0], 
               display_texts[i].color.color[1], 
               display_texts[i].color.color[2], 
@@ -189,39 +207,10 @@ void oxygarum_display(void) {
     glPopMatrix();
   }
   
-  for(i = 0; i < display_object2d_counter; i++) {
-    glPushMatrix();
-    
-    glTranslatef(display_objects2d[i].pos.x, display_objects3d[i].pos.y, 0.0f);
-    glRotatef(display_objects2d[i].rot, 0.0f,0.0f,1.0f);
-    
-    if(display_objects2d[i].status & OBJECT_TRANSPARENT) {
-      glPushAttrib(GL_ENABLE_BIT);
-      
-      glDisable(GL_CULL_FACE);
-      glDisable(GL_LIGHTING);
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    }
-    
-    if(! display_objects2d[i].status & OBJECT_DEPTH_BUFFERING) {
-      glDisable(GL_DEPTH_TEST);
-    }
-    
-    oxygarum_display_object2d(display_objects2d[i].object);
-    
-    if(display_objects2d[i].status & OBJECT_TRANSPARENT) {
-      glPopAttrib();
-    }
-    
-    glPopMatrix();
-  }  
-  
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
-  glMatrixMode(GL_MODELVIEW);
   
-  glPopAttrib();  
+  glPopAttrib();
   
   glFlush();
   glutSwapBuffers();

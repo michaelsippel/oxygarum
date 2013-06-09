@@ -99,6 +99,7 @@ void oxygarum_display_face2d(object2d_t *object, face_t *face) {
  	object->vertices[id]->y
     );
   }
+  
   glEnd();
 }
 

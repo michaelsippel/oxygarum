@@ -83,7 +83,7 @@ void oxygarum_translate_object3d(int id, float x_off, float y_off, float z_off);
 void oxygarum_rotate_object3d(int id, float x_off, float y_off, float z_off);
 
 void oxygarum_translate_object2d_to(int id, float new_x, float new_y);
-void oxygarum_rotate_object2d_to(int id, float new);
+void oxygarum_rotate_object2d_to(int id, float new_r);
 void oxygarum_translate_object2d(int id, float x_off, float y_off);
 void oxygarum_rotate_object2d(int id, float off);
 

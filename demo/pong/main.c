@@ -21,7 +21,7 @@ int player1_id, player2_id, playground_id, ball_id;
 int shade_mode = 1;
 object3d_t *player = NULL;
 object3d_t *ball = NULL;
-object3d_t *load_screen = NULL;
+object2d_t *load_screen = NULL;
 int load_screen_id;
 
 float player1_loc = 0.5;
@@ -96,9 +96,7 @@ void anim(void) {
       direction_y = DIRECTION_FORWARD;
     } else {
       load_screen->faces[0]->material->texture = oxygarum_load_texture("game_over.png");
-      oxygarum_enable_object3d_status(load_screen_id, OBJECT_VISIBLE);
-      oxygarum_translate_camera_to(0, 0, 0);
-      oxygarum_rotate_camera_to(0, 0, 0);
+      oxygarum_enable_object2d_status(load_screen_id, OBJECT_VISIBLE);
       game_over = 1;
     }
   }
@@ -112,9 +110,7 @@ void anim(void) {
 
 void wait_for_begin(void) {
   if(oxygarum_get_fps() > 0 && player != NULL && ball != NULL) {
-    oxygarum_disable_object3d_status(load_screen_id, OBJECT_VISIBLE);
-    oxygarum_rotate_camera_to(20, 0, 0);
-    oxygarum_translate_camera_to(0, -2, -3);
+    oxygarum_disable_object2d_status(load_screen_id, OBJECT_VISIBLE);
     oxygarum_animation_func(&anim);
   } else if(player == NULL) {
     player = oxygarum_load_oxy3d_file("player.oxy3d");
@@ -139,8 +135,11 @@ int main(int argc, char **argv) {
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);  
   glEnable(GL_CULL_FACE);  // Enable backface culling  
   
-  load_screen = oxygarum_load_oxy3d_file("../load_screen.oxy3d");
-  load_screen_id = oxygarum_add_object3d(load_screen, 0, 0, -0.4);
+  oxygarum_rotate_camera_to(20, 0, 0);
+  oxygarum_translate_camera_to(0, -2, -3);  
+  
+  load_screen = oxygarum_load_oxy2d_file("../load_screen.oxy2d");
+  load_screen_id = oxygarum_add_object2d(load_screen, 0, 0);
   oxygarum_set_max_fps(60);
   
   texture_t *font_tex = oxygarum_load_texture("../font.png");

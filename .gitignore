@@ -3,6 +3,7 @@
 *.o
 *.a
 *.oxy3d~
+*.oxy2d~
 *.obj~
 *.mtl~
 *.exe

@@ -19,7 +19,7 @@ GLfloat position[]= { 1.0f, 0.5f, -0.1f, 1.0f };
 int id;
 int shade_mode = 1;
 object3d_t *human = NULL;
-object3d_t *load_screen = NULL;
+object2d_t *load_screen = NULL;
 int load_screen_id;
 
 char text[100];
@@ -41,7 +41,7 @@ void anim(void) {
 
 void wait_for_begin(void) {
   if(oxygarum_get_fps() > 0 && human != NULL) {
-    oxygarum_disable_object3d_status(load_screen_id, OBJECT_VISIBLE);
+    oxygarum_disable_object2d_status(load_screen_id, OBJECT_VISIBLE);
     oxygarum_animation_func(&anim);
   } else if(human == NULL) {
     human = oxygarum_load_oxy3d_file("human.oxy3d");
@@ -61,8 +61,8 @@ int main(int argc, char **argv) {
   oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);  
   glEnable(GL_CULL_FACE);  // Enable backface culling
   
-  load_screen = oxygarum_load_oxy3d_file("../load_screen.oxy3d");
-  load_screen_id = oxygarum_add_object3d(load_screen, 0, 0, -0.4);
+  load_screen = oxygarum_load_oxy2d_file("../load_screen.oxy2d");
+  load_screen_id = oxygarum_add_object2d(load_screen, 0, 0);
   oxygarum_set_max_fps(60);
   
   texture_t *font_tex = oxygarum_load_texture("../font.png");

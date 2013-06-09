@@ -95,6 +95,17 @@ void oxygarum_calc_normals(object3d_t *object) {
   free(common_face_count);
 }
 
+object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertices, face_id num_faces, face_t **faces) {
+  object2d_t *object = malloc(sizeof(object2d_t));
+  
+  object->face_counter = num_faces;
+  object->vertex_counter = num_vertices;
+  object->faces = faces;
+  object->vertices = vertices;
+  
+  return object;
+}
+
 void oxygarum_display_object3d(object3d_t *object, int shade_mode) {
   int i;
   for(i = 0; i < object->face_counter; i++) {
