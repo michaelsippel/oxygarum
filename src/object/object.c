@@ -16,6 +16,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <GL/glut.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "vertex.h"
@@ -43,6 +45,47 @@ object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertic
   printf("Calculating normals...\n");
 #endif
   oxygarum_calc_normals(object);
+  
+  // creating VBO
+  object->vbo_vertex_counter = 0;
+  for(i = 0; i < object->face_counter; i++) {
+    object->vbo_vertex_counter += object->faces[i]->vertex_counter - 2;
+  }
+  object->vbo_vertex_counter *= 3;
+  printf("%d vertices, %d tris\n", object->vbo_vertex_counter, object->vbo_vertex_counter/3);
+  
+  glGenBuffers(1, &object->vbo_id);
+  glBindBuffer(GL_ARRAY_BUFFER, object->vbo_id);
+  
+  object->vbo = malloc(sizeof(vbo_vertex_t) * object->vbo_vertex_counter);//(vbo_vertex_t*) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+  
+  int j,k = 0,l=0;
+  for(i = 0; i < object->face_counter; i++) {
+    face_t *face = object->faces[i];
+    printf("FACE %d\n", i);
+    for(j = 0; j < face->vertex_counter-2; j++) {
+      printf("TRI %d\n", j);
+      
+      for(l = 0; l < j+3; l++) {
+        printf("vertex %d(%d): ", k, l); 
+        object->vbo[k].vertex.x = object->vertices[face->vertices[l]]->x;
+        object->vbo[k].vertex.y = object->vertices[face->vertices[l]]->y;
+        object->vbo[k].vertex.z = object->vertices[face->vertices[l]]->z;
+        object->vbo[k].normal.x = object->normals[face->vertices[l]]->x;
+        object->vbo[k].normal.y = object->normals[face->vertices[l]]->y;
+        object->vbo[k].normal.z = object->normals[face->vertices[l]]->z;
+        object->vbo[k].tex.u = face->uv_map[l].u;
+        object->vbo[k].tex.v = face->uv_map[l].v;
+        
+        printf("%f/%f/%f\n", object->vbo[k].vertex.x, object->vbo[k].vertex.y, object->vbo[k].vertex.z);
+        
+        k++;
+        if(l == 0) l = j;
+      }
+    }
+  }
+    glBufferData(GL_ARRAY_BUFFER, object->vbo_vertex_counter*sizeof(vbo_vertex_t), object->vbo, GL_STATIC_DRAW);
+  //glUnmapBuffer(GL_ARRAY_BUFFER);
   
   return object;
 }

@@ -129,7 +129,7 @@ void oxygarum_display(void) {
       glRotatef(display_objects3d[i].rot.x, 1.0f,0.0f,0.0f);
       glRotatef(display_objects3d[i].rot.y, 0.0f,1.0f,0.0f);
       glRotatef(display_objects3d[i].rot.z, 0.0f,0.0f,1.0f);      
-
+      
       if(display_objects3d[i].status & OBJECT_TRANSPARENT ||
         (!display_objects3d[i].status & OBJECT_DEPTH_BUFFERING )) 
       {
@@ -147,7 +147,15 @@ void oxygarum_display(void) {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
       }
       
-      oxygarum_display_object3d(display_objects3d[i].object, display_objects3d[i].shade_mode);
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glEnableClientState(GL_NORMAL_ARRAY);
+      glEnableClientState(GL_VERTEX_ARRAY);
+      glBindTexture(GL_TEXTURE_2D, display_objects3d[i].object->faces[0]->material->texture->id);
+      glBindBuffer(GL_ARRAY_BUFFER, display_objects3d[i].object->vbo_id);
+      glInterleavedArrays(GL_T2F_N3F_V3F, sizeof(vbo_vertex_t), NULL);
+      glDrawArrays(GL_TRIANGLES, 0, display_objects3d[i].object->vbo_vertex_counter);
+      
+      //oxygarum_display_object3d(display_objects3d[i].object, display_objects3d[i].shade_mode);
       
       if(display_objects3d[i].status & OBJECT_TRANSPARENT ||
         (!display_objects3d[i].status & OBJECT_DEPTH_BUFFERING )) 

@@ -26,12 +26,22 @@
 #define OBJECT_TRANSPARENT     0x2
 #define OBJECT_DEPTH_BUFFERING 0x4
 
+typedef struct vbo_vertex {
+  uv_t       tex;
+  vector3d_t normal;
+  vertex3d_t vertex;
+} vbo_vertex_t;
+
 typedef struct object3d {
   face_id face_counter;
   vertex_id vertex_counter;
   face_t **faces;
   vertex3d_t **vertices;
   vector3d_t **normals;
+  
+  unsigned int vbo_id;
+  unsigned int vbo_vertex_counter;
+  vbo_vertex_t *vbo;
 } object3d_t;
 
 typedef struct object2d {
