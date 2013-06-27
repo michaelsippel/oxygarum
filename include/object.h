@@ -21,6 +21,7 @@
 
 #include "vertex.h"
 #include "face.h"
+#include "material.h"
 
 #define OBJECT_VISIBLE         0x1
 #define OBJECT_TRANSPARENT     0x2
@@ -38,6 +39,7 @@ typedef struct object3d {
   face_t **faces;
   vertex3d_t **vertices;
   vector3d_t **normals;
+  material_t *material;
   
   unsigned int vbo_id;
   unsigned int vbo_vertex_counter;
@@ -49,6 +51,7 @@ typedef struct object2d {
   vertex_id vertex_counter;
   face_t **faces;
   vertex2d_t **vertices;
+  material_t *material;
 } object2d_t;
 
 typedef struct display_obj3d {
@@ -69,8 +72,8 @@ typedef struct display_obj2d {
 } display_obj2d_t;
 
 /// allocates memory and adds faces to the object
-object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertices, face_id num_faces, face_t **faces);
-object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertices, face_id num_faces, face_t **faces);
+object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertices, face_id num_faces, face_t **faces, material_t *material);
+object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertices, face_id num_faces, face_t **faces, material_t *material);
 void oxygarum_calc_normals(object3d_t *object);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object3d(object3d_t *object, int shade_mode);

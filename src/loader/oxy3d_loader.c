@@ -26,8 +26,6 @@
 #include "material.h"
 #include "texture.h"
 
-#define DEBUG 0
-
 void readstr(FILE *f, char *string) {
     do {
 	fgets(string, 255, f);
@@ -44,65 +42,54 @@ object3d_t *oxygarum_load_oxy3d_file(const char *path) {
 
   char line[256];
   
-  int num_materials = 0;
   int num_vertices = 0;
   int num_uvmaps = 0;
   int num_faces = 0;  
   int i,j;  
   
   readstr(f, line);
-  sscanf(line, "MATERIALS %d\n", &num_materials);
-  material_t **materials = calloc(num_materials, sizeof(material_t));
-#if DEBUG == 1
-  printf("%d materials\n", num_materials);
-#endif
-  for(i = 0; i < num_materials; i++) {
-    int id;
-    char path[256];
+  sscanf(line, "MATERIAL\n");
+  material_t *material;
+
+  char tex_path[256];  
+
+  readstr(f, line);
+  sscanf(line, "%s\n", tex_path);
+  
+  material = oxygarum_create_material("material");
+  material->texture = oxygarum_load_texture(tex_path);
+  
+  readstr(f, line);
+  sscanf(line, "AMBIENT %f %f %f %f\n", 
+      &material->ambient[0],
+      &material->ambient[1],
+      &material->ambient[2],
+      &material->ambient[3]
+  );
     
-    readstr(f, line);
-    sscanf(line, "%d : %s\n", &id, path);
+  readstr(f, line);
+  sscanf(line, "DIFFUSE %f %f %f %f\n", 
+      &material->diffuse[0], 
+      &material->diffuse[1], 
+      &material->diffuse[2], 
+      &material->diffuse[3]
+  );
     
-    materials[id] = oxygarum_create_material("material");
-    materials[id]->texture = oxygarum_load_texture(path);
-#if DEBUG == 1
-    printf("\t%d(%d): texture path: \'%s\'\n", id, i, path);
-#endif
-    
-    readstr(f, line);
-    sscanf(line, "AMBIENT %f %f %f %f\n", 
-      &materials[id]->ambient[0],
-      &materials[id]->ambient[1],
-      &materials[id]->ambient[2],
-      &materials[id]->ambient[3]
-    );
-    
-    readstr(f, line);
-    sscanf(line, "DIFFUSE %f %f %f %f\n", 
-      &materials[id]->diffuse[0], 
-      &materials[id]->diffuse[1], 
-      &materials[id]->diffuse[2], 
-      &materials[id]->diffuse[3]
-    );
-    
-    readstr(f, line);
-    sscanf(line, "SPECULAR %f %f %f %f\n", 
-      &materials[id]->specular[0], 
-      &materials[id]->specular[1], 
-      &materials[id]->specular[2], 
-      &materials[id]->specular[3]
-    );
-    
-    readstr(f, line);
-    sscanf(line, "SHININESS %f\n", &materials[id]->shininess[0]);
-  }
+  readstr(f, line);
+  sscanf(line, "SPECULAR %f %f %f %f\n", 
+      &material->specular[0], 
+      &material->specular[1], 
+      &material->specular[2], 
+      &material->specular[3]
+  );
+   
+  readstr(f, line);
+  sscanf(line, "SHININESS %f\n", &material->shininess[0]);
   
   readstr(f, line);
   sscanf(line, "VERTICES %d\n", &num_vertices);
   vertex3d_t **vertices = calloc(num_vertices, sizeof(vertex3d_t*));
-#if DEBUG == 1
-  printf("%d vertices\n", num_vertices);
-#endif
+  
   for(i = 0; i < num_vertices; i++) {
     int id;
     vertex3d_t *vertex = malloc(sizeof(vertex3d_t));
@@ -111,17 +98,12 @@ object3d_t *oxygarum_load_oxy3d_file(const char *path) {
     sscanf(line, "%d : %f %f %f\n", &id, &vertex->x, &vertex->y, &vertex->z);
     
     vertices[id] = vertex;
-#if DEBUG == 1
-    printf("\t%d(%d): %f, %f, %f\n", id, i, vertex->x, vertex->y, vertex->z);
-#endif
   }
   
   readstr(f, line);
   sscanf(line, "UVMAPS %d\n", &num_uvmaps);
   uv_t **uvmaps = calloc(num_uvmaps, sizeof(uv_t*));
-#if DEBUG == 1
-  printf("%d uvmaps\n", num_uvmaps);
-#endif
+
   for(i = 0; i < num_uvmaps; i++) {
     int id;
     int size;
@@ -130,24 +112,17 @@ object3d_t *oxygarum_load_oxy3d_file(const char *path) {
     sscanf(line, "%d : SIZE %d\n", &id, &size);
     
     uvmaps[id] = calloc(size, sizeof(uv_t));
-#if DEBUG == 1
-    printf("\t%d(%d): size %d\n", id, i, size);
-#endif
+
     for(j = 0; j < size; j++) {
       readstr(f, line);
       sscanf(line, "%f %f\n", &uvmaps[id][j].u, &uvmaps[id][j].v);
-#if DEBUG == 1
-      printf("\t\t%d: %f, %f\n", j, uvmaps[id][j].u, uvmaps[id][j].v);
-#endif
     }
   }
   
   readstr(f, line);
   sscanf(line, "FACES %d\n", &num_faces);
   face_t **faces = calloc(num_faces, sizeof(face_t*));
-#if DEBUG == 1
-  printf("%d faces\n", num_faces);
-#endif
+  
   for(i = 0; i < num_faces; i++) {
     int id;
     int size;
@@ -155,22 +130,17 @@ object3d_t *oxygarum_load_oxy3d_file(const char *path) {
     readstr(f, line);
     sscanf(line, "%d : SIZE %d\n", &id, &size);
     
-    int uv_id, mat_id;
+    int uv_id;
     vertex_id *va = calloc(size, sizeof(vertex_id));
-    fscanf(f, "%d %d", &uv_id, &mat_id);
-#if DEBUG == 1
-    printf("\t%d(%d): size %d\n", id, i, size);
-#endif
+    fscanf(f, "%d", &uv_id);
+    
     for(j = 0; j < size; j++) {
       fscanf(f, " %d", &va[j]);
-#if DEBUG == 1
-      printf("\t\t%d: %d\n", j, va[j]);
-#endif
     }
-    faces[id] = oxygarum_create_face(size, va, materials[mat_id], uvmaps[uv_id]);
+    faces[id] = oxygarum_create_face(size, va, uvmaps[uv_id]);
   }
   
-  object3d_t *obj = oxygarum_create_object3d(num_vertices, vertices, num_faces, faces);
+  object3d_t *obj = oxygarum_create_object3d(num_vertices, vertices, num_faces, faces, material);
   fclose(f);
   
   return obj;

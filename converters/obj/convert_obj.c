@@ -200,16 +200,16 @@ int main(int argc, char **argv) {
   
   if(! have_material) {
     fprintf(dest, 
-	"MATERIALS 1\n"
-	"0: texture.png\n"
+	"MATERIAL\n"
+	"texture.png\n"
 	"AMBIENT   0.2 0.2 0.2 0.0\n"
 	"DIFFUSE   1.0 1.0 1.0 0.0\n"
 	"SPECULAR  0.2 0.2 0.2 0.0\n"
 	"SHININESS 1.0\n\n"
-	); 
+	);
   } else {
-    fprintf(dest, "MATERIALS 1\n");
-    fprintf(dest, "0: %s\n", material.texD);
+    fprintf(dest, "MATERIAL\n");
+    fprintf(dest, "%s\n", material.texD);
     fprintf(dest, "AMBIENT   %f %f %f %f\n", material.a[0], material.a[1], material.a[2]);
     fprintf(dest, "DIFFUSE   %f %f %f %f\n", material.d[0], material.d[1], material.d[2]);
     fprintf(dest, "SPECULAR  %f %f %f %f\n", material.s[0], material.s[1], material.s[2]);
@@ -248,7 +248,7 @@ int main(int argc, char **argv) {
   for(i = 0; i < num_faces; i++) {
     int uvmap = 0;
     if(num_texcoords != 0) uvmap = i;
-    fprintf(dest, "%d : SIZE %d\n%d 0", i, size[i], uvmap);
+    fprintf(dest, "%d : SIZE %d\n%d", i, size[i], uvmap);
     for(j = 0; j < size[i]; j++) {
       fprintf(dest, " %d", faces[i][j]-1);
     }

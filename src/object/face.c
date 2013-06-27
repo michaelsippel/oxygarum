@@ -25,12 +25,11 @@
 #include "opengl.h"
 #include "object.h"
 
-face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *material, uv_t *uv_map) {
+face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t *uv_map) {
   face_t *face = malloc(sizeof(face_t));
   
   face->vertex_counter = num;
   face->vertices = vertices;
-  face->material = material;
   face->uv_map = uv_map;
   
   return face;
@@ -38,19 +37,6 @@ face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, material_t *
 
 void oxygarum_display_face3d(object3d_t *object, face_t *face, int shade_mode) {
   int i;
-  
-  glColor4f(face->material->color.color[0], 
-	    face->material->color.color[1],
-	    face->material->color.color[2],
-	    face->material->color.color[3]);
-  glBindTexture(GL_TEXTURE_2D, face->material->texture->id);
-  glMaterialfv(GL_FRONT, GL_AMBIENT, face->material->ambient);
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, face->material->diffuse);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, face->material->specular);
-  glMaterialfv(GL_FRONT, GL_SHININESS, face->material->shininess);
-  
-  if(shade_mode == SHADE_FLAT)
-  glNormal3f(face->face_normal.x, face->face_normal.y, face->face_normal.z);  
   
   if(face->vertex_counter == 3)
     glBegin(GL_TRIANGLES);
@@ -63,7 +49,6 @@ void oxygarum_display_face3d(object3d_t *object, face_t *face, int shade_mode) {
     vertex_id id = face->vertices[i];
     
     glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
-    if(shade_mode == SHADE_SMOOTH)
     glNormal3f(object->normals[id]->x, object->normals[id]->y, object->normals[id]->z);
     glVertex3f(
  	object->vertices[id]->x,
@@ -76,12 +61,6 @@ void oxygarum_display_face3d(object3d_t *object, face_t *face, int shade_mode) {
 
 void oxygarum_display_face2d(object2d_t *object, face_t *face) {
   int i;
-  
-  glColor4f(face->material->color.color[0], 
-	    face->material->color.color[1],
-	    face->material->color.color[2],
-	    face->material->color.color[3]);
-  glBindTexture(GL_TEXTURE_2D, face->material->texture->id);
   
   if(face->vertex_counter == 3)
     glBegin(GL_TRIANGLES);

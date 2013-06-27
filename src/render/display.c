@@ -150,7 +150,15 @@ void oxygarum_display(void) {
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
       glEnableClientState(GL_NORMAL_ARRAY);
       glEnableClientState(GL_VERTEX_ARRAY);
-      glBindTexture(GL_TEXTURE_2D, display_objects3d[i].object->faces[0]->material->texture->id);
+      
+      material_t *material = display_objects3d[i].object->material;      
+      
+      glBindTexture(GL_TEXTURE_2D, material->texture->id);
+      glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
+      glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
+      glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
+      glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
+      
       glBindBuffer(GL_ARRAY_BUFFER, display_objects3d[i].object->vbo_id);
       glInterleavedArrays(GL_T2F_N3F_V3F, sizeof(vbo_vertex_t), NULL);
       glDrawArrays(GL_TRIANGLES, 0, display_objects3d[i].object->vbo_vertex_counter);
@@ -175,7 +183,7 @@ void oxygarum_display(void) {
   
   // display fonts and 2d-objects
   
-  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_width(), -1, 1); 
+  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_height(), -1, 1); 
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
@@ -190,6 +198,9 @@ void oxygarum_display(void) {
       glTranslatef(display_objects2d[i].pos.x, display_objects2d[i].pos.y, 0);
       glRotatef(display_objects2d[i].rot, 0.0f,0.0f,1.0f);
       
+      material_t *material = display_objects2d[i].object->material;
+      glBindTexture(GL_TEXTURE_2D, material->texture->id);
+      
       oxygarum_display_object2d(display_objects2d[i].object);
       
       glPopMatrix();
@@ -198,7 +209,7 @@ void oxygarum_display(void) {
   
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_width(), -1, 1); 
+  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_height(), -1, 1); 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   

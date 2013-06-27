@@ -41,6 +41,7 @@ void anim(void) {
 }
 
 void wait_for_begin(void) {
+  if(oxygarum_get_frametime() < 0) return;
   if(oxygarum_get_fps() > 0 && bunny != NULL) {
     oxygarum_disable_object2d_status(load_screen_id, OBJECT_VISIBLE);
     oxygarum_animation_func(&anim);

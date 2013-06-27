@@ -26,13 +26,14 @@
 
 #define DEBUG 0
 
-object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertices, face_id num_faces, face_t **faces) {
+object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertices, face_id num_faces, face_t **faces, material_t *material) {
   object3d_t *object = malloc(sizeof(object3d_t));
   
   object->face_counter = num_faces;
   object->vertex_counter = num_vertices;
   object->faces = faces;
   object->vertices = vertices;
+  object->material = material;
   
   object->normals = calloc(num_vertices, sizeof(vector3d_t*));  
   
@@ -56,7 +57,7 @@ object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertic
   
   glGenBuffers(1, &object->vbo_id);
   glBindBuffer(GL_ARRAY_BUFFER, object->vbo_id);
-  
+
   object->vbo = malloc(sizeof(vbo_vertex_t) * object->vbo_vertex_counter);//(vbo_vertex_t*) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
   
   int j,k = 0,l=0;
@@ -84,7 +85,7 @@ object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertic
       }
     }
   }
-    glBufferData(GL_ARRAY_BUFFER, object->vbo_vertex_counter*sizeof(vbo_vertex_t), object->vbo, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, object->vbo_vertex_counter*sizeof(vbo_vertex_t), object->vbo, GL_DYNAMIC_DRAW);
   //glUnmapBuffer(GL_ARRAY_BUFFER);
   
   return object;
@@ -138,13 +139,14 @@ void oxygarum_calc_normals(object3d_t *object) {
   free(common_face_count);
 }
 
-object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertices, face_id num_faces, face_t **faces) {
+object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertices, face_id num_faces, face_t **faces, material_t *material) {
   object2d_t *object = malloc(sizeof(object2d_t));
   
   object->face_counter = num_faces;
   object->vertex_counter = num_vertices;
   object->faces = faces;
   object->vertices = vertices;
+  object->material = material;
   
   return object;
 }

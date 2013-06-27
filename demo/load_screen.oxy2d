@@ -1,5 +1,5 @@
-MATERIALS 1
-0: ../loading.png
+MATERIAL
+../loading.png
 
 VERTICES 4
 0 : -1  1
@@ -16,5 +16,5 @@ UVMAPS 1
 
 FACES 1
 0 : SIZE 4
-0 0 0 1 2 3
+0 0 1 2 3
 

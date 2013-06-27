@@ -95,7 +95,7 @@ void anim(void) {
     if(ball_x <= player1_x+0.8 && ball_x >= player1_x-0.8) {
       direction_y = DIRECTION_FORWARD;
     } else {
-      load_screen->faces[0]->material->texture = oxygarum_load_texture("game_over.png");
+      load_screen->material->texture = oxygarum_load_texture("game_over.png");
       oxygarum_enable_object2d_status(load_screen_id, OBJECT_VISIBLE);
       game_over = 1;
     }
@@ -105,7 +105,6 @@ void anim(void) {
 
   sprintf(text, "FPS:%f", oxygarum_get_fps());
   sprintf(text2, "FRAMETIME:%f", oxygarum_get_frametime());
-  
 }
 
 void wait_for_begin(void) {
@@ -146,7 +145,7 @@ int main(int argc, char **argv) {
   font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);   
-  
+
   glutMainLoop();
   
   return 0;
