@@ -147,10 +147,6 @@ void oxygarum_display(void) {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
       }
       
-      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glEnableClientState(GL_NORMAL_ARRAY);
-      glEnableClientState(GL_VERTEX_ARRAY);
-      
       material_t *material = display_objects3d[i].object->material;      
       
       glBindTexture(GL_TEXTURE_2D, material->texture->id);
@@ -159,11 +155,26 @@ void oxygarum_display(void) {
       glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
       glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
       
-      glBindBuffer(GL_ARRAY_BUFFER, display_objects3d[i].object->vbo_id);
-      glInterleavedArrays(GL_T2F_N3F_V3F, sizeof(vbo_vertex_t), NULL);
-      glDrawArrays(GL_TRIANGLES, 0, display_objects3d[i].object->vbo_vertex_counter);
+      switch(display_objects3d[i].shade_mode) {
+        case SHADE_SMOOTH:
+          glShadeModel(GL_SMOOTH);
+          break;
+        case SHADE_FLAT:
+          glShadeModel(GL_FLAT);
+          break;
+      }
       
-      //oxygarum_display_object3d(display_objects3d[i].object, display_objects3d[i].shade_mode);
+      if(display_objects3d[i].status & OBJECT_RENDER_VBO) {
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, display_objects3d[i].object->vbo_id);
+        glInterleavedArrays(GL_T2F_N3F_V3F, sizeof(vbo_vertex_t), NULL);
+        glDrawArrays(GL_TRIANGLES, 0, display_objects3d[i].object->vbo_vertex_counter);
+      } else {
+        oxygarum_display_object3d(display_objects3d[i].object);
+      }
       
       if(display_objects3d[i].status & OBJECT_TRANSPARENT ||
         (!display_objects3d[i].status & OBJECT_DEPTH_BUFFERING )) 
@@ -250,7 +261,7 @@ int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z) {
   display_objects3d[display_object3d_counter].rot.y = 0;
   display_objects3d[display_object3d_counter].rot.z = 0;
   display_objects3d[display_object3d_counter].shade_mode = SHADE_FLAT;
-  display_objects3d[display_object3d_counter].status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+  display_objects3d[display_object3d_counter].status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING | OBJECT_RENDER_VBO;
   
   return display_object3d_counter++;
 }

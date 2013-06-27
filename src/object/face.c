@@ -35,7 +35,7 @@ face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t *uv_map
   return face;
 }
 
-void oxygarum_display_face3d(object3d_t *object, face_t *face, int shade_mode) {
+void oxygarum_display_face3d(object3d_t *object, face_t *face) {
   int i;
   
   if(face->vertex_counter == 3)

@@ -26,6 +26,7 @@
 #define OBJECT_VISIBLE         0x1
 #define OBJECT_TRANSPARENT     0x2
 #define OBJECT_DEPTH_BUFFERING 0x4
+#define OBJECT_RENDER_VBO      0x8
 
 typedef struct vbo_vertex {
   uv_t       tex;
@@ -61,6 +62,8 @@ typedef struct display_obj3d {
   vertex2d_t feedback;
   int shade_mode;
   int status;
+
+  struct display_obj3d *next;
 } display_obj3d_t;
 
 typedef struct display_obj2d {
@@ -69,6 +72,8 @@ typedef struct display_obj2d {
   float rot;
   vertex2d_t feedback;
   int status;
+  
+  struct display_obj2d *next;
 } display_obj2d_t;
 
 /// allocates memory and adds faces to the object
@@ -76,7 +81,7 @@ object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertic
 object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertices, face_id num_faces, face_t **faces, material_t *material);
 void oxygarum_calc_normals(object3d_t *object);
 /// draw the object to the OpenGL scene
-void oxygarum_display_object3d(object3d_t *object, int shade_mode);
+void oxygarum_display_object3d(object3d_t *object);
 int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z);
 void oxygarum_set_shade_mode(int id, int mode);
 void oxygarum_enable_object3d_status(int id, int status);

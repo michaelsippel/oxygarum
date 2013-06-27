@@ -56,7 +56,6 @@ void oxygarum_init_opengl(int argc, char **argv) {
   glClearDepth(1.0);
   glDepthFunc(GL_LESS);
   glEnable(GL_DEPTH_TEST);
-  glShadeModel(GL_SMOOTH);
   glViewport(view_x, view_y, width, height);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();

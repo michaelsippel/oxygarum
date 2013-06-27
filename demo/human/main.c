@@ -44,9 +44,11 @@ void wait_for_begin(void) {
     oxygarum_disable_object2d_status(load_screen_id, OBJECT_VISIBLE);
     oxygarum_animation_func(&anim);
   } else if(human == NULL) {
-    human = oxygarum_load_oxy3d_file("human.oxy3d");
-    id = oxygarum_add_object3d(human, 0, 0, -20);
-    oxygarum_set_shade_mode(id, shade_mode);
+    if(oxygarum_get_frametime() > 0) {
+      human = oxygarum_load_oxy3d_file("human.oxy3d");
+      id = oxygarum_add_object3d(human, 0, 0, -20);
+      oxygarum_set_shade_mode(id, shade_mode);
+    }
   }
 }
 
@@ -69,7 +71,7 @@ int main(int argc, char **argv) {
   font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);    
-
+  
   glutMainLoop();
   
   return 0;

@@ -151,10 +151,10 @@ object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertic
   return object;
 }
 
-void oxygarum_display_object3d(object3d_t *object, int shade_mode) {
+void oxygarum_display_object3d(object3d_t *object) {
   int i;
   for(i = 0; i < object->face_counter; i++) {
-    oxygarum_display_face3d(object, object->faces[i], shade_mode);
+    oxygarum_display_face3d(object, object->faces[i]);
   }
 }
 
