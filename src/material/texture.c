@@ -121,7 +121,6 @@ texture_t *oxygarum_load_texture(const char *path) {
   tex->data = oxygarum_load_png(path, &tex->width, &tex->height);
   
   glGenTextures(1, &tex->id);
-  printf("tex-id = 0x%x\n", tex->id);
   glBindTexture(GL_TEXTURE_2D, tex->id);
   
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

@@ -24,8 +24,6 @@
 #include "face.h"
 #include "object.h"
 
-#define DEBUG 0
-
 object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertices, face_id num_faces, face_t **faces, material_t *material) {
   object3d_t *object = malloc(sizeof(object3d_t));
   
@@ -42,33 +40,34 @@ object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertic
     object->normals[i] = malloc(sizeof(vector3d_t));
   }
   
-#if DEBUG == 1
-  printf("Calculating normals...\n");
-#endif
   oxygarum_calc_normals(object);
   
   // creating VBO
+  glGenBuffers(1, &object->vbo_id);
+  glBindBuffer(GL_ARRAY_BUFFER, object->vbo_id);
+  
+  object->vbo = malloc(sizeof(vbo_vertex_t) * object->vbo_vertex_counter);//(vbo_vertex_t*) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+  oxygarum_update_object3d_buffer(object);
+  //glUnmapBuffer(GL_ARRAY_BUFFER);
+  
+  return object;
+}
+
+void oxygarum_update_object3d_buffer(object3d_t *object) {
+  int i,j,k = 0,l=0;
+  
   object->vbo_vertex_counter = 0;
   for(i = 0; i < object->face_counter; i++) {
     object->vbo_vertex_counter += object->faces[i]->vertex_counter - 2;
   }
   object->vbo_vertex_counter *= 3;
-  printf("%d vertices, %d tris\n", object->vbo_vertex_counter, object->vbo_vertex_counter/3);
-  
-  glGenBuffers(1, &object->vbo_id);
-  glBindBuffer(GL_ARRAY_BUFFER, object->vbo_id);
 
-  object->vbo = malloc(sizeof(vbo_vertex_t) * object->vbo_vertex_counter);//(vbo_vertex_t*) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-  
-  int j,k = 0,l=0;
+  object->vbo = realloc(object->vbo, sizeof(vbo_vertex_t) * object->vbo_vertex_counter);  
   for(i = 0; i < object->face_counter; i++) {
     face_t *face = object->faces[i];
-    printf("FACE %d\n", i);
     for(j = 0; j < face->vertex_counter-2; j++) {
-      printf("TRI %d\n", j);
       
       for(l = 0; l < j+3; l++) {
-        printf("vertex %d(%d): ", k, l); 
         object->vbo[k].vertex.x = object->vertices[face->vertices[l]]->x;
         object->vbo[k].vertex.y = object->vertices[face->vertices[l]]->y;
         object->vbo[k].vertex.z = object->vertices[face->vertices[l]]->z;
@@ -78,17 +77,12 @@ object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertic
         object->vbo[k].tex.u = face->uv_map[l].u;
         object->vbo[k].tex.v = face->uv_map[l].v;
         
-        printf("%f/%f/%f\n", object->vbo[k].vertex.x, object->vbo[k].vertex.y, object->vbo[k].vertex.z);
-        
         k++;
         if(l == 0) l = j;
       }
     }
   }
-  glBufferData(GL_ARRAY_BUFFER, object->vbo_vertex_counter*sizeof(vbo_vertex_t), object->vbo, GL_DYNAMIC_DRAW);
-  //glUnmapBuffer(GL_ARRAY_BUFFER);
-  
-  return object;
+  glBufferData(GL_ARRAY_BUFFER, object->vbo_vertex_counter*sizeof(vbo_vertex_t), object->vbo, GL_STATIC_DRAW);
 }
 
 void oxygarum_calc_normals(object3d_t *object) {
@@ -112,10 +106,7 @@ void oxygarum_calc_normals(object3d_t *object) {
     face->face_normal.x = normal->x;
     face->face_normal.y = normal->y;
     face->face_normal.z = normal->z;
-#if DEBUG == 1
-    printf("%d: flat: x = %lf, y = %lf, z = %lf\n", i, normal->x, normal->y, normal->z);    
-#endif
-
+    
     for(j = 0; j < face->vertex_counter; j++) {
       object->normals[face->vertices[j]]->x += normal->x;
       object->normals[face->vertices[j]]->y += normal->y;
@@ -131,9 +122,6 @@ void oxygarum_calc_normals(object3d_t *object) {
       object->normals[i]->y /= common_face_count[i];
       object->normals[i]->z /= common_face_count[i];
     }
-#if DEBUG == 1
-    printf("%d: X = %lf, Y = %lf, Z = %lf\n", i, object->normals[i]->x, object->normals[i]->y, object->normals[i]->z);
-#endif
   }
 
   free(common_face_count);

@@ -80,6 +80,7 @@ typedef struct display_obj2d {
 object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertices, face_id num_faces, face_t **faces, material_t *material);
 object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t **vertices, face_id num_faces, face_t **faces, material_t *material);
 void oxygarum_calc_normals(object3d_t *object);
+void oxygarum_update_object3d_buffer(object3d_t *object);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object3d(object3d_t *object);
 int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z);
