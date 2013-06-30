@@ -33,7 +33,7 @@ unsigned int display_object2d_counter = 0;
 unsigned int display_text_counter = 0;
 display_obj3d_t **display_objects3d;
 display_obj2d_t **display_objects2d;
-display_text_t *display_texts;
+display_text_t **display_texts;
 
 static int frame_counter = 0;
 static int time_cur = 0, time_prev = 0, time_diff = 0;
@@ -208,7 +208,7 @@ void oxygarum_display(void) {
   glLoadIdentity();
   
   for(i = 0; i < display_object2d_counter; i++) {
-    if(display_objects3d[i] == NULL) {
+    if(display_objects2d[i] == NULL) {
       continue;
     }
     
@@ -235,14 +235,19 @@ void oxygarum_display(void) {
   glLoadIdentity();
   
   for(i = 0; i < display_text_counter; i++) {
+    if(display_texts[i] == NULL) {
+      continue;
+    }
+    display_text_t *text = display_texts[i];
+    
     glPushMatrix();
     
-    glTranslatef(display_texts[i].pos.x, display_texts[i].pos.y, 0);
-    glColor4f(display_texts[i].color.color[0], 
-              display_texts[i].color.color[1], 
-              display_texts[i].color.color[2], 
-              display_texts[i].color.color[3]);
-    oxygaurm_display_text(display_texts[i].font, display_texts[i].text);
+    glTranslatef(text->pos.x, text->pos.y, 0);
+    glColor4f(text->color.color[0], 
+              text->color.color[1], 
+              text->color.color[2], 
+              text->color.color[3]);
+    oxygaurm_display_text(text->font, text->text);
     
     glPopMatrix();
   }
@@ -364,29 +369,36 @@ vertex2d_t oxygarum_get_object2d_feedback(int id) {
 }
 
 int oxygarum_add_text(char *text, font_t *font, float x, float y) {
+  int id;
+  id = display_text_counter++;
   if(display_text_counter > 0) {
-    display_texts = realloc(display_texts, (display_text_counter+1) * sizeof(display_text_t));
+    display_texts = realloc(display_texts, display_text_counter * sizeof(display_text_t));
   } else {
     display_texts = malloc(sizeof(display_text_t));
   }
   
-  display_texts[display_text_counter].text = text;
-  display_texts[display_text_counter].font = font;
-  display_texts[display_text_counter].pos.x = x;
-  display_texts[display_text_counter].pos.y = y;
-  display_texts[display_text_counter].color.rgb = (color_st_t) {.r = 1, .b = 1, .g = 1, .a = 1};
+  display_texts[id] = malloc(sizeof(display_text_t));
+  display_texts[id]->text = text;
+  display_texts[id]->font = font;
+  display_texts[id]->pos.x = x;
+  display_texts[id]->pos.y = y;
+  display_texts[id]->color.rgb = (color_st_t) {.r = 1, .b = 1, .g = 1, .a = 1};
   
-  return display_text_counter++;
+  return id;
+}
+void oxygarum_remove_text(int id) {
+  free(display_texts[id]);
+  display_texts[id] = NULL;
 }
 void oxygarum_update_text(int id, char *text, font_t *font, float x, float y) {
-  display_texts[id].pos.x = x;
-  display_texts[id].pos.y = y;
-
-  if(text != NULL) display_texts[id].text = text;
-  if(font != NULL) display_texts[id].font = font;
+  display_texts[id]->pos.x = x;
+  display_texts[id]->pos.y = y;
+  
+  if(text != NULL) display_texts[id]->text = text;
+  if(font != NULL) display_texts[id]->font = font;
 }
 void oxygarum_set_text_color(int id, color_t color) {
-  display_texts[id].color = color;
+  display_texts[id]->color = color;
 }
 
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z) {

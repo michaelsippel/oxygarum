@@ -84,6 +84,7 @@ void oxygarum_update_object3d_buffer(object3d_t *object);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object3d(object3d_t *object);
 int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z);
+void oxygarum_remove_object3d(int id);
 void oxygarum_set_shade_mode(int id, int mode);
 void oxygarum_enable_object3d_status(int id, int status);
 void oxygarum_disable_object3d_status(int id, int status);
@@ -91,6 +92,7 @@ vertex2d_t oxygarum_get_object3d_feedback(int id);
 
 void oxygarum_display_object2d(object2d_t *object);
 int oxygarum_add_object2d(object2d_t *object, float x, float y);
+void oxygarum_remove_object2d(int id);
 void oxygarum_enable_object2d_status(int id, int status);
 void oxygarum_disable_object2d_status(int id, int status);
 vertex2d_t oxygarum_get_object2d_feedback(int id);
