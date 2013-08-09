@@ -33,6 +33,7 @@ extern "C" {
 #include "material.h"
 #include "texture.h"
 #include "keyboard.h"
+#include "gui.h"
 
 #ifdef __WIN32__
 void usleep(unsigned int usec);

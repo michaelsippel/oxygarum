@@ -4,6 +4,7 @@ all:
 	make -C walk
 	make -C human
 	make -C pong
+	make -C gui
 
 clean:
 	make -C cube clean
@@ -11,4 +12,5 @@ clean:
 	make -C walk clean
 	make -C human clean
 	make -C pong clean
+	make -C gui clean
 
