@@ -66,17 +66,17 @@ face_t *oxygarum_create_window_part(oxygarum_window_t *win, int part, uv_t *uv_m
     case OXYGARUM_WINDOW_TOP_LEFT:
     case OXYGARUM_WINDOW_TOP_CENTER:
     case OXYGARUM_WINDOW_TOP_RIGHT:
-      win->vertices[v[0]]->y = height;
+      win->vertices[v[0]]->y = 0;
       break;
     case OXYGARUM_WINDOW_MIDDLE_LEFT:
     case OXYGARUM_WINDOW_MIDDLE_CENTER:
     case OXYGARUM_WINDOW_MIDDLE_RIGHT:
-      win->vertices[v[0]]->y = height - ((win->size.y - height) / 2);
+      win->vertices[v[0]]->y = (height - win->size.y) / 2;
       break;
     case OXYGARUM_WINDOW_BOTTOM_LEFT:
     case OXYGARUM_WINDOW_BOTTOM_CENTER:
     case OXYGARUM_WINDOW_BOTTOM_RIGHT:
-      win->vertices[v[0]]->y = height - (win->size.y - height);
+      win->vertices[v[0]]->y = height - win->size.y;
       break;
   }
   

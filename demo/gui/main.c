@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
   init_oxygarum(argc, argv);
   
   texture_t *gui_tex = oxygarum_load_texture("gui.png");
-  oxygarum_window_t *win = oxygarum_create_window(0.9, 0.9, gui_tex);  
+  oxygarum_window_t *win = oxygarum_create_window(1.8f, 0.9f, gui_tex);  
   
   uv_t uv0[9] = {{.u = 0.0f, .v = 1.0f}, {.u = 0.5f, .v = 1.0f}, {.u = 0.5f, .v = 0.5f}, {.u = 0.0f, .v = 0.5f}};
   uv_t uv1[9] = {{.u = 1.0f, .v = 1.0f}, {.u = 0.5f, .v = 1.0f}, {.u = 0.5f, .v = 0.5f}, {.u = 1.0f, .v = 0.5f}};
@@ -31,17 +31,17 @@ int main(int argc, char **argv) {
   uv_t uv8[9] = {{.u = 0.5f, .v = 0.5f}, {.u = 0.0f, .v = 0.5f}, {.u = 0.0f, .v = 1.0f}, {.u = 0.5f, .v = 1.0f}};
   
   oxygarum_create_window_part(win, OXYGARUM_WINDOW_TOP_LEFT, uv0, 0.3f, 0.3f);
-  oxygarum_create_window_part(win, OXYGARUM_WINDOW_TOP_CENTER, uv1, 0.3f, 0.3f);
+  oxygarum_create_window_part(win, OXYGARUM_WINDOW_TOP_CENTER, uv1, 1.2f, 0.3f);
   oxygarum_create_window_part(win, OXYGARUM_WINDOW_TOP_RIGHT, uv2, 0.3f, 0.3f);
   oxygarum_create_window_part(win, OXYGARUM_WINDOW_MIDDLE_LEFT, uv3, 0.3f, 0.3f);
-  oxygarum_create_window_part(win, OXYGARUM_WINDOW_MIDDLE_CENTER, uv4, 0.3f, 0.3f);
+  oxygarum_create_window_part(win, OXYGARUM_WINDOW_MIDDLE_CENTER, uv4, 1.2f, 0.3f);
   oxygarum_create_window_part(win, OXYGARUM_WINDOW_MIDDLE_RIGHT, uv5, 0.3f, 0.3f);
   oxygarum_create_window_part(win, OXYGARUM_WINDOW_BOTTOM_LEFT, uv6, 0.3f, 0.3f);
-  oxygarum_create_window_part(win, OXYGARUM_WINDOW_BOTTOM_CENTER, uv7, 0.3f, 0.3f);
+  oxygarum_create_window_part(win, OXYGARUM_WINDOW_BOTTOM_CENTER, uv7, 1.2f, 0.3f);
   oxygarum_create_window_part(win, OXYGARUM_WINDOW_BOTTOM_RIGHT, uv8, 0.3f, 0.3f);
   
   object2d_t *gui = oxygarum_create_window_obj(win);
-  oxygarum_add_object2d(gui, 0, 0);
+  oxygarum_add_object2d(gui, -1, 1);
   
   glutMainLoop();
   
