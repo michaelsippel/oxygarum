@@ -23,6 +23,7 @@
 #include "vertex.h"
 #include "object.h"
 #include "font.h"
+#include "light.h"
 
 static vertex3d_t loc = {.x = 0, .y = 0, .z = 0};
 static vertex3d_t rot = {.x = 0, .y = 0, .z = 0};
@@ -34,6 +35,8 @@ unsigned int display_text_counter = 0;
 display_obj3d_t **display_objects3d;
 display_obj2d_t **display_objects2d;
 display_text_t **display_texts;
+unsigned int absolute_light_counter = 0;
+light_t **absolute_lights;
 
 static int frame_counter = 0;
 static int time_cur = 0, time_prev = 0, time_diff = 0;
@@ -96,8 +99,9 @@ void oxygarum_idle(void) {
 }
 
 void oxygarum_display(void) {
+  int i;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.1, 0.1, 0.1, 1.0);
+  glClearColor(0.1, 0.1, 0.1, 1.0);  
   
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -108,9 +112,14 @@ void oxygarum_display(void) {
   
   glTranslatef(loc.x, loc.y, loc.z);
   
+  for(i = 0; i < absolute_light_counter; i++) {
+    light_t *l = absolute_lights[i];
+    glLightfv(l->gl_light, GL_POSITION, l->pos);
+  }
+  
   float feedback[3] = {-1.0f, -1.0f, -1.0f};  
   
-  int i;
+
   for(i = 0; i < display_object3d_counter; i++) {
     if(display_objects3d[i] == NULL) {
       continue;
@@ -399,6 +408,34 @@ void oxygarum_update_text(int id, char *text, font_t *font, float x, float y) {
 }
 void oxygarum_set_text_color(int id, color_t color) {
   display_texts[id]->color = color;
+}
+
+int oxygarum_add_light(light_t *light, int light_pos) {
+  glLightfv(light->gl_light, GL_AMBIENT,  light->ambient);
+  glLightfv(light->gl_light, GL_DIFFUSE,  light->diffuse);
+  glLightfv(light->gl_light, GL_SPECULAR, light->specular);
+  glLightfv(light->gl_light, GL_POSITION, light->pos);
+  
+  glEnable(light->gl_light);
+  
+  if(light_pos == LIGHT_POSITION_ABSOLUTE) {
+    int id;
+    id = absolute_light_counter++;
+    if(absolute_light_counter > 0) {
+      absolute_lights = realloc(absolute_lights, absolute_light_counter * sizeof(light_t));
+    } else {
+      absolute_lights = malloc(sizeof(light_t));
+    }
+    
+    absolute_lights[id] = light;
+    return id;
+  }
+  
+  return -1;
+}
+void oxygarum_remove_absolute_light(int id) {
+  free(absolute_lights[id]);
+  absolute_lights[id] = NULL;
 }
 
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z) {

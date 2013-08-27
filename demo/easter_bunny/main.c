@@ -12,11 +12,6 @@
 #include <unistd.h>
 #include <math.h>
 
-GLfloat ambient[]= { 0.8f, 0.7f, 0.9f, 1.0f };
-GLfloat diffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat specular[]= { 0.0f, 0.0f, 0.0f, 0.0f };
-GLfloat position[]= { 1.0f, 0.5f, -0.1f, 1.0f };
-
 int id;
 int shade_mode = 1;
 object3d_t *bunny = NULL;
@@ -60,7 +55,15 @@ int main(int argc, char **argv) {
   oxygarum_set_keyboard_event('s', &change_shade);  
   
   init_oxygarum(argc, argv);
-  oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);  
+  
+  light_t light;
+  light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
+  light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
+  light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
+  light.pos[0] = 1.0f; light.pos[1] = 0.5f; light.pos[2] = -0.1f; light.pos[3] = 1.0f;
+  light.gl_light = GL_LIGHT0;
+  oxygarum_add_light(&light, LIGHT_POSITION_ABSOLUTE);
+  
   glEnable(GL_CULL_FACE);  // Enable backface culling  
   
   load_screen = oxygarum_load_oxy2d_file("../load_screen.oxy2d");

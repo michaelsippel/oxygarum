@@ -13,6 +13,7 @@ demo/walk/walk
 demo/easter_bunny/bunny
 demo/human/human
 demo/pong/pong
+demo/gui/gui
 .gitignore~
 makefile~
 makefile.linux~

@@ -37,7 +37,6 @@ void oxygarum_init_glut(int argc, char **argv);
 void oxygarum_init_opengl(int argc, char **argv);
 void oxygarum_reshape(int _width, int _height);
 
-void oxygarum_set_light(GLenum light, GLfloat *ambient, GLfloat *diffuse, GLfloat *specular, GLfloat *position);
 void oxygarum_set_resolution(int _width, int _height);
 void oxygarum_set_viewport(int _x, int _y);
 void oxygarum_set_title(const char *_title);

@@ -1,7 +1,7 @@
 /**
- *  include/oxygarum.h
+ *  include/light.h
  *
- *  (C) Copyright 2012 Michael Sippel
+ *  (C) Copyright 2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,40 +16,25 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _OXYGARUM_H
-#define _OXYGARUM_H
+#ifndef _LIGHT_H
+#define _LIGHT_H
 
 #include <GL/gl.h>
-
-#if defined(__cplusplus)
-extern "C" {
-#endif
-
 #include "vertex.h"
-#include "face.h"
-#include "font.h"
-#include "object.h"
-#include "opengl.h"
-#include "material.h"
-#include "texture.h"
-#include "keyboard.h"
-#include "gui.h"
-#include "light.h"
 
-#ifdef __WIN32__
-void usleep(unsigned int usec);
-#endif
+#define LIGHT_POSITION_ABSOLUTE 0x0
+#define LIGHT_POSITION_RELATIVE 0x1
 
-void init_oxygarum(int argc, char **argv);
-object3d_t *oxygarum_load_oxy3d_file(const char *path);
-object2d_t *oxygarum_load_oxy2d_file(const char *path);
-float oxygarum_get_fps(void);
-void oxygarum_set_max_fps(float max_fps);
-float oxygarum_get_frametime(void);
+typedef struct light {
+  GLfloat ambient[4];
+  GLfloat diffuse[4];
+  GLfloat specular[4];
+  GLfloat pos[4];
+  GLenum gl_light;
+} light_t;
 
-#if defined(__cplusplus)
-}
-#endif
+int oxygarum_add_light(light_t *light, int light_position);
+void oxygarum_remove_light(int id);
 
 #endif
 

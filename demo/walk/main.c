@@ -12,11 +12,6 @@
 #include <unistd.h>
 #include <math.h>
 
-GLfloat ambient[]= { 0.8f, 0.7f, 0.9f, 1.0f };
-GLfloat diffuse[]= { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat specular[]= { 0.0f, 0.0f, 0.0f, 0.0f };
-GLfloat position[]= { 1.0f, 0.5f, -0.1f, 1.0f };
-
 #define piover180 0.0174532925f
 #define SPEED 0.2
 
@@ -102,7 +97,13 @@ int main(int argc, char **argv) {
   
   init_oxygarum(argc, argv);
   
-  oxygarum_set_light(GL_LIGHT1, ambient, diffuse, specular, position);
+  light_t light;
+  light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
+  light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
+  light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
+  light.pos[0] = 1.0f; light.pos[1] = 0.5f; light.pos[2] = -0.1f; light.pos[3] = 1.0f;
+  light.gl_light = GL_LIGHT0;
+  oxygarum_add_light(&light, LIGHT_POSITION_ABSOLUTE);
   //glEnable(GL_CULL_FACE);  // Enable backface culling
   
   object3d_t *world = oxygarum_load_oxy3d_file("world.oxy3d");

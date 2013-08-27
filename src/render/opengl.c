@@ -29,11 +29,6 @@ static int view_x, view_y;
 static float fov = 45.0f;
 static const char *title;
 
-GLfloat light_ambient[]=  { 0.5f, 0.5f, 0.5f, 1.0f };
-GLfloat light_diffuse[]=  { 1.0f, 1.0f, 1.0f, 1.0f };
-GLfloat light_specular[]= { 1.0f, 1.0f, 1.0f, 0.0f };
-GLfloat light_position[]= { 0.0f, 0.0f, 2.0f, 1.0f };
-
 void oxygarum_init_glut(int argc, char **argv) {
   glutInit((void*)&argc, argv);
   glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_ALPHA | GLUT_DEPTH);  
@@ -62,16 +57,7 @@ void oxygarum_init_opengl(int argc, char **argv) {
   gluPerspective(fov, (GLfloat)width/(GLfloat)height, 0.1f, 100.0f);
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_TEXTURE_2D);
-}
-
-void oxygarum_set_light(GLenum light, GLfloat *ambient, GLfloat *diffuse, GLfloat *specular, GLfloat *position) {
   glEnable(GL_LIGHTING);
-  glLightfv(light, GL_AMBIENT,  ambient);
-  glLightfv(light, GL_DIFFUSE,  diffuse);
-  glLightfv(light, GL_SPECULAR, specular);
-  glLightfv(light, GL_POSITION, position);
-  
-  glEnable(light);
 }
 
 void oxygarum_reshape(int _width, int _height) {
