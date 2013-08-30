@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
   oxygarum_rotate_object3d(id, 10, 30, 10);  
   oxygarum_enable_object3d_status(id, OBJECT_TRANSPARENT);
   
-  texture_t *font_tex = oxygarum_load_texture("../font.png");
+  texture_t *font_tex = oxygarum_load_texture("../font.png", 1);
   font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);  

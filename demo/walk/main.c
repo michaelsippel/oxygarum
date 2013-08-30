@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
   oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
   oxygarum_set_shade_mode(world_id, SHADE_SMOOTH);  
 
-  texture_t *font_tex = oxygarum_load_texture("../font2.png");
+  texture_t *font_tex = oxygarum_load_texture("../font2.png",1);
   font = oxygaurm_create_font(font_tex, 16, 16, 0, 16);
   oxygarum_add_text(fps, font, 0, 30);
   oxygarum_add_text(frametime, font, 0, 0);

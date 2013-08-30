@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
   load_screen_id = oxygarum_add_object2d(load_screen, 0, 0);
   oxygarum_set_max_fps(60);
   
-  texture_t *font_tex = oxygarum_load_texture("../font.png");
+  texture_t *font_tex = oxygarum_load_texture("../font.png",1);
   font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);    

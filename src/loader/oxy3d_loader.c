@@ -57,7 +57,7 @@ object3d_t *oxygarum_load_oxy3d_file(const char *path) {
   sscanf(line, "%s\n", tex_path);
   
   material = oxygarum_create_material("material");
-  material->texture = oxygarum_load_texture(tex_path);
+  material->texture = oxygarum_load_texture(tex_path, 1);
   
   readstr(f, line);
   sscanf(line, "AMBIENT %f %f %f %f\n", 

@@ -37,7 +37,7 @@ typedef struct texture {
 } texture_t;
 
 uint8_t *oxygarum_load_png(const char *path, unsigned int *width, unsigned int *height);
-texture_t *oxygarum_load_texture(const char *path);
+texture_t *oxygarum_load_texture(const char *path, int mipmapping);
 
 #endif
 

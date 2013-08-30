@@ -115,7 +115,7 @@ uint8_t *oxygarum_load_png(const char *path, unsigned int *width, unsigned int *
   return img_data;
 }
 
-texture_t *oxygarum_load_texture(const char *path) {
+texture_t *oxygarum_load_texture(const char *path, int mipmapping) {
   texture_t *tex = (texture_t*) malloc(sizeof(texture_t));
   
   tex->data = oxygarum_load_png(path, &tex->width, &tex->height);
@@ -125,10 +125,15 @@ texture_t *oxygarum_load_texture(const char *path) {
   
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->width, tex->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->data);
+
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-  glGenerateMipmap(GL_TEXTURE_2D);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->width, tex->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->data);
+  if(mipmapping) {
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->width, tex->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->data);
+  } else {
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  }
   
   return tex;
 }

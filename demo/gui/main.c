@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
   
   init_oxygarum(argc, argv);
   
-  texture_t *gui_tex = oxygarum_load_texture("gui.png");
+  texture_t *gui_tex = oxygarum_load_texture("gui.png", 0);
   oxygarum_window_t *win = oxygarum_create_window(1.4f, 0.6f, gui_tex);  
   
   uv_t uv0[9] = {{.u = 0.0f, .v = 1.0f}, {.u = 0.5f, .v = 1.0f}, {.u = 0.5f, .v = 0.5f}, {.u = 0.0f, .v = 0.5f}};
