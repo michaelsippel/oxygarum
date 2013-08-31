@@ -53,11 +53,11 @@ void oxygarum_display_face3d(object3d_t *object, face_t *face) {
       glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
     }
     
-    glNormal3f(object->normals[id]->x, object->normals[id]->y, object->normals[id]->z);
+    glNormal3f(object->normals[id].x, object->normals[id].y, object->normals[id].z);
     glVertex3f(
- 	object->vertices[id]->x,
- 	object->vertices[id]->y,
- 	object->vertices[id]->z
+ 	object->vertices[id].x,
+ 	object->vertices[id].y,
+ 	object->vertices[id].z
     );
   }
   glEnd();
@@ -82,8 +82,8 @@ void oxygarum_display_face2d(object2d_t *object, face_t *face) {
     }
     
     glVertex2f(
- 	object->vertices[id]->x,
- 	object->vertices[id]->y
+ 	object->vertices[id].x,
+ 	object->vertices[id].y
     );
   }
   

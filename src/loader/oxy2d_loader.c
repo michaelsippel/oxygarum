@@ -58,18 +58,19 @@ object2d_t *oxygarum_load_oxy2d_file(const char *path) {
   
   readstr(f, line);
   sscanf(line, "VERTICES %d\n", &num_vertices);
-  vertex2d_t **vertices = calloc(num_vertices, sizeof(vertex2d_t*));
+  vertex2d_t *vertices = calloc(num_vertices, sizeof(vertex2d_t));
 
   for(i = 0; i < num_vertices; i++) {
     int id;
-    vertex2d_t *vertex = malloc(sizeof(vertex2d_t));
+    float x,y;    
     
     readstr(f, line);
-    sscanf(line, "%d : %f %f\n", &id, &vertex->x, &vertex->y);
+    sscanf(line, "%d : %f %f\n", &id, &x, &y);
     
-    vertices[id] = vertex;
+    vertices[id].x = x;
+    vertices[id].y = y;
   }
-
+  
   readstr(f, line);
   sscanf(line, "UVMAPS %d\n", &num_uvmaps);
   uv_t **uvmaps = calloc(num_uvmaps, sizeof(uv_t*));

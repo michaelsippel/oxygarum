@@ -90,16 +90,18 @@ object3d_t *oxygarum_load_oxy3d_file(const char *path) {
   
   readstr(f, line);
   sscanf(line, "VERTICES %d\n", &num_vertices);
-  vertex3d_t **vertices = calloc(num_vertices, sizeof(vertex3d_t*));
+  vertex3d_t *vertices = calloc(num_vertices, sizeof(vertex3d_t));
   
   for(i = 0; i < num_vertices; i++) {
     int id;
-    vertex3d_t *vertex = malloc(sizeof(vertex3d_t));
+    float x,y,z;
     
     readstr(f, line);
-    sscanf(line, "%d : %f %f %f\n", &id, &vertex->x, &vertex->y, &vertex->z);
+    sscanf(line, "%d : %f %f %f\n", &id, &x, &y, &z);
     
-    vertices[id] = vertex;
+    vertices[id].x = x;
+    vertices[id].y = y;
+    vertices[id].z = z;
   }
   
   readstr(f, line);

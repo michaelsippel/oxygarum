@@ -164,7 +164,7 @@ void oxygarum_display(void) {
       material_t *material = obj->object->material;      
       
       for(j = 0; j < material->texture_counter; j++) {
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE0 + j);
         
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, material->textures[j]->id);
@@ -190,24 +190,26 @@ void oxygarum_display(void) {
       }
       
       if(obj->status & OBJECT_RENDER_VBO) {
+        glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_normal_id);
+        glNormalPointer(GL_FLOAT, 0, NULL);
+        
+        glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_vertex_id);
+        glVertexPointer(3, GL_FLOAT, 0, NULL);        
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->object->vbo_index_id);    
+        
         for(j = 0; j < material->texture_counter; j++) {
           glClientActiveTexture(GL_TEXTURE0 + j);
           glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-          glTexCoordPointer(4, GL_FLOAT, 0, obj->object->vbo_tex[j]);
+          glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_tex_id[j]);
+          glTexCoordPointer(2, GL_FLOAT, 0, NULL);
         }
         
-        glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_vertex_id);
-        glNormalPointer(   GL_FLOAT, sizeof(vbo_vertex_t), NULL);
-        glVertexPointer(4, GL_FLOAT, sizeof(vbo_vertex_t), sizeof(vector3d_t));
-        
-        glEnableClientState(GL_NORMAL_ARRAY);
         glEnableClientState(GL_VERTEX_ARRAY);
-        
-        glDrawElements(GL_TRIANGLES, obj->object->vbo_index_counter, GL_UNSIGNED_SHORT, NULL);
-        
-        glDisableClientState(GL_NORMAL_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glDrawElements(GL_TRIANGLES, obj->object->vbo_index_counter, GL_UNSIGNED_INT, NULL);
         glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
       } else {
         oxygarum_display_object3d(obj->object);
       }
