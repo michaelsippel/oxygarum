@@ -25,7 +25,7 @@
 #include "opengl.h"
 #include "object.h"
 
-face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t *uv_map) {
+face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t **uv_map) {
   face_t *face = malloc(sizeof(face_t));
   
   face->vertex_counter = num;
@@ -48,7 +48,11 @@ void oxygarum_display_face3d(object3d_t *object, face_t *face) {
   for(i = 0; i < face->vertex_counter; i++) {
     vertex_id id = face->vertices[i];
     
-    glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
+    int j;
+    for(j = 0; j < object->material->texture_counter; j++) {
+      glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
+    }
+    
     glNormal3f(object->normals[id]->x, object->normals[id]->y, object->normals[id]->z);
     glVertex3f(
  	object->vertices[id]->x,
@@ -72,7 +76,11 @@ void oxygarum_display_face2d(object2d_t *object, face_t *face) {
   for(i = 0; i < face->vertex_counter; i++) {
     vertex_id id = face->vertices[i];
     
-    glTexCoord2f(face->uv_map[i].u, face->uv_map[i].v);
+    int j;
+    for(j = 0; j < object->material->texture_counter; j++) {
+      glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
+    }
+    
     glVertex2f(
  	object->vertices[id]->x,
  	object->vertices[id]->y

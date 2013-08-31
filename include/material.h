@@ -40,7 +40,9 @@ typedef struct material {
   const char *name;
   material_id id;
   color_t color;
-  texture_t *texture;
+  
+  int texture_counter;
+  texture_t **textures;
   
   GLfloat ambient[4];
   GLfloat diffuse[4];

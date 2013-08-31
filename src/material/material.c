@@ -39,3 +39,8 @@ material_t *oxygarum_create_material(const char *name) {
   return material;
 }
 
+void oxygarum_material_init_textures(material_t *material, int num_textures, texture_t **textures) {
+  material->texture_counter = num_textures;
+  material->textures = textures;
+}
+

@@ -43,46 +43,85 @@ object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t **vertic
   oxygarum_calc_normals(object);
   
   // creating VBO
-  glGenBuffers(1, &object->vbo_id);
-  glBindBuffer(GL_ARRAY_BUFFER, object->vbo_id);
+  /*oxygarum_update_object3d_buffer(object);
   
-  object->vbo = malloc(sizeof(vbo_vertex_t) * object->vbo_vertex_counter);//(vbo_vertex_t*) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-  oxygarum_update_object3d_buffer(object);
-  //glUnmapBuffer(GL_ARRAY_BUFFER);
+  glGenBuffers(1, &object->vbo_vertex_id);
+  glBindBuffer(GL_ARRAY_BUFFER, object->vbo_vertex_id);
+  glBufferData(GL_ARRAY_BUFFER, object->vertex_counter*sizeof(vbo_vertex_t), object->vbo_vertices, GL_STATIC_DRAW);  
   
+  glGenBuffers(1, &object->vbo_index_id);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object->vbo_index_id);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, object->vbo_index_counter*sizeof(int), object->vbo_indices, GL_STATIC_DRAW);
+  */
   return object;
 }
 
 void oxygarum_update_object3d_buffer(object3d_t *object) {
-  int i,j,k = 0,l=0;
+  int i,j,k,l,m;
   
-  object->vbo_vertex_counter = 0;
+  // indices
+  object->vbo_index_counter = 0;
   for(i = 0; i < object->face_counter; i++) {
-    object->vbo_vertex_counter += object->faces[i]->vertex_counter - 2;
+    object->vbo_index_counter += object->faces[i]->vertex_counter - 2;
   }
-  object->vbo_vertex_counter *= 3;
-
-  object->vbo = realloc(object->vbo, sizeof(vbo_vertex_t) * object->vbo_vertex_counter);  
+  object->vbo_index_counter *= 3;
+  
+  if(object->vbo_indices == NULL) {
+    object->vbo_indices = malloc(sizeof(int) * object->vbo_index_counter);
+  } else {
+    object->vbo_indices = realloc(object->vbo_indices, sizeof(int) * object->vbo_index_counter);
+  }
+  
+  // vertices
+  if(object->vbo_vertices == NULL) {
+    object->vbo_vertices = malloc(sizeof(vbo_vertex_t) * object->vertex_counter);
+  } else {
+    object->vbo_vertices = realloc(object->vbo_vertices, sizeof(vbo_vertex_t) * object->vertex_counter);
+  }
+  
+  // texture coords
+  for(i = 0; i < object->material->texture_counter; i++) {
+    if(object->vbo_tex[i] == NULL) {
+      object->vbo_tex[i] = malloc(sizeof(uv_t) * object->vertex_counter);
+    } else {
+      object->vbo_tex[i] = realloc(object->vbo_tex[i], sizeof(uv_t) * object->vertex_counter);
+    }
+  }  
+  
+  // copy vertices
+  k = 0;
+  for(i = 0; i < object->face_counter; i++) {
+    face_t *face = object->faces[i];
+    for(j = 0; j < face->vertex_counter; j++) {
+      object->vbo_vertices[k].vertex.x = object->vertices[face->vertices[j]]->x;
+      object->vbo_vertices[k].vertex.y = object->vertices[face->vertices[j]]->y;
+      object->vbo_vertices[k].vertex.z = object->vertices[face->vertices[j]]->z;
+      object->vbo_vertices[k].normal.x = object->normals[face->vertices[j]]->x;
+      object->vbo_vertices[k].normal.y = object->normals[face->vertices[j]]->y;
+      object->vbo_vertices[k].normal.z = object->normals[face->vertices[j]]->z;
+      
+      for(m = 0; m < object->material->texture_counter; m++) {
+        object->vbo_tex[m][k].u = face->uv_map[m][j].u;
+        object->vbo_tex[m][k].v = face->uv_map[m][j].v;
+      }
+      k++;
+    }
+  }
+  
+  // create triangulated indices
+  k = 0;
+  int face_off = 0;
   for(i = 0; i < object->face_counter; i++) {
     face_t *face = object->faces[i];
     for(j = 0; j < face->vertex_counter-2; j++) {
-      
       for(l = 0; l < j+3; l++) {
-        object->vbo[k].vertex.x = object->vertices[face->vertices[l]]->x;
-        object->vbo[k].vertex.y = object->vertices[face->vertices[l]]->y;
-        object->vbo[k].vertex.z = object->vertices[face->vertices[l]]->z;
-        object->vbo[k].normal.x = object->normals[face->vertices[l]]->x;
-        object->vbo[k].normal.y = object->normals[face->vertices[l]]->y;
-        object->vbo[k].normal.z = object->normals[face->vertices[l]]->z;
-        object->vbo[k].tex.u = face->uv_map[l].u;
-        object->vbo[k].tex.v = face->uv_map[l].v;
+        object->vbo_indices[k] = face_off + l;
         
         k++;
         if(l == 0) l = j;
       }
     }
   }
-  glBufferData(GL_ARRAY_BUFFER, object->vbo_vertex_counter*sizeof(vbo_vertex_t), object->vbo, GL_STATIC_DRAW);
 }
 
 void oxygarum_calc_normals(object3d_t *object) {

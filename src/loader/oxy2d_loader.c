@@ -52,7 +52,9 @@ object2d_t *oxygarum_load_oxy2d_file(const char *path) {
   sscanf(line, "%s\n", tex_path);
   
   material = oxygarum_create_material("material");
-  material->texture = oxygarum_load_texture(tex_path, 1);
+  texture_t **tex = calloc(1, sizeof(texture_t*));
+  tex[0] = oxygarum_load_texture(tex_path, 1);
+  oxygarum_material_init_textures(material, 1, tex);
   
   readstr(f, line);
   sscanf(line, "VERTICES %d\n", &num_vertices);
@@ -86,7 +88,7 @@ object2d_t *oxygarum_load_oxy2d_file(const char *path) {
       sscanf(line, "%f %f\n", &uvmaps[id][j].u, &uvmaps[id][j].v);
     }
   }
-
+  
   readstr(f, line);
   sscanf(line, "FACES %d\n", &num_faces);
   face_t **faces = calloc(num_faces, sizeof(face_t*));
@@ -105,7 +107,9 @@ object2d_t *oxygarum_load_oxy2d_file(const char *path) {
     for(j = 0; j < size; j++) {
       fscanf(f, " %d", &va[j]);
     }
-    faces[id] = oxygarum_create_face(size, va, uvmaps[uv_id]);
+    uv_t **uvs = calloc(1, sizeof(uv_t*));
+    uvs[0] = uvmaps[uv_id];
+    faces[id] = oxygarum_create_face(size, va, uvs);
   }
 
   object2d_t *obj = oxygarum_create_object2d(num_vertices, vertices, num_faces, faces, material);

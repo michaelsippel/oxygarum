@@ -29,7 +29,6 @@
 #define OBJECT_RENDER_VBO      0x8
 
 typedef struct vbo_vertex {
-  uv_t       tex;
   vector3d_t normal;
   vertex3d_t vertex;
 } vbo_vertex_t;
@@ -42,9 +41,14 @@ typedef struct object3d {
   vector3d_t **normals;
   material_t *material;
   
-  unsigned int vbo_id;
-  unsigned int vbo_vertex_counter;
-  vbo_vertex_t *vbo;
+  // VBO
+  unsigned int vbo_vertex_id;
+  unsigned int vbo_index_counter;
+  unsigned int vbo_index_id;
+  
+  vbo_vertex_t *vbo_vertices;
+  uv_t *vbo_tex[32];
+  int *vbo_indices;
 } object3d_t;
 
 typedef struct object2d {

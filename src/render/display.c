@@ -99,7 +99,7 @@ void oxygarum_idle(void) {
 }
 
 void oxygarum_display(void) {
-  int i;
+  int i,j;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);  
   
@@ -163,7 +163,18 @@ void oxygarum_display(void) {
       
       material_t *material = obj->object->material;      
       
-      glBindTexture(GL_TEXTURE_2D, material->texture->id);
+      for(j = 0; j < material->texture_counter; j++) {
+        glActiveTexture(GL_TEXTURE0);
+        
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, material->textures[j]->id);
+        if(i == 0) {
+          glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        } else {
+          glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        }
+      }
+      
       glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
       glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
       glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
@@ -179,13 +190,24 @@ void oxygarum_display(void) {
       }
       
       if(obj->status & OBJECT_RENDER_VBO) {
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        for(j = 0; j < material->texture_counter; j++) {
+          glClientActiveTexture(GL_TEXTURE0 + j);
+          glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+          glTexCoordPointer(4, GL_FLOAT, 0, obj->object->vbo_tex[j]);
+        }
+        
+        glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_vertex_id);
+        glNormalPointer(   GL_FLOAT, sizeof(vbo_vertex_t), NULL);
+        glVertexPointer(4, GL_FLOAT, sizeof(vbo_vertex_t), sizeof(vector3d_t));
+        
         glEnableClientState(GL_NORMAL_ARRAY);
         glEnableClientState(GL_VERTEX_ARRAY);
         
-        glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_id);
-        glInterleavedArrays(GL_T2F_N3F_V3F, sizeof(vbo_vertex_t), NULL);
-        glDrawArrays(GL_TRIANGLES, 0, obj->object->vbo_vertex_counter);
+        glDrawElements(GL_TRIANGLES, obj->object->vbo_index_counter, GL_UNSIGNED_SHORT, NULL);
+        
+        glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
       } else {
         oxygarum_display_object3d(obj->object);
       }
@@ -229,7 +251,17 @@ void oxygarum_display(void) {
       glRotatef(obj->rot, 0.0f,0.0f,1.0f);
       
       material_t *material = obj->object->material;
-      glBindTexture(GL_TEXTURE_2D, material->texture->id);
+      for(j = 0; j < material->texture_counter; j++) {
+        glActiveTexture(GL_TEXTURE0 + j);
+        
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, material->textures[j]->id);
+        if(i == 0) {
+          glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        } else {
+          glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+        }
+      }
       
       oxygarum_display_object2d(obj->object);
       

@@ -26,8 +26,9 @@ oxygarum_window_t *oxygarum_create_window(float width, float height, texture_t *
   win->size.y = height;
   
   win->material = oxygarum_create_material("gui");
-  win->material->texture = texture;
-
+  texture_t *tex[1] = {texture};
+  oxygarum_material_init_textures(win->material, 1, &tex);
+  
   int i;
   for(i = 0; i < NUM_WINDOW_VERTICES; i++) {
     win->vertices[i] = malloc(sizeof(vertex2d_t));
