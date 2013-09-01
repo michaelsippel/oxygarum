@@ -63,9 +63,12 @@ typedef struct display_obj3d {
   vertex3d_t pos;
   vertex3d_t rot;
   vertex2d_t feedback;
-  int shade_mode;
+  
+  int glsl;
+  GLuint shader;
+  GLuint shade_model;
   int status;
-
+  
   struct display_obj3d *next;
 } display_obj3d_t;
 
@@ -87,6 +90,7 @@ void oxygarum_update_object3d_buffer(object3d_t *object);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object3d(object3d_t *object);
 int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z);
+void oxygarum_object3d_use_glsl(int id, GLuint shader);
 void oxygarum_remove_object3d(int id);
 void oxygarum_set_shade_mode(int id, int mode);
 void oxygarum_enable_object3d_status(int id, int status);

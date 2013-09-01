@@ -23,9 +23,6 @@
 
 #define OXYGARUM_FULLSCREEN 0
 
-#define SHADE_FLAT 0
-#define SHADE_SMOOTH 1
-
 void oxygarum_animation_func(void (*handler)(void));
 void oxygarum_update(void);
 void oxygarum_ilde(void);

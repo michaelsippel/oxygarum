@@ -180,14 +180,10 @@ void oxygarum_display(void) {
       glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
       glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
       
-      switch(obj->shade_mode) {
-        case SHADE_SMOOTH:
-          glShadeModel(GL_SMOOTH);
-          break;
-        case SHADE_FLAT:
-          glShadeModel(GL_FLAT);
-          break;
-      }
+      glShadeModel(obj->shade_model);
+      if(obj->glsl) {
+        glUseProgram(obj->shader);
+      }      
       
       if(obj->status & OBJECT_RENDER_VBO) {
         glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_normal_id);
@@ -322,17 +318,22 @@ int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z) {
   display_objects3d[id]->rot.x = 0;
   display_objects3d[id]->rot.y = 0;
   display_objects3d[id]->rot.z = 0;
-  display_objects3d[id]->shade_mode = SHADE_FLAT;
+  display_objects3d[id]->shade_model = GL_FLAT;
+  display_objects3d[id]->glsl = 0;
   display_objects3d[id]->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING | OBJECT_RENDER_VBO;
   
   return id;
+}
+void oxygarum_object3d_use_glsl(int id, GLuint shader) {
+  display_objects3d[id]->shader = shader;
+  display_objects3d[id]->glsl = 1;
 }
 void oxygarum_remove_object3d(int id) {
   free(display_objects3d[id]);
   display_objects3d[id] = NULL;
 }
 void oxygarum_set_shade_mode(int id, int mode) {
-  display_objects3d[id]->shade_mode = mode;
+  display_objects3d[id]->shade_model = mode;
 }
 void oxygarum_enable_object3d_status(int id, int status) {
   display_objects3d[id]->status |= status;

@@ -110,8 +110,8 @@ int main(int argc, char **argv) {
   object3d_t *suzanne = oxygarum_load_oxy3d_file("suzanne.oxy3d");
   world_id = oxygarum_add_object3d(world, 0, 0, 0);
   suzanne_id = oxygarum_add_object3d(suzanne, 0, 0, 0);
-  oxygarum_set_shade_mode(suzanne_id, SHADE_SMOOTH);
-  oxygarum_set_shade_mode(world_id, SHADE_SMOOTH);  
+  oxygarum_set_shade_mode(suzanne_id, GL_SMOOTH);
+  oxygarum_set_shade_mode(world_id, GL_SMOOTH);  
 
   texture_t *font_tex = oxygarum_load_texture("../font2.png",1);
   font = oxygaurm_create_font(font_tex, 16, 16, 0, 16);
