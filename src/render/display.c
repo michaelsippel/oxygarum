@@ -144,11 +144,7 @@ void oxygarum_display(void) {
       glRotatef(obj->rot.y, 0.0f,1.0f,0.0f);
       glRotatef(obj->rot.z, 0.0f,0.0f,1.0f);      
       
-      if(obj->status & OBJECT_TRANSPARENT ||
-        (!obj->status & OBJECT_DEPTH_BUFFERING )) 
-      {
-        glPushAttrib(GL_ENABLE_BIT);
-      }
+      glPushAttrib(GL_ENABLE_BIT);
       
       if(! obj->status & OBJECT_DEPTH_BUFFERING) {
         glDisable(GL_DEPTH_TEST);
@@ -168,11 +164,7 @@ void oxygarum_display(void) {
         
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, material->textures[j]->id);
-        if(i == 0) {
-          glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        } else {
-          glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-        }
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
       }
       
       glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
@@ -190,16 +182,16 @@ void oxygarum_display(void) {
         glNormalPointer(GL_FLOAT, 0, NULL);
         
         glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_vertex_id);
-        glVertexPointer(3, GL_FLOAT, 0, NULL);        
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->object->vbo_index_id);    
-        
+        glVertexPointer(3, GL_FLOAT, 0, NULL);
+
         for(j = 0; j < material->texture_counter; j++) {
           glClientActiveTexture(GL_TEXTURE0 + j);
           glEnableClientState(GL_TEXTURE_COORD_ARRAY);
           glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_tex_id[j]);
           glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-        }
+        }        
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->object->vbo_index_id);    
         
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
@@ -210,12 +202,7 @@ void oxygarum_display(void) {
         oxygarum_display_object3d(obj->object);
       }
       
-      if(obj->status & OBJECT_TRANSPARENT ||
-        (!obj->status & OBJECT_DEPTH_BUFFERING )) 
-      {
-        glPopAttrib();
-      }
-      
+      glPopAttrib();
       glPopMatrix();
     }
   }

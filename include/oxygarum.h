@@ -35,6 +35,7 @@ extern "C" {
 #include "keyboard.h"
 #include "gui.h"
 #include "light.h"
+#include "shader.h"
 
 #ifdef __WIN32__
 void usleep(unsigned int usec);

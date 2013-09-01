@@ -24,7 +24,7 @@ char text2[100] = "FRAMETIME---";
 void change_shade(void) {
   shade_mode++;
   shade_mode %= 2;
-  oxygarum_set_shade_mode(id, shade_mode);
+  oxygarum_set_shade_mode(id, shade_mode==0?GL_FLAT:GL_SMOOTH);
 }
 
 void anim(void) {
@@ -41,9 +41,11 @@ void wait_for_begin(void) {
     oxygarum_remove_object2d(load_screen_id);
     oxygarum_animation_func(&anim);
   } else if(bunny == NULL) {
-    bunny = oxygarum_load_oxy3d_file("bunny.oxy3d");
+    GLuint shader = oxygarum_create_shader_from_file("data/shader.vert", "data/shader.frag");
+    bunny = oxygarum_load_oxy3d_file("data/bunny.oxy3d");
     id = oxygarum_add_object3d(bunny, 0, -1.5, -5);
-    oxygarum_set_shade_mode(id, shade_mode);
+    oxygarum_object3d_use_glsl(id, shader);
+    oxygarum_set_shade_mode(id, (shade_mode==0)?GL_FLAT:GL_SMOOTH);
   }
 }
 
@@ -64,7 +66,7 @@ int main(int argc, char **argv) {
   light.gl_light = GL_LIGHT0;
   oxygarum_add_light(&light, LIGHT_POSITION_RELATIVE);
   
-  glEnable(GL_CULL_FACE);  // Enable backface culling  
+  glEnable(GL_CULL_FACE);  // Enable backface culling
   
   load_screen = oxygarum_load_oxy2d_file("../load_screen.oxy2d");
   load_screen_id = oxygarum_add_object2d(load_screen, 0, 0);

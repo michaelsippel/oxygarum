@@ -7,6 +7,8 @@
 *.obj~
 *.mtl~
 *.exe
+*.vert~
+*.frag~
 convert_obj
 demo/cube/cube
 demo/walk/walk

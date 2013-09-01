@@ -23,7 +23,7 @@ char text2[100];
 void change_shade(void) {
   shade_mode++;
   shade_mode %= 2;
-  oxygarum_set_shade_mode(id, shade_mode);
+  oxygarum_set_shade_mode(id, shade_mode==0?GL_FLAT:GL_SMOOTH);
 }
 
 void anim(void) {
@@ -41,7 +41,7 @@ void wait_for_begin(void) {
   } else if(human == NULL) {
     human = oxygarum_load_oxy3d_file("human.oxy3d");
     id = oxygarum_add_object3d(human, 0, 0, -20);
-    oxygarum_set_shade_mode(id, shade_mode);
+    oxygarum_set_shade_mode(id, shade_mode==0?GL_FLAT:GL_SMOOTH);
   }
 }
 

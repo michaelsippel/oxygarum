@@ -21,7 +21,6 @@ clean: clean-custom
 	${RM} $(OBJ) $(BIN)
 
 $(BIN): $(OBJ)
-	../../converters/obj/convert_obj.exe bunny.obj bunny.oxy3d
 	$(CC) $(LINKOBJ) -o "bunny.exe" $(LIBS)
 
 main.o: main.c

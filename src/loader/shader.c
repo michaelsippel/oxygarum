@@ -23,22 +23,40 @@
 
 #include "shader.h"
 
+void print_log(GLuint shader) {
+  int blen, slen;
+  char log[100];
+  glGetShaderiv(shader, GL_INFO_LOG_LENGTH , &blen);
+  glGetShaderInfoLog(shader, blen, slen, &log);
+
+  printf("%s\n", log);
+}
+
 GLuint oxygarum_create_shader(char *vert_text, int vert_len, char *frag_text, int frag_len) {
   GLuint program = glCreateProgram();
   GLuint vertex_shader   = glCreateShader(GL_VERTEX_SHADER);
-  GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);  
+  GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
   
-  glShaderSource(vertex_shader, 1, vert_text, vert_len);
-  glShaderSource(fragment_shader, 1, frag_text, frag_len);
+  glShaderSource(vertex_shader, 1, &vert_text, &vert_len);
+  glShaderSource(fragment_shader, 1, &frag_text, &frag_len);
   
   glCompileShader(vertex_shader);
   glCompileShader(fragment_shader);
+  
+  printf("Vertex Shader:\n");
+  print_log(vertex_shader);
+  
+  printf("Fragment Shader:\n");
+  print_log(fragment_shader);
   
   glAttachShader(program, vertex_shader);
   glAttachShader(program, fragment_shader);
   
   glDeleteShader(vertex_shader);
   glDeleteShader(fragment_shader);
+  
+  glLinkProgram(program);
+  printf("\n");
   
   return program;
 }
@@ -55,6 +73,8 @@ GLuint oxygarum_create_shader_from_file(const char *vertex_shader_path, const ch
   int frag_len = ftell(frag_file);
   char *vert_text = malloc(vert_len);
   char *frag_text = malloc(frag_len);
+  fseek(vert_file, 0, SEEK_SET);
+  fseek(frag_file, 0, SEEK_SET);
   fread(vert_text, vert_len, 1, vert_file);
   fread(frag_text, frag_len, 1, frag_file);
   
@@ -62,6 +82,10 @@ GLuint oxygarum_create_shader_from_file(const char *vertex_shader_path, const ch
   fclose(frag_file);
   
   shader = oxygarum_create_shader(vert_text, vert_len, frag_text, frag_len);
+  
+  free(vert_text);
+  free(frag_text);
+  
   return shader;
 }
 

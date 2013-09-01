@@ -1,5 +1,5 @@
 MATERIAL
-texture.png
+data/texture.png
 AMBIENT   0.2 0.2 0.2 0.0
 DIFFUSE   1.0 1.0 1.0 0.0
 SPECULAR  0.2 0.2 0.2 0.0
