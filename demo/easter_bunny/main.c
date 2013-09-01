@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
   light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
   light.pos[0] = 1.0f; light.pos[1] = 0.5f; light.pos[2] = -0.1f; light.pos[3] = 1.0f;
   light.gl_light = GL_LIGHT0;
-  oxygarum_add_light(&light, LIGHT_POSITION_ABSOLUTE);
+  oxygarum_add_light(&light, LIGHT_POSITION_RELATIVE);
   
   glEnable(GL_CULL_FACE);  // Enable backface culling  
   

@@ -39,11 +39,9 @@ void wait_for_begin(void) {
     oxygarum_disable_object2d_status(load_screen_id, OBJECT_VISIBLE);
     oxygarum_animation_func(&anim);
   } else if(human == NULL) {
-    if(oxygarum_get_frametime() > 0) {
-      human = oxygarum_load_oxy3d_file("human.oxy3d");
-      id = oxygarum_add_object3d(human, 0, 0, -20);
-      oxygarum_set_shade_mode(id, shade_mode);
-    }
+    human = oxygarum_load_oxy3d_file("human.oxy3d");
+    id = oxygarum_add_object3d(human, 0, 0, -20);
+    oxygarum_set_shade_mode(id, shade_mode);
   }
 }
 
@@ -60,11 +58,10 @@ int main(int argc, char **argv) {
   light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
   light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
   light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
-  light.pos[0] = 1.0f; light.pos[1] = 0.5f; light.pos[2] = -0.1f; light.pos[3] = 1.0f;
+  light.pos[0] = 1.0f; light.pos[1] = 0.5f; light.pos[2] = -0.1f; light.pos[3] = 0.0f;
   light.gl_light = GL_LIGHT0;
   oxygarum_add_light(&light, LIGHT_POSITION_ABSOLUTE);
-  
-  glEnable(GL_CULL_FACE);  // Enable backface culling
+  glEnable(GL_CULL_FACE);  // Enable backface culling  
   
   load_screen = oxygarum_load_oxy2d_file("../load_screen.oxy2d");
   load_screen_id = oxygarum_add_object2d(load_screen, 0, 0);
@@ -73,8 +70,8 @@ int main(int argc, char **argv) {
   texture_t *font_tex = oxygarum_load_texture("../font.png",1);
   font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
   oxygarum_add_text(text, font, 0, 30);
-  oxygarum_add_text(text2, font, 0, 0);    
-  
+  oxygarum_add_text(text2, font, 0, 0);   
+
   glutMainLoop();
   
   return 0;
