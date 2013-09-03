@@ -43,6 +43,8 @@ typedef struct display_text {
 
 font_t *oxygaurm_create_font(texture_t *texture, int w, int h, char start, float space);
 void oxygaurm_display_text(font_t *font, char *text);
+void oxygarum_render_text(display_text_t *text);
+void oxygarum_render_all_texts(void);
 int oxygarum_add_text(char *text, font_t *font, float x, float y);
 void oxygarum_remove_text(int id);
 void oxygarum_update_text(int id, char *text, font_t *font, float x, float y);
