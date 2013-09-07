@@ -36,7 +36,7 @@ typedef struct particle {
   float saturation;
 } particle_t;
 
-typedef struct particle_emiter {
+typedef struct particle_emitter {
   vertex3d_t pos;
   vertex3d_t gravity;
   unsigned int max_particles;
@@ -44,20 +44,20 @@ typedef struct particle_emiter {
   unsigned int num_particles_per_emision;
   unsigned int emision_rate;
   particle_t **particles;
-} particle_emiter_t;
+} particle_emitter_t;
 
 void oxygarum_render_particle(particle_t *particle);
-void oxygarum_render_particle_system(particle_emiter_t *emiter);
+void oxygarum_render_particle_system(particle_emitter_t *emitter);
 void oxygarum_render_all_particles(void);
 
-int oxygarum_add_particle_system(particle_emiter_t *emiter);
+int oxygarum_add_particle_system(particle_emitter_t *emitter);
 void oxygarum_remove_particle_system(int id);
 
-void oxygarum_update_particle_system(particle_emiter_t *emiter, float frametime);
+void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametime);
 void oxygarum_update_all_particles(float frametime);
 
-int oxygarum_particle_vitalize(particle_emiter_t *emiter, vector3d_t *velocity);
-void oxygarum_particle_die(particle_emiter_t *emiter, int id);
+int oxygarum_particle_vitalize(particle_emitter_t *emitter, vector3d_t *velocity);
+void oxygarum_particle_die(particle_emitter_t *emitter, int id);
 
 #endif
 

@@ -22,7 +22,7 @@
 #include "opengl.h"
 
 static int particle_system_counter = 0;
-static particle_emiter_t **particle_emiters = NULL;
+static particle_emitter_t **particle_emitters = NULL;
 
 void oxygarum_render_particle(particle_t *particle) {
   glTranslatef(particle->pos.x,particle->pos.y, particle->pos.z);
@@ -40,39 +40,42 @@ void oxygarum_render_particle(particle_t *particle) {
   glEnd();
 }
 
-void oxygarum_render_particle_system(particle_emiter_t *emiter) {
+void oxygarum_render_particle_system(particle_emitter_t *emitter) {
   int i;
-  for(i = 0; i < emiter->num_particles; i++) {
-    if(emiter->particles[i] == NULL) continue;
-    oxygarum_render_particle(emiter->particles[i]);
+  for(i = 0; i < emitter->num_particles; i++) {
+    if(emitter->particles[i] == NULL) continue;
+
+    glPushMatrix();
+    oxygarum_render_particle(emitter->particles[i]);
+    glPopMatrix();
   }
 }
 
 void oxygarum_render_all_particles(void) {
   int i;
   for(i = 0; i < particle_system_counter; i++) {
-    oxygarum_render_particle_system(particle_emiters[i]);
+    oxygarum_render_particle_system(particle_emitters[i]);
   }
 }
 
 void oxygarum_update_all_particles(float frametime) {
   int i;
   for(i = 0; i < particle_system_counter; i++) {
-    oxygarum_update_particle_system(particle_emiters[i], frametime);
+    oxygarum_update_particle_system(particle_emitters[i], frametime);
   }
 }
 
-int oxygarum_add_particle_system(particle_emiter_t *emiter) {
+int oxygarum_add_particle_system(particle_emitter_t *emitter) {
   int id;
   id = particle_system_counter++;
-  particle_emiters = realloc(particle_emiters, particle_system_counter * sizeof(particle_emiter_t*));
+  particle_emitters = realloc(particle_emitters, particle_system_counter * sizeof(particle_emitter_t*));
   
-  particle_emiters[id] = emiter;
+  particle_emitters[id] = emitter;
   
   return id;
 }
 
 void oxygarum_remove_particle_system(int id) {
-  particle_emiters[id] = NULL;
+  particle_emitters[id] = NULL;
 }
 

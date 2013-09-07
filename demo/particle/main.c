@@ -7,7 +7,7 @@
 
 #include <oxygarum.h>
 
-particle_emiter_t *emiter;
+particle_emitter_t *emitter;
 
 void anim(void) {
   oxygarum_update_all_particles(oxygarum_get_frametime());
@@ -20,18 +20,17 @@ int main(int argc, char **argv) {
   
   init_oxygarum(argc, argv);
   
-  emiter = malloc(sizeof(particle_emiter_t));
-  emiter->pos.x = 0;
-  emiter->pos.y = 0;
-  emiter->pos.z = 0;
-  emiter->gravity.x = 0;
-  emiter->gravity.y = -0.00001;
-  emiter->gravity.z = 0;
+  emitter = malloc(sizeof(particle_emitter_t));
+  emitter->pos.x = -2;
+  emitter->pos.y = 2;
+  emitter->pos.z = 0;
+  emitter->gravity.x = 0;
+  emitter->gravity.y = -0.000001;
+  emitter->gravity.z = 0;
+  emitter->num_particles_per_emision = 1;
+  emitter->emision_rate = 100;
   
-  vector3d_t velocity;
-  velocity.x = 0.001;
-  oxygarum_particle_vitalize(emiter, &velocity);
-  oxygarum_add_particle_system(emiter);  
+  oxygarum_add_particle_system(emitter);  
   
   oxygarum_translate_camera_to(0, 0, -10);
   oxygarum_rotate_camera_to(0, 0, 0);
