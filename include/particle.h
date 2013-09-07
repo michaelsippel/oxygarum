@@ -53,7 +53,11 @@ void oxygarum_render_all_particles(void);
 int oxygarum_add_particle_system(particle_emiter_t *emiter);
 void oxygarum_remove_particle_system(int id);
 
-void oxygarum_update_particle_system(particle_emiter_t *emiter);
+void oxygarum_update_particle_system(particle_emiter_t *emiter, float frametime);
+void oxygarum_update_all_particles(float frametime);
+
+int oxygarum_particle_vitalize(particle_emiter_t *emiter, vector3d_t *velocity);
+void oxygarum_particle_die(particle_emiter_t *emiter, int id);
 
 #endif
 

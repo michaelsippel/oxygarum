@@ -19,12 +19,20 @@
 #include <GL/glut.h>
 #include "particle.h"
 
-void oxygarum_particle_vitalize(particle_emiter_t *emiter) {
+int oxygarum_particle_vitalize(particle_emiter_t *emiter, vector3d_t *velocity) {
   particle_t *particle = malloc(sizeof(particle_t));
   particle->pos.x = emiter->pos.x;
   particle->pos.y = emiter->pos.x;
   particle->pos.z = emiter->pos.x;
-  particle->size = 1;
+  
+  particle->velocity.x = velocity->x;
+  particle->velocity.y = velocity->y;
+  particle->velocity.z = velocity->z;
+  
+  particle->age = 0;
+  particle->lifetime = 500; 
+
+  particle->size = 0.1;
   particle->saturation = 1;
   particle->color.rgb.r = 1;
   particle->color.rgb.g = 0;
@@ -35,20 +43,37 @@ void oxygarum_particle_vitalize(particle_emiter_t *emiter) {
   id = emiter->num_particles++;
   emiter->particles = realloc(emiter->particles, emiter->num_particles * sizeof(particle_t*));
   emiter->particles[id] = particle;
+  
+  return id;
 }
 
-void oxygarum_update_particle_system(particle_emiter_t *emiter) {
+void oxygarum_particle_die(particle_emiter_t *emiter, int id) {
+  free(emiter->particles[id]);
+  emiter->particles[id] = NULL;
+}
+
+void oxygarum_update_particle_system(particle_emiter_t *emiter, float frametime) {
   int i;
   for(i = 0; i < emiter->num_particles; i++) {
+    if(emiter->particles[i] == NULL) {
+      continue;
+    }
+    
     particle_t *particle = emiter->particles[i];    
     
-    particle->pos.x += particle->velocity.x;
-    particle->pos.y += particle->velocity.y;
-    particle->pos.z += particle->velocity.z;
-    
-    particle->velocity.x += emiter->gravity.x;
-    particle->velocity.y += emiter->gravity.y;
-    particle->velocity.z += emiter->gravity.z;
+    if(particle->lifetime <= particle->age) {
+      oxygarum_particle_die(emiter, i);
+    } else {
+      particle->age += frametime;    
+      
+      particle->pos.x += particle->velocity.x * frametime;
+      particle->pos.y += particle->velocity.y * frametime;
+      particle->pos.z += particle->velocity.z * frametime;
+      
+      particle->velocity.x += emiter->gravity.x * frametime;
+      particle->velocity.y += emiter->gravity.y * frametime;
+      particle->velocity.z += emiter->gravity.z * frametime;
+    }
   }
 }
 

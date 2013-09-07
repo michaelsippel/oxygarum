@@ -71,8 +71,9 @@ void oxygarum_update(void) {
   oxygarum_calc_fps();
   
   // Animate
-  if(oxygarum_animate)
+  if(oxygarum_animate != NULL) {
     oxygarum_animate();
+  }
   
   glutPostRedisplay();
 }

@@ -19,6 +19,7 @@
 #include <GL/glut.h>
 #include <stdlib.h>
 #include "particle.h"
+#include "opengl.h"
 
 static int particle_system_counter = 0;
 static particle_emiter_t **particle_emiters = NULL;
@@ -42,6 +43,7 @@ void oxygarum_render_particle(particle_t *particle) {
 void oxygarum_render_particle_system(particle_emiter_t *emiter) {
   int i;
   for(i = 0; i < emiter->num_particles; i++) {
+    if(emiter->particles[i] == NULL) continue;
     oxygarum_render_particle(emiter->particles[i]);
   }
 }
@@ -49,8 +51,14 @@ void oxygarum_render_particle_system(particle_emiter_t *emiter) {
 void oxygarum_render_all_particles(void) {
   int i;
   for(i = 0; i < particle_system_counter; i++) {
-    oxygarum_update_particle_system(particle_emiters[i]);
     oxygarum_render_particle_system(particle_emiters[i]);
+  }
+}
+
+void oxygarum_update_all_particles(float frametime) {
+  int i;
+  for(i = 0; i < particle_system_counter; i++) {
+    oxygarum_update_particle_system(particle_emiters[i], frametime);
   }
 }
 
