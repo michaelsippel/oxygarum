@@ -36,6 +36,7 @@ extern "C" {
 #include "gui.h"
 #include "light.h"
 #include "shader.h"
+#include "particle.h"
 
 #ifdef __WIN32__
 void usleep(unsigned int usec);

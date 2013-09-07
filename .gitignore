@@ -16,6 +16,7 @@ demo/easter_bunny/bunny
 demo/human/human
 demo/pong/pong
 demo/gui/gui
+demo/particle/particle
 .gitignore~
 makefile~
 makefile.linux~

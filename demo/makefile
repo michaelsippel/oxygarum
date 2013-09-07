@@ -5,6 +5,7 @@ all:
 	make -C human
 	make -C pong
 	make -C gui
+	make -C particle
 
 clean:
 	make -C cube clean
@@ -13,4 +14,5 @@ clean:
 	make -C human clean
 	make -C pong clean
 	make -C gui clean
+	make -C particle clean
 

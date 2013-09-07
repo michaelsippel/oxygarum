@@ -30,7 +30,10 @@ typedef struct particle {
   unsigned int age;
   unsigned int fade_in;
   unsigned int fade_out;
+  
+  float size;
   color_t color;
+  float saturation;
 } particle_t;
 
 typedef struct particle_emiter {
@@ -40,7 +43,12 @@ typedef struct particle_emiter {
   unsigned int num_particles;
   unsigned int num_particles_per_emision;
   unsigned int emision_rate;
+  particle_t **particles;
 } particle_emiter_t;
+
+void oxygarum_render_particle(particle_t *particle);
+void oxygarum_render_all_particles(void);
+int oxygarum_add_particle(particle_t *particle);
 
 #endif
 

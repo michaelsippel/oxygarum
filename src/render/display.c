@@ -116,12 +116,16 @@ void oxygarum_display(void) {
   glPushAttrib(GL_ENABLE_BIT);
   glDisable(GL_LIGHTING);
   glDisable(GL_DEPTH_TEST);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_BLEND);  
+  
+  // particles
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+  oxygarum_render_all_particles();  
   
   // display fonts and 2d-objects
+  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_height(), -1, 1);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
-  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_height(), -1, 1); 
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
