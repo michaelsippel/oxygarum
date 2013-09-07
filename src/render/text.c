@@ -54,11 +54,7 @@ void oxygarum_render_all_texts(void) {
 int oxygarum_add_text(char *text, font_t *font, float x, float y) {
   int id;
   id = display_text_counter++;
-  if(display_text_counter > 0) {
-    display_texts = realloc(display_texts, display_text_counter * sizeof(display_text_t));
-  } else {
-    display_texts = malloc(sizeof(display_text_t));
-  }
+  display_texts = realloc(display_texts, display_text_counter * sizeof(display_text_t));
   
   display_texts[id] = malloc(sizeof(display_text_t));
   display_texts[id]->text = text;

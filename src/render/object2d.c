@@ -64,12 +64,7 @@ void oxygarum_render_all_objects2d(void) {
 int oxygarum_add_object2d(object2d_t *object, float x, float y) {
   int id;
   id = display_object2d_counter++;
-  
-  if(display_object2d_counter > 0) {
-    display_objects2d = realloc(display_objects2d, display_object2d_counter * sizeof(display_obj2d_t));
-  } else {
-    display_objects2d = malloc(sizeof(display_obj2d_t));
-  }
+  display_objects2d = realloc(display_objects2d, display_object2d_counter * sizeof(display_obj2d_t*));
   
   display_objects2d[id] = malloc(sizeof(display_obj2d_t));
   display_objects2d[id]->object = object;

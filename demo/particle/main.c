@@ -13,18 +13,16 @@ int main(int argc, char **argv) {
   
   init_oxygarum(argc, argv);
   
-  particle_t *particle = malloc(sizeof(particle_t));
-  particle->pos.x = 0;
-  particle->pos.y = 0;
-  particle->pos.z = 0;
-  particle->size = 1;
-  particle->saturation = 1;
-  particle->color.rgb.r = 1;
-  particle->color.rgb.g = 0;
-  particle->color.rgb.b = 0;
-  particle->color.rgb.a = 1;
+  particle_emiter_t *emiter = malloc(sizeof(particle_emiter_t));
+  emiter->pos.x = 0;
+  emiter->pos.y = 0;
+  emiter->pos.z = 0;
+  emiter->gravity.x = 0;
+  emiter->gravity.y = -0.001;
+  emiter->gravity.z = 0;
   
-  oxygarum_add_particle(particle); 
+  oxygarum_particle_vitalize(emiter);
+  oxygarum_add_particle_system(emiter);  
   
   oxygarum_translate_camera_to(0, 0, -10);
   oxygarum_rotate_camera_to(0, 0, 0);  

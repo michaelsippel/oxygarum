@@ -127,12 +127,7 @@ void oxygarum_render_all_objects3d(void) {
 int oxygarum_add_object3d(object3d_t *object, float x, float y, float  z) {
   int id;
   id = display_object3d_counter++;
-  
-  if(display_object3d_counter > 0) {
-    display_objects3d = realloc(display_objects3d, display_object3d_counter * sizeof(display_obj3d_t));
-  } else {
-    display_objects3d = malloc(sizeof(display_obj3d_t));
-  }
+  display_objects3d = realloc(display_objects3d, display_object3d_counter * sizeof(display_obj3d_t));
   
   display_objects3d[id] = malloc(sizeof(display_obj3d_t));
   display_objects3d[id]->object = object;
