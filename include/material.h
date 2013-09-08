@@ -25,15 +25,15 @@
 typedef unsigned int material_id;
 
 typedef struct color_st {
-  unsigned char r;
-  unsigned char g;
-  unsigned char b;
-  unsigned char a;
+  float r;
+  float g;
+  float b;
+  float a;
 } color_st_t;
 
 typedef union color {
   color_st_t rgb;
-  unsigned char color[4];
+  float color[4];
 } color_t;
 
 typedef struct material {

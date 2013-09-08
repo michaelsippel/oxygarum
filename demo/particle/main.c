@@ -25,15 +25,25 @@ int main(int argc, char **argv) {
   
   min->velocity.x = -0.01;
   min->velocity.y =  0;
-  min->velocity.z =  0;
-  min->lifetime = 300;  
+  min->velocity.z = -0.01;
+  min->color.rgb.r = 1;
+  min->color.rgb.g = 0;
+  min->color.rgb.b = 0;
+  min->color.rgb.a = 1;
+  min->saturation = 0.3;
+  min->lifetime = 100;
   min->size = 0.1;  
-
+  
   max->velocity.x =  0.01;
   max->velocity.y =  0.01;
-  max->velocity.z =  0;
-  max->lifetime = 800;
-  max->size = 1;
+  max->velocity.z =  0.01;
+  max->lifetime = 600;
+  max->color.rgb.r = 1;
+  max->color.rgb.g = 1;
+  max->color.rgb.b = 0;
+  max->color.rgb.a = 1;
+  max->saturation = 0.6;
+  max->size = 0.5;
   
   emitter = malloc(sizeof(particle_emitter_t));
   emitter->mask_min = min;
@@ -47,7 +57,7 @@ int main(int argc, char **argv) {
   emitter->gravity.z = 0;
   emitter->gravity_type = OXYGARUM_GRAVITY_TYPE_VERTEX;
   emitter->gravity_speed = 0.00001;
-  emitter->num_particles_per_emission = 5;
+  emitter->num_particles_per_emission = 30;
   emitter->emision_rate = 1;
   
   oxygarum_add_particle_system(emitter);  
