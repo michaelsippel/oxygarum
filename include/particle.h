@@ -23,6 +23,10 @@
 #include "vector.h"
 #include "material.h"
 
+#define OXYGARUM_GRAVITY_TYPE_NONE   0x0
+#define OXYGARUM_GRAVITY_TYPE_VERTEX 0x1
+#define OXYGARUM_GRAVITY_TYPE_VECTOR 0x2
+
 typedef struct particle {
   vertex3d_t pos;
   vector3d_t velocity;
@@ -39,6 +43,9 @@ typedef struct particle {
 typedef struct particle_emitter {
   vertex3d_t pos;
   vertex3d_t gravity;
+  float gravity_speed;
+  int gravity_type;  
+  
   unsigned int max_particles;
   unsigned int num_particles;
   unsigned int num_particles_per_emision;

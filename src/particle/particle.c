@@ -31,9 +31,9 @@ int oxygarum_particle_emit(particle_emitter_t *emitter, vector3d_t *velocity) {
   particle->velocity.z = velocity->z;
   
   particle->age = 0;
-  particle->lifetime = 5000; 
+  particle->lifetime = 1500; 
   
-  particle->size = 0.5;
+  particle->size = 0.3;
   particle->saturation = 0.5;
   particle->color.rgb.r = 1;
   particle->color.rgb.g = 0;
@@ -85,17 +85,37 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
     particle->pos.x += particle->velocity.x * frametime;
     particle->pos.y += particle->velocity.y * frametime;
     particle->pos.z += particle->velocity.z * frametime;
+
+    vector3d_t gravity_vector;
     
-    particle->velocity.x += emitter->gravity.x * frametime;
-    particle->velocity.y += emitter->gravity.y * frametime;
-    particle->velocity.z += emitter->gravity.z * frametime;
+    switch(emitter->gravity_type) {
+      case OXYGARUM_GRAVITY_TYPE_VERTEX:
+        gravity_vector.x = emitter->gravity.x - particle->pos.x;
+        gravity_vector.y = emitter->gravity.y - particle->pos.y;
+        gravity_vector.z = emitter->gravity.z - particle->pos.z;
+        break;
+      case OXYGARUM_GRAVITY_TYPE_VECTOR:
+        gravity_vector.x = emitter->gravity.x;
+        gravity_vector.y = emitter->gravity.y;
+        gravity_vector.z = emitter->gravity.z;
+        break;
+      case OXYGARUM_GRAVITY_TYPE_NONE:
+        gravity_vector.x = 0;
+        gravity_vector.y = 0;
+        gravity_vector.z = 0;
+        break;
+    }
+    
+    particle->velocity.x += gravity_vector.x * emitter->gravity_speed * frametime;
+    particle->velocity.y += gravity_vector.y * emitter->gravity_speed * frametime;
+    particle->velocity.z += gravity_vector.z * emitter->gravity_speed * frametime;
   }
   
   time += frametime;
   if(time >= emitter->emision_rate) {
     time = 0;
     vector3d_t velocity;
-    velocity.x = 0.001;
+    velocity.x = 0.01;
     velocity.y = 0;
     velocity.z = 0;
     oxygarum_particle_emit(emitter, &velocity);

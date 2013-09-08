@@ -25,8 +25,10 @@ int main(int argc, char **argv) {
   emitter->pos.y = 2;
   emitter->pos.z = 0;
   emitter->gravity.x = 0;
-  emitter->gravity.y = -0.000001;
+  emitter->gravity.y = 0;
   emitter->gravity.z = 0;
+  emitter->gravity_type = OXYGARUM_GRAVITY_TYPE_VERTEX;
+  emitter->gravity_speed = 0.00001;
   emitter->num_particles_per_emision = 1;
   emitter->emision_rate = 100;
   
