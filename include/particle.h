@@ -50,6 +50,7 @@ typedef struct particle_emitter {
   
   particle_t *mask_min;
   particle_t *mask_max;
+  texture_t *texture;
   
   unsigned int max_particles;
   unsigned int num_particles;
@@ -58,7 +59,7 @@ typedef struct particle_emitter {
   particle_t **particles;
 } particle_emitter_t;
 
-void oxygarum_render_particle(particle_t *particle);
+void oxygarum_render_particle(particle_t *particle, int tex_id);
 void oxygarum_render_particle_system(particle_emitter_t *emitter);
 void oxygarum_render_all_particles(void);
 

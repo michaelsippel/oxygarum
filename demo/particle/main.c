@@ -15,11 +15,12 @@ void anim(void) {
 
 int main(int argc, char **argv) {
   oxygarum_set_resolution(800, 600);
-  oxygarum_set_title("Oxygarum test");  
+  oxygarum_set_title("Oxygarum test");
   oxygarum_animation_func(&anim);  
   
   init_oxygarum(argc, argv);
-
+  glutFullScreen();
+  
   particle_t *min = malloc(sizeof(particle_t));
   particle_t *max = malloc(sizeof(particle_t));
   
@@ -65,6 +66,7 @@ int main(int argc, char **argv) {
   emitter->gravity_speed = 0.000003;
   emitter->num_particles_per_emission = 300;
   emitter->emision_rate = 10;
+  emitter->texture = oxygarum_load_texture("texture.png", 1);  
   
   oxygarum_add_particle_system(emitter);  
   

@@ -24,29 +24,35 @@
 static int particle_system_counter = 0;
 static particle_emitter_t **particle_emitters = NULL;
 
-void oxygarum_render_particle(particle_t *particle) {
+void oxygarum_render_particle(particle_t *particle, int tex_id) {
   glTranslatef(particle->pos.x,particle->pos.y, particle->pos.z);
   glColor4f(particle->color.color[0]*particle->saturation,
             particle->color.color[1]*particle->saturation,
             particle->color.color[2]*particle->saturation,
             particle->color.color[3]*particle->saturation);
+  glBindTexture(GL_TEXTURE_2D, tex_id);
   
   float n = particle->size / 2;
   glBegin(GL_QUADS);
+    glTexCoord2f(0, 1);
     glVertex3f(-n, n, 0);
+    glTexCoord2f(1, 1);
     glVertex3f( n, n, 0);
+    glTexCoord2f(1, 0);
     glVertex3f( n,-n, 0);
+    glTexCoord2f(0, -0);
     glVertex3f(-n,-n, 0);
   glEnd();
 }
 
 void oxygarum_render_particle_system(particle_emitter_t *emitter) {
   int i;
+
   for(i = 0; i < emitter->num_particles; i++) {
     if(emitter->particles[i] == NULL) continue;
 
     glPushMatrix();
-    oxygarum_render_particle(emitter->particles[i]);
+    oxygarum_render_particle(emitter->particles[i], emitter->texture->id);
     glPopMatrix();
   }
 }
