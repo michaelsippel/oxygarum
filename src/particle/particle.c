@@ -17,23 +17,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <GL/glut.h>
+#include <stdlib.h>
 #include "particle.h"
 
-int oxygarum_particle_emit(particle_emitter_t *emitter, vector3d_t *velocity) {
+float rand_between(float min, float max) {
+  float ret;
+  float diff = max - min;
+  ret = min + (( rand() / (RAND_MAX +1.0)) * diff);
+  return ret;
+}
+
+int oxygarum_particle_emit(particle_emitter_t *emitter) {
   particle_t *particle = malloc(sizeof(particle_t));
   
   particle->pos.x = emitter->pos.x;
   particle->pos.y = emitter->pos.y;
   particle->pos.z = emitter->pos.z;
   
-  particle->velocity.x = velocity->x;
-  particle->velocity.y = velocity->y;
-  particle->velocity.z = velocity->z;
+  particle->velocity.x = rand_between(emitter->mask_min->velocity.x, emitter->mask_max->velocity.x);
+  particle->velocity.y = rand_between(emitter->mask_min->velocity.y, emitter->mask_max->velocity.y);
+  particle->velocity.z = rand_between(emitter->mask_min->velocity.z, emitter->mask_max->velocity.z);
   
   particle->age = 0;
-  particle->lifetime = 1500; 
+  particle->lifetime = rand_between(emitter->mask_min->lifetime, emitter->mask_max->lifetime);
   
-  particle->size = 0.3;
+  particle->size = rand_between(emitter->mask_min->size, emitter->mask_max->size);
   particle->saturation = 0.5;
   particle->color.rgb.r = 1;
   particle->color.rgb.g = 0;
@@ -113,12 +121,7 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
   
   time += frametime;
   if(time >= emitter->emision_rate) {
-    time = 0;
-    vector3d_t velocity;
-    velocity.x = 0.01;
-    velocity.y = 0;
-    velocity.z = 0;
-    oxygarum_particle_emit(emitter, &velocity);
+    oxygarum_particle_emit(emitter);
   }
 }
 

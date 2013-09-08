@@ -44,7 +44,10 @@ typedef struct particle_emitter {
   vertex3d_t pos;
   vertex3d_t gravity;
   float gravity_speed;
-  int gravity_type;  
+  int gravity_type;
+  
+  particle_t *mask_min;
+  particle_t *mask_max;
   
   unsigned int max_particles;
   unsigned int num_particles;
@@ -63,7 +66,7 @@ void oxygarum_remove_particle_system(int id);
 void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametime);
 void oxygarum_update_all_particles(float frametime);
 
-int oxygarum_particle_vitalize(particle_emitter_t *emitter, vector3d_t *velocity);
+int oxygarum_particle_emit(particle_emitter_t *emitter);
 void oxygarum_particle_die(particle_emitter_t *emitter, int id);
 
 #endif
