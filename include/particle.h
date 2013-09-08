@@ -51,7 +51,7 @@ typedef struct particle_emitter {
   
   unsigned int max_particles;
   unsigned int num_particles;
-  unsigned int num_particles_per_emision;
+  unsigned int num_particles_per_emission;
   unsigned int emision_rate;
   particle_t **particles;
 } particle_emitter_t;

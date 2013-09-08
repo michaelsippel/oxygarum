@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
   emitter->gravity.z = 0;
   emitter->gravity_type = OXYGARUM_GRAVITY_TYPE_VERTEX;
   emitter->gravity_speed = 0.00001;
-  emitter->num_particles_per_emision = 1;
+  emitter->num_particles_per_emission = 5;
   emitter->emision_rate = 1;
   
   oxygarum_add_particle_system(emitter);  

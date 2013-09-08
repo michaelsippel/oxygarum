@@ -121,7 +121,9 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
   
   time += frametime;
   if(time >= emitter->emision_rate) {
-    oxygarum_particle_emit(emitter);
+    time = 0;
+    for(i = 0; i < emitter->num_particles_per_emission; i++)
+      oxygarum_particle_emit(emitter);
   }
 }
 
