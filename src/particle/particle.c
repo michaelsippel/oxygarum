@@ -42,7 +42,10 @@ int oxygarum_particle_emit(particle_emitter_t *emitter) {
   particle->lifetime = rand_between(emitter->mask_min->lifetime, emitter->mask_max->lifetime);
   
   particle->size = rand_between(emitter->mask_min->size, emitter->mask_max->size);
-  particle->saturation = rand_between(emitter->mask_min->saturation, emitter->mask_max->saturation);
+  particle->saturation_min = rand_between(emitter->mask_min->saturation_min, emitter->mask_max->saturation_min);
+  particle->saturation_max = rand_between(emitter->mask_min->saturation_max, emitter->mask_max->saturation_max);
+  particle->saturation = particle->saturation_min;  
+  
   particle->fade_in = rand_between(emitter->mask_min->fade_in, emitter->mask_max->fade_in);
   particle->fade_out = rand_between(emitter->mask_min->fade_out, emitter->mask_max->fade_out);
   
@@ -92,6 +95,15 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
     }
     
     particle->age += frametime;    
+    
+    if(particle->age <= particle->fade_in && particle->fade_in > 0) {
+      float diff = particle->saturation_max - particle->saturation_min;
+      float stride = (float)particle->age / (float)particle->fade_in;
+      particle->saturation = particle->saturation_min + stride * diff;
+    } else if(particle->age >= (particle->lifetime - particle->fade_out) && particle->fade_out > 0) {
+      float stride = ((float)particle->lifetime - (float)particle->age) / (float)particle->fade_out;
+      particle->saturation = stride * particle->saturation_max;
+    }
     
     particle->pos.x += particle->velocity.x * frametime;
     particle->pos.y += particle->velocity.y * frametime;

@@ -38,6 +38,8 @@ typedef struct particle {
   float size;
   color_t color;
   float saturation;
+  float saturation_min;
+  float saturation_max;
 } particle_t;
 
 typedef struct particle_emitter {
