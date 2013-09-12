@@ -29,7 +29,6 @@ extern "C" {
 #include "face.h"
 #include "font.h"
 #include "object.h"
-#include "opengl.h"
 #include "material.h"
 #include "texture.h"
 #include "keyboard.h"
@@ -38,11 +37,18 @@ extern "C" {
 #include "shader.h"
 #include "particle.h"
 
-#ifdef __WIN32__
-void usleep(unsigned int usec);
-#endif
+void init_oxygarum(void);
+void oxygarum_start_render(void);
+void oxygarum_stop_render(void);
+void oxygarum_animation_func(void (*handler)(void));
+void oxygarum_render(void);
+void oxygarum_display(void);
+void oxygarum_init_opengl(void);
+void oxygarum_set_resolution(int _width, int _height);
+void oxygarum_set_viewport(int _x, int _y);
+void oxygarum_set_title(const char *_title);
+void oxygarum_set_fov(float _fov);
 
-void init_oxygarum(int argc, char **argv);
 object3d_t *oxygarum_load_oxy3d_file(const char *path);
 object2d_t *oxygarum_load_oxy2d_file(const char *path);
 float oxygarum_get_fps(void);

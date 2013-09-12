@@ -16,13 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <GL/glut.h>
+#include <GL/gl.h>
 #include <stdlib.h>
 #include "particle.h"
-#include "opengl.h"
 
-static int particle_system_counter = 0;
-static particle_emitter_t **particle_emitters = NULL;
+unsigned int particle_system_counter = 0;
+particle_emitter_t **particle_emitters;
 
 void oxygarum_render_particle(particle_t *particle, int tex_id) {
   glTranslatef(particle->pos.x,particle->pos.y, particle->pos.z);
@@ -60,6 +59,7 @@ void oxygarum_render_particle_system(particle_emitter_t *emitter) {
 void oxygarum_render_all_particles(void) {
   int i;
   for(i = 0; i < particle_system_counter; i++) {
+    if(particle_emitters[i] == NULL) continue;
     oxygarum_render_particle_system(particle_emitters[i]);
   }
 }
@@ -67,13 +67,14 @@ void oxygarum_render_all_particles(void) {
 void oxygarum_update_all_particles(float frametime) {
   int i;
   for(i = 0; i < particle_system_counter; i++) {
+    if(particle_emitters[i] == NULL) continue;
     oxygarum_update_particle_system(particle_emitters[i], frametime);
   }
 }
 
 int oxygarum_add_particle_system(particle_emitter_t *emitter) {
-  int id;
-  id = particle_system_counter++;
+  int id = particle_system_counter++;
+  
   particle_emitters = realloc(particle_emitters, particle_system_counter * sizeof(particle_emitter_t*));
   
   particle_emitters[id] = emitter;

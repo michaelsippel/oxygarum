@@ -54,14 +54,14 @@ int main(int argc, char **argv) {
   oxygarum_set_title("Oxygarum test");
   oxygarum_animation_func(&wait_for_begin);
   
-  oxygarum_set_keyboard_event('s', &change_shade);  
+  //oxygarum_set_keyboard_event('s', &change_shade);  
   
-  init_oxygarum(argc, argv);
+  init_oxygarum();
   
   light_t light;
-  light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
-  light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
-  light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
+  light.ambient[0] = 0.5f; light.ambient[1] = 0.5f; light.ambient[2] = 0.5f; light.ambient[3] = 1.0f;
+  light.diffuse[0] = 0.5f; light.diffuse[1] = 0.5f; light.diffuse[2] = 0.5f; light.diffuse[3] = 1.0f;
+  light.specular[0] = 1.0f; light.specular[1] = 1.0f; light.specular[2] = 1.0f; light.specular[3] = 1.0f;
   light.pos[0] = 1.0f; light.pos[1] = 0.5f; light.pos[2] = -0.1f; light.pos[3] = 1.0f;
   light.gl_light = GL_LIGHT0;
   oxygarum_add_light(&light, LIGHT_POSITION_RELATIVE);
@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);    
   
-  glutMainLoop();
+  oxygarum_start_render();
   
   return 0;
 }

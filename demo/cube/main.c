@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
   oxygarum_set_title("Oxygarum test");
   oxygarum_animation_func(anim);
   
-  init_oxygarum(argc, argv);
+  init_oxygarum();
   
   object3d_t *object = oxygarum_load_oxy3d_file("cube.oxy3d");
   id = oxygarum_add_object3d(object, 0, 0, -4);
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);  
   
-  glutMainLoop();
+  oxygarum_start_render();
   
   return 0;
 }

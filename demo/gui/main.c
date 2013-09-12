@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
   oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
   
-  init_oxygarum(argc, argv);
+  init_oxygarum();
   
   texture_t *gui_tex = oxygarum_load_texture("gui.png", 0);
   oxygarum_window_t *win = oxygarum_create_window(1.4f, 0.6f, gui_tex);  
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
   object2d_t *gui = oxygarum_create_window_obj(win);
   oxygarum_add_object2d(gui, -1, 1);
   
-  glutMainLoop();
+  oxygarum_start_render();
   
   return 0;
 }

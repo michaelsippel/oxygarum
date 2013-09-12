@@ -16,26 +16,64 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <GL/glut.h>
-#include "opengl.h"
+#include <GL/gl.h>
+#include <SDL/SDL.h>
 
 #include "oxygarum.h"
 
-#ifdef __WIN32__
-#include <windows.h>
-void usleep(unsigned int usec) {
-  HANDLE timer = NULL;
-  LARGE_INTEGER sleepTime;
-  sleepTime.QuadPart = usec * 10000;
-  
-  timer = CreateWaitableTimer (NULL, TRUE, NULL);
-  SetWaitableTimer(timer, &sleepTime, 0, NULL, NULL, 0);
-  WaitForSingleObject(timer, INFINITE);
-  CloseHandle(timer);
-}
-#endif
+int sdl_surface;
+int width, height;
+int view_x, view_y;
+float fov = 45.0f;
+const char *title = NULL;
 
-void init_oxygarum(int argc, char **argv) {
-  oxygarum_init_opengl(argc, argv);
+void oxygarum_init_sdl(void) {
+  int state = SDL_Init(SDL_INIT_VIDEO);
+  if(state < 0) {
+    printf("Error initalizing SDL.\n");
+    exit(EXIT_FAILURE);
+  }
+  
+  SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
+  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
+  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+  
+  int flags = SDL_OPENGL | SDL_HWPALETTE | SDL_SWSURFACE;
+  sdl_surface = SDL_SetVideoMode(width, height, 0, flags);
+}
+
+void oxygarum_init_opengl(void) {
+  glClearColor(0.0, 0.0, 0.2, 0.0);
+  glClearDepth(1.0);
+  glDepthFunc(GL_LESS);
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_LIGHTING);
+}
+
+void init_oxygarum(void) {
+  oxygarum_init_sdl();
+  oxygarum_init_opengl();
+}
+
+void oxygarum_set_resolution(int _width, int _height) {
+  width = _width;
+  height = _height;
+}
+
+void oxygarum_set_viewport(int _x, int _y) {
+  view_x = _x;
+  view_y = _y;
+}
+
+void oxygarum_set_title(const char *_title) {
+  title = _title;
+}
+
+void oxygarum_set_fov(float _fov) {
+  fov = _fov;
 }
 

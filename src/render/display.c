@@ -18,8 +18,8 @@
  */
 #include <unistd.h>
 #include <stdio.h>
-#include <GL/glut.h>
-#include "opengl.h"
+#include <GL/gl.h>
+#include <SDL/SDL.h>
 #include "vertex.h"
 #include "object.h"
 #include "font.h"
@@ -29,6 +29,10 @@ static vertex3d_t loc = {.x = 0, .y = 0, .z = 0};
 static vertex3d_t rot = {.x = 0, .y = 0, .z = 0};
 void (*oxygarum_animate)(void);
 
+extern int width, height;
+extern int view_x, view_y;
+extern float fov;
+
 unsigned int absolute_light_counter = 0;
 light_t **absolute_lights;
 
@@ -37,9 +41,10 @@ static int time_cur = 0, time_prev = 0, time_diff = 0;
 static float fps = 0;
 static float frame_time = 0;
 static float max_fps = 0;
+static int do_render = 0;
 
 void oxygarum_calc_fps(void) {
-  frame_counter++;
+  /*frame_counter++;
   time_cur = glutGet(GLUT_ELAPSED_TIME);
   
   time_diff = time_cur - time_prev;
@@ -48,7 +53,9 @@ void oxygarum_calc_fps(void) {
     fps = frame_counter / (time_diff / 1000.0f);
     time_prev = time_cur;
     frame_counter = 0;
-  }
+  }*/
+  frame_time = 16.0f; // TODO
+  fps = 60.0f;
 }
 
 void oxygarum_animation_func(void (*handler)(void)) {
@@ -67,29 +74,31 @@ void oxygarum_set_max_fps(float _max_fps) {
   max_fps = _max_fps;
 }
 
-void oxygarum_update(void) {
-  oxygarum_calc_fps();
-  
-  // Animate
-  if(oxygarum_animate != NULL) {
-    oxygarum_animate();
-  }
-  
-  glutPostRedisplay();
+void oxygarum_start_render(void) {
+  do_render = 1;
+  oxygarum_render();
 }
 
-void oxygarum_timer(int value) {
-  oxygarum_update();
-  if(max_fps > 0) {
-    float min_time = 1000000/max_fps;
-    float wait_time = min_time - frame_time;
-    glutTimerFunc(wait_time/1000, &oxygarum_timer, 0);
-  }
+void oxygarum_stop_render(void) {
+  do_render = 0;
 }
 
-void oxygarum_idle(void) {
-  if(! (max_fps > 0)) {
-    oxygarum_update();
+void oxygarum_render(void) {
+  while(do_render) {
+    SDL_Event event;
+    while(SDL_PollEvent( &event ) == 1) {
+      switch(event.type) {
+        case SDL_QUIT:
+          exit(0);
+      }
+    }
+    oxygarum_display();
+    oxygarum_calc_fps();
+    
+    // Animate
+    if(oxygarum_animate != NULL) {
+      oxygarum_animate();
+    }
   }
 }
 
@@ -98,8 +107,12 @@ void oxygarum_display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.1, 0.1, 0.1, 1.0);  
   
+  glViewport(view_x, view_y, width, height);  
+  
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  
+  gluPerspective(fov, (GLfloat)width/(GLfloat)height, 1.0f, 1000.0f);
   
   glRotatef(rot.x, 1.0f,0.0f,0.0f);
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
@@ -117,39 +130,30 @@ void oxygarum_display(void) {
   glPushAttrib(GL_ENABLE_BIT);
   glDisable(GL_LIGHTING);
   glDisable(GL_DEPTH_TEST);
-  glEnable(GL_BLEND);  
+  glEnable(GL_BLEND);
   
   // particles
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-  oxygarum_render_all_particles();  
+  oxygarum_render_all_particles();
   
   // display fonts and 2d-objects
-  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_height(), -1, 1);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
-  glMatrixMode(GL_PROJECTION);
-  glPushMatrix();
-  glLoadIdentity();
-  
+  glOrtho(0, width, 0, height, -1, 1);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   
   oxygarum_render_all_objects2d();
   
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glOrtho(0, oxygarum_get_width(), 0, oxygarum_get_height(), -1, 1); 
+  glOrtho(0, width, 0, height, -1, 1);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  
-  oxygarum_render_all_texts();  
-  
-  glMatrixMode(GL_PROJECTION);
-  glPopMatrix();
+  oxygarum_render_all_texts();
   
   glPopAttrib();
+  
   glFlush();
-  glutSwapBuffers();
+  SDL_GL_SwapBuffers();
 }
 
 int oxygarum_add_light(light_t *light, int light_pos) {
@@ -175,6 +179,7 @@ int oxygarum_add_light(light_t *light, int light_pos) {
   
   return -1;
 }
+
 void oxygarum_remove_absolute_light(int id) {
   free(absolute_lights[id]);
   absolute_lights[id] = NULL;

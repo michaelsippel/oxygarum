@@ -83,19 +83,19 @@ int main(int argc, char **argv) {
   oxygarum_set_title("Oxygarum test");
   
   oxygarum_animation_func(&anim);
-  oxygarum_set_keyboard_event('w', &forwards);
-  oxygarum_set_keyboard_event('a', &left);
-  oxygarum_set_keyboard_event('s', &back);
-  oxygarum_set_keyboard_event('d', &right);
-  oxygarum_set_keyboard_event_up('w', &speed_up);
-  oxygarum_set_keyboard_event_up('a', &dir_up);
-  oxygarum_set_keyboard_event_up('s', &speed_up);
-  oxygarum_set_keyboard_event_up('d', &dir_up);  
+  //oxygarum_set_keyboard_event('w', &forwards);
+  //oxygarum_set_keyboard_event('a', &left);
+  //oxygarum_set_keyboard_event('s', &back);
+  //oxygarum_set_keyboard_event('d', &right);
+  //oxygarum_set_keyboard_event_up('w', &speed_up);
+  //oxygarum_set_keyboard_event_up('a', &dir_up);
+  //oxygarum_set_keyboard_event_up('s', &speed_up);
+  //oxygarum_set_keyboard_event_up('d', &dir_up);  
   
   oxygarum_translate_camera_to(loc.x, loc.y, loc.z);
   oxygarum_rotate_camera_to(rot.x, rot.y, rot.z);
   
-  init_oxygarum(argc, argv);
+  init_oxygarum();
   
   light_t light;
   light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
@@ -124,7 +124,7 @@ int main(int argc, char **argv) {
   
   oxygarum_set_max_fps(60);
   
-  glutMainLoop();
+  oxygarum_start_render();
   
   return 0;
 }

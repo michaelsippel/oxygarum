@@ -18,11 +18,9 @@
  */
 #include <stdlib.h>
 #include <string.h>
-#include <GL/glut.h>
 
 #include "vertex.h"
 #include "face.h"
-#include "opengl.h"
 #include "object.h"
 
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t **uv_map) {

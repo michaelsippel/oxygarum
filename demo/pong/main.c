@@ -120,12 +120,12 @@ int main(int argc, char **argv) {
   oxygarum_set_title("Oxygarum test");
   oxygarum_animation_func(&wait_for_begin);
   
-  oxygarum_set_keyboard_event('a', &player1_up);
-  oxygarum_set_keyboard_event('d', &player1_down);
-  oxygarum_set_keyboard_event_up('a', &up);
-  oxygarum_set_keyboard_event_up('d', &up);  
+  //oxygarum_set_keyboard_event('a', &player1_up);
+  //oxygarum_set_keyboard_event('d', &player1_down);
+  //oxygarum_set_keyboard_event_up('a', &up);
+  //oxygarum_set_keyboard_event_up('d', &up);  
   
-  init_oxygarum(argc, argv);
+  init_oxygarum();
   
   light_t light;
   light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);   
 
-  glutMainLoop();
+  oxygarum_start_render();
   
   return 0;
 }

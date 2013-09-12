@@ -18,8 +18,7 @@
  */
 #include <unistd.h>
 #include <stdio.h>
-#include <GL/glut.h>
-#include "opengl.h"
+#include <GL/gl.h>
 #include "vertex.h"
 #include "object.h"
 #include "font.h"
