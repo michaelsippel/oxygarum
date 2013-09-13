@@ -137,19 +137,29 @@ void oxygarum_display(void) {
   oxygarum_render_all_particles();
   
   // display fonts and 2d-objects
+  glOrtho(0, width, 0, height, -1, 1);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
-  glOrtho(0, width, 0, height, -1, 1);
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();
+  
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   
   oxygarum_render_all_objects2d();
   
-  glOrtho(0, width, 0, height, -1, 1);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(0, width, 0, width, -1, 1);
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
+  
   oxygarum_render_all_texts();
   
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
+
   glPopAttrib();
   
   glFlush();
