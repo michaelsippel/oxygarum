@@ -109,9 +109,11 @@ void wait_for_begin(void) {
   } else if(player == NULL) {
     player = oxygarum_load_oxy3d_file("player.oxy3d");
     player1_id = oxygarum_add_object3d(player, 0, 0, 0);
+    oxygarum_set_shade_mode(player1_id, GL_SMOOTH);
   } else if(ball == NULL) {
     ball = oxygarum_load_oxy3d_file("ball.oxy3d");
     ball_id = oxygarum_add_object3d(ball, 0, 0, -4);
+    oxygarum_set_shade_mode(ball_id, GL_SMOOTH);
   }
 }
 
@@ -131,7 +133,7 @@ int main(int argc, char **argv) {
   light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
   light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
   light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
-  light.pos[0] = 1.0f; light.pos[1] = 0.5f; light.pos[2] = -0.1f; light.pos[3] = 0.0f;
+  light.pos[0] = 5.0f; light.pos[1] = 0.0f; light.pos[2] = 3.0f; light.pos[3] = 1.0f;
   light.gl_light = GL_LIGHT0;
   oxygarum_add_light(&light, LIGHT_POSITION_ABSOLUTE);
   

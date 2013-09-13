@@ -75,25 +75,25 @@ void oxygarum_render_object3d(display_obj3d_t *obj) {
   glShadeModel(obj->shade_model);
   glUseProgram(obj->shade_program);
   
-  if(obj->status & OBJECT_RENDER_VBO) {
-    glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_normal_id);
+  if(obj->status & OBJECT_RENDER_VBO && obj->object->instance != NULL) {
+    glBindBuffer(GL_ARRAY_BUFFER, obj->object->instance->normal_id);
     glNormalPointer(GL_FLOAT, 0, NULL);
     
-    glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_vertex_id);
+    glBindBuffer(GL_ARRAY_BUFFER, obj->object->instance->vertex_id);
     glVertexPointer(3, GL_FLOAT, 0, NULL);
     
     for(i = 0; i < material->texture_counter; i++) {
       glClientActiveTexture(GL_TEXTURE0 + i);
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glBindBuffer(GL_ARRAY_BUFFER, obj->object->vbo_tex_id[i]);
+      glBindBuffer(GL_ARRAY_BUFFER, obj->object->instance->tex_id[i]);
       glTexCoordPointer(2, GL_FLOAT, 0, NULL);
     }
     
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->object->vbo_index_id);    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->object->instance->index_id);    
     
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-    glDrawElements(GL_TRIANGLES, obj->object->vbo_index_counter, GL_UNSIGNED_INT, NULL);
+    glDrawElements(GL_TRIANGLES, obj->object->instance->index_counter, GL_UNSIGNED_INT, NULL);
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
   } else {

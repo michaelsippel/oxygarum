@@ -37,84 +37,61 @@ object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t *vertice
   oxygarum_calc_normals(object);
   
   // creating VBO
-  object->vbo_indices = NULL;
-  object->vbo_vertices = NULL;
-  object->vbo_normals = NULL;
-  object->vbo_tex_id = NULL;
-  object->tex = NULL;
+  render_instance_t *instance = malloc(sizeof(render_instance_t));  
+  object->instance = instance;  
   
-  oxygarum_update_object3d_buffer(object);
+  instance->tex_id = NULL;
+  instance->indices = NULL;
+  instance->vertices = NULL;
+  instance->normals = NULL;  
+  instance->tex = calloc(instance->tex, object->material->texture_counter * sizeof(uv_t*));
   
-  glGenBuffers(1, &object->vbo_vertex_id);
-  glBindBuffer(GL_ARRAY_BUFFER, object->vbo_vertex_id);
-  glBufferData(GL_ARRAY_BUFFER, object->vbo_vertex_counter*sizeof(vertex3d_t), object->vbo_vertices, GL_STATIC_DRAW);
+  oxygarum_update_render_instance(object);
   
-  glGenBuffers(1, &object->vbo_normal_id);
-  glBindBuffer(GL_ARRAY_BUFFER, object->vbo_normal_id);
-  glBufferData(GL_ARRAY_BUFFER, object->vbo_vertex_counter*sizeof(vector3d_t), object->vbo_normals, GL_STATIC_DRAW);
+  glGenBuffers(1, &instance->vertex_id);
+  glBindBuffer(GL_ARRAY_BUFFER, instance->vertex_id);
+  glBufferData(GL_ARRAY_BUFFER, instance->vertex_counter*sizeof(vertex3d_t), instance->vertices, GL_STATIC_DRAW);
   
-  glGenBuffers(1, &object->vbo_index_id);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object->vbo_index_id);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, object->vbo_index_counter*sizeof(unsigned int), object->vbo_indices, GL_STATIC_DRAW);
+  glGenBuffers(1, &instance->normal_id);
+  glBindBuffer(GL_ARRAY_BUFFER, instance->normal_id);
+  glBufferData(GL_ARRAY_BUFFER, instance->vertex_counter*sizeof(vector3d_t), instance->normals, GL_STATIC_DRAW);
+  
+  glGenBuffers(1, &instance->index_id);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, instance->index_id);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, instance->index_counter*sizeof(unsigned int), instance->indices, GL_STATIC_DRAW);
   
   int i;
   for(i = 0; i < object->material->texture_counter; i++) {
-    glGenBuffers(1, &object->vbo_tex_id[i]);
-    glBindBuffer(GL_ARRAY_BUFFER, object->vbo_tex_id[i]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(uv_t) * object->vbo_vertex_counter, object->tex[i], GL_STATIC_DRAW);
+    glGenBuffers(1, &instance->tex_id[i]);
+    glBindBuffer(GL_ARRAY_BUFFER, instance->tex_id[i]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(uv_t) * instance->vertex_counter, instance->tex[i], GL_STATIC_DRAW);
   }
   
   return object;
 }
 
-void oxygarum_update_object3d_buffer(object3d_t *object) {
+void oxygarum_update_render_instance(object3d_t *object) {
   int i,j,k1,k2,l,m;
   
+  render_instance_t *instance = object->instance;  
+  
   // indices
-  object->vbo_index_counter = 0;
-  object->vbo_vertex_counter = 0;
+  instance->index_counter = 0;
+  instance->vertex_counter = 0;
   for(i = 0; i < object->face_counter; i++) {
-    object->vbo_index_counter += object->faces[i]->vertex_counter - 2;
-    object->vbo_vertex_counter += object->faces[i]->vertex_counter;
+    instance->index_counter += object->faces[i]->vertex_counter - 2;
+    instance->vertex_counter += object->faces[i]->vertex_counter;
   }
-  object->vbo_index_counter *= 3;
+  instance->index_counter *= 3;
   
-  if(object->vbo_indices == NULL) {
-    object->vbo_indices = malloc(sizeof(unsigned int) * object->vbo_index_counter);
-  } else {
-    object->vbo_indices = realloc(object->vbo_indices, sizeof(unsigned int) * object->vbo_index_counter);
-  }
+  instance->indices  = realloc(instance->indices,  instance->index_counter  * sizeof(unsigned int));
+  instance->vertices = realloc(instance->vertices, instance->vertex_counter * sizeof(vertex3d_t));
+  instance->normals  = realloc(instance->normals,  instance->vertex_counter * sizeof(vector3d_t));
+  instance->tex_id   = realloc(instance->tex_id, object->material->texture_counter * sizeof(unsigned int*));
   
-  // vertices & normals
-  if(object->vbo_vertices == NULL) {
-    object->vbo_vertices = malloc(object->vbo_vertex_counter * sizeof(vertex3d_t));
-  } else {
-    object->vbo_vertices = realloc(object->vbo_vertices, object->vbo_vertex_counter * sizeof(vertex3d_t));
-  }
-  
-  if(object->vbo_normals == NULL) {
-    object->vbo_normals = malloc(object->vbo_vertex_counter * sizeof(vector3d_t));
-  } else {
-    object->vbo_normals = realloc(object->vbo_normals, object->vbo_vertex_counter * sizeof(vector3d_t));
-  }
-  
-  // texture coords
-  if(object->vbo_tex_id == NULL) {
-    object->vbo_tex_id = malloc(object->material->texture_counter * sizeof(unsigned int*));
-  } else {
-    object->vbo_tex_id = realloc(object->vbo_tex_id, object->material->texture_counter * sizeof(unsigned int*));
-  }
-  
-  if(object->tex == NULL) {
-    object->tex = malloc(object->material->texture_counter * sizeof(uv_t*));
-    for(i = 0; i < object->material->texture_counter; i++) {
-      object->tex[i] = malloc(sizeof(uv_t) * object->vbo_vertex_counter);
-    }
-  } else {
-    object->tex = realloc(object->tex, object->material->texture_counter * sizeof(uv_t*));
-    for(i = 0; i < object->material->texture_counter; i++) {
-      object->tex[i] = realloc(object->tex[i], sizeof(uv_t) * object->vbo_vertex_counter);
-    }
+  instance->tex = realloc(instance->tex, object->material->texture_counter * sizeof(uv_t*));
+  for(i = 0; i < object->material->texture_counter; i++) {
+    instance->tex[i] = realloc(instance->tex[i], sizeof(uv_t) * instance->vertex_counter);
   }
   
   k1 = 0;
@@ -123,7 +100,7 @@ void oxygarum_update_object3d_buffer(object3d_t *object) {
     face_t *face = object->faces[i];
     for(j = 0; j < face->vertex_counter-2; j++) {
       for(l = 0; l < j+3; l++) {
-        object->vbo_indices[k1] = k2+l;
+        instance->indices[k1] = k2+l;
         
         k1++;
         if(l == 0) l = j;
@@ -131,15 +108,15 @@ void oxygarum_update_object3d_buffer(object3d_t *object) {
     }
     
     for(j = 0; j < face->vertex_counter; j++) {
-      object->vbo_vertices[k2].x = object->vertices[face->vertices[j]].x;
-      object->vbo_vertices[k2].y = object->vertices[face->vertices[j]].y;
-      object->vbo_vertices[k2].z = object->vertices[face->vertices[j]].z;
-      object->vbo_normals[k2].x = object->normals[face->vertices[j]].x;
-      object->vbo_normals[k2].y = object->normals[face->vertices[j]].y;
-      object->vbo_normals[k2].z = object->normals[face->vertices[j]].z;
+      instance->vertices[k2].x = object->vertices[face->vertices[j]].x;
+      instance->vertices[k2].y = object->vertices[face->vertices[j]].y;
+      instance->vertices[k2].z = object->vertices[face->vertices[j]].z;
+      instance->normals [k2].x = object->normals [face->vertices[j]].x;
+      instance->normals [k2].y = object->normals [face->vertices[j]].y;
+      instance->normals [k2].z = object->normals [face->vertices[j]].z;
       for(m = 0; m < object->material->texture_counter; m++) {
-        object->tex[m][k2].u = face->uv_map[m][j].u;
-        object->tex[m][k2].v = face->uv_map[m][j].v;
+        instance->tex[0][k2].u = face->uv_map[0][j].u;
+        instance->tex[0][k2].v = face->uv_map[0][j].v;
       }
       k2++;
     }

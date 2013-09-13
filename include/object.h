@@ -28,26 +28,28 @@
 #define OBJECT_DEPTH_BUFFERING 0x4
 #define OBJECT_RENDER_VBO      0x8
 
+typedef struct render_instance {
+  unsigned int index_id;
+  unsigned int vertex_id;
+  unsigned int normal_id;
+  unsigned int *tex_id;
+  
+  unsigned int index_counter;
+  unsigned int vertex_counter;
+  unsigned int *indices;
+  vertex3d_t *vertices;
+  vector3d_t *normals;
+  uv_t **tex;
+} render_instance_t;
+
 typedef struct object3d {
   face_id face_counter;
   vertex_id vertex_counter;
   face_t **faces;
   vertex3d_t *vertices;
   vector3d_t *normals;
-  uv_t **tex;
   material_t *material;
-  
-  // VBO
-  unsigned int vbo_vertex_id;
-  unsigned int vbo_normal_id;
-  unsigned int *vbo_tex_id;  
-  
-  unsigned int vbo_index_id;
-  unsigned int vbo_index_counter;
-  unsigned int vbo_vertex_counter;
-  unsigned int *vbo_indices;
-  vertex3d_t *vbo_vertices;
-  vector3d_t *vbo_normals;
+  render_instance_t *instance;
 } object3d_t;
 
 typedef struct object2d {
@@ -85,7 +87,7 @@ typedef struct display_obj2d {
 object3d_t *oxygarum_create_object3d(vertex_id num_vertices, vertex3d_t *vertices, face_id num_faces, face_t **faces, material_t *material);
 object2d_t *oxygarum_create_object2d(vertex_id num_vertices, vertex2d_t *vertices, face_id num_faces, face_t **faces, material_t *material);
 void oxygarum_calc_normals(object3d_t *object);
-void oxygarum_update_object3d_buffer(object3d_t *object);
+void oxygarum_update_render_instance(object3d_t *object);
 /// draw the object to the OpenGL scene
 void oxygarum_display_object3d(object3d_t *object);
 void oxygarum_render_object3d(display_obj3d_t *obj);
