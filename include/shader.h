@@ -21,8 +21,8 @@
 
 #include <GL/gl.h>
 
-GLuint oxygarum_create_shader(char *vert_text, int vert_len, char *frag_text, int frag_len);
-GLuint oxygarum_create_shader_from_file(const char *vertex_shader_path, const char *fragment_shader_path);
+GLuint oxygarum_create_shader(GLuint type, char *text, int len);
+GLuint oxygarum_create_shader_from_file(GLuint type, const char *shader_path);
 
 #endif
 

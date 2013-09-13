@@ -137,6 +137,7 @@ void oxygarum_display(void) {
   oxygarum_render_all_particles();
   
   // display fonts and 2d-objects
+  glUseProgram(0);
   glOrtho(0, width, 0, height, -1, 1);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   
