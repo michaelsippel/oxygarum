@@ -1,5 +1,5 @@
 /**
- *  src/input/keyboard.c
+ *  src/event/keyboard.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *
@@ -18,12 +18,12 @@
  */
 #include <stdint.h>
 #include <stddef.h>
-#include "keyboard.h"
+#include "event.h"
 
 static void (*kbd_events[256]) (void);
 static void (*kbd_events_up[256]) (void);
 
-void oxygarum_handle_keyboard_event(unsigned char key, int x, int y) {
+void oxygarum_handle_keyboard_event(unsigned char key) {
   usleep(100);
   
   if(kbd_events[key] != NULL) {
@@ -31,7 +31,7 @@ void oxygarum_handle_keyboard_event(unsigned char key, int x, int y) {
   }
 }
 
-void oxygarum_handle_keyboard_event_up(unsigned char key, int x, int y) {
+void oxygarum_handle_keyboard_event_up(unsigned char key) {
   usleep(100);
   
   if(kbd_events_up[key] != NULL) {
@@ -47,19 +47,4 @@ void oxygarum_set_keyboard_event_up(unsigned char key, void (*handler)(void)) {
   kbd_events_up[key] = handler;
 }
 
-void oxygarum_set_mouse_func(int type, void *handler) {
-/*
-  switch(type) {
-    case MOUSE_PASSIVE_MOTION:
-      glutPassiveMotionFunc(handler);
-      break;
-    case MOUSE_ACTIVE_MOTION:
-      glutMotionFunc(handler);
-      break;
-    case MOUSE_CLICK:
-      glutMouseFunc(handler);
-      break;
-  }
-  */
-}
 

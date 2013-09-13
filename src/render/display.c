@@ -87,11 +87,9 @@ void oxygarum_render(void) {
   while(do_render) {
     SDL_Event event;
     while(SDL_PollEvent( &event ) == 1) {
-      switch(event.type) {
-        case SDL_QUIT:
-          exit(0);
-      }
+      oxygarum_handle_sdl_event(&event);
     }
+    
     oxygarum_display();
     oxygarum_calc_fps();
     

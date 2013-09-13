@@ -31,7 +31,7 @@ extern "C" {
 #include "object.h"
 #include "material.h"
 #include "texture.h"
-#include "keyboard.h"
+#include "event.h"
 #include "gui.h"
 #include "light.h"
 #include "shader.h"

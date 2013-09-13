@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
   oxygarum_set_title("Oxygarum test");
   oxygarum_animation_func(&wait_for_begin);
   
-  //oxygarum_set_keyboard_event('s', &change_shade);  
+  oxygarum_set_keyboard_event('s', &change_shade);  
   
   init_oxygarum();
   

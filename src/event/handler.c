@@ -1,5 +1,5 @@
 /**
- *  include/keyboard.h
+ *  src/event/handler.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *
@@ -16,18 +16,20 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _KEYBOARD_H
-#define _KEYBOARD_H
+#include <stdint.h>
+#include <stddef.h>
+#include <SDL/SDL.h>
 
-#define MOUSE_ACTIVE_MOTION  0x0
-#define MOUSE_PASSIVE_MOTION 0x1
-#define MOUSE_CLICK          0x2
-
-void oxygarum_handle_keyboard_event(unsigned char key, int x, int y);
-void oxygarum_handle_keyboard_event_up(unsigned char key, int x, int y);
-void oxygarum_set_keyboard_event(unsigned char key, void (*handler)(void));
-void oxygarum_set_keyboard_event_up(unsigned char key, void (*handler)(void));
-void oxygarum_set_mouse_func(int type, void *handler);
-
-#endif
+void oxygarum_handle_sdl_event(SDL_Event *event) {
+  switch(event->type) {
+    case SDL_KEYDOWN:
+      oxygarum_handle_keyboard_event(event->key.keysym.sym);
+      break;
+    case SDL_KEYUP:
+      oxygarum_handle_keyboard_event_up(event->key.keysym.sym);
+      break;
+    case SDL_QUIT:
+      exit(0);
+  }
+}
 

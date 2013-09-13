@@ -122,10 +122,10 @@ int main(int argc, char **argv) {
   oxygarum_set_title("Oxygarum test");
   oxygarum_animation_func(&wait_for_begin);
   
-  //oxygarum_set_keyboard_event('a', &player1_up);
-  //oxygarum_set_keyboard_event('d', &player1_down);
-  //oxygarum_set_keyboard_event_up('a', &up);
-  //oxygarum_set_keyboard_event_up('d', &up);  
+  oxygarum_set_keyboard_event('a', &player1_up);
+  oxygarum_set_keyboard_event('d', &player1_down);
+  oxygarum_set_keyboard_event_up('a', &up);
+  oxygarum_set_keyboard_event_up('d', &up);  
   
   init_oxygarum();
   
