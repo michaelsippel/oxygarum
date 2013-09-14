@@ -24,6 +24,7 @@
 #include "object.h"
 #include "font.h"
 #include "light.h"
+#include "oxygarum.h"
 
 static vertex3d_t loc = {.x = 0, .y = 0, .z = 0};
 static vertex3d_t rot = {.x = 0, .y = 0, .z = 0};
@@ -40,7 +41,7 @@ static int frame_counter = 0;
 static int time_cur = 0, time_prev = 0, time_diff = 0;
 static float fps = 0;
 static float frame_time = 0;
-static float max_fps = 0;
+static float min_frame_time = 0;
 static int do_render = 0;
 
 void oxygarum_calc_fps(void) {
@@ -68,11 +69,8 @@ float oxygarum_get_frametime(void) {
   return frame_time;
 }
 
-void oxygarum_set_max_fps(float _max_fps) {
-  max_fps = _max_fps;
-}
-
-void oxygarum_start_render(void) {
+void oxygarum_start_render(float _min_frame_time) {
+  min_frame_time = _min_frame_time*2;
   do_render = 1;
   oxygarum_render();
 }
@@ -83,18 +81,27 @@ void oxygarum_stop_render(void) {
 
 void oxygarum_render(void) {
   while(do_render) {
+    // handle events
     SDL_Event event;
     while(SDL_PollEvent( &event ) == 1) {
       oxygarum_handle_sdl_event(&event);
     }
     
+    // render scene
     oxygarum_display();
     
-    // Animate
+    // animate
     if(oxygarum_animate != NULL) {
       oxygarum_animate();
     }
+    
+    // calculate fps
     oxygarum_calc_fps();
+
+    // limit fps
+    if(min_frame_time > 0 && frame_time < min_frame_time) {
+      SDL_Delay(min_frame_time - frame_time);
+    }
   }
 }
 

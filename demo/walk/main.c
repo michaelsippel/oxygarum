@@ -122,9 +122,7 @@ int main(int argc, char **argv) {
   color.rgb = (color_st_t) {.r = 1, .g = 0, .b = 0, .a = 1};
   oxygarum_set_text_color(name_id, color);
   
-  oxygarum_set_max_fps(60);
-  
-  oxygarum_start_render();
+  oxygarum_start_render(0);
   
   return 0;
 }

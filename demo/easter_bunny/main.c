@@ -78,14 +78,13 @@ int main(int argc, char **argv) {
   
   load_screen = oxygarum_load_oxy2d_file("../load_screen.oxy2d");
   load_screen_id = oxygarum_add_object2d(load_screen, 0, 0);
-  oxygarum_set_max_fps(60);
   
   texture_t *font_tex = oxygarum_load_texture("../font.png", 1);
   font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);    
   
-  oxygarum_start_render();
+  oxygarum_start_render(0);
   
   return 0;
 }

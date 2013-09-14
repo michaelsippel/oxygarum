@@ -38,7 +38,7 @@ extern "C" {
 #include "particle.h"
 
 void init_oxygarum(void);
-void oxygarum_start_render(void);
+void oxygarum_start_render(float _min_frame_time);
 void oxygarum_stop_render(void);
 void oxygarum_animation_func(void (*handler)(void));
 void oxygarum_render(void);
@@ -52,7 +52,6 @@ void oxygarum_set_fov(float _fov);
 object3d_t *oxygarum_load_oxy3d_file(const char *path);
 object2d_t *oxygarum_load_oxy2d_file(const char *path);
 float oxygarum_get_fps(void);
-void oxygarum_set_max_fps(float max_fps);
 float oxygarum_get_frametime(void);
 
 #if defined(__cplusplus)

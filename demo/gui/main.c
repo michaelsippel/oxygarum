@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
   object2d_t *gui = oxygarum_create_window_obj(win);
   oxygarum_add_object2d(gui, -1, 1);
   
-  oxygarum_start_render();
+  oxygarum_start_render(0);
   
   return 0;
 }

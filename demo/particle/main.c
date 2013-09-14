@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
   oxygarum_translate_camera_to(0, 0, -5);
   oxygarum_rotate_camera_to(0, 0, 0);
   
-  oxygarum_start_render();
+  oxygarum_start_render(0);
   
   return 0;
 }
