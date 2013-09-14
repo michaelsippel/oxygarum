@@ -40,7 +40,7 @@ void wait_for_begin(void) {
     oxygarum_animation_func(&anim);
   } else if(human == NULL) {
     human = oxygarum_load_oxy3d_file("human.oxy3d");
-    id = oxygarum_add_object3d(human, 0, 0, -20);
+    id = oxygarum_add_object3d(human, 0, 0, 0);
     oxygarum_set_shade_mode(id, shade_mode==0?GL_FLAT:GL_SMOOTH);
   }
 }
@@ -54,15 +54,17 @@ int main(int argc, char **argv) {
   
   init_oxygarum();
   
-light_t light;
+  light_t light;
   light.ambient[0] = 1.0f; light.ambient[1] = 1.0f; light.ambient[2] = 1.0f; light.ambient[3] = 1.0f;
   light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
   light.specular[0] = 1.0f; light.specular[1] = 1.0f; light.specular[2] = 1.0f; light.specular[3] = 1.0f;
-  light.pos[0] = 20.0f; light.pos[1] = 0.0f; light.pos[2] = -25.0f; light.pos[3] = 1.0f;
+  light.pos[0] = 50.0f; light.pos[1] = 0.0f; light.pos[2] = 0.0f; light.pos[3] = 0.0f;
   light.gl_light = GL_LIGHT0;
   oxygarum_add_light(&light, LIGHT_POSITION_RELATIVE);
   glEnable(GL_CULL_FACE);  // Enable backface culling  
-  
+
+  oxygarum_translate_camera_to(0, 0, -20);  
+
   load_screen = oxygarum_load_oxy2d_file("../load_screen.oxy2d");
   load_screen_id = oxygarum_add_object2d(load_screen, 0, 0);
   oxygarum_set_max_fps(60);

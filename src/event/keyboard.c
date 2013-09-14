@@ -18,22 +18,19 @@
  */
 #include <stdint.h>
 #include <stddef.h>
+#include <SDL/SDL.h>
 #include "event.h"
 
 static void (*kbd_events[256]) (void);
 static void (*kbd_events_up[256]) (void);
 
 void oxygarum_handle_keyboard_event(unsigned char key) {
-  usleep(100);
-  
   if(kbd_events[key] != NULL) {
     kbd_events[key]();
   }
 }
 
 void oxygarum_handle_keyboard_event_up(unsigned char key) {
-  usleep(100);
-  
   if(kbd_events_up[key] != NULL) {
     kbd_events_up[key]();
   }

@@ -67,9 +67,9 @@ int main(int argc, char **argv) {
   init_oxygarum();
   
   light_t light;
-  light.ambient[0] = 1.0f; light.ambient[1] = 0.0f; light.ambient[2] = 0.0f; light.ambient[3] = 1.0f;
-  light.diffuse[0] = 0.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 0.0f; light.diffuse[3] = 1.0f;
-  light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 1.0f; light.specular[3] = 1.0f;
+  light.ambient[0] = 1.0f; light.ambient[1] = 1.0f; light.ambient[2] = 1.0f; light.ambient[3] = 1.0f;
+  light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
+  light.specular[0] = 1.0f; light.specular[1] = 1.0f; light.specular[2] = 1.0f; light.specular[3] = 1.0f;
   light.pos[0] = 5.0f; light.pos[1] = 0.0f; light.pos[2] = 1.0f; light.pos[3] = 1.0f;
   light.gl_light = GL_LIGHT0;
   oxygarum_add_light(&light, LIGHT_POSITION_RELATIVE);

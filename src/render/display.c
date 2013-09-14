@@ -44,8 +44,8 @@ static float max_fps = 0;
 static int do_render = 0;
 
 void oxygarum_calc_fps(void) {
-  /*frame_counter++;
-  time_cur = glutGet(GLUT_ELAPSED_TIME);
+  frame_counter++;
+  time_cur = SDL_GetTicks();
   
   time_diff = time_cur - time_prev;
   frame_time = time_diff / frame_counter;
@@ -53,9 +53,7 @@ void oxygarum_calc_fps(void) {
     fps = frame_counter / (time_diff / 1000.0f);
     time_prev = time_cur;
     frame_counter = 0;
-  }*/
-  frame_time = 16.0f; // TODO
-  fps = 60.0f;
+  }
 }
 
 void oxygarum_animation_func(void (*handler)(void)) {
@@ -91,12 +89,12 @@ void oxygarum_render(void) {
     }
     
     oxygarum_display();
-    oxygarum_calc_fps();
     
     // Animate
     if(oxygarum_animate != NULL) {
       oxygarum_animate();
     }
+    oxygarum_calc_fps();
   }
 }
 

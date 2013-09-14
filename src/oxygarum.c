@@ -28,7 +28,7 @@ float fov = 45.0f;
 const char *title = NULL;
 
 void oxygarum_init_sdl(void) {
-  int state = SDL_Init(SDL_INIT_VIDEO);
+  int state = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
   if(state < 0) {
     printf("Error initalizing SDL.\n");
     exit(EXIT_FAILURE);
