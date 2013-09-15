@@ -50,8 +50,6 @@ void oxygarum_init_opengl(void) {
   glClearDepth(1.0);
   glDepthFunc(GL_LESS);
   glEnable(GL_DEPTH_TEST);
-  glEnable(GL_TEXTURE_2D);
-  glEnable(GL_LIGHTING);
 }
 
 void init_oxygarum(void) {

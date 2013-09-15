@@ -33,7 +33,6 @@ void anim(void) {
   
   float anim_sens = oxygarum_get_frametime()*0.1;
   oxygarum_rotate_object3d(id, 0, anim_sens, 0);
-  //oxygarum_rotate_object3d(id-1, 0, anim_sens, 0);
 }
 
 void wait_for_begin(void) {
@@ -42,15 +41,14 @@ void wait_for_begin(void) {
     oxygarum_remove_object2d(load_screen_id);
     oxygarum_animation_func(&anim);
   } else if(bunny == NULL) {
-    GLuint vert = oxygarum_create_shader_from_file(GL_VERTEX_SHADER, "data/shader.vert");
-    GLuint frag = oxygarum_create_shader_from_file(GL_FRAGMENT_SHADER, "data/shader.frag");
+    GLuint vert = oxygarum_create_shader_from_file(GL_VERTEX_SHADER, "../shader.vert");
+    GLuint frag = oxygarum_create_shader_from_file(GL_FRAGMENT_SHADER, "../shader.frag");
     GLuint program = glCreateProgram();
     glAttachShader(program, vert);
     glAttachShader(program, frag);
     glLinkProgram(program);
     
     bunny = oxygarum_load_oxy3d_file("data/bunny.oxy3d");
-       //  oxygarum_add_object3d(bunny, 0, -1.5, -5);
     id = oxygarum_add_object3d(bunny, 0, -1.5, -5);
     oxygarum_object3d_set_shade_program(id, program);
     oxygarum_set_shade_mode(id, (shade_mode==0)?GL_FLAT:GL_SMOOTH);
@@ -70,11 +68,12 @@ int main(int argc, char **argv) {
   light.ambient[0] = 1.0f; light.ambient[1] = 1.0f; light.ambient[2] = 1.0f; light.ambient[3] = 1.0f;
   light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
   light.specular[0] = 1.0f; light.specular[1] = 1.0f; light.specular[2] = 1.0f; light.specular[3] = 1.0f;
-  light.pos[0] = 5.0f; light.pos[1] = 0.0f; light.pos[2] = 1.0f; light.pos[3] = 1.0f;
+  light.r_pos[0] = 5.0f; light.r_pos[1] = 0.0f; light.r_pos[2] = 1.0f; light.r_pos[3] = 1.0f;
   light.gl_light = GL_LIGHT0;
-  oxygarum_add_light(&light, LIGHT_POSITION_RELATIVE);
-  
-  glEnable(GL_CULL_FACE);  // Enable backface culling
+  light.pos = NULL;
+  light.rot = NULL;
+  oxygarum_add_light(&light);
+  glEnable(GL_TEXTURE_2D);
   
   load_screen = oxygarum_load_oxy2d_file("../load_screen.oxy2d");
   load_screen_id = oxygarum_add_object2d(load_screen, 0, 0);

@@ -34,9 +34,6 @@ extern int width, height;
 extern int view_x, view_y;
 extern float fov;
 
-unsigned int absolute_light_counter = 0;
-light_t **absolute_lights;
-
 static int frame_counter = 0;
 static int time_cur = 0, time_prev = 0, time_diff = 0;
 static float fps = 0;
@@ -114,19 +111,14 @@ void oxygarum_display(void) {
   
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  
-  gluPerspective(fov, (GLfloat)width/(GLfloat)height, 1.0f, 1000.0f);
+  gluPerspective(fov, (GLfloat)width/(GLfloat)height, 1.0f, 1000.0f);  
+  oxygarum_update_lights();  
   
   glRotatef(rot.x, 1.0f,0.0f,0.0f);
   glRotatef(rot.y, 0.0f,1.0f,0.0f);
   glRotatef(rot.z, 0.0f,0.0f,1.0f);  
   
   glTranslatef(loc.x, loc.y, loc.z);
-  
-  for(i = 0; i < absolute_light_counter; i++) {
-    light_t *l = absolute_lights[i];
-    glLightfv(l->gl_light, GL_POSITION, l->pos);
-  }
   
   oxygarum_render_all_objects3d();
   
@@ -168,35 +160,6 @@ void oxygarum_display(void) {
   
   glFlush();
   SDL_GL_SwapBuffers();
-}
-
-int oxygarum_add_light(light_t *light, int light_pos) {
-  glLightfv(light->gl_light, GL_AMBIENT,  light->ambient);
-  glLightfv(light->gl_light, GL_DIFFUSE,  light->diffuse);
-  glLightfv(light->gl_light, GL_SPECULAR, light->specular);
-  glLightfv(light->gl_light, GL_POSITION, light->pos);
-  
-  glEnable(light->gl_light);
-  
-  if(light_pos == LIGHT_POSITION_ABSOLUTE) {
-    int id;
-    id = absolute_light_counter++;
-    if(absolute_light_counter > 0) {
-      absolute_lights = realloc(absolute_lights, absolute_light_counter * sizeof(light_t));
-    } else {
-      absolute_lights = malloc(sizeof(light_t));
-    }
-    
-    absolute_lights[id] = light;
-    return id;
-  }
-  
-  return -1;
-}
-
-void oxygarum_remove_absolute_light(int id) {
-  free(absolute_lights[id]);
-  absolute_lights[id] = NULL;
 }
 
 void oxygarum_translate_camera_to(float new_x, float new_y, float new_z) {

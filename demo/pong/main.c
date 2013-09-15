@@ -133,11 +133,13 @@ int main(int argc, char **argv) {
   light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
   light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
   light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
-  light.pos[0] = 5.0f; light.pos[1] = 0.0f; light.pos[2] = 3.0f; light.pos[3] = 1.0f;
+  light.r_pos[0] = 5.0f; light.r_pos[1] = 0.0f; light.r_pos[2] = 3.0f; light.r_pos[3] = 1.0f;
   light.gl_light = GL_LIGHT0;
-  oxygarum_add_light(&light, LIGHT_POSITION_ABSOLUTE);
-  
-  glEnable(GL_CULL_FACE);  // Enable backface culling  
+  light.pos = NULL;
+  light.rot = NULL;
+  oxygarum_add_light(&light);
+  glEnable(GL_LIGHTING);
+  glEnable(GL_TEXTURE_2D);  
   
   oxygarum_rotate_camera_to(20, 0, 0);
   oxygarum_translate_camera_to(0, -2, -3);  

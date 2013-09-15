@@ -22,18 +22,17 @@
 #include <GL/gl.h>
 #include "vertex.h"
 
-#define LIGHT_POSITION_ABSOLUTE 0x0
-#define LIGHT_POSITION_RELATIVE 0x1
-
 typedef struct light {
   GLfloat ambient[4];
   GLfloat diffuse[4];
   GLfloat specular[4];
-  GLfloat pos[4];
+  GLfloat r_pos[4];
+  vertex3d_t *pos;
+  vertex3d_t *rot;
   GLenum gl_light;
 } light_t;
 
-int oxygarum_add_light(light_t *light, int light_position);
+int oxygarum_add_light(light_t *light);
 void oxygarum_remove_light(int id);
 
 #endif

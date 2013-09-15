@@ -16,8 +16,8 @@
 #define SPEED 0.2
 
 int world_id, suzanne_id;
-vertex3d_t rot = {0,0,0};
-vertex3d_t loc = {0,0,-2};
+vertex3d_t rot = {5,0,0};
+vertex3d_t loc = {0,-3,0};
 
 font_t *font;
 char fps[100];
@@ -98,21 +98,33 @@ int main(int argc, char **argv) {
   init_oxygarum();
   
   light_t light;
-  light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
+  vertex3d_t nul;
+  nul.x = 0; nul.y = 0; nul.z = 0;
+  light.ambient[0] = 1.0f; light.ambient[1] = 1.0f; light.ambient[2] = 1.0f; light.ambient[3] = 1.0f;
   light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
-  light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
-  light.pos[0] = 1.0f; light.pos[1] = 0.5f; light.pos[2] = -0.1f; light.pos[3] = 1.0f;
+  light.specular[0] = 1.0f; light.specular[1] = 1.0f; light.specular[2] = 1.0f; light.specular[3] = 1.0f;
+  light.r_pos[0] = 0.0f; light.r_pos[1] = -3.0f; light.r_pos[2] = 0.0f; light.r_pos[3] = 1.0f;
   light.gl_light = GL_LIGHT0;
-  oxygarum_add_light(&light, LIGHT_POSITION_ABSOLUTE);
-  //glEnable(GL_CULL_FACE);  // Enable backface culling
+  light.pos = NULL;
+  light.rot = NULL;
+  oxygarum_add_light(&light);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_LIGHTING);  
   
-  object3d_t *world = oxygarum_load_oxy3d_file("world.oxy3d");
-  object3d_t *suzanne = oxygarum_load_oxy3d_file("suzanne.oxy3d");
+  GLuint vert = oxygarum_create_shader_from_file(GL_VERTEX_SHADER, "../shader.vert");
+  GLuint frag = oxygarum_create_shader_from_file(GL_FRAGMENT_SHADER, "../shader.frag");
+  GLuint program = glCreateProgram();
+  glAttachShader(program, vert);
+  glAttachShader(program, frag);
+  glLinkProgram(program);
+  
+  object3d_t *world = oxygarum_load_oxy3d_file("data/world.oxy3d");
+  object3d_t *suzanne = oxygarum_load_oxy3d_file("data/suzanne.oxy3d");
   world_id = oxygarum_add_object3d(world, 0, 0, 0);
-  suzanne_id = oxygarum_add_object3d(suzanne, 0, 0, 0);
-  oxygarum_set_shade_mode(suzanne_id, GL_SMOOTH);
-  oxygarum_set_shade_mode(world_id, GL_SMOOTH);  
-
+  suzanne_id = oxygarum_add_object3d(suzanne, 0, 2, 0);
+  oxygarum_object3d_set_shade_program(suzanne_id, program);
+  oxygarum_object3d_set_shade_program(world_id, program);
+  
   texture_t *font_tex = oxygarum_load_texture("../font2.png",1);
   font = oxygaurm_create_font(font_tex, 16, 16, 0, 16);
   oxygarum_add_text(fps, font, 0, 30);

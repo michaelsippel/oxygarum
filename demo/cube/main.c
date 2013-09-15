@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   oxygarum_add_text(text, font, 0, 30);
   oxygarum_add_text(text2, font, 0, 0);  
   
-  oxygarum_start_render(33.3333);
+  oxygarum_start_render(0);
   
   return 0;
 }
