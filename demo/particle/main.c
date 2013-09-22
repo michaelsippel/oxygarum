@@ -9,11 +9,11 @@
 #include <stdlib.h>
 
 void anim(void) {
-  oxygarum_update_all_particles(oxygarum_get_frametime());
+  //oxygarum_update_all_particles(oxygarum_get_frametime());
 }
 
 int main(int argc, char **argv) {
-  oxygarum_set_resolution(800, 600);
+/*  oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
   oxygarum_animation_func(&anim);  
   
@@ -75,6 +75,6 @@ int main(int argc, char **argv) {
   
   oxygarum_start_render(0);
   
-  return 0;
+  return 0;*/
 }
 

@@ -1,5 +1,5 @@
 /**
- *  src/object/face.c
+ *  src/core/object/face.c
  *
  *  (C) Copyright 2012-2013 Michael Sippel
  *
@@ -33,7 +33,7 @@ face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t **uv_ma
   return face;
 }
 
-void oxygarum_display_face3d(object3d_t *object, face_t *face) {
+void oxygarum_render_face3d(mesh3d_t *mesh, face_t *face) {
   int i;
   
   if(face->vertex_counter == 3)
@@ -47,21 +47,21 @@ void oxygarum_display_face3d(object3d_t *object, face_t *face) {
     vertex_id id = face->vertices[i];
     
     int j;
-    for(j = 0; j < object->material->texture_counter; j++) {
+    for(j = 0; j < mesh->material->texture_counter; j++) {
       glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
     }
     
-    glNormal3f(object->normals[id].x, object->normals[id].y, object->normals[id].z);
+    glNormal3f(mesh->normals[id].x, mesh->normals[id].y, mesh->normals[id].z);
     glVertex3f(
- 	object->vertices[id].x,
- 	object->vertices[id].y,
- 	object->vertices[id].z
+ 	mesh->vertices[id].x,
+ 	mesh->vertices[id].y,
+ 	mesh->vertices[id].z
     );
   }
   glEnd();
 }
 
-void oxygarum_display_face2d(object2d_t *object, face_t *face) {
+void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face) {
   int i;
   
   if(face->vertex_counter == 3)
@@ -75,13 +75,13 @@ void oxygarum_display_face2d(object2d_t *object, face_t *face) {
     vertex_id id = face->vertices[i];
     
     int j;
-    for(j = 0; j < object->material->texture_counter; j++) {
+    for(j = 0; j < mesh->material->texture_counter; j++) {
       glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
     }
     
     glVertex2f(
- 	object->vertices[id].x,
- 	object->vertices[id].y
+ 	mesh->vertices[id].x,
+ 	mesh->vertices[id].y
     );
   }
   

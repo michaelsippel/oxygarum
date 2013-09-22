@@ -1,5 +1,5 @@
 /**
- *  include/font.h
+ *  src/core/event/keyboard.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *
@@ -16,34 +16,32 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FONT_H
-#define _FONT_H
+#include <stdint.h>
+#include <stddef.h>
+#include <SDL/SDL.h>
+#include "event.h"
 
-#include "vertex.h"
-#include "texture.h"
-#include "material.h"
+static void (*kbd_events[256]) (void);
+static void (*kbd_events_up[256]) (void);
 
-typedef struct font {
-  texture_t *texture;
-  int list_base;
-  unsigned int grid_width;
-  unsigned int grid_height;
-  unsigned int font_width;
-  unsigned int font_height;
-  unsigned int num_fonts;
-  char ascii_start;
-} font_t;
+void oxygarum_handle_keyboard_event(unsigned char key) {
+  if(kbd_events[key] != NULL) {
+    kbd_events[key]();
+  }
+}
 
-typedef struct text {
-  font_t *font;
-  char *text;
-  vertex2d_t pos;
-  color_t color;
-} text_t;
+void oxygarum_handle_keyboard_event_up(unsigned char key) {
+  if(kbd_events_up[key] != NULL) {
+    kbd_events_up[key]();
+  }
+}
 
-font_t *oxygarum_create_font(texture_t *texture, int w, int h, char start, float space);
-text_t *oxygarum_create_text(char *string, font_t *font, float x, float y);
-void oxygarum_render_text(text_t *text);
+void oxygarum_set_keyboard_event(unsigned char key, void (*handler)(void)) {
+  kbd_events[key] = handler;
+}
 
-#endif
+void oxygarum_set_keyboard_event_up(unsigned char key, void (*handler)(void)) {
+  kbd_events_up[key] = handler;
+}
+
 

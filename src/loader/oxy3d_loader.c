@@ -33,7 +33,7 @@ void readstr(FILE *f, char *string) {
     return;
 }
 
-object3d_t *oxygarum_load_oxy3d_file(const char *path) {
+mesh3d_t *oxygarum_load_oxy3d_file(const char *path) {
   FILE *f = fopen(path, "rt");
   if(!f) {
     printf("Fehler beim öffnen!\n");
@@ -147,7 +147,7 @@ object3d_t *oxygarum_load_oxy3d_file(const char *path) {
     faces[id] = oxygarum_create_face(size, va, uvs);
   }
   
-  object3d_t *obj = oxygarum_create_object3d(num_vertices, vertices, num_faces, faces, material);
+  mesh3d_t *obj = oxygarum_create_mesh3d(num_vertices, vertices, num_faces, faces, material);
   fclose(f);
   
   return obj;

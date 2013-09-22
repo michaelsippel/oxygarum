@@ -1,5 +1,5 @@
 /**
- *  src/font/font.c
+ *  src/gui/font.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *
@@ -22,7 +22,7 @@
 
 #include "font.h"
 
-font_t *oxygaurm_create_font(texture_t *texture, int w, int h, char start, float space) {
+font_t *oxygarum_create_font(texture_t *texture, int w, int h, char start, float space) {
   font_t *font = malloc(sizeof(font_t));
   
   font->texture = texture;
@@ -70,10 +70,31 @@ font_t *oxygaurm_create_font(texture_t *texture, int w, int h, char start, float
   return font;
 }
 
-void oxygaurm_display_text(font_t *font, char *text) {
-  glBindTexture(GL_TEXTURE_2D, font->texture->id);
-  glListBase(font->list_base);
-  int len = strlen(text);
-  glCallLists(len, GL_BYTE, text);
+text_t *oxygarum_create_text(char *string, font_t *font, float x, float y) {
+  text_t *text = malloc(sizeof(text_t));
+
+  text->font = font;
+  text->text = string;
+  text->pos.x = x;
+  text->pos.y = y;
+  text->color.rgb.r = 1.0f;
+  text->color.rgb.b = 1.0f;
+  text->color.rgb.g = 1.0f;
+  text->color.rgb.a = 1.0f;
+  
+  return text;
+}
+
+void oxygarum_render_text(text_t *text) {
+  glTranslatef(text->pos.x, text->pos.y, 0);
+  glColor4f(text->color.color[0],
+            text->color.color[1],
+            text->color.color[2],
+            text->color.color[3]);
+  
+  glBindTexture(GL_TEXTURE_2D, text->font->texture->id);
+  glListBase(text->font->list_base);
+  int len = strlen(text->text);
+  glCallLists(len, GL_BYTE, text->text);
 }
 

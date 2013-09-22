@@ -1,7 +1,7 @@
 /**
- *  include/face.h
+ *  include/screen.h
  *
- *  (C) Copyright 2012-2013 Michael Sippel
+ *  (C) Copyright 2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,27 +16,32 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _FACE_H
-#define _FACE_H
+#ifndef _SCREEN_H
+#define _SCREEN_H
 
 #include "vertex.h"
-#include "vector.h"
+#include "scene.h"
+#include "camera.h"
 #include "material.h"
 
-typedef struct face {
-  vertex_id vertex_counter;
-  vertex_id *vertices;
-  vector3d_t face_normal;
-  uv_t **uv_map;
-} face_t;
+typedef struct viewport {
+  float x;
+  float y;
+  float width;
+  float height;
+} viewport_t;
 
-typedef unsigned int face_id;
+typedef struct screen {
+  scene_t *scene;
+  camera_t *camera;
+  viewport_t viewport;
+  float width;
+  float height;
+  color_t background;
+} screen_t;
 
-#include "mesh.h"
-
-face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t **uv_map);
-void oxygarum_render_face3d(mesh3d_t *mesh, face_t *face);
-void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face);
+screen_t *oxygarum_create_screen(void);
+void oxygarum_render_screen(screen_t *screen);
 
 #endif
 

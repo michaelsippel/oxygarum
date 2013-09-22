@@ -1,7 +1,7 @@
 /**
  *  include/oxygarum.h
  *
- *  (C) Copyright 2012 Michael Sippel
+ *  (C) Copyright 2012-2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,17 +25,21 @@
 extern "C" {
 #endif
 
-#include "vertex.h"
+#include "camera.h"
+#include "event.h"
 #include "face.h"
 #include "font.h"
+#include "vertex.h"
 #include "object.h"
 #include "material.h"
+#include "mesh.h"
+#include "particle.h"
+#include "shader.h"
+#include "scene.h"
+#include "screen.h"
 #include "texture.h"
-#include "event.h"
 #include "gui.h"
 #include "light.h"
-#include "shader.h"
-#include "particle.h"
 
 void init_oxygarum(void);
 void oxygarum_start_render(float _min_frame_time);
@@ -49,10 +53,9 @@ void oxygarum_set_viewport(int _x, int _y);
 void oxygarum_set_title(const char *_title);
 void oxygarum_set_fov(float _fov);
 
-object3d_t *oxygarum_load_oxy3d_file(const char *path);
-object2d_t *oxygarum_load_oxy2d_file(const char *path);
-float oxygarum_get_fps(void);
-float oxygarum_get_frametime(void);
+mesh3d_t *oxygarum_load_oxy3d_file(const char *path);
+mesh2d_t *oxygarum_load_oxy2d_file(const char *path);
+float oxygarum_update(void);
 
 #if defined(__cplusplus)
 }

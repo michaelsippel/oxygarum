@@ -28,7 +28,7 @@
 
 #define DEBUG 1
 
-object2d_t *oxygarum_load_oxy2d_file(const char *path) {
+mesh2d_t *oxygarum_load_oxy2d_file(const char *path) {
   FILE *f = fopen(path, "rt");
   if(!f) {
     printf("Fehler beim öffnen!\n");
@@ -113,7 +113,7 @@ object2d_t *oxygarum_load_oxy2d_file(const char *path) {
     faces[id] = oxygarum_create_face(size, va, uvs);
   }
 
-  object2d_t *obj = oxygarum_create_object2d(num_vertices, vertices, num_faces, faces, material);
+  mesh2d_t *obj = oxygarum_create_mesh2d(num_vertices, vertices, num_faces, faces, material);
   fclose(f);
   
   return obj;

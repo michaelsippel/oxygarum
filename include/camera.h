@@ -1,5 +1,5 @@
 /**
- *  src/event/keyboard.c
+ *  include/camera.h
  *
  *  (C) Copyright 2013 Michael Sippel
  *
@@ -16,32 +16,16 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdint.h>
-#include <stddef.h>
-#include <SDL/SDL.h>
-#include "event.h"
+#ifndef _CAMERA_H
+#define _CAMERA_H
 
-static void (*kbd_events[256]) (void);
-static void (*kbd_events_up[256]) (void);
+#include "vertex.h"
 
-void oxygarum_handle_keyboard_event(unsigned char key) {
-  if(kbd_events[key] != NULL) {
-    kbd_events[key]();
-  }
-}
+typedef struct camera {
+  vertex3d_t pos;
+  vertex3d_t rot;
+  float fov;
+} camera_t;
 
-void oxygarum_handle_keyboard_event_up(unsigned char key) {
-  if(kbd_events_up[key] != NULL) {
-    kbd_events_up[key]();
-  }
-}
-
-void oxygarum_set_keyboard_event(unsigned char key, void (*handler)(void)) {
-  kbd_events[key] = handler;
-}
-
-void oxygarum_set_keyboard_event_up(unsigned char key, void (*handler)(void)) {
-  kbd_events_up[key] = handler;
-}
-
+#endif
 

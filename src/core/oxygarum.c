@@ -1,5 +1,5 @@
 /**
- *  src/oxygarum.c
+ *  src/core/oxygarum.c
  *
  *  (C) Copyright 2012 Michael Sippel
  *
@@ -74,4 +74,23 @@ void oxygarum_set_title(const char *_title) {
 void oxygarum_set_fov(float _fov) {
   fov = _fov;
 }
+
+float oxygarum_update(void) {
+  // handle SDL events
+  SDL_Event event;
+  while(SDL_PollEvent( &event ) == 1) {
+    oxygarum_handle_sdl_event(&event);
+  }
+  oxygarum_handle_sdl_event(&event);
+  
+  // calc frametime
+  static float time_prev = 0;
+  float time_cur = SDL_GetTicks();
+  
+  float frametime = time_cur - time_prev;
+  time_prev = time_cur;
+
+  return frametime;
+}
+
 

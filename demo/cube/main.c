@@ -3,7 +3,7 @@
 // textured cube using the oxygarum 3D-Engine.
 //
 // Copyright (C) 2012-2013 Michael Sippel
-// <micha.linuxfreak@gmail.com>
+// <michamimosa@gmail.com>
 //
 
 #include <oxygarum.h>
@@ -11,35 +11,47 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int id;
-char text[100];
+char text1[100];
 char text2[100];
-
-void anim(void) {
-  sprintf(text, "FPS:%f", oxygarum_get_fps());
-  sprintf(text2, "FRAMETIME:%f", oxygarum_get_frametime());
-  oxygarum_rotate_object3d(id, 0,1,0);
-}
 
 int main(int argc, char **argv) {
   oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
-  oxygarum_animation_func(anim);
   
   init_oxygarum();
   
-  object3d_t *object = oxygarum_load_oxy3d_file("cube.oxy3d");
-  id = oxygarum_add_object3d(object, 0, 0, -4);
-  oxygarum_rotate_object3d(id, 10, 30, 10);  
-  oxygarum_enable_object3d_status(id, OBJECT_TRANSPARENT);
-  //oxygarum_disable_object3d_status(id, OBJECT_RENDER_VBO);
+  // create screen (with viewport, FOV, etc.)
+  screen_t *screen = oxygarum_create_screen();  
   
-  texture_t *font_tex = oxygarum_load_texture("../font.png", 1);
-  font_t *font = oxygaurm_create_font(font_tex, 8, 8, '!', 14); 
-  oxygarum_add_text(text, font, 0, 30);
-  oxygarum_add_text(text2, font, 0, 0);  
+  // load mesh and create object
+  object3d_t *object = oxygarum_create_object3d();
+  object->mesh = oxygarum_load_oxy3d_file("cube.oxy3d");
+  object->pos.x = 0;
+  object->pos.y = 0;
+  object->pos.z = -4;
+  object->rot.x = 10;
+  object->rot.y = 30;
+  object->rot.z = 10;
+  object->shade_program = 0;
+  object->shade_model = GL_FLAT;
+  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT;
   
-  oxygarum_start_render(0);
+  // setup scene
+  scene_t *scene = oxygarum_create_scene();
+  oxygarum_add_object3d(scene, object);
+  screen->scene = scene;
+  
+  // main loop
+  while(1) {
+    // update (calculate frametime, handle events, etc.)
+    float frametime = oxygarum_update();
+    
+    // render
+    oxygarum_render_screen(screen);
+    
+    // update
+    object->rot.y += frametime * 0.05;
+  }
   
   return 0;
 }

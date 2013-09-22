@@ -27,13 +27,12 @@ typedef struct light {
   GLfloat diffuse[4];
   GLfloat specular[4];
   GLfloat r_pos[4];
-  vertex3d_t *pos;
-  vertex3d_t *rot;
+  vertex3d_t pos;
+  vertex3d_t rot;
   GLenum gl_light;
 } light_t;
 
-int oxygarum_add_light(light_t *light);
-void oxygarum_remove_light(int id);
+light_t *oxygarum_create_light(void);
 
 #endif
 

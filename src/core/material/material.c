@@ -1,5 +1,5 @@
 /**
- *  src/material/material.c
+ *  src/core/material/material.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *

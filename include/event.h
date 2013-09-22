@@ -21,10 +21,6 @@
 
 #include <SDL/SDL.h>
 
-#define MOUSE_ACTIVE_MOTION  0x0
-#define MOUSE_PASSIVE_MOTION 0x1
-#define MOUSE_CLICK          0x2
-
 void oxygarum_handle_sdl_event(SDL_Event *event);
 void oxygarum_handle_keyboard_event(unsigned char key);
 void oxygarum_handle_keyboard_event_up(unsigned char key);

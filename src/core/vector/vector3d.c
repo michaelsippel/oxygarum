@@ -1,5 +1,5 @@
 /**
- *  src/vector/vector3d.c
+ *  src/core/vector/vector3d.c
  *
  *  (C) Copyright 2013 Michael Sippel
  *

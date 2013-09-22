@@ -96,7 +96,7 @@ face_t *oxygarum_create_window_part(oxygarum_window_t *win, int part, uv_t *uv_m
 }
 
 object2d_t *oxygarum_create_window_obj(oxygarum_window_t *win) {
-  win->obj = oxygarum_create_object2d(NUM_WINDOW_VERTICES, win->vertices, NUM_WINDOW_FACES, win->faces, win->material);
+  mesh2d_t *mesh = oxygarum_create_mesh2d(NUM_WINDOW_VERTICES, win->vertices, NUM_WINDOW_FACES, win->faces, win->material);
   return win->obj;
 }
 

@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 int main(int argc, char **argv) {
-  oxygarum_set_resolution(800, 600);
+  /*oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
   
   init_oxygarum();
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
   oxygarum_add_object2d(gui, -1, 1);
   
   oxygarum_start_render(0);
-  
+  */
   return 0;
 }
 
