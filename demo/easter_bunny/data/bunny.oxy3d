@@ -1,5 +1,6 @@
 MATERIAL
-data/texture.png
+TEXTURES 1
+0: data/texture.png
 AMBIENT   0.1 0.1 0.1 1.0
 DIFFUSE   0.8 0.8 0.8 1.0
 SPECULAR  1.0 1.0 1.0 1.0

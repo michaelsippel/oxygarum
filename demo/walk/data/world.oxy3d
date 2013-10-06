@@ -1,5 +1,6 @@
 MATERIAL
-data/world.png
+TEXTURES 1
+0: data/world.png
 AMBIENT   0.2 0.2 0.2 0.0
 DIFFUSE   0.4 0.4 0.4 1.0
 SPECULAR  1.0 1.0 1.0 1.0

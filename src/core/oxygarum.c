@@ -89,7 +89,7 @@ float oxygarum_update(void) {
   
   float frametime = time_cur - time_prev;
   time_prev = time_cur;
-
+  
   return frametime;
 }
 

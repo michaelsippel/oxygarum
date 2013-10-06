@@ -48,7 +48,7 @@ void oxygarum_render_object3d(object3d_t *obj) {
   glRotatef(obj->rot.x, 1.0f,0.0f,0.0f);
   glRotatef(obj->rot.y, 0.0f,1.0f,0.0f);
   glRotatef(obj->rot.z, 0.0f,0.0f,1.0f);
-
+  
   float feedback[3] = {-1.0f, -1.0f, -1.0f};  
   
   glFeedbackBuffer(3, GL_3D, feedback);      
@@ -81,7 +81,9 @@ void oxygarum_render_object3d(object3d_t *obj) {
     glBindTexture(GL_TEXTURE_2D, material->textures[i]->id);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
   }
-  
+
+  glColor4fv(&material->color.color);  
+
   glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
   glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);

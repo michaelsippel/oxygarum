@@ -83,8 +83,8 @@ int main(int argc, char **argv) {
   suzanne->shade_program = program;
   world->status |= OBJECT_RENDER_VBO;
   suzanne->status |= OBJECT_RENDER_VBO;
-  suzanne->pos.y = 1.5;  
-
+  world->pos.y = -1.5;
+  
   texture_t *font_tex = oxygarum_load_texture("../font2.png",1);
   font_t *font = oxygarum_create_font(font_tex, 16, 16, 0, 16);
   text_t *t1 = oxygarum_create_text(text_fps, font, 0, 30);
@@ -101,18 +101,18 @@ int main(int argc, char **argv) {
   oxygarum_add_text(scene, t3);
   
   screen->camera->pos.x = 0;
-  screen->camera->pos.y = -1.8;
+  screen->camera->pos.y = 0;
   screen->camera->pos.z = -3;  
   
   light_t light;
   light.ambient[0] = 1.0f; light.ambient[1] = 1.0f; light.ambient[2] = 1.0f; light.ambient[3] = 1.0f;
   light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
   light.specular[0] = 1.0f; light.specular[1] = 1.0f; light.specular[2] = 1.0f; light.specular[3] = 1.0f;
-  light.r_pos[0] = 0.0f; light.r_pos[1] = -3.0f; light.r_pos[2] = 0.0f; light.r_pos[3] = 1.0f;
+  light.r_pos[0] = 1.0f; light.r_pos[1] = 1.0f; light.r_pos[2] = 1.0f; light.r_pos[3] = 1.0f;
   light.gl_light = GL_LIGHT0;
   oxygarum_add_light(scene, &light);
   
-  screen->scene = scene;  
+  screen->scene = scene;
 
   // main loop
   while(1) {

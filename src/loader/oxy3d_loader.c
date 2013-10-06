@@ -44,22 +44,30 @@ mesh3d_t *oxygarum_load_oxy3d_file(const char *path) {
   
   int num_vertices = 0;
   int num_uvmaps = 0;
-  int num_faces = 0;  
+  int num_faces = 0;
+  int num_textures = 0; 
   int i,j;  
   
   readstr(f, line);
   sscanf(line, "MATERIAL\n");
   material_t *material;
 
-  char tex_path[256];  
-
   readstr(f, line);
-  sscanf(line, "%s\n", tex_path);
+  sscanf(line, "TEXTURES %d\n", &num_textures);
+
+  char tex_path[256];
   
   material = oxygarum_create_material("material");
-  texture_t **tex = calloc(1, sizeof(texture_t*));
-  tex[0] = oxygarum_load_texture(tex_path, 1);
-  oxygarum_material_init_textures(material, 1, tex);
+  texture_t **tex = calloc(num_textures, sizeof(texture_t*));
+  
+  for(i = 0; i < num_textures; i++) {
+    int id;
+    readstr(f, line);
+    sscanf(line, "%d : %s\n", &id, &tex_path);
+    tex[id] = oxygarum_load_texture(tex_path, 1);
+  }
+  
+  oxygarum_material_init_textures(material, num_textures, tex);
   
   readstr(f, line);
   sscanf(line, "AMBIENT %f %f %f %f\n", 
