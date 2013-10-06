@@ -53,6 +53,7 @@ typedef struct material {
 material_t *oxygarum_create_material(const char *name);
 void oxygarum_set_texture(material_id material, texture_t *texture);
 void oxygarum_set_color(material_id material, color_t color);
+void oxygarum_material_init_textures(material_t *material, int num_textures, texture_t **textures);
 
 #endif
 
