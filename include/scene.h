@@ -21,6 +21,7 @@
 
 #include "object.h"
 #include "particle.h"
+#include "physics.h"
 #include "light.h"
 #include "font.h"
 
@@ -39,6 +40,8 @@ typedef struct scene {
   
   unsigned int light_counter;
   light_t **lights;
+  
+  physics_t *physics;
 } scene_t;
 
 scene_t *oxygarum_create_scene(void);

@@ -38,6 +38,7 @@ typedef struct object3d {
   GLuint shade_program;
   GLuint shade_model;
   int status;
+  int physics;
 } object3d_t;
 
 typedef struct object2d {
