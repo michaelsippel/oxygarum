@@ -43,7 +43,9 @@ physics_t *oxygarum_create_physics(void);
 force_field_t *oxygarum_create_force_field(void);
 int oxygarum_add_force_field(physics_t *physics, force_field_t *force_field);
 void oxygarum_remove_force_field(physics_t *physics, int id);
-void oxygarum_update_physics(struct scene *scene);
+
+void oxygarum_calc_acceleration(physics_t *physics, vertex3d_t *velocity, float anim_speed);
+void oxygarum_update_physics(struct scene *scene, float frametime);
 
 #endif
 

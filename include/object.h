@@ -20,6 +20,7 @@
 #define _OBJECT_H
 
 #include "vertex.h"
+#include "vector.h"
 #include "face.h"
 #include "material.h"
 #include "mesh.h"
@@ -32,6 +33,7 @@
 typedef struct object3d {
   mesh3d_t *mesh;
   vertex3d_t pos;
+  vector3d_t velocity;
   vertex3d_t rot;
   vertex2d_t feedback;
   

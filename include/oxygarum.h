@@ -34,6 +34,7 @@ extern "C" {
 #include "material.h"
 #include "mesh.h"
 #include "particle.h"
+#include "physics.h"
 #include "shader.h"
 #include "scene.h"
 #include "screen.h"

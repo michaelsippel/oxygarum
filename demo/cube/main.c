@@ -40,7 +40,16 @@ int main(int argc, char **argv) {
   scene_t *scene = oxygarum_create_scene();
   oxygarum_add_object3d(scene, object);
   screen->scene = scene;
-  
+
+  // physics
+  physics_t *physics = oxygarum_create_physics();
+  force_field_t *gravity = oxygarum_create_force_field();
+  gravity->force.y = -0.0000981;
+
+  oxygarum_add_force_field(physics, gravity);
+
+  scene->physics = physics;
+
   // main loop
   while(1) {
     // update (calculate frametime, handle events, etc.)
@@ -51,6 +60,7 @@ int main(int argc, char **argv) {
     
     // update
     object->rot.y += frametime * 0.05;
+    oxygarum_update_physics(scene, frametime);
   }
   
   return 0;

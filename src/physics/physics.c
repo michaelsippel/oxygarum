@@ -19,6 +19,8 @@
 #include <stdlib.h>
 #include "physics.h"
 #include "scene.h"
+#include "vertex.h"
+#include "vector.h"
 
 physics_t *oxygarum_create_physics(void) {
   physics_t *physics = malloc(sizeof(physics_t));
@@ -54,16 +56,46 @@ void oxygarum_remove_force_field(physics_t *physics, int id) {
   physics->force_fields[id] = NULL;
 }
 
-void oxygarum_update_physics(scene_t *scene) {
+void oxygarum_calc_acceleration(physics_t *physics, vertex3d_t *velocity, float anim_speed) {
+  int i;
+
+  for(i = 0; i < physics->force_field_counter; i++) {
+    force_field_t *force_field = physics->force_fields[i];
+    if(force_field == NULL) {
+      continue;
+    }
+    
+    switch(force_field->type) {
+      case FORCE_FIELD_TYPE_VECTOR:
+        velocity->x += force_field->force.x * force_field->velocity * anim_speed;
+        velocity->y += force_field->force.y * force_field->velocity * anim_speed;
+        velocity->z += force_field->force.z * force_field->velocity * anim_speed;
+        break;
+      case FORCE_FIELD_TYPE_VERTEX:
+        velocity->x += (force_field->force.x - velocity->x) * force_field->velocity * anim_speed;
+        velocity->y += (force_field->force.x - velocity->x) * force_field->velocity * anim_speed;
+        velocity->z += (force_field->force.x - velocity->x) * force_field->velocity * anim_speed;
+        break;
+    }
+  }
+}
+
+void oxygarum_update_physics(struct scene *scene, float frametime) {
   if(scene->physics == NULL) {
     return;
   }
   
-  int i;
-  
   physics_t *physics = scene->physics;
-  for(i = 0; i < physics->force_field_counter; i++) {
-    // TODO
+
+  int i;
+  for(i = 0; i < scene->object3d_counter; i++) {
+    object3d_t *obj = scene->objects3d[i];
+    if(obj == NULL) continue;
+    
+    oxygarum_calc_acceleration(physics, &obj->velocity, frametime);
+    obj->pos.x += obj->velocity.x;
+    obj->pos.y += obj->velocity.y;
+    obj->pos.z += obj->velocity.z;
   }
 }
 
