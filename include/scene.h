@@ -41,7 +41,7 @@ typedef struct scene {
   unsigned int light_counter;
   light_t **lights;
   
-  physics_t *physics;
+  struct physics *physics;
 } scene_t;
 
 scene_t *oxygarum_create_scene(void);

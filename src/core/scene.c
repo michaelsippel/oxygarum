@@ -41,6 +41,8 @@ scene_t *oxygarum_create_scene(void) {
   scene->light_counter = 0;
   scene->lights = NULL;
   
+  scene->physics = NULL;  
+  
   return scene;
 }
 
