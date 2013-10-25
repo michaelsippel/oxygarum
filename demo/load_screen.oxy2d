@@ -1,5 +1,6 @@
 MATERIAL
-../loading.png
+TEXTURES 1
+0: ../loading.png
 
 VERTICES 4
 0 : -1  800

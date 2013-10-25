@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
   human->pos.z = -20;
   human->status |= OBJECT_RENDER_VBO;
   
-  texture_t *font_tex = oxygarum_load_texture("../font.png", 1);
+  texture_t *font_tex = oxygarum_load_texture("../font.png", NEAREST, NEAREST, NO_MIPMAP);
   font_t *font = oxygarum_create_font(font_tex, 8, 8, '!', 14); 
   text_t *t1 = oxygarum_create_text(text, font, 0, 30);
   text_t *t2 = oxygarum_create_text(text2, font, 0, 0);

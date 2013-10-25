@@ -21,6 +21,10 @@
 
 #include <stdint.h>
 
+#define LINEAR         0x0
+#define NEAREST        0x1
+#define NO_MIPMAP      0x2
+
 typedef unsigned int texture_id;
 
 typedef struct uv_t {
@@ -37,7 +41,7 @@ typedef struct texture {
 } texture_t;
 
 uint8_t *oxygarum_load_png(const char *path, unsigned int *width, unsigned int *height);
-texture_t *oxygarum_load_texture(const char *path, int mipmapping);
+texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter, int mipmapping);
 
 #endif
 
