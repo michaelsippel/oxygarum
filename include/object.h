@@ -33,14 +33,14 @@
 typedef struct object3d {
   mesh3d_t *mesh;
   vertex3d_t pos;
-  vector3d_t velocity;
   vertex3d_t rot;
   vertex2d_t feedback;
   
   GLuint shade_program;
   GLuint shade_model;
   int status;
-  int physics;
+  
+  struct physics_properties *physics_properties;
 } object3d_t;
 
 typedef struct object2d {

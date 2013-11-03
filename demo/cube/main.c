@@ -43,9 +43,11 @@ int main(int argc, char **argv) {
 
   // physics
   physics_t *physics = oxygarum_create_physics();
+  object->physics_properties = oxygarum_create_physics_properties();
   force_field_t *gravity = oxygarum_create_force_field();
-  gravity->force.y = -0.0000981;
-
+  gravity->force.y = -9.80665;
+  gravity->velocity = 0.000001;
+  
   oxygarum_add_force_field(physics, gravity);
 
   scene->physics = physics;

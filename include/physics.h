@@ -22,9 +22,6 @@
 #include "scene.h"
 #include "vector.h"
 
-#define PHYSICS_STATIC  0x0
-#define PHYSICS_DYNAMIC 0x1
-
 #define FORCE_FIELD_TYPE_VECTOR 0x0
 #define FORCE_FIELD_TYPE_VERTEX 0x1
 
@@ -39,12 +36,19 @@ typedef struct physics {
   force_field_t **force_fields;
 } physics_t;
 
+typedef struct physics_properties {
+  vector3d_t pos_velocity;
+  vector3d_t rot_velocity;
+  float softness;
+} physics_properties_t;
+
 physics_t *oxygarum_create_physics(void);
 force_field_t *oxygarum_create_force_field(void);
+physics_properties_t *oxygarum_create_physics_properties(void);
 int oxygarum_add_force_field(physics_t *physics, force_field_t *force_field);
 void oxygarum_remove_force_field(physics_t *physics, int id);
 
-void oxygarum_calc_acceleration(physics_t *physics, vertex3d_t *velocity, float anim_speed);
+void oxygarum_calc_acceleration(physics_t *physics, physics_properties_t *properties, float anim_speed);
 void oxygarum_update_physics(struct scene *scene, float frametime);
 
 #endif
