@@ -91,7 +91,9 @@ void oxygarum_render_scene_3d(scene_t *scene) {
       continue;
     }
     
-   // oxygarum_render_particle_system(scene->particle_emitters[i]);
+    glPushMatrix();
+    oxygarum_render_particle_system(scene->particle_emitters[i]);
+    glPopMatrix();
   }
 }
 

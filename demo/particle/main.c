@@ -8,19 +8,17 @@
 #include <oxygarum.h>
 #include <stdlib.h>
 
-void anim(void) {
-  //oxygarum_update_all_particles(oxygarum_get_frametime());
-}
-
 int main(int argc, char **argv) {
-/*  oxygarum_set_resolution(800, 600);
+  oxygarum_set_resolution(800, 600);
   oxygarum_set_title("Oxygarum test");
-  oxygarum_animation_func(&anim);  
   
   init_oxygarum();
-
-  srand(time(NULL));  
-
+  
+  screen_t *screen = oxygarum_create_screen();
+  scene_t *scene = oxygarum_create_scene();
+  screen->scene = scene;  
+  
+  // create emitter
   particle_t *min = malloc(sizeof(particle_t));
   particle_t *max = malloc(sizeof(particle_t));
   
@@ -66,15 +64,22 @@ int main(int argc, char **argv) {
   emitter->gravity_speed = 0.00001;
   emitter->num_particles_per_emission = 300;
   emitter->emision_rate = 10;
-  emitter->texture = oxygarum_load_texture("texture.png", 1);  
+  emitter->texture = oxygarum_load_texture("texture.png", LINEAR, LINEAR, LINEAR);  
   
-  oxygarum_add_particle_system(emitter);
+  oxygarum_add_emitter(scene, emitter);
   
-  oxygarum_translate_camera_to(0, 0, -5);
-  oxygarum_rotate_camera_to(0, 0, 0);
+  // main loop
+  while(1) {
+    // update (calculate frametime, handle events, etc.)
+    float frametime = oxygarum_update();
+    
+    // render
+    oxygarum_render_screen(screen);
+
+    // update
+    oxygarum_update_particle_system(emitter, frametime);
+  }
   
-  oxygarum_start_render(0);
-  
-  return 0;*/
+  return 0;
 }
 

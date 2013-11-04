@@ -4,7 +4,7 @@ varying vec3 normal;
 varying vec4 FrontColor;
  
 uniform sampler2D Texture0;
- 
+
 void main(void) {
   vec3 Eye       = normalize(-v);
   vec3 Reflected = normalize(reflect( -lightvec, normal)); 

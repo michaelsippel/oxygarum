@@ -34,13 +34,19 @@ typedef struct force_field {
 typedef struct physics {
   int force_field_counter;
   force_field_t **force_fields;
+
+  GLuint vertex_program;
 } physics_t;
 
 typedef struct physics_properties {
   vector3d_t pos_velocity;
   vector3d_t rot_velocity;
   float softness;
+  vector3d_t *vertex_position;
+  vector3d_t *vertex_velocity;
 } physics_properties_t;
+
+extern char *softbodyshader;
 
 physics_t *oxygarum_create_physics(void);
 force_field_t *oxygarum_create_force_field(void);
@@ -49,6 +55,7 @@ int oxygarum_add_force_field(physics_t *physics, force_field_t *force_field);
 void oxygarum_remove_force_field(physics_t *physics, int id);
 
 void oxygarum_calc_acceleration(physics_t *physics, physics_properties_t *properties, float anim_speed);
+void oxygarum_calc_softbody(physics_t *physics, physics_properties_t *properties, float anim_speed);
 void oxygarum_update_physics(struct scene *scene, float frametime);
 
 #endif

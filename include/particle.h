@@ -59,18 +59,11 @@ typedef struct particle_emitter {
   particle_t **particles;
 } particle_emitter_t;
 
-void oxygarum_render_particle(particle_t *particle, int tex_id);
+particle_emitter_t *oxygarum_create_emitter(void);
+void oxygarum_init_particle_shader(void);
+
 void oxygarum_render_particle_system(particle_emitter_t *emitter);
-void oxygarum_render_all_particles(void);
-
-int oxygarum_add_particle_system(particle_emitter_t *emitter);
-void oxygarum_remove_particle_system(int id);
-
 void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametime);
-void oxygarum_update_all_particles(float frametime);
-
-int oxygarum_particle_emit(particle_emitter_t *emitter);
-void oxygarum_particle_die(particle_emitter_t *emitter, int id);
 
 #endif
 
