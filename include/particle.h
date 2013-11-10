@@ -23,43 +23,35 @@
 #include "vector.h"
 #include "material.h"
 
-#define OXYGARUM_GRAVITY_TYPE_NONE   0x0
-#define OXYGARUM_GRAVITY_TYPE_VERTEX 0x1
-#define OXYGARUM_GRAVITY_TYPE_VECTOR 0x2
-
 typedef struct particle {
   vertex3d_t pos;
   vector3d_t velocity;
   unsigned int lifetime;
-  unsigned int age;
-  unsigned int fade_in;
-  unsigned int fade_out;
-  
   float size;
   color_t color;
-  float saturation;
-  float saturation_min;
-  float saturation_max;
 } particle_t;
 
 typedef struct particle_emitter {
+  GLuint particle_buffer[2];
+  GLuint transform_feedback[2];
+  int current_vb;
+  int current_tfb;
+  
   vertex3d_t pos;
-  vertex3d_t gravity;
-  float gravity_speed;
-  int gravity_type;
+  vector3d_t gravity_vector;
+  vertex3d_t gravity_vertex;
+  float gravity_speed;  
   
-  particle_t *mask_min;
-  particle_t *mask_max;
   texture_t *texture;
+  float seed;
   
+  unsigned int particle_counter;
   unsigned int max_particles;
-  unsigned int num_particles;
-  unsigned int num_particles_per_emission;
+  unsigned int particles_per_emission;
   unsigned int emision_rate;
-  particle_t **particles;
 } particle_emitter_t;
 
-particle_emitter_t *oxygarum_create_emitter(void);
+particle_emitter_t *oxygarum_create_emitter(void *borders);
 void oxygarum_init_particle_shader(void);
 
 void oxygarum_render_particle_system(particle_emitter_t *emitter);

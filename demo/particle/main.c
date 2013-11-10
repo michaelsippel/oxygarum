@@ -17,57 +17,53 @@ int main(int argc, char **argv) {
   screen_t *screen = oxygarum_create_screen();
   scene_t *scene = oxygarum_create_scene();
   screen->scene = scene;  
+    screen->camera->pos.x = 0;
+  screen->camera->pos.y = 0;
+  screen->camera->pos.z = -3;
+  glPointSize(8);
   
   // create emitter
-  particle_t *min = malloc(sizeof(particle_t));
-  particle_t *max = malloc(sizeof(particle_t));
+  particle_t borders[2];
+  borders[0].pos.x = 0.1;
+  borders[0].pos.y = 0;
+  borders[0].pos.z = 0;
+  borders[0].velocity.x = -0.001;
+  borders[0].velocity.y =  0;
+  borders[0].velocity.z = -0.001;
+  borders[0].color.rgb.r = 1;
+  borders[0].color.rgb.g = 0;
+  borders[0].color.rgb.b = 0;
+  borders[0].color.rgb.a = 1;
+  borders[0].lifetime = 300;
+  borders[0].size = 0.1;
+  borders[1].pos.x = 0;
+  borders[1].pos.y = 0;
+  borders[1].pos.z = 0;
+  borders[1].velocity.x = 0.001;
+  borders[1].velocity.y = 0.001;
+  borders[1].velocity.z = 0.001;
+  borders[1].color.rgb.r = 1;
+  borders[1].color.rgb.g = 1;
+  borders[1].color.rgb.b = 0;
+  borders[1].color.rgb.a = 1;
+  borders[1].lifetime = 500;
+  borders[1].size = 0.5;
   
-  min->velocity.x = -0.001;
-  min->velocity.y =  0;
-  min->velocity.z = -0.001;
-  min->color.rgb.r = 1;
-  min->color.rgb.g = 0;
-  min->color.rgb.b = 0;
-  min->color.rgb.a = 1;
-  min->saturation_min = 0;
-  min->saturation_max = 0.3;
-  min->fade_in = 200;
-  min->fade_out = 400;
-  min->lifetime = 300;
-  min->size = 0.1;
-  
-  max->velocity.x = 0.001;
-  max->velocity.y = 0.001;
-  max->velocity.z = 0.001;
-  max->color.rgb.r = 1;
-  max->color.rgb.g = 1;
-  max->color.rgb.b = 0;
-  max->color.rgb.a = 1;
-  max->saturation_min = 0;
-  max->saturation_max = 0.3;
-  min->fade_in = 250;
-  min->fade_out = 400;
-  max->lifetime = 500;
-  max->size = 0.5;
-  
-  particle_emitter_t *emitter = malloc(sizeof(particle_emitter_t));
-  emitter->mask_min = min;
-  emitter->mask_max = max;
-  
+  particle_emitter_t *emitter = oxygarum_create_emitter((void*)&borders);
   emitter->pos.x = 0;
-  emitter->pos.y = -1;
+  emitter->pos.y = 0;
   emitter->pos.z = 0;
-  emitter->gravity.x = 0;
-  emitter->gravity.y = 1;
-  emitter->gravity.z = 0;
-  emitter->gravity_type = OXYGARUM_GRAVITY_TYPE_VERTEX;
-  emitter->gravity_speed = 0.00001;
-  emitter->num_particles_per_emission = 300;
+  emitter->gravity_vector.x = 0;
+  emitter->gravity_vector.y = 1;
+  emitter->gravity_vector.z = 0;
+  emitter->gravity_speed = 0.001;
+  emitter->particles_per_emission = 300;
   emitter->emision_rate = 10;
   emitter->texture = oxygarum_load_texture("texture.png", LINEAR, LINEAR, LINEAR);  
   
   oxygarum_add_emitter(scene, emitter);
-  
+  oxygarum_init_particle_shader();  
+
   // main loop
   while(1) {
     // update (calculate frametime, handle events, etc.)

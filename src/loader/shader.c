@@ -23,14 +23,14 @@
 
 #include "shader.h"
 
-void print_log(GLuint shader) {
-  int blen, slen;
-  char log[100];
-  glGetShaderiv(shader, GL_INFO_LOG_LENGTH , &blen);
-  glGetShaderInfoLog(shader, blen, slen, &log);
-
-  if(log[0] != '\0')
-    printf("%s\n", log);
+void oxygarum_link_program(GLuint program) {
+  glLinkProgram(program);
+  int len;
+  glGetProgramiv(program, GL_INFO_LOG_LENGTH , &len);
+  char log[len+1];
+  
+  if(len > 1)
+    printf("Error linking program:\n", log);
 }
 
 GLuint oxygarum_create_shader(GLuint type, char *text, int len) {
@@ -38,7 +38,27 @@ GLuint oxygarum_create_shader(GLuint type, char *text, int len) {
   
   glShaderSource(id, 1, &text, &len);
   glCompileShader(id);
-  print_log(id);  
+  
+  int llen;
+  glGetShaderiv(id, GL_INFO_LOG_LENGTH , &llen);
+  char log[llen+1];
+  glGetShaderInfoLog(id, llen+1, &llen, &log);
+  
+  char *shadertype;
+  switch(type) {
+    case GL_VERTEX_SHADER:
+      shadertype = "Vertexshader";
+      break;
+    case GL_GEOMETRY_SHADER:
+      shadertype = "Geometryshader";
+      break;
+    case GL_FRAGMENT_SHADER:
+      shadertype = "Fragmentshader";
+      break;
+  }
+  
+  if(llen > 1)
+    printf("Error compiling %s:\n%s\n", shadertype, log);
   
   return id;
 }

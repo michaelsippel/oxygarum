@@ -17,12 +17,50 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-char *particle_vertexshader =
-"void main() {\n"
-"	gl_Position = gl_Vertex;\n"
-"}\n";
+char *particle_vertexshader = "\
+#version 130\n\
+attribute vec3 Pos;\n\
+attribute vec3 Vel;\n\
+attribute float Lifetime; \n\
+attribute float Size;\n\
+attribute vec4 Color;\n\
+\n\
+varying vec3 pos;\n\
+varying vec3 vel;\n\
+varying float lifetime;\n\
+varying float size;\n\
+varying vec4 color;\n\
+void main() {\n\
+  pos = Pos;\n\
+  vel = Vel;\n\
+  lifetime = Lifetime;\n\
+  size = Size;\n\
+  color = Color;\n\
+  gl_Position = vec4(1,1,1,1);\n\
+}\n";
 
-// TODO
-char *particle_geometryshader = 
-"\n";
+char *particle_geometryshader = "\
+#version 130\n\
+#extension GL_EXT_geometry_shader4 : enable\n\
+\n\
+uniform float anim_speed;\n\
+uniform float seed;\n\
+uniform vec3 gravity_vector;\n\
+uniform vec3 gravity_vertex;\n\
+uniform float gravity_speed;\n\
+\n\
+varying vec3 pos;\n\
+varying vec3 vel;\n\
+varying float lifetime;\n\
+varying float size;\n\
+varying vec4 color;\n\
+\n\
+void main() {\n\
+  lifetime -= 1;\n\
+  if(lifetime > 0) {\
+    vel += gravity_vector * gravity_speed * anim_speed;\n\
+    pos += new_vel * anim_speed;\n\
+    EmitVertex();\n\
+  }\n\
+}\n";
 

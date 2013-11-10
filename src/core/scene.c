@@ -92,6 +92,7 @@ void oxygarum_render_scene_3d(scene_t *scene) {
     }
     
     glPushMatrix();
+    glTranslatef(scene->particle_emitters[i]->pos.x, scene->particle_emitters[i]->pos.y, scene->particle_emitters[i]->pos.z);
     oxygarum_render_particle_system(scene->particle_emitters[i]);
     glPopMatrix();
   }
