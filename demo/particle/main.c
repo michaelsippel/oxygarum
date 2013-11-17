@@ -59,6 +59,7 @@ int main(int argc, char **argv) {
   emitter->gravity_speed = 0.001;
   emitter->particles_per_emission = 300;
   emitter->emision_rate = 10;
+  emitter->particle_counter = 2;
   emitter->texture = oxygarum_load_texture("texture.png", LINEAR, LINEAR, LINEAR);  
   
   oxygarum_add_emitter(scene, emitter);

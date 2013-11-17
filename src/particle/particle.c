@@ -17,7 +17,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <GL/gl.h>
-#include <GL/glu.h>
 #include <stdlib.h>
 #include <string.h>
 #include "particle.h"
@@ -39,16 +38,14 @@ particle_emitter_t *oxygarum_create_emitter(void *borders) {
   
   emitter->particle_counter = 2;  
   
-  glGenTransformFeedbacks(2, &emitter->transform_feedback);
-  glGenBuffers(2, &emitter->particle_buffer);
+  glGenBuffers(1, &emitter->particle_buffer[0]);
+  glGenBuffers(1, &emitter->particle_buffer[1]);
   
-  int i;
-  for(i = 0; i < 2; i++) {
-    glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, emitter->transform_feedback[i]);
-    glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, emitter->particle_buffer[i]);
-    glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[i]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(particle_t)*2, borders, GL_DYNAMIC_DRAW);
-  }
+  glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[0]);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(particle_t)*2, borders, GL_STREAM_DRAW);
+  
+  glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[1]);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(particle_t)*2, NULL, GL_STREAM_DRAW);  
   
   return emitter;
 }
@@ -61,9 +58,9 @@ void oxygarum_init_particle_shader(void) {
   glAttachShader(particle_program, vertexshader);
   glAttachShader(particle_program, geometryshader);
   
-  const GLchar* varyings[] = {"pos","vel","lifetime","size","color"};
-  glTransformFeedbackVaryings(particle_program, 5, varyings, GL_SEPARATE_ATTRIBS);
-  
+  const char *varyings[] = {"pos","vel","lifetime","size","color"};
+  glTransformFeedbackVaryings(particle_program, 5, varyings, GL_INTERLEAVED_ATTRIBS);
+
   loc_anim_speed = glGetUniformLocation(particle_program, "anim_speed");
   loc_seed       = glGetUniformLocation(particle_program, "seed");
   loc_gvector    = glGetUniformLocation(particle_program, "gravity_vector");
@@ -79,7 +76,7 @@ void oxygarum_init_particle_shader(void) {
 }
 
 void oxygarum_render_particle_system(particle_emitter_t *emitter) {
-  glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[emitter->current_vb]);
+  glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[emitter->output]);
   
   glVertexPointer(3, GL_FLOAT, sizeof(particle_t), 0x0);
   glColorPointer(4, GL_FLOAT, sizeof(particle_t), 0x20);
@@ -87,26 +84,24 @@ void oxygarum_render_particle_system(particle_emitter_t *emitter) {
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_COLOR_ARRAY);
   
-  glDrawArrays(GL_POINTS, 0, emitter->particle_counter);
+  glDrawArrays(GL_POINTS, NULL, emitter->particle_counter);
   
   glDisableClientState(GL_VERTEX_ARRAY);
   glDisableClientState(GL_COLOR_ARRAY);
 }
 
 void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametime) {
-  emitter->current_vb = emitter->current_tfb;
-  emitter->current_tfb = 1 - emitter->current_vb;
+  emitter->input = emitter->output;
+  emitter->output = 1 - emitter->output;
   
+  glEnable(GL_RASTERIZER_DISCARD);
   glUseProgram(particle_program); 
   glUniform1f(loc_anim_speed, frametime);
   glUniform1f(loc_seed, emitter->seed);
   glUniform3f(loc_gvector, emitter->gravity_vector);
   glUniform4f(loc_gvertex, emitter->gravity_vertex);  
   
-  glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[emitter->current_vb]);
-  glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, emitter->transform_feedback[emitter->current_tfb]);
-  //glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, emitter->transform_feedback[emitter->current_tfb]);
-  
+  glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[emitter->input]);
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);
@@ -119,17 +114,16 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
   glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(particle_t), 0x1C); // size
   glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(particle_t), 0x20); // color
   
-  glEnable(GL_RASTERIZER_DISCARD);
+  glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, emitter->particle_buffer[emitter->output]);
   glBeginTransformFeedback(GL_POINTS);
-  glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, 0);
+  //glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, 0);
   
-  glDrawArrays(GL_POINTS, 0, emitter->particle_counter);
+  glDrawArrays(GL_POINTS, NULL, emitter->particle_counter);
   
   glEndTransformFeedback();
-  glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
-  glGetQueryObjectuiv(0, GL_QUERY_RESULT, &emitter->particle_counter);
-  glDisable(GL_RASTERIZER_DISCARD);  
-
+  //glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
+  //glGetQueryObjectuiv(0, GL_QUERY_RESULT, &emitter->particle_counter);
+  
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glDisableVertexAttribArray(2);
@@ -137,5 +131,6 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
   glDisableVertexAttribArray(4);
   
   glUseProgram(0);
+  glDisable(GL_RASTERIZER_DISCARD);
 }
 

@@ -33,10 +33,9 @@ typedef struct particle {
 
 typedef struct particle_emitter {
   GLuint particle_buffer[2];
-  GLuint transform_feedback[2];
-  int current_vb;
-  int current_tfb;
-  
+  int input;
+  int output;  
+
   vertex3d_t pos;
   vector3d_t gravity_vector;
   vertex3d_t gravity_vertex;
