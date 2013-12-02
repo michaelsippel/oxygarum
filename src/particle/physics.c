@@ -19,6 +19,7 @@
 
 char *particle_vertexshader = "\
 #version 130\n\
+\n\
 in vec3 Pos;\n\
 in vec3 Vel;\n\
 in float Lifetime; \n\
@@ -32,7 +33,7 @@ out float size;\n\
 out vec4 color;\n\
 void main() {\n\
   vel = Vel;\n\
-  pos = Pos + vel;\n\
+  pos = Pos;\n\
   lifetime = Lifetime;\n\
   size = Size;\n\
   color = Color;\n\
@@ -41,6 +42,7 @@ void main() {\n\
 
 char *particle_geometryshader = "\
 #version 130\n\
+#extension GL_ARB_geometry_shader4:enable\n\
 \n\
 uniform float anim_speed;\n\
 uniform float seed;\n\
