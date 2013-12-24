@@ -6,12 +6,11 @@ LIBDIR  = -L/usr/X11R6/lib
 
 CC = gcc
 CFLAGS = -Wall -O4 $(INCLUDE)
-LIBRARIES = -lX11 -lGL -lGLU -lm -lpng
 
 all: $(OBJS) lib
 
 %.c : %.o
-	$(CC) $(CFLAGS) -o $@ $(LIBDIR) $< $(LIBRARIES)  
+	$(CC) $(CFLAGS) -o $@ $(LIBDIR) $<
 
 lib: $(OBJS)
 	ar -rcs oxygarum.a $^

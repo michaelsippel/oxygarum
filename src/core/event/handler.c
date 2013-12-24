@@ -18,7 +18,7 @@
  */
 #include <stdint.h>
 #include <stddef.h>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 void oxygarum_handle_sdl_event(SDL_Event *event) {  
   switch(event->type) {

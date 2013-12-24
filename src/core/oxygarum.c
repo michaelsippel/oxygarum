@@ -17,32 +17,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <GL/gl.h>
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include "oxygarum.h"
 
-int sdl_surface;
 int width, height;
 int view_x, view_y;
 float fov = 45.0f;
 const char *title = NULL;
 
+SDL_Window *sdl_window;
+SDL_Renderer *sdl_renderer;
+
 void oxygarum_init_sdl(void) {
-  int state = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-  if(state < 0) {
-    printf("Error initalizing SDL.\n");
-    exit(EXIT_FAILURE);
+  char str[100];
+  if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+    fprintf(stderr, "Error: initalize SDL: %s\n", SDL_GetError());
+    return;
   }
   
-  SDL_GL_SetAttribute(SDL_GL_RED_SIZE,     5);
-  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,   5);
-  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE,    5);
-  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,  16);
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-  SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-  
-  int flags = SDL_OPENGL | SDL_HWPALETTE | SDL_SWSURFACE;
-  sdl_surface = SDL_SetVideoMode(width, height, 0, flags);
+  sdl_window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_SHOWN);
+  if(sdl_window == NULL) {
+    sprintf(str, "Error: create renderer: %s\n", SDL_GetError());
+    fprintf(stderr, "%s", str);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", str, NULL);
+  }
+
+  sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
+  if(sdl_renderer = NULL) {
+    sprintf(str, "Error: create renderer: %s\n", SDL_GetError());
+    fprintf(stderr, "%s", str);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", str, NULL);
+  }
 }
 
 void oxygarum_init_opengl(void) {
@@ -50,6 +56,7 @@ void oxygarum_init_opengl(void) {
   glClearDepth(1.0);
   glDepthFunc(GL_LESS);
   glEnable(GL_DEPTH_TEST);
+  glDisable(GL_TEXTURE_2D);
 }
 
 void init_oxygarum(void) {
@@ -78,7 +85,7 @@ void oxygarum_set_fov(float _fov) {
 float oxygarum_update(void) {
   // handle SDL events
   SDL_Event event;
-  while(SDL_PollEvent( &event ) == 1) {
+  while(SDL_PollEvent( &event )) {
     oxygarum_handle_sdl_event(&event);
   }
   oxygarum_handle_sdl_event(&event);

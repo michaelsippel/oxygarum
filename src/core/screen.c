@@ -16,7 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <SDL2/SDL.h>
 #include "screen.h"
+
+extern SDL_Window *sdl_window;
+extern SDL_Renderer *sdl_renderer;
 
 screen_t *oxygarum_create_screen(void) {
   screen_t *screen = malloc(sizeof(screen_t));
@@ -79,6 +83,6 @@ void oxygarum_render_screen(screen_t *screen) {
   glPopAttrib();
   
   glFlush();
-  SDL_GL_SwapBuffers();
+  SDL_GL_SwapWindow(sdl_window);
 }
 
