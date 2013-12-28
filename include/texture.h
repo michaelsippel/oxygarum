@@ -20,6 +20,7 @@
 #define _TEXTURE_H
 
 #include <stdint.h>
+#include <GL/gl.h>
 
 #define LINEAR         0x0
 #define NEAREST        0x1
@@ -35,12 +36,14 @@ typedef struct uv_t {
 typedef struct texture {
   unsigned int width;
   unsigned int height;
-  
+
+  GLenum format;
+  uint32_t num_colors;  
+
   uint8_t *data;
   texture_id id;
 } texture_t;
 
-uint8_t *oxygarum_load_png(const char *path, unsigned int *width, unsigned int *height);
 texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter, int mipmapping);
 
 #endif

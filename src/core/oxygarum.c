@@ -27,7 +27,7 @@ float fov = 45.0f;
 const char *title = NULL;
 
 SDL_Window *sdl_window;
-SDL_Renderer *sdl_renderer;
+SDL_GLContext *sdl_context;
 
 void oxygarum_init_sdl(void) {
   char str[100];
@@ -36,19 +36,14 @@ void oxygarum_init_sdl(void) {
     return;
   }
   
-  sdl_window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_SHOWN);
+  sdl_window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL);
   if(sdl_window == NULL) {
     sprintf(str, "Error: create renderer: %s\n", SDL_GetError());
     fprintf(stderr, "%s", str);
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", str, NULL);
   }
 
-  sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
-  if(sdl_renderer = NULL) {
-    sprintf(str, "Error: create renderer: %s\n", SDL_GetError());
-    fprintf(stderr, "%s", str);
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error", str, NULL);
-  }
+  sdl_context = SDL_GL_CreateContext(sdl_window);
 }
 
 void oxygarum_init_opengl(void) {
@@ -56,7 +51,7 @@ void oxygarum_init_opengl(void) {
   glClearDepth(1.0);
   glDepthFunc(GL_LESS);
   glEnable(GL_DEPTH_TEST);
-  glDisable(GL_TEXTURE_2D);
+  SDL_GL_SwapWindow(sdl_window);
 }
 
 void init_oxygarum(void) {

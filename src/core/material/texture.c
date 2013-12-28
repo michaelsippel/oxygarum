@@ -33,20 +33,56 @@ static texture_id texture_counter = 0;
 
 texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter, int mipmapping) {
   texture_t *tex = (texture_t*) malloc(sizeof(texture_t));
-  
+  /* FIXME: why this don't work?
   SDL_Texture *sdltex = IMG_LoadTexture(sdl_renderer, path);
-  SDL_QueryTexture(sdltex, NULL, NULL, &tex->width, &tex->height);
-  tex->data = NULL;//sdltex->pixels;
-  
-  if(tex->data == NULL) {
-    printf("Couldn't load texture!\n");
-    return;
+  uint32_t format;
+  int access;
+
+  if(SDL_QueryTexture(sdltex, &format, &access, &tex->width, &tex->height) != 0) {
+    printf("Can't query texture!\n");
+    return;   
   }
-  
+
+  int pitch;
+  if(SDL_QueryTexturePixels(sdltex, &tex->data, &pitch) != 0) {
+    printf("Can't query pixels!\n");
+    return;
+  } 
+
+  */
+
+  SDL_Surface *surface = IMG_Load(path);
+  tex->width = surface->w;
+  tex->height = surface->h;
+  tex->data = surface->pixels;
+
+  // get the number of channels in the SDL surface
+  tex->num_colors = surface->format->BytesPerPixel;
+  int mask       = surface->format->Rmask;
+
+  switch(tex->num_colors) {
+    case 3:
+      if (mask == 0x000000ff){
+        tex->format = GL_RGB;
+      } else {
+        tex->format = GL_BGR;
+      }
+      break;
+    case 4:
+      if (mask == 0x000000ff){
+        tex->format = GL_RGBA;
+      } else {
+        tex->format = GL_BGRA;
+      }
+      break;
+    default: 
+      return;
+  }
+
   glGenTextures(1, &tex->id);
   glBindTexture(GL_TEXTURE_2D, tex->id);
   
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->width, tex->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->data);  
+  glTexImage2D(GL_TEXTURE_2D, 0, tex->num_colors, tex->width, tex->height, 0, tex->format, GL_UNSIGNED_BYTE, tex->data);
   
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

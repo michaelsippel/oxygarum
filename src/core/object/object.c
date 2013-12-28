@@ -43,7 +43,7 @@ object2d_t *oxygarum_create_object2d(void) {
 
 void oxygarum_render_object3d(object3d_t *obj) {
   int i;
-
+  
   glTranslatef(obj->pos.x, obj->pos.y, obj->pos.z);
   glRotatef(obj->rot.x, 1.0f,0.0f,0.0f);
   glRotatef(obj->rot.y, 0.0f,1.0f,0.0f);

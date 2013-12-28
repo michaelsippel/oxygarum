@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
   // physics
   physics_t *physics = oxygarum_create_physics();
   object->physics_properties = oxygarum_create_physics_properties();
+  object->physics_properties->rot_velocity.y = 5;
   force_field_t *gravity = oxygarum_create_force_field();
   gravity->force.y = -9.80665;
   gravity->velocity = 0.000001;
@@ -61,7 +62,6 @@ int main(int argc, char **argv) {
     oxygarum_render_screen(screen);
     
     // update
-    object->rot.y += frametime * 0.05;
     oxygarum_update_physics(scene, frametime);
   }
   
