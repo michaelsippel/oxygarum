@@ -56,11 +56,10 @@ texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter,
   tex->height = surface->h;
   tex->data = surface->pixels;
 
-  // get the number of channels in the SDL surface
-  tex->num_colors = surface->format->BytesPerPixel;
+  tex->bpp = surface->format->BytesPerPixel;
   int mask       = surface->format->Rmask;
 
-  switch(tex->num_colors) {
+  switch(tex->bpp) {
     case 3:
       if (mask == 0x000000ff){
         tex->format = GL_RGB;
@@ -79,10 +78,23 @@ texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter,
       return;
   }
 
+  // flip image
+  int i,j,k;
+  uint8_t tmp;
+  #define SWAP(a,b) {tmp = a; a = b; b = tmp;}
+  for(i = 0 ; i < (tex->height / 2); i++) {
+    for(j = 0 ; j < tex->width * tex->bpp; j += tex->bpp) {
+      for(k = 0; k < tex->bpp; k++) {
+        SWAP(tex->data[(i * tex->width * tex->bpp) + j + k],
+        tex->data[((tex->height - i - 1) * tex->width * tex->bpp) + j + k]);
+      }
+    }
+  }
+
   glGenTextures(1, &tex->id);
   glBindTexture(GL_TEXTURE_2D, tex->id);
   
-  glTexImage2D(GL_TEXTURE_2D, 0, tex->num_colors, tex->width, tex->height, 0, tex->format, GL_UNSIGNED_BYTE, tex->data);
+  glTexImage2D(GL_TEXTURE_2D, 0, tex->bpp, tex->width, tex->height, 0, tex->format, GL_UNSIGNED_BYTE, tex->data);
   
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

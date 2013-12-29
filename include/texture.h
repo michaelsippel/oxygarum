@@ -38,7 +38,7 @@ typedef struct texture {
   unsigned int height;
 
   GLenum format;
-  uint32_t num_colors;  
+  uint32_t bpp;  
 
   uint8_t *data;
   texture_id id;
