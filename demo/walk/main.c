@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
   suzanne->status |= OBJECT_RENDER_VBO;
   world->pos.y = -1.5;
   
-  texture_t *font_tex = oxygarum_load_texture("../font2.png", NEAREST, NEAREST, NO_MIPMAP);
+    texture_t *font_tex = oxygarum_load_texture_from_file("../font2.png", GL_LINEAR, GL_LINEAR);
   font_t *font = oxygarum_create_font(font_tex, 16, 16, 0, 16);
   text_t *t1 = oxygarum_create_text(text_fps, font, 0, 30);
   text_t *t2 = oxygarum_create_text(text_frametime, font, 0, 0);

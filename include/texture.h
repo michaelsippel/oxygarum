@@ -44,7 +44,8 @@ typedef struct texture {
   texture_id id;
 } texture_t;
 
-texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter, int mipmapping);
+texture_t *oxygarum_load_texture_from_file(const char *path, GLenum minfilter, GLenum magfilter);
+void oxygarum_load_texture(texture_t *tex, GLenum minfilter, GLenum magfilter);
 
 #endif
 

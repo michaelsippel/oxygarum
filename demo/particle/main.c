@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
   emitter->particles_per_emission = 300;
   emitter->emision_rate = 10;
   emitter->particle_counter = 2;
-  emitter->texture = oxygarum_load_texture("texture.png", LINEAR, LINEAR, LINEAR);  
+  emitter->texture = oxygarum_load_texture_from_file("texture.png", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR);
   
   oxygarum_add_emitter(scene, emitter);
   oxygarum_init_particle_shader();  

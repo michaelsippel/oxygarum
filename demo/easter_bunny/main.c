@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
   bunny->pos.y = -1.5;
   bunny->pos.z = -5;
   
-  texture_t *font_tex = oxygarum_load_texture("../font.png", NEAREST, NEAREST, NO_MIPMAP);
+    texture_t *font_tex = oxygarum_load_texture_from_file("../font.png", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
   font_t *font = oxygarum_create_font(font_tex, 8, 8, '!', 14); 
   text_t *t1 = oxygarum_create_text(text, font, 0, 30);
   text_t *t2 = oxygarum_create_text(text2, font, 0, 0);

@@ -31,26 +31,9 @@ extern SDL_Renderer *sdl_renderer;
 
 static texture_id texture_counter = 0;
 
-texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter, int mipmapping) {
+texture_t *oxygarum_load_texture_from_file(const char *path, GLenum minfilter, GLenum magfilter) {
   texture_t *tex = (texture_t*) malloc(sizeof(texture_t));
-  /* FIXME: why this don't work?
-  SDL_Texture *sdltex = IMG_LoadTexture(sdl_renderer, path);
-  uint32_t format;
-  int access;
-
-  if(SDL_QueryTexture(sdltex, &format, &access, &tex->width, &tex->height) != 0) {
-    printf("Can't query texture!\n");
-    return;   
-  }
-
-  int pitch;
-  if(SDL_QueryTexturePixels(sdltex, &tex->data, &pitch) != 0) {
-    printf("Can't query pixels!\n");
-    return;
-  } 
-
-  */
-
+  
   SDL_Surface *surface = IMG_Load(path);
   tex->width = surface->w;
   tex->height = surface->h;
@@ -91,6 +74,12 @@ texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter,
     }
   }
 
+  oxygarum_load_texture(tex, minfilter, magfilter);  
+
+  return tex;
+}
+
+void oxygarum_load_texture(texture_t *tex, GLenum minfilter, GLenum magfilter) {
   glGenTextures(1, &tex->id);
   glBindTexture(GL_TEXTURE_2D, tex->id);
   
@@ -99,48 +88,9 @@ texture_t *oxygarum_load_texture(const char *path, int minfilter, int magfilter,
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   
-  switch(minfilter) {
-    case LINEAR:
-      switch(mipmapping) {
-        case NO_MIPMAP:
-          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-          break;
-        case LINEAR:
-          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-          break;
-        case NEAREST:
-          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-          break;
-      }
-      break;
-    case NEAREST:
-      switch(mipmapping) {
-        case NO_MIPMAP:
-          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-          break;
-        case LINEAR:
-          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-          break;
-        case NEAREST:
-          glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-          break;
-      }
-      break;
-  }
-
-  switch(magfilter) {
-    case LINEAR:
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      break;
-    case NEAREST:
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-      break;
-  }
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minfilter);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magfilter);
   
-  if(mipmapping != NO_MIPMAP) {
-    glGenerateMipmap(GL_TEXTURE_2D);
-  }
-  
-  return tex;
+  glGenerateMipmap(GL_TEXTURE_2D);
 }
 
