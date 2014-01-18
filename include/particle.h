@@ -26,31 +26,31 @@
 typedef struct particle {
   vertex3d_t pos;
   vector3d_t velocity;
-  unsigned int lifetime;
+  float lifetime;
   float size;
   color_t color;
+  float seed;
 } particle_t;
 
 typedef struct particle_emitter {
   GLuint particle_buffer[2];
   int input;
   int output;  
-
+  
   vertex3d_t pos;
   vector3d_t gravity_vector;
   vertex3d_t gravity_vertex;
   float gravity_speed;  
   
   texture_t *texture;
-  float seed;
   
   unsigned int particle_counter;
   unsigned int max_particles;
-  unsigned int particles_per_emission;
-  unsigned int emision_rate;
+  unsigned int emission_rate;
+  unsigned int emission_intensity;
 } particle_emitter_t;
 
-particle_emitter_t *oxygarum_create_emitter(void *borders);
+particle_emitter_t *oxygarum_create_emitter(particle_t *borders, int max_particles);
 void oxygarum_init_particle_shader(void);
 
 void oxygarum_render_particle_system(particle_emitter_t *emitter);

@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
   ball->mesh = oxygarum_load_oxy3d_file("ball.oxy3d");
   ball->pos.z = -1;
   
-  texture_t *font_tex = oxygarum_load_texture_from_file("../font.png", GL_LINEAR, GL_LINEAR);
+  texture_t *font_tex = oxygarum_load_texture_from_file("../font.png", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
   font_t *font = oxygarum_create_font(font_tex, 8, 8, '!', 14); 
   text_t *t1 = oxygarum_create_text(text, font, 0, 30);
   text_t *t2 = oxygarum_create_text(text2, font, 0, 0);  
