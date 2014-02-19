@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
   init_oxygarum();
   
   // create screen (with viewport, FOV, etc.)
-  screen_t *screen = oxygarum_create_screen();  
+  screen_t *screen = oxygarum_create_screen();
   
   // load mesh and create object
   object3d_t *object = oxygarum_create_object3d();

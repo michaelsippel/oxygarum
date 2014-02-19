@@ -1,7 +1,7 @@
 /**
  *  src/particle/particle.c
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <GL/gl.h>
+#include <GL/glext.h>
 #include <stdlib.h>
 #include <string.h>
 #include "particle.h"
@@ -24,6 +25,11 @@
 static GLuint particle_program;
 extern char *particle_vertexshader;
 extern char *particle_geometryshader;
+
+GLint loc_aspeed;
+GLint loc_gvector;
+GLint loc_gvertex;
+GLint loc_gspeed;
 
 static GLint random_buffer_id;
 static float random_buffer[1024];
@@ -127,10 +133,15 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
   
   glEnable(GL_RASTERIZER_DISCARD);
   glUseProgram(particle_program);
-  glUniform1f(0, frametime);
-  glUniform3f(1, emitter->gravity_vector.x, emitter->gravity_vector.y, emitter->gravity_vector.z);
-  glUniform3f(2, emitter->gravity_vertex.x, emitter->gravity_vertex.y, emitter->gravity_vertex.z);  
-  glUniform1f(3, emitter->gravity_speed);  
+  
+  loc_aspeed  = glGetUniformLocation(particle_program, "aspeed");
+  loc_gvector = glGetUniformLocation(particle_program, "gvector");
+  loc_gvertex = glGetUniformLocation(particle_program, "gvertex");
+  loc_gspeed  = glGetUniformLocation(particle_program, "gspeed");
+  glUniform1f(loc_aspeed, (GLfloat)frametime);
+  glUniform3f(loc_gvector, (GLfloat)emitter->gravity_vector.x, (GLfloat)emitter->gravity_vector.y, (GLfloat)emitter->gravity_vector.z);
+  glUniform3f(loc_gvertex, emitter->gravity_vertex.x, emitter->gravity_vertex.y, emitter->gravity_vertex.z);  
+  glUniform1f(loc_gspeed, (GLfloat)emitter->gravity_speed);
   
   glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[emitter->input]);
   glEnable(GL_TEXTURE_1D);

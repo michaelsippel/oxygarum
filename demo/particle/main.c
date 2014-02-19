@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
   screen->camera->pos.y = 0;
   screen->camera->pos.z = -3;
 
-  glPointSize(30);  
+  glPointSize(50);  
 
   // create emitter
   particle_t borders[2];
@@ -47,17 +47,17 @@ int main(int argc, char **argv) {
   borders[1].color.rgb.g = 1;
   borders[1].color.rgb.b = 0;
   borders[1].color.rgb.a = 1;
-  borders[1].lifetime = 500;
+  borders[1].lifetime = 300;
   borders[1].size = 4;
   
-  particle_emitter_t *emitter = oxygarum_create_emitter(&borders, 50);
+  particle_emitter_t *emitter = oxygarum_create_emitter(&borders, 20);
   emitter->pos.x = 0;
   emitter->pos.y = 0;
   emitter->pos.z = 0;
   emitter->gravity_vector.x = 0;
   emitter->gravity_vector.y = 1;
   emitter->gravity_vector.z = 0;
-  emitter->gravity_speed = 0.001;
+  emitter->gravity_speed = 0.1;
   emitter->emission_intensity = 300;
   emitter->emission_rate = 10;
   emitter->texture = oxygarum_load_texture_from_file("texture.png", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR);
@@ -69,10 +69,10 @@ int main(int argc, char **argv) {
   while(1) {
     // update (calculate frametime, handle events, etc.)
     float frametime = oxygarum_update();
-    
+
     // render
     oxygarum_render_screen(screen);
-
+    
     // update
     oxygarum_update_particle_system(emitter, frametime);
   }

@@ -1,7 +1,7 @@
 /**
  *  src/particle/physics.c
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,28 +17,29 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-char *particle_vertexshader = "\
-#version 130\n\
+char *particle_vertexshader =
+"\
+#version 120\n\
 \n\
-in vec3 Pos;\n\
-in vec3 Vel;\n\
-in float Lifetime; \n\
-in float Size;\n\
-in vec4 Color;\n\
-in float Seed;\n\
+attribute vec3 Pos;\n\
+attribute vec3 Vel;\n\
+attribute float Lifetime; \n\
+attribute float Size;\n\
+attribute vec4 Color;\n\
+attribute float Seed;\n\
 \n\
-out vec3 pos;\n\
-out vec3 vel;\n\
-out float lifetime;\n\
-out float size;\n\
-out vec4 color;\n\
-out float seed;\n\
+varying vec3 pos;\n\
+varying vec3 vel;\n\
+varying float lifetime;\n\
+varying float size;\n\
+varying vec4 color;\n\
+varying float seed;\n\
 \n\
 uniform sampler1D rand_tex;\n\
-//uniform float aspeed;\n\
-//uniform vec3 gvector;\n\
-//uniform vec3 gvertex;\n\
-//uniform float gspeed;\n\
+uniform float aspeed;\n\
+uniform vec3 gvector;\n\
+uniform vec3 gvertex;\n\
+uniform float gspeed;\n\
 \n\
 float rand_1D(float min, float max) {\n\
   float diff = max - min;\n\
@@ -69,10 +70,12 @@ float life_min = 100;\n\
 float life_max = 500;\n\
 \n\
 void main() {\n\
-  lifetime = Lifetime - 16;\n\
+  lifetime = Lifetime;\n\
+  lifetime -= aspeed;\n\
   seed = Seed + 0.00234;\n\
   if(lifetime > 0) { // calculate\n\
-    vel = Vel + vec3(0, 0.0016, 0);\n\
+    vel = Vel;\n\
+    vel += gvector * 0.01;\n\
     pos = Pos + vel;\n\
     size = Size;\n\
     color = Color;\n\

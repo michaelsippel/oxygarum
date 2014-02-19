@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
   while(1) {
     // update (calculate frametime, handle events, etc.)
     float frametime = oxygarum_update();
-    
+
     // render
     oxygarum_render_screen(screen);
     

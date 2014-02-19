@@ -86,7 +86,7 @@ float oxygarum_update(void) {
   
   // calc frametime
   static float time_prev = 0;
-  float time_cur = SDL_GetTicks();
+  float time_cur = (float) SDL_GetTicks();
   
   float frametime = time_cur - time_prev;
   time_prev = time_cur;
