@@ -27,7 +27,6 @@ typedef struct group {
 
 typedef struct group_entry {
   void *element;
-  
   struct group_entry *prev;
   struct group_entry *next;
 } group_entry_t;
@@ -35,6 +34,7 @@ typedef struct group_entry {
 group_t *oxygarum_create_group(void);
 group_entry_t *oxygarum_group_add(group_t *group, void *element);
 void oxygarum_group_remove(group_t *group, group_entry_t *entry);
+void oxygarum_group_join(group_t *g1, group_t *g2);
 
 #endif
 
