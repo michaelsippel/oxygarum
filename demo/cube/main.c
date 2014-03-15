@@ -38,21 +38,21 @@ int main(int argc, char **argv) {
   
   // setup scene
   scene_t *scene = oxygarum_create_scene();
-  oxygarum_add_object3d(scene, object);
   screen->scene = scene;
+  oxygarum_group_add(scene->objects3d, object);
   
   // physics
   physics_t *physics = oxygarum_create_physics();
-  object->physics_properties = oxygarum_create_physics_properties();
-  object->physics_properties->rot_velocity.y = 0.5;
+  scene->physics = physics;
+  
   force_field_t *gravity = oxygarum_create_force_field();
   gravity->force.y = -9.80665;
   gravity->velocity = 0.000001;
+  oxygarum_group_add(physics->force_fields, gravity);
   
-  oxygarum_add_force_field(physics, gravity);
-
-  scene->physics = physics;
-
+  object->physics_properties = oxygarum_create_physics_properties();
+  object->physics_properties->rot_velocity.y = 0.5;
+  
   // main loop
   while(1) {
     // update (calculate frametime, handle events, etc.)

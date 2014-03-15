@@ -26,20 +26,11 @@
 scene_t *oxygarum_create_scene(void) {
   scene_t *scene = malloc(sizeof(scene_t));
   
-  scene->object3d_counter = 0;
-  scene->objects3d = NULL;
-  
-  scene->object2d_counter = 0;
-  scene->objects2d = NULL;
-  
-  scene->text_counter = 0;
-  scene->texts = NULL;  
-  
-  scene->particle_system_counter = 0;
-  scene->particle_emitters = NULL;
-  
-  scene->light_counter = 0;
-  scene->lights = NULL;
+  scene->objects3d = oxygarum_create_group();
+  scene->objects2d = oxygarum_create_group();
+  scene->texts = oxygarum_create_group();
+  scene->particle_emitters = oxygarum_create_group();
+  scene->lights = oxygarum_create_group();
   
   scene->physics = NULL;  
   
@@ -48,153 +39,110 @@ scene_t *oxygarum_create_scene(void) {
 
 void oxygarum_render_scene_3d(scene_t *scene) {
   int i;
-  
+
+  group_entry_t *entry;  
+
   // update lights
-  for(i = 0; i < scene->light_counter; i++) {
-    if(scene->lights[i] == NULL) {
+  entry = scene->lights->head;
+  while(entry != NULL) {
+    light_t *light = (light_t*) entry->element;
+    if(light == NULL) {
       continue;
     }
     
     glPushMatrix();
-    glTranslatef(scene->lights[i]->pos.x, scene->lights[i]->pos.y, scene->lights[i]->pos.z);
-    glRotatef(scene->lights[i]->rot.x, 1.0f,0.0f,0.0f);
-    glRotatef(scene->lights[i]->rot.y, 0.0f,1.0f,0.0f);
-    glRotatef(scene->lights[i]->rot.z, 0.0f,0.0f,1.0f);
-    
-    glLightfv(scene->lights[i]->gl_light, GL_AMBIENT, scene->lights[i]->ambient);
-    glLightfv(scene->lights[i]->gl_light, GL_DIFFUSE, scene->lights[i]->diffuse);
-    glLightfv(scene->lights[i]->gl_light, GL_SPECULAR, scene->lights[i]->specular);
-    glLightfv(scene->lights[i]->gl_light, GL_POSITION, scene->lights[i]->r_pos);
+      glTranslatef(light->pos.x, light->pos.y, light->pos.z);
+      glRotatef(light->rot.x, 1.0f,0.0f,0.0f);
+      glRotatef(light->rot.y, 0.0f,1.0f,0.0f);
+      glRotatef(light->rot.z, 0.0f,0.0f,1.0f);
+      
+      glLightfv(light->gl_light, GL_AMBIENT, light->ambient);
+      glLightfv(light->gl_light, GL_DIFFUSE, light->diffuse);
+      glLightfv(light->gl_light, GL_SPECULAR, light->specular);
+      glLightfv(light->gl_light, GL_POSITION, light->r_pos);
     glPopMatrix();
+    
+    entry = entry->next;
   }
   
   // render 3D-Objects
-  for(i = 0; i < scene->object3d_counter; i++) {
-    if(scene->objects3d[i] == NULL) {
+  entry = scene->objects3d->head;
+  while(entry != NULL) {
+    object3d_t *obj = (object3d_t*) entry->element;
+    if(obj == NULL) {
       continue;
     }
     
-    if(scene->objects3d[i]->status & OBJECT_VISIBLE) {
+    if(obj->status & OBJECT_VISIBLE) {
       glPushMatrix();
       glPushAttrib(GL_ENABLE_BIT);
       
-      oxygarum_render_object3d(scene->objects3d[i]);
+      oxygarum_render_object3d(obj);
       
       glPopAttrib();
       glPopMatrix();
     }
+    
+    entry = entry->next;
   }
   
   // render particles
-  for(i = 0; i < scene->particle_system_counter; i++) {
-    if(scene->particle_emitters[i] == NULL) {
+  entry = scene->particle_emitters->head;
+  while(entry != NULL) {
+    particle_emitter_t *emitter = (particle_emitter_t*) entry->element;
+    if(emitter == NULL) {
       continue;
     }
     
     glPushMatrix();
-    glTranslatef(scene->particle_emitters[i]->pos.x, scene->particle_emitters[i]->pos.y, scene->particle_emitters[i]->pos.z);
-    oxygarum_render_particle_system(scene->particle_emitters[i]);
+      glTranslatef(emitter->pos.x, emitter->pos.y, emitter->pos.z);
+      oxygarum_render_particle_system(emitter);
     glPopMatrix();
+    
+    entry = entry->next;
   }
 }
 
 void oxygarum_render_scene_2d(scene_t *scene) {
   int i;
   
+  group_entry_t *entry;  
+  
   // render 2D-Objects
-  for(i = 0; i < scene->object2d_counter; i++) {
-    if(scene->objects2d[i] == NULL) {
+  entry = scene->objects2d->head;
+  while(entry != NULL) {
+    object2d_t *obj = (object2d_t*) entry->element;
+    if(obj == NULL) {
       continue;
     }
     
-    if(scene->objects2d[i]->status & OBJECT_VISIBLE) {
+    if(obj->status & OBJECT_VISIBLE) {
       glPushMatrix();
-      oxygarum_render_object2d(scene->objects2d[i]);
+        oxygarum_render_object2d(obj);
       glPopMatrix();
     }
+    
+    entry = entry->next;
   }
   
   // render texts
-  for(i = 0; i < scene->text_counter; i++) {
-    if(scene->texts[i] == NULL) {
+  entry = scene->texts->head;
+  while(entry != NULL) {
+    text_t *text = (text_t*) entry->element;
+    if(text == NULL) {
       continue;
     }
     
     glPushMatrix();
-    oxygarum_render_text(scene->texts[i]);
+      oxygarum_render_text(text);
     glPopMatrix();
+    
+    entry = entry->next;
   }
 }
 
-int oxygarum_add_object3d(scene_t *scene, object3d_t *obj) {
-  int id = scene->object3d_counter++;
-  scene->objects3d = realloc(scene->objects3d, scene->object3d_counter * sizeof(object3d_t*));
-  
-  scene->objects3d[id] = obj;
-  
-  return id;
-}
-
-int oxygarum_add_object2d(scene_t *scene, object2d_t *obj) {
-  int id = scene->object2d_counter++;
-  scene->objects2d = realloc(scene->objects2d, scene->object2d_counter * sizeof(object2d_t*));
-  
-  scene->objects2d[id] = obj;
-  
-  return id;
-}
-
-int oxygarum_add_text(scene_t *scene, text_t *text) {
-  int id = scene->text_counter++;
-  scene->texts = realloc(scene->texts, scene->text_counter * sizeof(text_t*));
-  
-  scene->texts[id] = text;
-  
-  return id;
-}
-
-int oxygarum_add_emitter(scene_t *scene, particle_emitter_t *emitter) {
-  int id = scene->particle_system_counter++;
-  scene->particle_emitters = realloc(scene->particle_emitters, scene->particle_system_counter * sizeof(particle_emitter_t*));
-  
-  scene->particle_emitters[id] = emitter;
-  
-  return id;
-}
-
-int oxygarum_add_light(scene_t *scene, light_t *light) {
-  glLightfv(light->gl_light, GL_AMBIENT, light->ambient);
-  glLightfv(light->gl_light, GL_DIFFUSE, light->diffuse);
-  glLightfv(light->gl_light, GL_SPECULAR, light->specular);
-  glLightfv(light->gl_light, GL_POSITION, light->r_pos);
-  
-  glEnable(light->gl_light);  
-  
-  int id = scene->light_counter++;
-  scene->lights = realloc(scene->lights, scene->light_counter * sizeof(light_t*));
-  
-  scene->lights[id] = light;
-  
-  return id;
-}
-
-void oxygarum_remove_object3d(scene_t *scene, int id) {
-  scene->objects3d[id] = NULL;
-}
-
-void oxygarum_remove_object2d(scene_t *scene, int id) {
-  scene->objects2d[id] = NULL;
-}
-
-void oxygarum_remove_text(scene_t *scene, int id) {
-  scene->texts[id] = NULL;
-}
-
-void oxygarum_remove_emitter(scene_t *scene, int id) {
-  scene->particle_emitters[id] = NULL;
-}
-
-void oxygarum_remove_light(scene_t *scene, int id) {
-  scene->lights[id] = NULL;
+light_t *oxygarum_create_light(void) {
+  light_t *light = malloc(sizeof(light_t));
+  return light;
 }
 

@@ -26,8 +26,7 @@
 physics_t *oxygarum_create_physics(void) {
   physics_t *physics = malloc(sizeof(physics_t));
   
-  physics->force_field_counter = 0;
-  physics->force_fields = NULL;
+  physics->force_fields = oxygarum_create_group();
   
   GLuint vertexshader = oxygarum_create_shader(GL_VERTEX_SHADER, softbodyshader, strlen(softbodyshader));
   physics->vertex_program = glCreateProgram();
@@ -56,19 +55,6 @@ physics_properties_t *oxygarum_create_physics_properties(void) {
   return properties;
 }
 
-int oxygarum_add_force_field(physics_t *physics, force_field_t *force_field) {
-  int id = physics->force_field_counter++;
-  physics->force_fields = realloc(physics->force_fields, physics->force_field_counter * sizeof(force_field_t*));
-  
-  physics->force_fields[id] = force_field;
-  
-  return id;
-}
-
-void oxygarum_remove_force_field(physics_t *physics, int id) {
-  physics->force_fields[id] = NULL;
-}
-
 void oxygarum_update_physics(struct scene *scene, float frametime) {
   if(scene->physics == NULL) {
     return;
@@ -76,9 +62,9 @@ void oxygarum_update_physics(struct scene *scene, float frametime) {
   
   physics_t *physics = scene->physics;
   
-  int i;
-  for(i = 0; i < scene->object3d_counter; i++) {
-    object3d_t *obj = scene->objects3d[i];
+  group_entry_t *entry = scene->objects3d->head;
+  while(entry != NULL) {
+    object3d_t *obj = (object3d_t*) entry->element;
     if(obj == NULL) continue;
     if(obj->physics_properties == NULL) continue;    
     
@@ -98,6 +84,8 @@ void oxygarum_update_physics(struct scene *scene, float frametime) {
     obj->rot.x += obj->physics_properties->rot_velocity.x;
     obj->rot.y += obj->physics_properties->rot_velocity.y;
     obj->rot.z += obj->physics_properties->rot_velocity.z;
+
+    entry = entry->next;
   }
 }
 

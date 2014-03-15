@@ -21,6 +21,7 @@
 
 #include "scene.h"
 #include "vector.h"
+#include "group.h"
 
 #define FORCE_FIELD_TYPE_VECTOR 0x0
 #define FORCE_FIELD_TYPE_VERTEX 0x1
@@ -32,9 +33,7 @@ typedef struct force_field {
 } force_field_t;
 
 typedef struct physics {
-  int force_field_counter;
-  force_field_t **force_fields;
-
+  group_t *force_fields;
   GLuint vertex_program;
 } physics_t;
 

@@ -37,7 +37,9 @@ group_entry_t *oxygarum_group_add(group_t *group, void *element) {
   entry->next = NULL;
   entry->prev = group->current;
   
-  group->current->next = entry;
+  if(group->current != NULL) {
+    group->current->next = entry;
+  }
   group->current = entry;
   if(group->head == NULL) {
     group->head = entry;

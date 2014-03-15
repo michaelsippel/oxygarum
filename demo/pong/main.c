@@ -3,7 +3,7 @@
 // oxygarum-engine
 //
 // Copyright (C) 2013 Michael Sippel
-// <micha.linuxfreak@gmail.com>
+// <michamimosa@gmail.com>
 //
 
 #include <oxygarum.h>
@@ -119,21 +119,23 @@ int main(int argc, char **argv) {
   font_t *font = oxygarum_create_font(font_tex, 8, 8, '!', 14); 
   text_t *t1 = oxygarum_create_text(text, font, 0, 30);
   text_t *t2 = oxygarum_create_text(text2, font, 0, 0);  
+
+  light_t *light = oxygarum_create_light();
+  light->ambient[0] = 0.5f; light->ambient[1] = 0.3f; light->ambient[2] = 0.3f; light->ambient[3] = 1.0f;
+  light->diffuse[0] = 1.0f; light->diffuse[1] = 1.0f; light->diffuse[2] = 1.0f; light->diffuse[3] = 1.0f;
+  light->specular[0] = 1.0f; light->specular[1] = 1.0f; light->specular[2] = 1.0f; light->specular[3] = 1.0f;
+  light->r_pos[0] = 0.0f; light->r_pos[1] = 0.0f; light->r_pos[2] = 0.0f; light->r_pos[3] = 1.0f;
+  light->pos.x = 0; light->pos.y = -3; light->pos.z = 4;
+  light->gl_light = GL_LIGHT0;
+  glEnable(GL_LIGHT0);
   
   // setup scene
   scene_t *scene = oxygarum_create_scene();
-  oxygarum_add_object3d(scene, player);
-  oxygarum_add_object3d(scene, ball);
-  oxygarum_add_text(scene, t1);
-  oxygarum_add_text(scene, t2);
-  
-  light_t light;
-  light.ambient[0] = 0.8f; light.ambient[1] = 0.7f; light.ambient[2] = 0.9f; light.ambient[3] = 1.0f;
-  light.diffuse[0] = 1.0f; light.diffuse[1] = 1.0f; light.diffuse[2] = 1.0f; light.diffuse[3] = 1.0f;
-  light.specular[0] = 0.0f; light.specular[1] = 0.0f; light.specular[2] = 0.0f; light.specular[3] = 0.0f;
-  light.r_pos[0] = 5.0f; light.r_pos[1] = 0.0f; light.r_pos[2] = 3.0f; light.r_pos[3] = 1.0f;
-  light.gl_light = GL_LIGHT0;
-  oxygarum_add_light(scene, &light);
+  oxygarum_group_add(scene->objects3d, player);
+  oxygarum_group_add(scene->objects3d, ball);
+  oxygarum_group_add(scene->texts, t1);
+  oxygarum_group_add(scene->texts, t2);
+  oxygarum_group_add(scene->lights, light);
   
   screen->scene = scene;
   

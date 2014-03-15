@@ -20,10 +20,10 @@
 #include "vector.h"
 
 void oxygarum_calc_acceleration(physics_t *physics, physics_properties_t *properties, float anim_speed) {
-  int i;
-
-  for(i = 0; i < physics->force_field_counter; i++) {
-    force_field_t *force_field = physics->force_fields[i];
+  group_entry_t *entry = physics->force_fields->head;
+  
+  while(entry != NULL) {
+    force_field_t *force_field = (force_field_t*) entry->element;
     if(force_field == NULL) {
       continue;
     }
@@ -38,6 +38,8 @@ void oxygarum_calc_acceleration(physics_t *physics, physics_properties_t *proper
         //TODO
         break;
     }
+    
+    entry = entry->next;
   }
 }
 

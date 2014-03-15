@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
   emitter->emission_rate = 10;
   emitter->texture = oxygarum_load_texture_from_file("texture.png", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR);
   
-  oxygarum_add_emitter(scene, emitter);
+  oxygarum_group_add(scene->particle_emitters, emitter);
   oxygarum_init_particle_shader();  
   
   // main loop
