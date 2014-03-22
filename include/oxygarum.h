@@ -41,6 +41,7 @@ extern "C" {
 #include "texture.h"
 #include "gui.h"
 #include "light.h"
+#include "group.h"
 
 void init_oxygarum(void);
 void oxygarum_start_render(float _min_frame_time);
@@ -53,10 +54,17 @@ void oxygarum_set_resolution(int _width, int _height);
 void oxygarum_set_viewport(int _x, int _y);
 void oxygarum_set_title(const char *_title);
 void oxygarum_set_fov(float _fov);
+float oxygarum_update(void);
+
+typedef struct load_return {
+  group_t *textures;
+  group_t *materials;
+  group_t *meshes;
+  group_t *objects;
+};
 
 mesh3d_t *oxygarum_load_oxy3d_file(const char *path);
 mesh2d_t *oxygarum_load_oxy2d_file(const char *path);
-float oxygarum_update(void);
 
 #if defined(__cplusplus)
 }

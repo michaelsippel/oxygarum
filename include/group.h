@@ -27,6 +27,7 @@ typedef struct group {
 
 typedef struct group_entry {
   void *element;
+  char *name;
   struct group_entry *prev;
   struct group_entry *next;
 } group_entry_t;

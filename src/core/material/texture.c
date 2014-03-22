@@ -31,7 +31,7 @@ extern SDL_Renderer *sdl_renderer;
 
 static texture_id texture_counter = 0;
 
-texture_t *oxygarum_load_texture_from_file(const char *path, GLenum minfilter, GLenum magfilter) {
+texture_t *oxygarum_load_texture_from_file(const char *path, group_t *params) {
   texture_t *tex = (texture_t*) malloc(sizeof(texture_t));
   
   SDL_Surface *surface = IMG_Load(path);
@@ -74,22 +74,26 @@ texture_t *oxygarum_load_texture_from_file(const char *path, GLenum minfilter, G
     }
   }
 
-  oxygarum_load_texture(tex, minfilter, magfilter);  
+  oxygarum_load_texture(tex, params);  
 
   return tex;
 }
 
-void oxygarum_load_texture(texture_t *tex, GLenum minfilter, GLenum magfilter) {
+void oxygarum_load_texture(texture_t *tex, group_t *params) {
   glGenTextures(1, &tex->id);
   glBindTexture(GL_TEXTURE_2D, tex->id);
   
   glTexImage2D(GL_TEXTURE_2D, 0, tex->bpp, tex->width, tex->height, 0, tex->format, GL_UNSIGNED_BYTE, tex->data);
   
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minfilter);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magfilter);
+  if(params != NULL) {
+    group_entry_t *entry = params->head;
+    while(entry != NULL) {
+      texture_parameter_t *param = (texture_parameter_t*) entry->element;
+      glTexParameteri(GL_TEXTURE_2D, param->type, param->value);
+      
+      entry = entry->next;
+    }
+  }
   
   glGenerateMipmap(GL_TEXTURE_2D);
 }

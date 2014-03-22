@@ -33,6 +33,11 @@ typedef struct uv_t {
   float v;
 } uv_t;
 
+typedef struct texture_parameter {
+  GLenum type;
+  GLenum value;
+} texture_parameter_t;
+
 typedef struct texture {
   unsigned int width;
   unsigned int height;
@@ -44,8 +49,8 @@ typedef struct texture {
   texture_id id;
 } texture_t;
 
-texture_t *oxygarum_load_texture_from_file(const char *path, GLenum minfilter, GLenum magfilter);
-void oxygarum_load_texture(texture_t *tex, GLenum minfilter, GLenum magfilter);
+texture_t *oxygarum_load_texture_from_file(const char *path, group_t *params);
+void oxygarum_load_texture(texture_t *tex, group_t *params);
 
 #endif
 
