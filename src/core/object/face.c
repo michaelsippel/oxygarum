@@ -47,7 +47,7 @@ void oxygarum_render_face3d(mesh3d_t *mesh, face_t *face) {
     vertex_id id = face->vertices[i];
     
     int j;
-    for(j = 0; j < mesh->material->texture_counter; j++) {
+    for(j = 0; j < mesh->material->textures->size; j++) {
       glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
     }
     
@@ -75,7 +75,7 @@ void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face) {
     vertex_id id = face->vertices[i];
     
     int j;
-    for(j = 0; j < mesh->material->texture_counter; j++) {
+    for(j = 0; j < mesh->material->textures->size; j++) {
       glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
     }
     

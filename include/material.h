@@ -22,8 +22,6 @@
 #include <GL/gl.h>
 #include "texture.h"
 
-typedef unsigned int material_id;
-
 typedef struct color_st {
   float r;
   float g;
@@ -37,12 +35,8 @@ typedef union color {
 } color_t;
 
 typedef struct material {
-  const char *name;
-  material_id id;
   color_t color;
-  
-  int texture_counter;
-  texture_t **textures;
+  group_t *textures;
   
   GLfloat ambient[4];
   GLfloat diffuse[4];
@@ -50,10 +44,7 @@ typedef struct material {
   GLfloat shininess[1];
 } material_t;
 
-material_t *oxygarum_create_material(const char *name);
-void oxygarum_set_texture(material_id material, texture_t *texture);
-void oxygarum_set_color(material_id material, color_t color);
-void oxygarum_material_init_textures(material_t *material, int num_textures, texture_t **textures);
+material_t *oxygarum_create_material(void);
 
 #endif
 

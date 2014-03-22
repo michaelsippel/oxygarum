@@ -1,7 +1,7 @@
 /**
  *  src/loader/oxy3d_loader.c
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@
 #include "object.h"
 #include "material.h"
 #include "texture.h"
+#include "group.h"
+#include "oxygarum.h"
 
 void readstr(FILE *f, char *string) {
     do {
@@ -32,11 +34,45 @@ void readstr(FILE *f, char *string) {
     } while ((string[0] == '#') || (string[0] == '\n'));
     return;
 }
+/*
+struct str_enum {
+  const char *str;
+  GLenum val;
+};
+
+struct str_enum[] = {
+{.str = "GL_TEXTURE_MIN_FILTER", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_MAG_FILTER", .val = GL_TEXTURE_MIN_FILTER}
+
+{.str = "GL_NEAREST", .val = GL_NEAREST}
+{.str = "GL_LINEAR", .val = GL_LINEAR}
+{.str = "GL_NEAREST_MIPMAP_NEAREST", .val = GL_NEAREST_MIPMAP_NEAREST}
+{.str = "GL_LINEAR_MIPMAP_NEAREST", .val = GL_LINEAR_MIPMAP_NEAREST}
+{.str = "GL_NEAREST_MIPMAP_LINEAR", .val = GL_NEAREST_MIPMAP_LINEAR}
+{.str = "GL_LINEAR_MIPMAP_LINEAR", .val = GL_LINEAR_MIPMAP_LINEAR}
+
+{.str = "GL_TEXTURE_MIN_LOD", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_MAX_LOD", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_BASE_LEVEL", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_MAX_LEVEL", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_WRAP_R", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_WRAP_S", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_WRAP_T", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_PRIORITY", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_COMPARE_MODE", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_TEXTURE_COMPARE_FUNC", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_DEPTH_TEXTURE_MODE", .val = GL_TEXTURE_MIN_FILTER}
+{.str = "GL_GENERATE_MIPMAP", .val = GL_TEXTURE_MIN_FILTER}
+
+
+};
 
 GLenum gl_str2enum(char *str) {
+  GLenum a;
   
+  return a;
 }
-
+*/
 struct load_return *oxygarum_load_oxy3d_file(const char *path) {
   FILE *f = fopen(path, "rt");
   if(!f) {
@@ -47,7 +83,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
   struct load_return *ret = malloc(sizeof(struct load_return));
   ret->textures = NULL;
   ret->materials = NULL;
-  ret->meshs = NULL;
+  ret->meshes = NULL;
   ret->objects = NULL;
   
   char line[256];
@@ -69,30 +105,60 @@ int i;
     strcpy(name, &line[4]);
     if(strcmp(cmd, "inc") == 0) {
       struct load_return *inc = oxygarum_load_oxy3d_file(name);
-      group_join(ret->textures, inc->textures);
-      group_join(ret->materials, inc->materials);
-      group_join(ret->meshes, inc->meshes);
-      group_join(ret->objects, inc->objects);
+      oxygarum_group_join(ret->textures, inc->textures);
+      oxygarum_group_join(ret->materials, inc->materials);
+      oxygarum_group_join(ret->meshes, inc->meshes);
+      oxygarum_group_join(ret->objects, inc->objects);
     } else if(strcmp(cmd, "tex") == 0) {
       char path[256];
-      GLenum minfilter, magfilter;
+      //GLenum minfilter, magfilter;
       FOR_SUB_CMDS(1)
         switch(sub_cmd) {
           case 'p':
             strcpy(path, params);
             break;
-          case 'f':
+          /*case 'f':
             char f1[32], f2[32];
             sscanf(params, "%s %s", &f1, &f2);
             if(strcmp(f1, "            
 
+            break;*/
+	}
+      }
+      texture_t *tex = oxygarum_load_texture_from_file(path, NULL);
+      oxygarum_group_add(ret->textures, (void*) tex, name);
+    } else if(strcmp(cmd, "mat") == 0) {
+      material_t *mat = oxygarum_create_material();
+      int r,g,b;
+      float roughness;
+      char c_tex[256];
+      FOR_SUB_CMDS(2)
+        switch(sub_cmd) {
+          case 'c':
+            sscanf(params, "%2x%2x%2x %f %s", &r, &g, &b, &mat->color.color[3], &c_tex);
+            mat->color.color[0] = (float)r / 0xff;
+            mat->color.color[1] = (float)g / 0xff;
+            mat->color.color[2] = (float)b / 0xff;
+            break;
+          case 'r':
+            sscanf(params, "%f", &roughness);
             break;
 	}
       }
-    } else if(strcmp(cmd, "mat") == 0) {
-      
+      oxygarum_group_add(ret->materials, (void*) mat, name);
     } else if(strcmp(cmd, "msh") == 0) {
+      int num_vertices = 8;
+      int num_uvmaps = 1;
+      int num_faces = 6;
+      
+      FOR_SUB_CMDS(18)
+        switch(sub_cmd) {
+          case 'v':
+            break;
+        }
+      }
     } else if(strcmp(cmd, "obj") == 0) {
+      // TODO
     }
   }
   

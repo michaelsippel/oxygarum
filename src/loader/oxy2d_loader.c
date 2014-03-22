@@ -51,7 +51,7 @@ mesh2d_t *oxygarum_load_oxy2d_file(const char *path) {
   sscanf(line, "TEXTURES %d\n", &num_textures);
 
   readstr(f, line);
-  material = oxygarum_create_material("material");
+  material = oxygarum_create_material();
   texture_t **tex = calloc(num_textures, sizeof(texture_t*));
 
   for(i = 0; i < num_textures; i++) {
@@ -60,7 +60,7 @@ mesh2d_t *oxygarum_load_oxy2d_file(const char *path) {
     
     readstr(f, line);
     sscanf(line, "%d : %s\n", &id, tex_path);
-    tex[id] = oxygarum_load_texture_from_file(tex_path, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR);
+    tex[id] = oxygarum_load_texture_from_file(tex_path, NULL);
   }
   
   oxygarum_material_init_textures(material, num_textures, tex);

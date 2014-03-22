@@ -20,7 +20,7 @@
 #define _GROUP_H
 
 typedef struct group {
-  int num_entries;
+  int size;
   struct group_entry *head;
   struct group_entry *current;
 } group_t;
@@ -33,7 +33,7 @@ typedef struct group_entry {
 } group_entry_t;
 
 group_t *oxygarum_create_group(void);
-group_entry_t *oxygarum_group_add(group_t *group, void *element);
+group_entry_t *oxygarum_group_add(group_t *group, void *element, char *name);
 void oxygarum_group_remove(group_t *group, group_entry_t *entry);
 void oxygarum_group_join(group_t *g1, group_t *g2);
 

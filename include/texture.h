@@ -22,9 +22,7 @@
 #include <stdint.h>
 #include <GL/gl.h>
 
-#define LINEAR         0x0
-#define NEAREST        0x1
-#define NO_MIPMAP      0x2
+#include "group.h"
 
 typedef unsigned int texture_id;
 

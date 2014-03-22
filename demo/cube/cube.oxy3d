@@ -1,12 +1,12 @@
 tex texture
-w texture.png
-p LINEAR_MIPMAP_LINEAR LINEAR_MIPMAP_LINEAR
+p texture.png
 
 mat material
-c ffffff texture
+c ffffff 1.0 texture
 r 1.0
 
 msh cube
+m material
 # vertices
 v -1  1 -1
 v -1 -1 -1

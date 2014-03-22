@@ -23,17 +23,18 @@
 group_t *oxygarum_create_group(void) {
   group_t *group = malloc(sizeof(group_t));
   
-  group->num_entries = 0;
+  group->size = 0;
   group->head = NULL;
   group->current = NULL;
   
   return group;
 }
 
-group_entry_t *oxygarum_group_add(group_t *group, void *element) {
+group_entry_t *oxygarum_group_add(group_t *group, void *element, char *name) {
   group_entry_t *entry = malloc(sizeof(group_entry_t));
   
   entry->element = element;
+  entry->name = name;
   entry->next = NULL;
   entry->prev = group->current;
   
@@ -45,7 +46,7 @@ group_entry_t *oxygarum_group_add(group_t *group, void *element) {
     group->head = entry;
   }
   
-  group->num_entries++;
+  group->size++;
   
   return entry;
 }
@@ -64,7 +65,7 @@ void oxygarum_group_remove(group_t *group, group_entry_t *entry) {
   }
 
   free(entry);
-  group->num_entries--;
+  group->size--;
 }
 
 void oxygarum_group_join(group_t *g1, group_t *g2) {

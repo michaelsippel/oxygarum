@@ -72,7 +72,7 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
   // indices
   instance->index_counter = 0;
   instance->vertex_counter = 0;
-  for(i = 0; i < mesh->face_counter; i++) {
+  for(i = 0; i < mesh->material->textures->size; i++) {
     instance->index_counter += mesh->faces[i]->vertex_counter - 2;
     instance->vertex_counter += mesh->faces[i]->vertex_counter;
   }
@@ -81,10 +81,10 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
   instance->indices  = realloc(instance->indices,  instance->index_counter  * sizeof(unsigned int));
   instance->vertices = realloc(instance->vertices, instance->vertex_counter * sizeof(vertex3d_t));
   instance->normals  = realloc(instance->normals,  instance->vertex_counter * sizeof(vector3d_t));
-  instance->tex_id   = realloc(instance->tex_id, mesh->material->texture_counter * sizeof(unsigned int));
+  instance->tex_id   = realloc(instance->tex_id, mesh->material->textures->size * sizeof(unsigned int));
   
   instance->tex_choords = realloc(instance->tex_choords, sizeof(uv_t*));
-  for(i = 0; i < mesh->material->texture_counter; i++) {
+  for(i = 0; i < mesh->material->textures->size; i++) {
     instance->tex_choords[i] = calloc(sizeof(uv_t), instance->vertex_counter);
   }
   
@@ -108,7 +108,7 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
       instance->normals [cur_vertex].x = mesh->normals [face->vertices[j]].x;
       instance->normals [cur_vertex].y = mesh->normals [face->vertices[j]].y;
       instance->normals [cur_vertex].z = mesh->normals [face->vertices[j]].z;
-      for(m = 0; m < mesh->material->texture_counter; m++) {
+      for(m = 0; m < mesh->material->textures->size; m++) {
         instance->tex_choords[m][cur_vertex].u = face->uv_map[m][j].u;
         instance->tex_choords[m][cur_vertex].v = face->uv_map[m][j].v;
       }
@@ -128,7 +128,7 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, instance->index_id);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, instance->index_counter*sizeof(unsigned int), instance->indices, GL_STATIC_DRAW);
   
-  for(i = 0; i < mesh->material->texture_counter; i++) {
+  for(i = 0; i < mesh->material->textures->size; i++) {
     glGenBuffers(1, &instance->tex_id[i]);
     glBindBuffer(GL_ARRAY_BUFFER, instance->tex_id[i]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(uv_t) * instance->vertex_counter, instance->tex_choords[i], GL_STATIC_DRAW);

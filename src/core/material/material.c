@@ -20,15 +20,10 @@
 
 #include "material.h"
 
-static material_id material_counter = 0;
-
-material_t *oxygarum_create_material(const char *name) {
+material_t *oxygarum_create_material(void) {
   material_t *material = malloc(sizeof(material_t));
-  
-  material->id = material_counter++;
-  material->name = name;
-  
-  material->color.rgb = (color_st_t) {.r=1,.g=1,.b=1,.a=1};  
+  material->color.rgb = (color_st_t) {.r=1,.g=1,.b=1,.a=1};
+  material->textures = oxygarum_create_group();  
   
   memcpy(&material->ambient,  (GLfloat[]){ 0.2f, 0.2f, 0.2f, 0.0f }, sizeof(material->ambient));
   memcpy(&material->diffuse,  (GLfloat[]){ 1.0f, 1.0f, 1.0f, 0.0f }, sizeof(material->diffuse));
@@ -36,10 +31,5 @@ material_t *oxygarum_create_material(const char *name) {
   memcpy(&material->shininess,(GLfloat[]){ 1.0f },                   sizeof(material->shininess));
   
   return material;
-}
-
-void oxygarum_material_init_textures(material_t *material, int num_textures, texture_t **textures) {
-  material->texture_counter = num_textures;
-  material->textures = textures;
 }
 

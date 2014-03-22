@@ -43,7 +43,8 @@ object2d_t *oxygarum_create_object2d(void) {
 
 void oxygarum_render_object3d(object3d_t *obj) {
   int i;
-  
+  group_entry_t *entry;  
+
   glTranslatef(obj->pos.x, obj->pos.y, obj->pos.z);
   glRotatef(obj->rot.x, 1.0f,0.0f,0.0f);
   glRotatef(obj->rot.y, 0.0f,1.0f,0.0f);
@@ -73,17 +74,22 @@ void oxygarum_render_object3d(object3d_t *obj) {
   }
   
   material_t *material = obj->mesh->material;  
-  
-  for(i = 0; i < material->texture_counter; i++) {
+  entry = material->textures->head;
+  i = 0;
+  while(entry != NULL) {
+    texture_t *tex = (texture_t*) entry->element;
     glActiveTexture(GL_TEXTURE0 + i);
     
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, material->textures[i]->id);
+    glBindTexture(GL_TEXTURE_2D, tex->id);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    entry = entry->next;
+    i++;
   }
-
+  
   glColor4fv(&material->color.color);  
-
+  
   glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
   glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
@@ -99,11 +105,16 @@ void oxygarum_render_object3d(object3d_t *obj) {
     glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->vertex_id);
     glVertexPointer(3, GL_FLOAT, 0, NULL);
     
-    for(i = 0; i < material->texture_counter; i++) {
+    entry = material->textures->head;
+    i = 0;
+    while(entry != NULL) {
       glClientActiveTexture(GL_TEXTURE0 + i);
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
       glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->tex_id[i]);
       glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+      
+      entry = entry->next;
+      i++;
     }
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->mesh->instance->index_id);    
