@@ -108,14 +108,16 @@ int main(int argc, char **argv) {
   screen->camera->pos.z = -3;
   
   // loading
+  struct load_return *ret = oxygarum_load_oxy3d_file("player.oxy3d");
   player = oxygarum_create_object3d();
-  player->mesh = oxygarum_load_oxy3d_file("player.oxy3d");
+  player->mesh = (mesh3d_t*) ret->meshes->head->element;
   
+  ret = oxygarum_load_oxy3d_file("ball.oxy3d");
   ball = oxygarum_create_object3d();
-  ball->mesh = oxygarum_load_oxy3d_file("ball.oxy3d");
+  ball->mesh = (mesh3d_t*) ret->meshes->head->element;
   ball->pos.z = -1;
   
-  texture_t *font_tex = oxygarum_load_texture_from_file("../font.png", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+  texture_t *font_tex = oxygarum_load_texture_from_file("../font.png", NULL);
   font_t *font = oxygarum_create_font(font_tex, 8, 8, '!', 14); 
   text_t *t1 = oxygarum_create_text(text, font, 0, 30);
   text_t *t2 = oxygarum_create_text(text2, font, 0, 0);  
@@ -131,11 +133,11 @@ int main(int argc, char **argv) {
   
   // setup scene
   scene_t *scene = oxygarum_create_scene();
-  oxygarum_group_add(scene->objects3d, player);
-  oxygarum_group_add(scene->objects3d, ball);
-  oxygarum_group_add(scene->texts, t1);
-  oxygarum_group_add(scene->texts, t2);
-  oxygarum_group_add(scene->lights, light);
+  oxygarum_group_add(scene->objects3d, player, NULL);
+  oxygarum_group_add(scene->objects3d, ball, NULL);
+  oxygarum_group_add(scene->texts, t1, NULL);
+  oxygarum_group_add(scene->texts, t2, NULL);
+  oxygarum_group_add(scene->lights, light, NULL);
   
   screen->scene = scene;
   

@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
   // load mesh and create object
   object3d_t *object = oxygarum_create_object3d();
   struct load_return *ret = oxygarum_load_oxy3d_file("cube.oxy3d");
-  object->mesh = (mesh3d_t*) ret->meshs->head->element;
+  object->mesh = (mesh3d_t*) ret->meshes->head->element;
   object->pos.x = 0;
   object->pos.y = 0;
   object->pos.z = -4;
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
   // setup scene
   scene_t *scene = oxygarum_create_scene();
   screen->scene = scene;
-  oxygarum_group_add(scene->objects3d, object);
+  oxygarum_group_add(scene->objects3d, object, NULL);
   
   // physics
   physics_t *physics = oxygarum_create_physics();
@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
   force_field_t *gravity = oxygarum_create_force_field();
   gravity->force.y = -9.80665;
   gravity->velocity = 0.000001;
-  oxygarum_group_add(physics->force_fields, gravity);
+  oxygarum_group_add(physics->force_fields, gravity, NULL);
   
   object->physics_properties = oxygarum_create_physics_properties();
   object->physics_properties->rot_velocity.y = 0.5;
