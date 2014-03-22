@@ -131,14 +131,22 @@ int i;
       material_t *mat = oxygarum_create_material();
       int r,g,b;
       float roughness;
-      char c_tex[256];
+      
+      char c_tex_name[256];
+      group_entry_t *t_entry;
+      
       FOR_SUB_CMDS(2)
         switch(sub_cmd) {
           case 'c':
-            sscanf(params, "%2x%2x%2x %f %s", &r, &g, &b, &mat->color.color[3], &c_tex);
+            sscanf(params, "%2x%2x%2x %f %s", &r, &g, &b, &mat->color.color[3], &c_tex_name);
             mat->color.color[0] = (float)r / 0xff;
             mat->color.color[1] = (float)g / 0xff;
             mat->color.color[2] = (float)b / 0xff;
+            t_entry = oxygarum_get_group_entry(ret->textures, c_tex_name);
+            if(t_entry != NULL) {
+              texture_t *c_tex = (texture_t*) t_entry->element;
+              oxygarum_group_add(mat->textures, c_tex, t_entry->name);
+            }
             break;
           case 'r':
             sscanf(params, "%f", &roughness);

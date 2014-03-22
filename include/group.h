@@ -36,6 +36,7 @@ group_t *oxygarum_create_group(void);
 group_entry_t *oxygarum_group_add(group_t *group, void *element, char *name);
 void oxygarum_group_remove(group_t *group, group_entry_t *entry);
 void oxygarum_group_join(group_t *g1, group_t *g2);
+group_entry_t *oxygarum_get_group_entry(group_t *group, char *name);
 
 #endif
 

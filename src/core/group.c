@@ -75,3 +75,14 @@ void oxygarum_group_join(group_t *g1, group_t *g2) {
   }
 }
 
+group_entry_t *oxygarum_get_group_entry(group_t *group, char *name) {
+  group_entry_t *entry = group->head;
+  while(entry != NULL) {
+    if(strcmp(entry->name, name) == 0) {
+      return entry;
+    }
+  }
+  
+  return NULL;
+}
+
