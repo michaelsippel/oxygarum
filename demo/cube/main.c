@@ -26,6 +26,7 @@ int main(int argc, char **argv) {
   // load mesh and create object
   object3d_t *object = oxygarum_create_object3d();
   struct load_return *ret = oxygarum_load_oxy3d_file("cube.oxy3d");
+  return;
   object->mesh = (mesh3d_t*) ret->meshes->head->element;
   object->pos.x = 0;
   object->pos.y = 0;

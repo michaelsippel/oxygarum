@@ -81,6 +81,7 @@ group_entry_t *oxygarum_get_group_entry(group_t *group, char *name) {
     if(strcmp(entry->name, name) == 0) {
       return entry;
     }
+    entry = entry->next;
   }
   
   return NULL;

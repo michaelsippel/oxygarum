@@ -39,7 +39,7 @@ int readstr(FILE *f, char *string) {
     } while ((string[0] == '#') || (string[0] == '\n'));
     int len = strlen(string);
     string[len-1] = 0;
-    printf("read : %s\n", string);
+    
     return 0;
 }
 /*
@@ -83,18 +83,18 @@ GLenum gl_str2enum(char *str) {
 */
 
 int count_arguments(FILE *f) {
-  int a = 0;
+  int a = -1;
   char line[256];
   char second;
-
+  
   int pos = ftell(f);
   do {
     readstr(f, line);
     second = line[1];
     a++;
-  } while(second != ' ');
-  fseek(f, pos, SEEK_SET);  
-
+  } while(second == ' ');
+  fseek(f, pos, SEEK_SET);
+  
   return a;
 }
 
@@ -104,12 +104,12 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
     printf("Fehler beim öffnen!\n");
     return NULL;
   }
-
+  
   struct load_return *ret = malloc(sizeof(struct load_return));
-  ret->textures = NULL;
-  ret->materials = NULL;
-  ret->meshes = NULL;
-  ret->objects = NULL;
+  ret->textures = oxygarum_create_group();
+  ret->materials = oxygarum_create_group();
+  ret->meshes = oxygarum_create_group();
+  ret->objects = oxygarum_create_group();
   
   char line[256];
   int i;
@@ -134,17 +134,18 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
     strcpy(name, &line[4]);
     
     if(strcmp(cmd, "inc") == 0) {
+      printf("[LOAD] include:\n");
       struct load_return *inc = oxygarum_load_oxy3d_file(name);
       oxygarum_group_join(ret->textures, inc->textures);
       oxygarum_group_join(ret->materials, inc->materials);
       oxygarum_group_join(ret->meshes, inc->meshes);
       oxygarum_group_join(ret->objects, inc->objects);
-      printf("[LOAD] include %s\n", name);
+      printf("\tpath: %s\n", name);
     } else if(strcmp(cmd, "tex") == 0) {
+      printf("[LOAD] texture:\n");
       char path[256];
       //GLenum minfilter, magfilter;
       FOR_SUB_CMDS
-        printf("sub cmd: %c\n", sub_cmd);
         switch(sub_cmd) {
           case 'p':
             strcpy(path, params);
@@ -157,10 +158,11 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
             break;*/
 	}
       }
-      printf("[LOAD] texture %s:\n\tpath: %s\n", name, &path);
+      printf("\tname: %s\n\tpath: %s\n", name, path);
       texture_t *tex = oxygarum_load_texture_from_file(path, NULL);
       oxygarum_group_add(ret->textures, (void*) tex, name);
     } else if(strcmp(cmd, "mat") == 0) {
+      printf("[LOAD] material:\n");
       material_t *mat = oxygarum_create_material();
       int r,g,b;
       float roughness;
@@ -186,8 +188,10 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
             break;
 	}
       }
+      printf("[LOAD] material %s:\n\tcolor: %2x%2x%2x %f\n\troughness: %f\n", name, r, g, b, mat->color.color[3], roughness);
       oxygarum_group_add(ret->materials, (void*) mat, name);
     } else if(strcmp(cmd, "msh") == 0) {
+      printf("[LOAD] mesh:\n");
       int num_vertices = 0;
       int num_normals = 0;
       int num_uvmaps = 0;
@@ -212,6 +216,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
             break;
         }
       }
+      printf("\t%d vertices, %d faces\n", num_vertices, num_faces);
       // TODO
     } else if(strcmp(cmd, "obj") == 0) {
       // TODO
