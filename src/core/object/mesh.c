@@ -22,7 +22,7 @@
 #include "object.h"
 #include "mesh.h"
 
-mesh3d_t *oxygarum_create_mesh3d(vertex_id num_vertices, vertex3d_t *vertices, face_id num_faces, face_t **faces, material_t *material) {
+mesh3d_t *oxygarum_create_mesh3d(vertex_id num_vertices, vertex3d_t *vertices, uv_id num_texcoords, uv_t *texcoords, face_id num_faces, face_t **faces, material_t *material) {
   mesh3d_t *mesh = malloc(sizeof(mesh3d_t));
   
   mesh->face_counter = num_faces;
@@ -39,13 +39,15 @@ mesh3d_t *oxygarum_create_mesh3d(vertex_id num_vertices, vertex3d_t *vertices, f
   return mesh;
 }
 
-mesh2d_t *oxygarum_create_mesh2d(vertex_id num_vertices, vertex2d_t *vertices, face_id num_faces, face_t **faces, material_t *material) {
+mesh2d_t *oxygarum_create_mesh2d(vertex_id num_vertices, vertex2d_t *vertices, uv_id num_texcoords, uv_t *texcoords, face_id num_faces, face_t **faces, material_t *material) {
   mesh2d_t *mesh = malloc(sizeof(mesh2d_t));
   
   mesh->face_counter = num_faces;
   mesh->vertex_counter = num_vertices;
+  mesh->texcoord_counter = num_texcoords;
   mesh->faces = faces;
   mesh->vertices = vertices;
+  mesh->texcoords = texcoords;
   mesh->material = material;
   
   return mesh;
@@ -59,7 +61,7 @@ void oxygarum_create_render_instance(mesh3d_t *mesh) {
   instance->indices = NULL;
   instance->vertices = NULL;
   instance->normals = NULL;  
-  instance->tex_choords = NULL;
+  instance->texcoords = NULL;
   
   oxygarum_update_render_instance(mesh);
 }
@@ -81,12 +83,8 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
   instance->indices  = realloc(instance->indices,  instance->index_counter  * sizeof(unsigned int));
   instance->vertices = realloc(instance->vertices, instance->vertex_counter * sizeof(vertex3d_t));
   instance->normals  = realloc(instance->normals,  instance->vertex_counter * sizeof(vector3d_t));
+  instance->texcoords=realloc(instance->texcoords, instance->vertex_counter * sizeof(uv_t));
   instance->tex_id   = realloc(instance->tex_id, mesh->material->textures->size * sizeof(unsigned int));
-  
-  instance->tex_choords = realloc(instance->tex_choords, sizeof(uv_t*));
-  for(i = 0; i < mesh->material->textures->size; i++) {
-    instance->tex_choords[i] = calloc(sizeof(uv_t), instance->vertex_counter);
-  }
   
   int cur_index = 0;
   int cur_vertex = 0;
@@ -108,10 +106,9 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
       instance->normals [cur_vertex].x = mesh->normals [face->vertices[j]].x;
       instance->normals [cur_vertex].y = mesh->normals [face->vertices[j]].y;
       instance->normals [cur_vertex].z = mesh->normals [face->vertices[j]].z;
-      for(m = 0; m < mesh->material->textures->size; m++) {
-        instance->tex_choords[m][cur_vertex].u = face->uv_map[m][j].u;
-        instance->tex_choords[m][cur_vertex].v = face->uv_map[m][j].v;
-      }
+      instance->texcoords[cur_vertex].u = mesh->texcoords[face->uv_map[j]].u;
+      instance->texcoords[cur_vertex].v = mesh->texcoords[face->uv_map[j]].v;
+      
       cur_vertex++;
     }
   }
@@ -124,15 +121,13 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
   glBindBuffer(GL_ARRAY_BUFFER, instance->normal_id);
   glBufferData(GL_ARRAY_BUFFER, instance->vertex_counter*sizeof(vector3d_t), instance->normals, GL_STATIC_DRAW);
   
+  glGenBuffers(1, &instance->tex_id);
+  glBindBuffer(GL_ARRAY_BUFFER, instance->tex_id);
+  glBufferData(GL_ARRAY_BUFFER, instance->vertex_counter * sizeof(uv_t), instance->texcoords, GL_STATIC_DRAW);
+  
   glGenBuffers(1, &instance->index_id);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, instance->index_id);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, instance->index_counter*sizeof(unsigned int), instance->indices, GL_STATIC_DRAW);
-  
-  for(i = 0; i < mesh->material->textures->size; i++) {
-    glGenBuffers(1, &instance->tex_id[i]);
-    glBindBuffer(GL_ARRAY_BUFFER, instance->tex_id[i]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(uv_t) * instance->vertex_counter, instance->tex_choords[i], GL_STATIC_DRAW);
-  }
 }
 
 void oxygarum_calc_normals(mesh3d_t *mesh) {

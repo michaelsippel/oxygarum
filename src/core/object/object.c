@@ -110,7 +110,7 @@ void oxygarum_render_object3d(object3d_t *obj) {
     while(entry != NULL) {
       glClientActiveTexture(GL_TEXTURE0 + i);
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->tex_id[i]);
+      glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->tex_id);
       glTexCoordPointer(2, GL_FLOAT, 0, NULL);
       
       entry = entry->next;

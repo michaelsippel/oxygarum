@@ -27,36 +27,46 @@ typedef struct render_instance {
   unsigned int index_id;
   unsigned int vertex_id;
   unsigned int normal_id;
-  unsigned int *tex_id;
+  unsigned int tex_id;
   
   unsigned int index_counter;
   unsigned int vertex_counter;
   unsigned int *indices;
   vertex3d_t *vertices;
   vector3d_t *normals;
-  uv_t **tex_choords;
+  uv_t *texcoords;
 } render_instance_t;
 
 typedef struct mesh3d {
-  face_id face_counter;
   vertex_id vertex_counter;
-  face_t **faces;
   vertex3d_t *vertices;
   vector3d_t *normals;
+  
+  uv_id texcoord_counter;
+  uv_t *texcoords;
+  
+  face_id face_counter;
+  face_t **faces;
+  
   material_t *material;
   render_instance_t *instance;
 } mesh3d_t;
 
 typedef struct mesh2d {
-  face_id face_counter;
   vertex_id vertex_counter;
-  face_t **faces;
   vertex2d_t *vertices;
+  
+  uv_id texcoord_counter;
+  uv_t *texcoords;  
+  
+  face_t **faces;
+  face_id face_counter;
+  
   material_t *material;
 } mesh2d_t;
 
-mesh3d_t *oxygarum_create_mesh3d(vertex_id num_vertices, vertex3d_t *vertices, face_id num_faces, face_t **faces, material_t *material);
-mesh2d_t *oxygarum_create_mesh2d(vertex_id num_vertices, vertex2d_t *vertices, face_id num_faces, face_t **faces, material_t *material);
+mesh3d_t *oxygarum_create_mesh3d(vertex_id num_vertices, vertex3d_t *vertices, uv_id num_texcoords, uv_t *texcoords, face_id num_faces, face_t **faces, material_t *material);
+mesh2d_t *oxygarum_create_mesh2d(vertex_id num_vertices, vertex2d_t *vertices, uv_id num_texcoords, uv_t *texcoords, face_id num_faces, face_t **faces, material_t *material);
 
 void oxygarum_calc_normals(mesh3d_t *mesh);
 void oxygarum_create_render_instance(mesh3d_t *mesh);

@@ -26,15 +26,15 @@
 typedef struct face {
   vertex_id vertex_counter;
   vertex_id *vertices;
+  uv_id *uv_map;
   vector3d_t face_normal;
-  uv_t **uv_map;
 } face_t;
 
 typedef unsigned int face_id;
 
 #include "mesh.h"
 
-face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t **uv_map);
+face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_id *uv_map);
 void oxygarum_render_face3d(mesh3d_t *mesh, face_t *face);
 void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face);
 

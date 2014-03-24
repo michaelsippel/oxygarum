@@ -18,7 +18,7 @@
  */
 #include <gui.h>
 #include <stdlib.h>
-
+/*
 oxygarum_window_t *oxygarum_create_window(float width, float height, texture_t *texture) {
   oxygarum_window_t *win = malloc(sizeof(oxygarum_window_t));
   
@@ -26,8 +26,7 @@ oxygarum_window_t *oxygarum_create_window(float width, float height, texture_t *
   win->size.y = height;
   
   win->material = oxygarum_create_material();
-  texture_t *tex[1] = {texture};
-  oxygarum_material_init_textures(win->material, 1, &tex);
+  oxygarum_group_add(win->material, texture, NULL);
   
   int i;
   for(i = 0; i < NUM_WINDOW_VERTICES; i++) {
@@ -99,4 +98,4 @@ object2d_t *oxygarum_create_window_obj(oxygarum_window_t *win) {
   mesh2d_t *mesh = oxygarum_create_mesh2d(NUM_WINDOW_VERTICES, win->vertices, NUM_WINDOW_FACES, win->faces, win->material);
   return win->obj;
 }
-
+*/

@@ -27,7 +27,7 @@
 #include "texture.h"
 
 #define DEBUG 1
-
+/*
 mesh2d_t *oxygarum_load_oxy2d_file(const char *path) {
   FILE *f = fopen(path, "rt");
   if(!f) {
@@ -127,4 +127,4 @@ mesh2d_t *oxygarum_load_oxy2d_file(const char *path) {
   
   return obj;
 }
-
+*/

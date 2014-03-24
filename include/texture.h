@@ -25,6 +25,7 @@
 #include "group.h"
 
 typedef unsigned int texture_id;
+typedef unsigned int uv_id;
 
 typedef struct uv_t {
   float u;

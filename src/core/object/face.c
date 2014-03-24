@@ -23,7 +23,7 @@
 #include "face.h"
 #include "object.h"
 
-face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_t **uv_map) {
+face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_id *uv_map) {
   face_t *face = malloc(sizeof(face_t));
   
   face->vertex_counter = num;
@@ -48,7 +48,7 @@ void oxygarum_render_face3d(mesh3d_t *mesh, face_t *face) {
     
     int j;
     for(j = 0; j < mesh->material->textures->size; j++) {
-      glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
+      glMultiTexCoord2f(GL_TEXTURE0 + j, mesh->texcoords[face->uv_map[j]].u, mesh->texcoords[face->uv_map[j]].v);
     }
     
     glNormal3f(mesh->normals[id].x, mesh->normals[id].y, mesh->normals[id].z);
@@ -76,7 +76,7 @@ void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face) {
     
     int j;
     for(j = 0; j < mesh->material->textures->size; j++) {
-      glMultiTexCoord2f(GL_TEXTURE0 + j, face->uv_map[j][i].u, face->uv_map[j][i].v);
+      glMultiTexCoord2f(GL_TEXTURE0 + j, mesh->texcoords[face->uv_map[j]].u, mesh->texcoords[face->uv_map[j]].v);
     }
     
     glVertex2f(

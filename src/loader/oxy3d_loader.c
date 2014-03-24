@@ -38,7 +38,7 @@ int readstr(FILE *f, char *string) {
         }
     } while ((string[0] == '#') || (string[0] == '\n'));
     int len = strlen(string);
-    string[len-1] = 0;
+    string[len-1] = '\0';
     
     return 0;
 }
@@ -94,6 +94,19 @@ int count_arguments(FILE *f) {
     a++;
   } while(second == ' ');
   fseek(f, pos, SEEK_SET);
+  
+  return a;
+}
+
+int count_char(char *string, char c) {
+  int a = 0;
+  
+  while(*string != '\0') {
+    if(*string == c) {
+      a++;
+    }
+    string++;
+  }
   
   return a;
 }
@@ -188,7 +201,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
             break;
 	}
       }
-      printf("[LOAD] material %s:\n\tcolor: %2x%2x%2x %f\n\troughness: %f\n", name, r, g, b, mat->color.color[3], roughness);
+      printf("\tname: %s\n\tcolor: %2x%2x%2x %f\n\troughness: %f\n", name, r, g, b, mat->color.color[3], roughness);
       oxygarum_group_add(ret->materials, (void*) mat, name);
     } else if(strcmp(cmd, "msh") == 0) {
       printf("[LOAD] mesh:\n");
@@ -197,11 +210,15 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
       int num_uvmaps = 0;
       int num_texcoords = 0;
       int num_faces = 0;
+      material_t *material = NULL;
       
       // count vertices
       pos = ftell(f);
       FOR_SUB_CMDS
         switch(sub_cmd) {
+          case 'm':
+            material = oxygarum_get_group_entry(ret->materials, params);
+            break;
           case 'v':
             num_vertices ++;
             break;
@@ -216,8 +233,74 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
             break;
         }
       }
+      fseek(f, pos, SEEK_SET);
+
+      vertex3d_t *vertices = calloc(num_vertices, sizeof(vertex3d_t));
+      vector3d_t *normals = calloc(num_normals, sizeof(vector3d_t));
+      uv_t *texcoords = calloc(num_texcoords, sizeof(uv_t));
+      face_t **faces = calloc(num_faces, sizeof(face_t*));
+      
       printf("\t%d vertices, %d faces\n", num_vertices, num_faces);
-      // TODO
+      num_vertices = 0;
+      num_normals = 0;
+      num_texcoords = 0;
+      num_faces = 0;
+      
+      int num_seperators = count_char(params, '/');
+      int num_values = count_char(params, ' ') + 1;
+      int num_sub_values = num_seperators / num_values;
+      int line_pos = 0;
+      char buf[256];
+      
+      FOR_SUB_CMDS
+        switch(sub_cmd) {
+          case 'v':
+            sscanf(params, "%f %f %f", &vertices[num_vertices].x, &vertices[num_vertices].y, &vertices[num_vertices].z);
+            num_vertices ++;
+            break;
+          case 'n':
+            sscanf(params, "%f %f %f", &normals[num_normals].x, &vertices[num_normals].y, &vertices[num_normals].z);
+            num_normals ++;
+            break;
+          case 't':
+            sscanf(params, "%f %f", &texcoords[num_texcoords].u, &texcoords[num_texcoords].v);
+            num_texcoords ++;
+            break;
+          case 'f':
+            num_seperators = count_char(params, '/');
+            num_values = count_char(params, ' ') + 1;
+            num_sub_values = num_seperators / num_values;
+            line_pos = 0;          
+            
+            vertex_id *face_vertices = malloc(num_values * sizeof(vertex_id));
+            uv_id *face_coords = malloc(num_values * sizeof(uv_id));
+            
+            int j;
+            for(j = 0; j < num_values; j++) {
+              switch(num_sub_values) {
+                case 0:
+                  sscanf(params + line_pos, "%f", &face_vertices[i]);
+                  sprintf(buf, "%f", face_vertices[i]);
+                  pos += strlen(buf) + 1;
+                  break;
+                case 1:
+                  sscanf(params + line_pos, "%f/%f", &face_vertices[i], &face_coords[i]);
+                  sprintf(buf, "%f/%f", face_vertices[i], face_coords[i]);
+                  pos += strlen(buf) + 1;
+                  break;
+                case 2:
+                  //sscanf(params + line_pos, "%f/%f/%f", &face_vertices[i], &face_coords[i], &face_normals[i]);
+                  //sprintf(buf, "%f/%f/%f", face_vertices[i], face_coords[i], face_normals[i]);
+                  //pos += strlen(buf) + 1;
+                  break;
+              }
+            }
+            
+            faces[num_faces++] = oxygarum_create_face(num_values, face_vertices, face_coords);
+            break;
+        }
+      }
+      mesh3d_t *mesh = oxygarum_create_mesh3d(num_vertices, vertices, num_texcoords, texcoords, num_faces, faces, material);
     } else if(strcmp(cmd, "obj") == 0) {
       // TODO
     }
