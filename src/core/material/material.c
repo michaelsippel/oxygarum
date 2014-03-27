@@ -23,7 +23,7 @@
 material_t *oxygarum_create_material(void) {
   material_t *material = malloc(sizeof(material_t));
   material->color.rgb = (color_st_t) {.r=1,.g=1,.b=1,.a=1};
-  material->textures = oxygarum_create_group();  
+  material->textures = oxygarum_create_group();
   
   memcpy(&material->ambient,  (GLfloat[]){ 0.2f, 0.2f, 0.2f, 0.0f }, sizeof(material->ambient));
   memcpy(&material->diffuse,  (GLfloat[]){ 1.0f, 1.0f, 1.0f, 0.0f }, sizeof(material->diffuse));

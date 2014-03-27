@@ -34,7 +34,12 @@ group_entry_t *oxygarum_group_add(group_t *group, void *element, char *name) {
   group_entry_t *entry = malloc(sizeof(group_entry_t));
   
   entry->element = element;
-  entry->name = name;
+  if(name != NULL) {
+    strcpy(entry->name, name);
+  } else {
+    strcpy(entry->name, "unnamed");
+  }
+  
   entry->next = NULL;
   entry->prev = group->current;
   

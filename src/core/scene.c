@@ -69,6 +69,7 @@ void oxygarum_render_scene_3d(scene_t *scene) {
   entry = scene->objects3d->head;
   while(entry != NULL) {
     object3d_t *obj = (object3d_t*) entry->element;
+    
     if(obj == NULL) {
       continue;
     }

@@ -20,6 +20,7 @@
 #define _MATERIAL_H
 
 #include <GL/gl.h>
+#include "group.h"
 #include "texture.h"
 
 typedef struct color_st {

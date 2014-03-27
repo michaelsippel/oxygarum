@@ -28,7 +28,7 @@ object3d_t *oxygarum_create_object3d(void) {
   memset(object, 0, sizeof(object3d_t));
   
   object->status = OBJECT_VISIBLE;
-
+  
   return object;
 }
 
@@ -61,7 +61,7 @@ void oxygarum_render_object3d(object3d_t *obj) {
   
   obj->feedback.x = feedback[1];
   obj->feedback.y = feedback[2];  
-
+  
   if(! obj->status & OBJECT_DEPTH_BUFFERING) {
     glDisable(GL_DEPTH_TEST);
   }
@@ -73,7 +73,7 @@ void oxygarum_render_object3d(object3d_t *obj) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
   
-  material_t *material = obj->mesh->material;  
+  material_t *material = obj->mesh->material;
   entry = material->textures->head;
   i = 0;
   while(entry != NULL) {
@@ -83,12 +83,12 @@ void oxygarum_render_object3d(object3d_t *obj) {
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, tex->id);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
+    
     entry = entry->next;
     i++;
   }
   
-  glColor4fv(&material->color.color);  
+  glColor4fv(&material->color.color);
   
   glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);

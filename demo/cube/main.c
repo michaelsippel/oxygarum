@@ -24,9 +24,9 @@ int main(int argc, char **argv) {
   screen_t *screen = oxygarum_create_screen();
   
   // load mesh and create object
-  object3d_t *object = oxygarum_create_object3d();
   struct load_return *ret = oxygarum_load_oxy3d_file("cube.oxy3d");
-  object->mesh = (mesh3d_t*) ret->meshes->head->element;
+  object3d_t *object = oxygarum_create_object3d();
+  object->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "cube")->element;
   object->pos.x = 0;
   object->pos.y = 0;
   object->pos.z = -4;
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
   oxygarum_group_add(scene->objects3d, object, NULL);
   
   // physics
-  physics_t *physics = oxygarum_create_physics();
+  /*physics_t *physics = oxygarum_create_physics();
   scene->physics = physics;
   
   force_field_t *gravity = oxygarum_create_force_field();
@@ -53,6 +53,9 @@ int main(int argc, char **argv) {
   
   object->physics_properties = oxygarum_create_physics_properties();
   object->physics_properties->rot_velocity.y = 0.5;
+  */
+  
+  printf("main: material at 0x%x; mesh at 0x%x\n", object->mesh->material, object->mesh);
   
   // main loop
   while(1) {
@@ -63,7 +66,7 @@ int main(int argc, char **argv) {
     oxygarum_render_screen(screen);
     
     // update
-    oxygarum_update_physics(scene, frametime);
+    //oxygarum_update_physics(scene, frametime);
   }
   
   return 0;
