@@ -8,14 +8,14 @@ r 1.0
 msh cube
 m material
 # vertices
-v -1  1 -1
+v -1 1 -1
 v -1 -1 -1
-v  1 -1 -1
-v  1  1 -1
-v -1  1  1
-v -1 -1  1
-v  1 -1  1
-v  1  1  1
+v 1 -1 -1
+v 1 1 -1
+v -1 1 1
+v -1 -1 1
+v 1 -1 1
+v 1 1 1
 
 # texture coordinates
 t 0 1

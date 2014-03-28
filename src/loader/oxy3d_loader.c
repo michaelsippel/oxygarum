@@ -262,9 +262,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
             num_texcoords ++;
             break;
           case 'f':
-            num_seperators = count_char(params, '/');
             num_values = count_char(params, ' ') + 1;
-            num_sub_values = num_seperators / num_values;
             line_pos = 0;
             
             vertex_id *face_vertices = calloc(num_values, sizeof(vertex_id));
@@ -275,13 +273,13 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
               switch(num_sub_values) {
                 case 0:
                   sscanf(params+line_pos, "%d", &face_vertices[j]);
-                  sprintf(buf, "%d", face_vertices[j]);
-                  line_pos += strlen(buf)+1;
+                  sprintf(buf, "%d ", face_vertices[j]);
+                  line_pos += strlen(buf);
                   break;
                 case 1:
                   sscanf(params+line_pos, "%d/%d", &face_vertices[j], &face_coords[j]);
-                  sprintf(buf, "%d/%d", face_vertices[j], face_coords[j]);
-                  line_pos += strlen(buf)+1;
+                  sprintf(buf, "%d/%d ", face_vertices[j], face_coords[j]);
+                  line_pos += strlen(buf);
                   break;
                 case 2:
                   //sscanf(params + line_pos, "%d/%d/%d", &face_vertices[j], &face_coords[j], &face_normals[j]);
