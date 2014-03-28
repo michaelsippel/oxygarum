@@ -125,7 +125,7 @@ void oxygarum_render_object3d(object3d_t *obj) {
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
   } else {
-    for(i = 0; i < obj->mesh->face_counter; i++) {
+    for(i = 0; i < obj->mesh->face_counter; i++) {    
       oxygarum_render_face3d(obj->mesh, obj->mesh->faces[i]);
     }
   }

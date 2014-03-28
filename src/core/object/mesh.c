@@ -30,7 +30,8 @@ mesh3d_t *oxygarum_create_mesh3d(vertex_id num_vertices, vertex3d_t *vertices, u
   mesh->faces = faces;
   mesh->vertices = vertices;
   mesh->material = material;
-  
+  mesh->texcoords = texcoords;  
+
   mesh->normals = calloc(num_vertices, sizeof(vector3d_t));
   oxygarum_calc_normals(mesh);
   

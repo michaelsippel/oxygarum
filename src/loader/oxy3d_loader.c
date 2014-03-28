@@ -214,7 +214,6 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
           case 'm':
             mat_entry = oxygarum_get_group_entry(ret->materials, params);
             material = (material_t*) mat_entry->element;
-            printf("material at 0x%x\n", material);
             break;
           case 'v':
             num_vertices ++;
@@ -297,7 +296,6 @@ struct load_return *oxygarum_load_oxy3d_file(const char *path) {
         }
       }
       mesh3d_t *mesh = oxygarum_create_mesh3d(num_vertices, vertices, num_texcoords, texcoords, num_faces, faces, material);
-      printf("load: mesh \"%s\" at 0x%x\n", name, mesh);
       oxygarum_group_add(ret->meshes, (void*) mesh, name);
     } else if(strcmp(cmd, "obj") == 0) {
       // TODO

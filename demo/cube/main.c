@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
   oxygarum_group_add(scene->objects3d, object, NULL);
   
   // physics
-  /*physics_t *physics = oxygarum_create_physics();
+  physics_t *physics = oxygarum_create_physics();
   scene->physics = physics;
   
   force_field_t *gravity = oxygarum_create_force_field();
@@ -53,9 +53,6 @@ int main(int argc, char **argv) {
   
   object->physics_properties = oxygarum_create_physics_properties();
   object->physics_properties->rot_velocity.y = 0.5;
-  */
-  
-  printf("main: material at 0x%x; mesh at 0x%x\n", object->mesh->material, object->mesh);
   
   // main loop
   while(1) {
@@ -66,9 +63,10 @@ int main(int argc, char **argv) {
     oxygarum_render_screen(screen);
     
     // update
-    //oxygarum_update_physics(scene, frametime);
+    oxygarum_update_physics(scene, frametime);
   }
   
+  while(1);
   return 0;
 }
 
