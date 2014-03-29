@@ -20,11 +20,8 @@ int main(int argc, char **argv) {
   
   init_oxygarum();
   
-  // create screen (with viewport, FOV, etc.)
-  screen_t *screen = oxygarum_create_screen();
-  
   // load mesh and create object
-  struct load_return *ret = oxygarum_load_oxy3d_file("cube.oxy3d");
+  struct load_return *ret = oxygarum_load_oxy3d_file("cube.oxy3d", NULL);
   object3d_t *object = oxygarum_create_object3d();
   object->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "cube")->element;
   object->pos.x = 0;
@@ -35,9 +32,10 @@ int main(int argc, char **argv) {
   object->rot.z = 10;
   object->shade_program = 0;
   object->shade_model = GL_FLAT;
-  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT | OBJECT_RENDER_VBO;
-  oxygarum_create_render_instance(object->mesh);
+  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT;
+  
   // setup scene
+  screen_t *screen = oxygarum_create_screen();
   scene_t *scene = oxygarum_create_scene();
   screen->scene = scene;
   oxygarum_group_add(scene->objects3d, object, NULL);

@@ -63,7 +63,7 @@ typedef struct load_return {
   group_t *objects;
 };
 
-struct load_return *oxygarum_load_oxy3d_file(const char *path);
+struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_return *ret);
 mesh2d_t *oxygarum_load_oxy2d_file(const char *path);
 
 #if defined(__cplusplus)

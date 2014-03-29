@@ -102,7 +102,7 @@ int count_char(char *string, char c) {
   return a;
 }
 
-struct load_return *oxygarum_load_oxy3d_file(const char *f_path) {
+struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_return *ret) {
   printf("loading %s\n", f_path);
   FILE *f = fopen(f_path, "rt");
   if(!f) {
@@ -110,11 +110,15 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path) {
     return NULL;
   }
   
-  struct load_return *ret = malloc(sizeof(struct load_return));
-  ret->textures = oxygarum_create_group();
-  ret->materials = oxygarum_create_group();
-  ret->meshes = oxygarum_create_group();
-  ret->objects = oxygarum_create_group();
+  if(ret == NULL) {
+    ret = malloc(sizeof(struct load_return));
+    memset(ret, 0, sizeof(struct load_return));
+  }
+  
+  if(ret->textures == NULL) ret->textures = oxygarum_create_group();
+  if(ret->materials == NULL) ret->materials = oxygarum_create_group();
+  if(ret->meshes == NULL) ret->meshes = oxygarum_create_group();
+  if(ret->objects == NULL) ret->objects = oxygarum_create_group();
   
 #define CMD_INCLUDE 0
 #define CMD_TEXTURE 1
@@ -163,11 +167,8 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path) {
     strcpy(args, line + j + 1);
     
     if(strcmp(cmd, "include") == 0) {
-      struct load_return *inc = oxygarum_load_oxy3d_file(args);
-      oxygarum_group_join(ret->textures, inc->textures);
-      oxygarum_group_join(ret->materials, inc->materials);
-      oxygarum_group_join(ret->meshes, inc->meshes);
-      oxygarum_group_join(ret->objects, inc->objects);
+      printf("include..\n");
+      ret = oxygarum_load_oxy3d_file(args, ret);
 
     } else if(strcmp(cmd, "texture") == 0) {
       SET_CMD(CMD_TEXTURE);
@@ -272,6 +273,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path) {
           mesh3d_t *mesh = oxygarum_create_mesh3d(num_vertices, vertices, num_texcoords, texcoords, num_faces, faces, mat);
           oxygarum_group_add(ret->meshes, (void*) mesh, name);
           RESET_CMD;
+          printf("loaded mesh %s\n", name);
         } else {
           read = 1;
           end = 0;
@@ -280,7 +282,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path) {
           normals = calloc(num_normals, sizeof(vector3d_t));
           texcoords = calloc(num_texcoords, sizeof(uv_t));
           faces = calloc(num_faces, sizeof(face_t*));
-          
+          printf("%d vertices; %d faces\n", num_vertices, num_faces);
           num_vertices = 0;
           num_normals = 0;
           num_texcoords = 0;

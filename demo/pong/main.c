@@ -108,11 +108,11 @@ int main(int argc, char **argv) {
   screen->camera->pos.z = -3;
   
   // loading
-  struct load_return *ret = oxygarum_load_oxy3d_file("player.oxy3d");
+  struct load_return *ret = oxygarum_load_oxy3d_file("player.oxy3d", NULL);return 0;
   player = oxygarum_create_object3d();
   player->mesh = (mesh3d_t*) ret->meshes->head->element;
   
-  ret = oxygarum_load_oxy3d_file("ball.oxy3d");
+  ret = oxygarum_load_oxy3d_file("ball.oxy3d", NULL);
   ball = oxygarum_create_object3d();
   ball->mesh = (mesh3d_t*) ret->meshes->head->element;
   ball->pos.z = -1;
