@@ -75,8 +75,12 @@ void oxygarum_group_remove(group_t *group, group_entry_t *entry) {
 
 void oxygarum_group_join(group_t *g1, group_t *g2) {
   if(g1 != NULL && g2 != NULL) {
-    g1->current->next = g2->head;
-    g2->head->prev = g1->current;
+    if(g1->current != NULL) {
+      g1->current->next = g2->head;
+    }
+    if(g2->head != NULL) {
+      g2->head->prev = g1->current;
+    }
   }
 }
 
