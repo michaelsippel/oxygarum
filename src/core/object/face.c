@@ -29,7 +29,7 @@ face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_id *uv_ma
   face->vertex_counter = num;
   face->vertices = vertices;
   face->uv_map = uv_map;
-  
+
   return face;
 }
 
@@ -47,10 +47,11 @@ void oxygarum_render_face3d(mesh3d_t *mesh, face_t *face) {
     vertex_id id = face->vertices[i];
     
     int j;
-    //for(j = 0; j < mesh->material->textures->size; j++) {
-    //  glMultiTexCoord2f(GL_TEXTURE0 + j, mesh->texcoords[face->uv_map[id]].u, mesh->texcoords[face->uv_map[id]].v);
-    //}
-    glTexCoord2f(mesh->texcoords[face->uv_map[id]].u, mesh->texcoords[face->uv_map[id]].v);
+    for(j = 0; j < mesh->material->textures->size; j++) {
+      glMultiTexCoord2f(GL_TEXTURE0 + j, mesh->texcoords[face->uv_map[id]].u, mesh->texcoords[face->uv_map[id]].v);
+    }
+    
+    glTexCoord2f(mesh->texcoords[face->uv_map[i]].u, mesh->texcoords[face->uv_map[i]].v);
     glNormal3f(mesh->normals[id].x, mesh->normals[id].y, mesh->normals[id].z);
     glVertex3f(
  	mesh->vertices[id].x,

@@ -162,7 +162,6 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path) {
     cmd[j] = '\0';
     strcpy(args, line + j + 1);
     
-    printf("[load] %s %s\n", cmd, args);
     if(strcmp(cmd, "include") == 0) {
       struct load_return *inc = oxygarum_load_oxy3d_file(args);
       oxygarum_group_join(ret->textures, inc->textures);
@@ -207,7 +206,6 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path) {
     } else if(strcmp(cmd, "mesh") == 0) {
       pos2 = ftell(f);
       SET_CMD(CMD_MESH);
-      printf("load mesh..\n");
     } else if(cmd_id == CMD_MESH) {
       if(strcmp(cmd, "m") == 0) {
         if(read) {

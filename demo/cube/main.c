@@ -35,8 +35,8 @@ int main(int argc, char **argv) {
   object->rot.z = 10;
   object->shade_program = 0;
   object->shade_model = GL_FLAT;
-  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT;
-  
+  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT | OBJECT_RENDER_VBO;
+  oxygarum_create_render_instance(object->mesh);
   // setup scene
   scene_t *scene = oxygarum_create_scene();
   screen->scene = scene;
