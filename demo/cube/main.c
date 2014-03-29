@@ -66,7 +66,6 @@ int main(int argc, char **argv) {
     oxygarum_update_physics(scene, frametime);
   }
   
-  while(1);
   return 0;
 }
 
