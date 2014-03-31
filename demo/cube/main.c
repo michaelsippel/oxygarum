@@ -26,13 +26,13 @@ int main(int argc, char **argv) {
   object->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "cube")->element;
   object->pos.x = 0;
   object->pos.y = 0;
-  object->pos.z = -4;
+  object->pos.z = -5;
   object->rot.x = 10;
   object->rot.y = 30;
   object->rot.z = 10;
   object->shade_program = 0;
   object->shade_model = GL_FLAT;
-  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT;
+  object->status = OBJECT_VISIBLE;
   
   // setup scene
   screen_t *screen = oxygarum_create_screen();
