@@ -126,7 +126,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
 #define CMD_MESH 3
 
 #define SET_CMD(x) strcpy(name, args);cmd_id = x;
-#define RESET_CMD cmd_id = -1;fseek(f, pos1, SEEK_SET);read = 0;
+#define RESET_CMD cmd_id = -1;fseek(f, pos1, SEEK_SET);read = 0;end = 0;
 
   char line[256];
   int i,j,k;
@@ -164,27 +164,20 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
       j++;
     }
     cmd[j] = '\0';
-    strcpy(args, line + j + 1);
-    
-    if(strcmp(cmd, "include") == 0) {
-      printf("include..\n");
-      ret = oxygarum_load_oxy3d_file(args, ret);
+    strcpy(args, line + j + 1); 
 
-    } else if(strcmp(cmd, "texture") == 0) {
-      SET_CMD(CMD_TEXTURE);
-    } else if(cmd_id == CMD_TEXTURE) {
+    // texture
+    if(cmd_id == CMD_TEXTURE) {
+
       if(strcmp(cmd, "path") == 0) {
         strcpy(path, args);
       } else {
         tex = oxygarum_load_texture_from_file(path, NULL);
         oxygarum_group_add(ret->textures, (void*) tex, name);
-        printf("loaded texture %s\n", name);
         RESET_CMD;
       }
 
-    } else if(strcmp(cmd, "material") == 0) {
-      SET_CMD(CMD_MATERIAL);
-      mat = oxygarum_create_material();
+    // material
     } else if(cmd_id == CMD_MATERIAL) {
       if(strcmp(cmd, "c") == 0) {
         int r,g,b;
@@ -200,15 +193,11 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
         }
       } else {
         oxygarum_group_add(ret->materials, (void*) mat, name);
-        printf("loaded material %s\n", name);
+	printf("loaded material %s\n", name);
         RESET_CMD;
       }
 
-    } else if(strcmp(cmd, "mesh") == 0) {
-      pos2 = ftell(f);
-      mesh = NULL;
-      mat = NULL;
-      SET_CMD(CMD_MESH);
+    // mesh
     } else if(cmd_id == CMD_MESH) {
       if(strcmp(cmd, "usemtl") == 0 || strcmp(cmd, "m") == 0) {
         if(read) {
@@ -234,38 +223,38 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
         num_texcoords ++;
       } else if(strcmp(cmd, "f") == 0) {
         if(read) {
-            int num_values = count_char(args, ' ') + 1;
-            int line_pos = 0;
-            
-            vertex_id *face_vertices = calloc(num_values, sizeof(vertex_id));
-            uv_id *face_coords = calloc(num_values, sizeof(uv_id));
-            
-            for(j = 0; j < num_values; j++) {
-              k = 0;
-              while(args[line_pos] != ' ') {
-                buf[k] = args[line_pos];
-                k++;
-                line_pos++;
-              }
-              buf[k] = '\0';
+          int num_values = count_char(args, ' ') + 1;
+          int line_pos = 0;
+          
+          vertex_id *face_vertices = calloc(num_values, sizeof(vertex_id));
+          uv_id *face_coords = calloc(num_values, sizeof(uv_id));
+          
+          for(j = 0; j < num_values; j++) {
+            k = 0;
+            while(args[line_pos] != ' ') {
+              buf[k] = args[line_pos];
+              k++;
               line_pos++;
-              int num_sub_values = count_char(buf, '/');
-              switch(num_sub_values) {
-                case 0:
-                  sscanf(buf, "%d", &face_vertices[j]);
-                  face_vertices[j] --;
-                  break;
-                case 1:
-                  sscanf(buf, "%d/%d", &face_vertices[j], &face_coords[j]);
-                  face_vertices[j] --;
-                  face_coords[j] --;
-                  break;
-                case 2:
-                  //sscanf(buf, "%d/%d/%d", &face_vertices[j], &face_coords[j], &face_normals[j]);
-                  break;
-              }
             }
-            faces[num_faces] = oxygarum_create_face(num_values, face_vertices, face_coords);
+            buf[k] = '\0';
+            line_pos++;
+            int num_sub_values = count_char(buf, '/');
+            switch(num_sub_values) {
+              case 0:
+                sscanf(buf, "%d", &face_vertices[j]);
+                face_vertices[j] --;
+                break;
+              case 1:
+                sscanf(buf, "%d/%d", &face_vertices[j], &face_coords[j]);
+                face_vertices[j] --;
+                face_coords[j] --;
+                break;
+              case 2:
+                //sscanf(buf, "%d/%d/%d", &face_vertices[j], &face_coords[j], &face_normals[j]);
+                break;
+            }
+          }
+          faces[num_faces] = oxygarum_create_face(num_values, face_vertices, face_coords);
         }
         num_faces ++;
       } else {
@@ -273,7 +262,6 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
           mesh3d_t *mesh = oxygarum_create_mesh3d(num_vertices, vertices, num_texcoords, texcoords, num_faces, faces, mat);
           oxygarum_group_add(ret->meshes, (void*) mesh, name);
           RESET_CMD;
-          printf("loaded mesh %s\n", name);
         } else {
           read = 1;
           end = 0;
@@ -282,14 +270,34 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
           normals = calloc(num_normals, sizeof(vector3d_t));
           texcoords = calloc(num_texcoords, sizeof(uv_t));
           faces = calloc(num_faces, sizeof(face_t*));
-          printf("%d vertices; %d faces\n", num_vertices, num_faces);
           num_vertices = 0;
           num_normals = 0;
           num_texcoords = 0;
           num_faces = 0;
         }
       }
+
+    // begin
+    } else {
+      if(strcmp(cmd, "include") == 0) {
+        printf("include..\n");
+        ret = oxygarum_load_oxy3d_file(args, ret);
+
+      } else if(strcmp(cmd, "texture") == 0) {
+        SET_CMD(CMD_TEXTURE);
+
+      } else if(strcmp(cmd, "material") == 0) {
+        SET_CMD(CMD_MATERIAL);
+        mat = oxygarum_create_material();
+
+      } else if(strcmp(cmd, "mesh") == 0) {
+        pos2 = ftell(f);
+        mesh = NULL;
+        mat = NULL;
+        SET_CMD(CMD_MESH);
+      }
     }
+
     pos1 = ftell(f);
   }
   
