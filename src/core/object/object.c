@@ -68,32 +68,33 @@ void oxygarum_render_object3d(object3d_t *obj) {
   
   if(obj->status & OBJECT_TRANSPARENT) {    
     glDisable(GL_CULL_FACE);
-    glDisable(GL_LIGHTING);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
   
   material_t *material = obj->mesh->material;
-  entry = material->textures->head;
-  i = 0;
-  while(entry != NULL) {
-    texture_t *tex = (texture_t*) entry->element;
-    glActiveTexture(GL_TEXTURE0 + i);
+  if(material != NULL) {
+    entry = material->textures->head;
+    i = 0;
+    while(entry != NULL) {
+      texture_t *tex = (texture_t*) entry->element;
+      glActiveTexture(GL_TEXTURE0 + i);
+      
+      glEnable(GL_TEXTURE_2D);
+      glBindTexture(GL_TEXTURE_2D, tex->id);
+      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+      
+      entry = entry->next;
+      i++;
+    }
     
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, tex->id);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glColor4fv(&material->color.color);
     
-    entry = entry->next;
-    i++;
+    glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
   }
-  
-  glColor4fv(&material->color.color);
-  
-  glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
-  glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
   
   glShadeModel(obj->shade_model);
   glUseProgram(obj->shade_program);

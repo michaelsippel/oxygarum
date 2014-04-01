@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
   object->rot.z = 10;
   object->shade_program = 0;
   object->shade_model = GL_FLAT;
-  object->status = OBJECT_VISIBLE;
+  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT | OBJECT_DEPTH_BUFFERING;
   
   // setup scene
   screen_t *screen = oxygarum_create_screen();

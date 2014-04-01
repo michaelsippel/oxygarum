@@ -141,10 +141,10 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
   char name[256];
   char path[256];
   char buf[256];
-  texture_t *tex;
-  material_t *mat;
-  mesh3d_t *mesh;
-  int read = 0;  
+  texture_t *tex = NULL;
+  material_t *mat = NULL;
+  mesh3d_t *mesh = NULL;
+  int read = 0;
   
   int num_vertices = 0;
   int num_normals = 0;
@@ -206,15 +206,15 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
 
     } else if(strcmp(cmd, "mesh") == 0) {
       pos2 = ftell(f);
+      mesh = NULL;
+      mat = NULL;
       SET_CMD(CMD_MESH);
     } else if(cmd_id == CMD_MESH) {
-      if(strcmp(cmd, "m") == 0) {
+      if(strcmp(cmd, "usemtl") == 0 || strcmp(cmd, "m") == 0) {
         if(read) {
           group_entry_t *mat_entry = oxygarum_get_group_entry(ret->materials, args);
           if(mat_entry != NULL) {
             mat = (material_t*) mat_entry->element;
-          } else {
-            mat = NULL;
           }
         }
       } else if(strcmp(cmd, "v") == 0) {

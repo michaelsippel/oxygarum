@@ -6,7 +6,7 @@ c ffffff 1.0 texture
 roughness 1.0
 
 mesh cube
-m material
+usemtl material
 
 # vertices
 v 1.000000 -1.000000 -1.000000
