@@ -29,8 +29,8 @@ mesh3d_t *oxygarum_create_mesh3d(vertex_id num_vertices, vertex3d_t *vertices, u
   mesh->vertex_counter = num_vertices;
   mesh->faces = faces;
   mesh->vertices = vertices;
-  mesh->material = material;
   mesh->texcoords = texcoords;  
+  mesh->default_material = material;
 
   mesh->normals = calloc(num_vertices, sizeof(vector3d_t));
   oxygarum_calc_normals(mesh);
@@ -58,7 +58,6 @@ void oxygarum_create_render_instance(mesh3d_t *mesh) {
   render_instance_t *instance = malloc(sizeof(render_instance_t));  
   mesh->instance = instance;  
   
-  instance->tex_id = NULL;
   instance->indices = NULL;
   instance->vertices = NULL;
   instance->normals = NULL;  
@@ -75,7 +74,7 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
   // indices
   instance->index_counter = 0;
   instance->vertex_counter = 0;
-  for(i = 0; i < mesh->material->textures->size; i++) {
+  for(i = 0; i < mesh->face_counter; i++) {
     instance->index_counter += mesh->faces[i]->vertex_counter - 2;
     instance->vertex_counter += mesh->faces[i]->vertex_counter;
   }
@@ -85,7 +84,6 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
   instance->vertices = realloc(instance->vertices, instance->vertex_counter * sizeof(vertex3d_t));
   instance->normals  = realloc(instance->normals,  instance->vertex_counter * sizeof(vector3d_t));
   instance->texcoords=realloc(instance->texcoords, instance->vertex_counter * sizeof(uv_t));
-  instance->tex_id   = realloc(instance->tex_id, mesh->material->textures->size * sizeof(unsigned int));
   
   int cur_index = 0;
   int cur_vertex = 0;
@@ -122,8 +120,8 @@ void oxygarum_update_render_instance(mesh3d_t *mesh) {
   glBindBuffer(GL_ARRAY_BUFFER, instance->normal_id);
   glBufferData(GL_ARRAY_BUFFER, instance->vertex_counter*sizeof(vector3d_t), instance->normals, GL_STATIC_DRAW);
   
-  glGenBuffers(1, &instance->tex_id);
-  glBindBuffer(GL_ARRAY_BUFFER, instance->tex_id);
+  glGenBuffers(1, &instance->texcoord_id);
+  glBindBuffer(GL_ARRAY_BUFFER, instance->texcoord_id);
   glBufferData(GL_ARRAY_BUFFER, instance->vertex_counter * sizeof(uv_t), instance->texcoords, GL_STATIC_DRAW);
   
   glGenBuffers(1, &instance->index_id);

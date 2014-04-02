@@ -27,7 +27,7 @@ typedef struct render_instance {
   unsigned int index_id;
   unsigned int vertex_id;
   unsigned int normal_id;
-  unsigned int tex_id;
+  unsigned int texcoord_id;
   
   unsigned int index_counter;
   unsigned int vertex_counter;
@@ -48,7 +48,7 @@ typedef struct mesh3d {
   face_id face_counter;
   face_t **faces;
   
-  material_t *material;
+  material_t *default_material;
   render_instance_t *instance;
 } mesh3d_t;
 

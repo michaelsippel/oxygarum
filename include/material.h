@@ -43,6 +43,9 @@ typedef struct material {
   GLfloat diffuse[4];
   GLfloat specular[4];
   GLfloat shininess[1];
+
+  GLuint shade_program;
+  GLuint shade_model;
 } material_t;
 
 material_t *oxygarum_create_material(void);

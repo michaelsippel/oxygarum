@@ -36,8 +36,7 @@ typedef struct object3d {
   vertex3d_t rot;
   vertex2d_t feedback;
   
-  GLuint shade_program;
-  GLuint shade_model;
+  material_t *material;
   int status;
   
   struct physics_properties *physics_properties;

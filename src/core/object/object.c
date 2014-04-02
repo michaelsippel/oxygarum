@@ -72,7 +72,11 @@ void oxygarum_render_object3d(object3d_t *obj) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
   
-  material_t *material = obj->mesh->material;
+  material_t *material = obj->material;
+  if(material == NULL) {
+    material = obj->mesh->default_material;
+  }
+  
   if(material != NULL) {
     entry = material->textures->head;
     i = 0;
@@ -96,8 +100,8 @@ void oxygarum_render_object3d(object3d_t *obj) {
     glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
   }
   
-  glShadeModel(obj->shade_model);
-  glUseProgram(obj->shade_program);
+  glShadeModel(material->shade_model);
+  glUseProgram(material->shade_program);
   
   if(obj->status & OBJECT_RENDER_VBO && obj->mesh->instance != NULL) {
     glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->normal_id);
@@ -111,7 +115,7 @@ void oxygarum_render_object3d(object3d_t *obj) {
     while(entry != NULL) {
       glClientActiveTexture(GL_TEXTURE0 + i);
       glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->tex_id);
+      glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->texcoord_id);
       glTexCoordPointer(2, GL_FLOAT, 0, NULL);
       
       entry = entry->next;
