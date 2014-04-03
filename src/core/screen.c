@@ -68,7 +68,7 @@ void oxygarum_render_screen(screen_t *screen) {
   
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  glOrtho(0, screen->width, 0, screen->width, -1, 1);
+  glOrtho(0, screen->width, 0, screen->height, -1, 1);
   
   glUseProgram(0);
   glPushAttrib(GL_ENABLE_BIT);
