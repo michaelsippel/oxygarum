@@ -35,7 +35,7 @@ typedef unsigned int face_id;
 #include "mesh.h"
 
 face_t *oxygarum_create_face(unsigned int num, vertex_id *vertices, uv_id *uv_map);
-void oxygarum_render_face3d(mesh3d_t *mesh, face_t *face);
+void oxygarum_render_face3d(mesh3d_t *mesh, material_t *material, face_t *face);
 void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face);
 
 #endif

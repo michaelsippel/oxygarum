@@ -30,8 +30,9 @@ int main(int argc, char **argv) {
   object->rot.x = 10;
   object->rot.y = 30;
   object->rot.z = 10;
-  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT;
-  
+  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT | OBJECT_RENDER_VBO;
+  oxygarum_create_render_instance(object->mesh);  
+
   // setup scene
   screen_t *screen = oxygarum_create_screen();
   scene_t *scene = oxygarum_create_scene();

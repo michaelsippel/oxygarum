@@ -1,8 +1,12 @@
-texture texture
+texture diffuse_texture
 path texture.png
 
+texture lightmap_texture
+path lightmap.png
+
 material material
-c ffffff 1.0 texture
+t ffffff 1.0 diffuse_texture
+t ffffff 1.0 lightmap_texture
 roughness 1.0
 
 mesh cube

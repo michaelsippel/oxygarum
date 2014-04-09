@@ -179,7 +179,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
 
     // material
     } else if(cmd_id == CMD_MATERIAL) {
-      if(strcmp(cmd, "c") == 0) {
+      if(strcmp(cmd, "t") == 0) {
         int r,g,b;
         sscanf(args, "%2x%2x%2x %f %s", &r, &g, &b, &mat->color.color[3], &path);
         mat->color.color[0] = (float)r / 0xff;
