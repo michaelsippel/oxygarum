@@ -82,7 +82,7 @@ void oxygarum_init_particle_shader(void) {
   // create noise-texture
   int i;
   for(i = 0; i < 1024; i++) {
-    random_buffer[i] = rand_between(0.0f, 1.0f);
+    random_buffer[i] = 1.0f/(float)i+1;
   }
   
   glGenTextures(1, &random_buffer_id);
@@ -138,15 +138,16 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
   loc_gvector = glGetUniformLocation(particle_program, "gvector");
   loc_gvertex = glGetUniformLocation(particle_program, "gvertex");
   loc_gspeed  = glGetUniformLocation(particle_program, "gspeed");
-  glUniform1f(loc_aspeed, (GLfloat)frametime);
-  glUniform3f(loc_gvector, (GLfloat)emitter->gravity_vector.x, (GLfloat)emitter->gravity_vector.y, (GLfloat)emitter->gravity_vector.z);
-  glUniform3f(loc_gvertex, emitter->gravity_vertex.x, emitter->gravity_vertex.y, emitter->gravity_vertex.z);  
-  glUniform1f(loc_gspeed, (GLfloat)emitter->gravity_speed);
   
   glBindBuffer(GL_ARRAY_BUFFER, emitter->particle_buffer[emitter->input]);
   glEnable(GL_TEXTURE_1D);
   glBindTexture(GL_TEXTURE_1D, random_buffer_id);
-  
+
+  glUniform1f(loc_aspeed, (GLfloat)frametime);
+  glUniform3f(loc_gvector, (GLfloat)emitter->gravity_vector.x, (GLfloat)emitter->gravity_vector.y, (GLfloat)emitter->gravity_vector.z);
+  glUniform3f(loc_gvertex, emitter->gravity_vertex.x, emitter->gravity_vertex.y, emitter->gravity_vertex.z);  
+  glUniform1f(loc_gspeed, (GLfloat)emitter->gravity_speed);
+
   glEnableVertexAttribArray(0);
   glEnableVertexAttribArray(1);
   glEnableVertexAttribArray(2);

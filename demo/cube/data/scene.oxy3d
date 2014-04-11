@@ -1,0 +1,46 @@
+texture black_texture
+path data/black.png
+
+texture cube_diffuse_texture
+path data/cube_diffuse.png
+
+texture cube_normal_texture
+path data/cube_normal.png
+
+texture cube_emit_texture
+path data/cube_emit.png
+
+material cube_material
+t ffffff 1.0 cube_diffuse_texture
+t ffffff 1.0 cube_normal_texture
+t ffffff 1.0 cube_emit_texture
+roughness 1.0
+
+texture wall_diffuse_texture
+path data/wall_diffuse.png
+
+texture wall_normal_texture
+path data/wall_normal.png
+
+material wall_material
+t ffffff 1.0 wall_diffuse_texture
+t ffffff 1.0 wall_normal_texture
+t ffffff 1.0 black_texture
+roughness 1.0
+
+texture suzanne_diffuse_texture
+path data/suzanne_diffuse.png
+
+texture suzanne_normal_texture
+path data/suzanne_normal.png
+
+material suzanne_material
+t ffffff 1.0 suzanne_diffuse_texture
+t ffffff 1.0 suzanne_normal_texture
+t ffffff 1.0 black_texture
+roughness 1.0
+
+include data/cube.oxy3d
+include data/wall.oxy3d
+include data/suzanne.oxy3d
+

@@ -11,46 +11,62 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-char text1[100];
-char text2[100];
-
 int main(int argc, char **argv) {
-  oxygarum_set_resolution(800, 600);
+  oxygarum_set_resolution(960, 540);
   oxygarum_set_title("Oxygarum test");
   
   init_oxygarum();
   
   // load mesh and create object
-  struct load_return *ret = oxygarum_load_oxy3d_file("cube.oxy3d", NULL);
-  object3d_t *object = oxygarum_create_object3d();
-  object->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "cube")->element;
-  object->pos.x = 0;
-  object->pos.y = 0;
-  object->pos.z = -5;
-  object->rot.x = 10;
-  object->rot.y = 30;
-  object->rot.z = 10;
-  object->status = OBJECT_VISIBLE | OBJECT_TRANSPARENT | OBJECT_RENDER_VBO;
-  oxygarum_create_render_instance(object->mesh);  
+  struct load_return *ret = oxygarum_load_oxy3d_file("data/scene.oxy3d", NULL);
+  object3d_t *cube = oxygarum_create_object3d();
+  cube->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "cube")->element;
+  
+  object3d_t *wall = oxygarum_create_object3d();
+  wall->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "wall")->element;
 
+  object3d_t *suzanne = oxygarum_create_object3d();
+  suzanne->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "suzanne")->element;
+
+  // load shaders
+  GLint vshader = oxygarum_create_shader_from_file(GL_VERTEX_SHADER, "../shader.vert");
+  GLint fshader = oxygarum_create_shader_from_file(GL_FRAGMENT_SHADER, "../shader.frag");
+  GLint program = glCreateProgram();
+  glAttachShader(program, vshader);
+  glAttachShader(program, fshader);
+  glLinkProgram(program); 
+  
+  cube->mesh->default_material->shade_program = program;
+  wall->mesh->default_material->shade_program = program;
+  suzanne->mesh->default_material->shade_program = program;
+  
   // setup scene
   screen_t *screen = oxygarum_create_screen();
   scene_t *scene = oxygarum_create_scene();
   screen->scene = scene;
-  oxygarum_group_add(scene->objects3d, object, NULL);
+  screen->camera->pos.x = -5.0f;
+  screen->camera->pos.y = -2.0f;
+  screen->camera->pos.z = -5.0f;
+  screen->camera->rot.x = 0.0f;
+  screen->camera->rot.y = -45.0f;
+  screen->camera->rot.z = 0.0f;
+  screen->width = screen->viewport.width = 960;
+  screen->height = screen->viewport.height = 540;
+  oxygarum_group_add(scene->objects3d, cube, NULL);
+  oxygarum_group_add(scene->objects3d, wall, NULL);
+  oxygarum_group_add(scene->objects3d, suzanne, NULL);
+
+  light_t *light = oxygarum_create_light();
+  light->ambient[0] = 0.1f; light->ambient[1] = 0.1f; light->ambient[2] = 0.1f; light->ambient[3] = 1.0f;
+  light->diffuse[0] = 0.5f; light->diffuse[1] = 0.5f; light->diffuse[2] = 0.5f; light->diffuse[3] = 1.0f;
+  light->specular[0] = 1.0f; light->specular[1] = 1.0f; light->specular[2] = 1.0f; light->specular[3] = 1.0f;
+  light->r_pos[0] = -1.0f; light->r_pos[1] = 1.0f; light->r_pos[2] = 0.0f; light->r_pos[3] = 1.0f;
+  light->pos.x = 10.0f; light->pos.y = 2.0f; light->pos.z = 10.0f;
+  light->gl_light = GL_LIGHT0;
+  glEnable(GL_LIGHT0);
   
-  // physics
-  physics_t *physics = oxygarum_create_physics();
-  scene->physics = physics;
-  
-  force_field_t *gravity = oxygarum_create_force_field();
-  gravity->force.y = 0;//-9.80665;
-  gravity->velocity = 0.000001;
-  oxygarum_group_add(physics->force_fields, gravity, NULL);
-  
-  object->physics_properties = oxygarum_create_physics_properties();
-  object->physics_properties->rot_velocity.y = 0.5;
-  
+  oxygarum_group_add(scene->lights, light, NULL);
+
   // main loop
   while(1) {
     // update (calculate frametime, handle events, etc.)
@@ -58,9 +74,6 @@ int main(int argc, char **argv) {
     
     // render
     oxygarum_render_screen(screen);
-    
-    // update
-    oxygarum_update_physics(scene, frametime);
   }
   
   return 0;

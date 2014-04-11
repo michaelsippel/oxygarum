@@ -1,15 +1,17 @@
-varying vec3 v;
-varying vec3 lightvec;
+#version 120
+
+varying vec3 position;
 varying vec3 normal;
-varying vec4 FrontColor;
- 
-void main(void) {
-  normal         = normalize(gl_NormalMatrix * gl_Normal);
-  v              = vec3(gl_ModelViewMatrix * gl_Vertex);
-  lightvec       = normalize(gl_LightSource[0].position.xyz - v);
- 
-  gl_TexCoord[0] = gl_MultiTexCoord0;
-  FrontColor     = gl_Color;
- 
-  gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;
+varying vec3 lightvec;
+
+void main(void)
+{
+  normal = normalize(gl_NormalMatrix * gl_Normal);
+  position = vec3(gl_ModelViewMatrix * gl_Vertex);
+  lightvec = normalize(gl_LightSource[0].position.xyz - position);  
+
+  gl_FrontColor	= gl_Color;
+  gl_TexCoord[0]= gl_TextureMatrix[0] * gl_MultiTexCoord0;
+  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 }
+

@@ -27,7 +27,7 @@ material_t *oxygarum_create_material(void) {
   
   memcpy(&material->ambient,  (GLfloat[]){ 0.2f, 0.2f, 0.2f, 0.0f }, sizeof(material->ambient));
   memcpy(&material->diffuse,  (GLfloat[]){ 1.0f, 1.0f, 1.0f, 0.0f }, sizeof(material->diffuse));
-  memcpy(&material->specular, (GLfloat[]){ 0.2f, 0.2f, 0.2f, 0.0f }, sizeof(material->specular));
+  memcpy(&material->specular, (GLfloat[]){ 0.5f, 0.5f, 0.5f, 0.0f }, sizeof(material->specular));
   memcpy(&material->shininess,(GLfloat[]){ 1.0f },                   sizeof(material->shininess));
   
   return material;

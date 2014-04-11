@@ -102,7 +102,15 @@ void oxygarum_render_object3d(object3d_t *obj) {
   
   glShadeModel(material->shade_model);
   glUseProgram(material->shade_program);
-  
+
+  GLint tex0 = glGetUniformLocation(material->shade_program, "Texture0");
+  GLint tex1 = glGetUniformLocation(material->shade_program, "Texture1");
+  GLint tex2 = glGetUniformLocation(material->shade_program, "Texture2");  
+
+  glUniform1i(tex0, 0);
+  glUniform1i(tex1, 1);
+  glUniform1i(tex2, 2);
+
   if(obj->status & OBJECT_RENDER_VBO && obj->mesh->instance != NULL) {
     glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->normal_id);
     glNormalPointer(GL_FLOAT, 0, NULL);
