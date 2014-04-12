@@ -49,6 +49,7 @@ typedef struct material {
 } material_t;
 
 material_t *oxygarum_create_material(void);
+void oxygarum_use_material(material_t *material);
 
 #endif
 

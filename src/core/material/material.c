@@ -33,3 +33,39 @@ material_t *oxygarum_create_material(void) {
   return material;
 }
 
+void oxygarum_use_material(material_t *material) {
+  if(material != NULL) {
+    group_entry_t *entry = material->textures->head;
+    int i = 0;
+    while(entry != NULL) {
+      texture_t *tex = (texture_t*) entry->element;
+      glActiveTexture(GL_TEXTURE0 + i);
+      
+      glEnable(GL_TEXTURE_2D);
+      glBindTexture(GL_TEXTURE_2D, tex->id);
+      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+      
+      entry = entry->next;
+      i++;
+    }
+    
+    glColor4fv(&material->color.color);
+    
+    glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
+
+    glShadeModel(material->shade_model);
+    glUseProgram(material->shade_program);
+
+    GLint tex0 = glGetUniformLocation(material->shade_program, "Texture0");
+    GLint tex1 = glGetUniformLocation(material->shade_program, "Texture1");
+    GLint tex2 = glGetUniformLocation(material->shade_program, "Texture2");  
+
+    glUniform1i(tex0, 0);
+    glUniform1i(tex1, 1);
+    glUniform1i(tex2, 2);
+  }
+}
+

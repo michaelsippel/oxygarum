@@ -76,40 +76,7 @@ void oxygarum_render_object3d(object3d_t *obj) {
   if(material == NULL) {
     material = obj->mesh->default_material;
   }
-  
-  if(material != NULL) {
-    entry = material->textures->head;
-    i = 0;
-    while(entry != NULL) {
-      texture_t *tex = (texture_t*) entry->element;
-      glActiveTexture(GL_TEXTURE0 + i);
-      
-      glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, tex->id);
-      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-      
-      entry = entry->next;
-      i++;
-    }
-    
-    glColor4fv(&material->color.color);
-    
-    glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
-  }
-  
-  glShadeModel(material->shade_model);
-  glUseProgram(material->shade_program);
-
-  GLint tex0 = glGetUniformLocation(material->shade_program, "Texture0");
-  GLint tex1 = glGetUniformLocation(material->shade_program, "Texture1");
-  GLint tex2 = glGetUniformLocation(material->shade_program, "Texture2");  
-
-  glUniform1i(tex0, 0);
-  glUniform1i(tex1, 1);
-  glUniform1i(tex2, 2);
+  oxygarum_use_material(material);
 
   if(obj->status & OBJECT_RENDER_VBO && obj->mesh->instance != NULL) {
     glBindBuffer(GL_ARRAY_BUFFER, obj->mesh->instance->normal_id);
