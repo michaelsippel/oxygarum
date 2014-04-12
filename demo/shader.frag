@@ -8,7 +8,7 @@ uniform sampler2D Texture0; // diffuse
 uniform sampler2D Texture1; // normal
 uniform sampler2D Texture2; // emit
 
-vec2 uShift = vec2(0.01, 0);
+vec2 uShift = vec2(0.02, 0);
 const int gaussRadius = 11;
 const float gaussFilter[gaussRadius] = float[gaussRadius](
 	0.0402,0.0623,0.0877,0.1120,0.1297,0.1362,0.1297,0.1120,0.0877,0.0623,0.0402

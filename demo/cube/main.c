@@ -58,10 +58,10 @@ int main(int argc, char **argv) {
 
   light_t *light = oxygarum_create_light();
   light->ambient[0] = 0.1f; light->ambient[1] = 0.1f; light->ambient[2] = 0.1f; light->ambient[3] = 1.0f;
-  light->diffuse[0] = 0.5f; light->diffuse[1] = 0.5f; light->diffuse[2] = 0.5f; light->diffuse[3] = 1.0f;
+  light->diffuse[0] = 1.0f; light->diffuse[1] = 1.0f; light->diffuse[2] = 1.0f; light->diffuse[3] = 1.0f;
   light->specular[0] = 1.0f; light->specular[1] = 1.0f; light->specular[2] = 1.0f; light->specular[3] = 1.0f;
-  light->r_pos[0] = -1.0f; light->r_pos[1] = 1.0f; light->r_pos[2] = 0.0f; light->r_pos[3] = 1.0f;
-  light->pos.x = 10.0f; light->pos.y = 2.0f; light->pos.z = 10.0f;
+  light->r_pos[0] = 0.0f; light->r_pos[1] = 0.0f; light->r_pos[2] = 0.0f; light->r_pos[3] = 1.0f;
+  light->pos.x = 0.0f; light->pos.y = 0.0f; light->pos.z = 0.0f;
   light->gl_light = GL_LIGHT0;
   glEnable(GL_LIGHT0);
   
@@ -71,7 +71,12 @@ int main(int argc, char **argv) {
   while(1) {
     // update (calculate frametime, handle events, etc.)
     float frametime = oxygarum_update();
-    
+
+    int mx, my;
+    SDL_GetMouseState(&mx, &my);
+    light->pos.x = ((float)mx/screen->width)  * 20.0f;
+    light->pos.y = 5.0f - ((float)my/screen->height) * 10.0f;
+
     // render
     oxygarum_render_screen(screen);
   }

@@ -26,6 +26,7 @@ static GLuint particle_program;
 extern char *particle_vertexshader;
 extern char *particle_geometryshader;
 
+GLint loc_rand;
 GLint loc_aspeed;
 GLint loc_gvector;
 GLint loc_gvertex;
@@ -134,6 +135,7 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
   glEnable(GL_RASTERIZER_DISCARD);
   glUseProgram(particle_program);
   
+  loc_rand    = glGetUniformLocation(particle_program, "rand_tex");
   loc_aspeed  = glGetUniformLocation(particle_program, "aspeed");
   loc_gvector = glGetUniformLocation(particle_program, "gvector");
   loc_gvertex = glGetUniformLocation(particle_program, "gvertex");
@@ -143,6 +145,7 @@ void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametim
   glEnable(GL_TEXTURE_1D);
   glBindTexture(GL_TEXTURE_1D, random_buffer_id);
 
+  glUniform1i(loc_rand, 0);
   glUniform1f(loc_aspeed, (GLfloat)frametime);
   glUniform3f(loc_gvector, (GLfloat)emitter->gravity_vector.x, (GLfloat)emitter->gravity_vector.y, (GLfloat)emitter->gravity_vector.z);
   glUniform3f(loc_gvertex, emitter->gravity_vertex.x, emitter->gravity_vertex.y, emitter->gravity_vertex.z);  
