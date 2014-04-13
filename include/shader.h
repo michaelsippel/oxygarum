@@ -21,8 +21,21 @@
 
 #include <GL/gl.h>
 
+#include "group.h"
+
+#define INT 0x0
+#define FLOAT 0x1
+
+typedef struct shader_input {
+  GLuint location;
+  int type;
+  void *pointer;
+} shader_input_t;
+
 GLuint oxygarum_create_shader(GLuint type, char *text, int len);
 GLuint oxygarum_create_shader_from_file(GLuint type, const char *shader_path);
+
+void oxygarum_use_shader(GLuint program, group_t *params);
 
 #endif
 

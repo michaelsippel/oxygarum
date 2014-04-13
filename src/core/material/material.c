@@ -19,6 +19,7 @@
 #include <stdlib.h>
 
 #include "material.h"
+#include "shader.h"
 
 material_t *oxygarum_create_material(void) {
   material_t *material = malloc(sizeof(material_t));
@@ -33,7 +34,7 @@ material_t *oxygarum_create_material(void) {
   material->emission = 0.0f;
   material->refractivity = 0.0f;
   
-  material->shade_model = 0; 
+  material->shade_program = 0; 
   
   oxygarum_update_material_values(material);
   
@@ -88,16 +89,18 @@ void oxygarum_use_material(material_t *material) {
     glMaterialfv(GL_FRONT, GL_EMISSION, &material->gl_emission);
     glMaterialfv(GL_FRONT, GL_SHININESS, &material->gl_shininess);
     
-    glShadeModel(material->shade_model);
-    glUseProgram(material->shade_program);
-
-    GLint tex0 = glGetUniformLocation(material->shade_program, "Texture0");
-    GLint tex1 = glGetUniformLocation(material->shade_program, "Texture1");
-    GLint tex2 = glGetUniformLocation(material->shade_program, "Texture2");  
-
-    glUniform1i(tex0, 0);
-    glUniform1i(tex1, 1);
-    glUniform1i(tex2, 2);
+    oxygarum_use_shader(material->shade_program, material->shader_inputs);
   }
+}
+
+void oxygarum_use_shader(GLuint program, group_t *params) {
+  glUseProgram(program);
+  GLint tex0 = glGetUniformLocation(program, "Texture0");
+  GLint tex1 = glGetUniformLocation(program, "Texture1");
+  GLint tex2 = glGetUniformLocation(program, "Texture2");
+  
+  glUniform1i(tex0, 0);
+  glUniform1i(tex1, 1);
+  glUniform1i(tex2, 2);
 }
 
