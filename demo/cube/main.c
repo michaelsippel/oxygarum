@@ -38,6 +38,8 @@ int main(int argc, char **argv) {
   
   cube->mesh->default_material->shade_program = program;
   wall->mesh->default_material->shade_program = program;
+  wall->mesh->default_material->roughness = 0.9f;
+  oxygarum_update_material_values(wall->mesh->default_material);
   suzanne->mesh->default_material->shade_program = program;
   
   // setup scene
@@ -64,19 +66,19 @@ int main(int argc, char **argv) {
   light->pos.x = 0.0f; light->pos.y = 0.0f; light->pos.z = 0.0f;
   light->gl_light = GL_LIGHT0;
   glEnable(GL_LIGHT0);
-  
+
   oxygarum_group_add(scene->lights, light, NULL);
 
   // main loop
   while(1) {
     // update (calculate frametime, handle events, etc.)
     float frametime = oxygarum_update();
-
+    
     int mx, my;
     SDL_GetMouseState(&mx, &my);
     light->pos.x = ((float)mx/screen->width)  * 20.0f;
     light->pos.y = 5.0f - ((float)my/screen->height) * 10.0f;
-
+    
     // render
     oxygarum_render_screen(screen);
   }

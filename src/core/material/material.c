@@ -22,15 +22,48 @@
 
 material_t *oxygarum_create_material(void) {
   material_t *material = malloc(sizeof(material_t));
-  material->color.rgb = (color_st_t) {.r=1,.g=1,.b=1,.a=1};
   material->textures = oxygarum_create_group();
+
+  material->color.rgb.r = 1.0f;
+  material->color.rgb.b = 1.0f;
+  material->color.rgb.g = 1.0f;
+  material->color.rgb.a = 1.0f;
   
-  memcpy(&material->ambient,  (GLfloat[]){ 0.2f, 0.2f, 0.2f, 1.0f }, sizeof(material->ambient));
-  memcpy(&material->diffuse,  (GLfloat[]){ 1.0f, 1.0f, 1.0f, 1.0f }, sizeof(material->diffuse));
-  memcpy(&material->specular, (GLfloat[]){ 0.8f, 0.8f, 0.8f, 1.0f }, sizeof(material->specular));
-  memcpy(&material->shininess,(GLfloat[]){ 1.0f },                   sizeof(material->shininess));
+  material->roughness = 0.8f;
+  material->emission = 0.0f;
+  material->refractivity = 0.0f;
+  
+  material->shade_model = 0; 
+  
+  oxygarum_update_material_values(material);
   
   return material;
+}
+
+void oxygarum_update_material_values(material_t *material) {
+  // ambient
+  material->gl_ambient[0] = (GLfloat) 1.0f;
+  material->gl_ambient[1] = (GLfloat) 1.0f;
+  material->gl_ambient[2] = (GLfloat) 1.0f;
+  material->gl_ambient[3] = (GLfloat) 1.0f;
+  
+  // diffuse
+  material->gl_diffuse[0] = (GLfloat) material->roughness;
+  material->gl_diffuse[1] = (GLfloat) material->roughness;
+  material->gl_diffuse[2] = (GLfloat) material->roughness;
+  material->gl_diffuse[3] = (GLfloat) 1.0f;
+  
+  // specular
+  material->gl_specular[0] = (GLfloat) 1.0f - material->roughness;
+  material->gl_specular[1] = (GLfloat) 1.0f - material->roughness;
+  material->gl_specular[2] = (GLfloat) 1.0f - material->roughness;
+  material->gl_specular[3] = (GLfloat) 1.0f;
+  
+  // emission
+  material->gl_emission[0] = (GLfloat) material->emission;
+  
+  // shininess
+  material->gl_shininess[0] = (GLfloat) 0.0f;
 }
 
 void oxygarum_use_material(material_t *material) {
@@ -43,19 +76,18 @@ void oxygarum_use_material(material_t *material) {
       
       glEnable(GL_TEXTURE_2D);
       glBindTexture(GL_TEXTURE_2D, tex->id);
-      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
       
       entry = entry->next;
       i++;
     }
     
     glColor4fv(&material->color.color);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, &material->gl_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, &material->gl_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, &material->gl_specular);
+    glMaterialfv(GL_FRONT, GL_EMISSION, &material->gl_emission);
+    glMaterialfv(GL_FRONT, GL_SHININESS, &material->gl_shininess);
     
-    glMaterialfv(GL_FRONT, GL_AMBIENT, material->ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, material->diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, material->specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, material->shininess);
-
     glShadeModel(material->shade_model);
     glUseProgram(material->shade_program);
 

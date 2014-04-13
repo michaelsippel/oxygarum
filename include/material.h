@@ -36,19 +36,25 @@ typedef union color {
 } color_t;
 
 typedef struct material {
-  color_t color;
   group_t *textures;
-  
-  GLfloat ambient[4];
-  GLfloat diffuse[4];
-  GLfloat specular[4];
-  GLfloat shininess[1];
+
+  color_t color;
+  float roughness;
+  float emission;
+  float refractivity;
+
+  GLfloat gl_ambient[4];
+  GLfloat gl_diffuse[4];
+  GLfloat gl_specular[4];
+  GLfloat gl_emission[1];
+  GLfloat gl_shininess[1];
 
   GLuint shade_program;
   GLuint shade_model;
 } material_t;
 
 material_t *oxygarum_create_material(void);
+void oxygarum_update_material_values(material_t *material);
 void oxygarum_use_material(material_t *material);
 
 #endif

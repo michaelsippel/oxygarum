@@ -11,7 +11,7 @@ uniform sampler2D Texture2; // emit
 vec2 uShift = vec2(0.02, 0);
 const int gaussRadius = 11;
 const float gaussFilter[gaussRadius] = float[gaussRadius](
-	0.0402,0.0623,0.0877,0.1120,0.1297,0.1362,0.1297,0.1120,0.0877,0.0623,0.0402
+0.0402,0.0623,0.0877,0.1120,0.1297,0.1362,0.1297,0.1120,0.0877,0.0623,0.0402
 );
 
 void main(void) {
@@ -20,8 +20,8 @@ void main(void) {
   
   // emit (with blur)
   vec2 texCoord = gl_TexCoord[0].xy - float(int(gaussRadius/2)) * uShift;
-  vec3 emit = vec3(0.0, 0.0, 0.0); 
-  for (int i=0; i<gaussRadius; ++i) { 
+  vec3 emit = vec3(0.0, 0.0, 0.0);
+  for (int i=0; i<gaussRadius; ++i) {
     emit += gaussFilter[i] * texture2D(Texture2, texCoord).xyz;
     texCoord += uShift;
   }
@@ -39,11 +39,13 @@ void main(void) {
   vec3 nor = normalize(M * (vec3(texture2D(Texture1, TexCoord)) - vec3(0.5, 0.5, 0.5)));
   
   // lighting
-  vec3 Reflected = normalize(reflect(-lightvec, nor)); 
-  vec4 ambient  = gl_LightSource[0].ambient  * gl_FrontMaterial.ambient;
-  vec4 diffuse  = gl_LightSource[0].diffuse  * gl_FrontMaterial.diffuse  * max(dot(nor, lightvec), 0.0);
+  vec3 Reflected = normalize(reflect(-lightvec, nor));
+  vec4 ambient = gl_LightSource[0].ambient * gl_FrontMaterial.ambient;
+  vec4 diffuse = gl_LightSource[0].diffuse * gl_FrontMaterial.diffuse * max(dot(nor, lightvec), 0.0);
   vec4 specular = gl_LightSource[0].specular * gl_FrontMaterial.specular * pow(max(dot(Reflected, Eye), 0.0), gl_FrontMaterial.shininess);
-  
-  gl_FragColor = (gl_FrontLightModelProduct.sceneColor + diffuse+specular + vec4(emit, 1.0)) * texture2D(Texture0, TexCoord);
+  vec4 emission = vec4(emit, 1.0) * gl_FrontMaterial.emission;
+
+  gl_FragColor = (gl_FrontLightModelProduct.sceneColor + diffuse+specular+emission) * texture2D(Texture0, TexCoord);
 }
+
 
