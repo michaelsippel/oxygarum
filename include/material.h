@@ -46,7 +46,7 @@ typedef struct material {
   GLfloat gl_ambient[4];
   GLfloat gl_diffuse[4];
   GLfloat gl_specular[4];
-  GLfloat gl_emission[1];
+  GLfloat gl_emission[4];
   GLfloat gl_shininess[1];
   
   GLuint shade_program;

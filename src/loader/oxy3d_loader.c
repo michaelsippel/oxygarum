@@ -179,12 +179,18 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
 
     // material
     } else if(cmd_id == CMD_MATERIAL) {
-      if(strcmp(cmd, "t") == 0) {
+      if(strcmp(cmd, "color") == 0) {
         int r,g,b;
-        sscanf(args, "%2x%2x%2x %f %s", &r, &g, &b, &mat->color.color[3], &path);
+        sscanf(args, "%2x%2x%2x %f", &r, &g, &b, &mat->color.color[3]);
         mat->color.color[0] = (float)r / 0xff;
         mat->color.color[1] = (float)g / 0xff;
         mat->color.color[2] = (float)b / 0xff;
+      } else if(strcmp(cmd, "roughness") == 0) {
+        sscanf(args, "%f", &mat->roughness);
+      } else if(strcmp(cmd, "emission") == 0) {
+        sscanf(args, "%f", &mat->emission);
+      } else if(strcmp(cmd, "t") == 0) {
+        sscanf(args, "%s", &path);
         
         group_entry_t *tex_entry = oxygarum_get_group_entry(ret->textures, path);
         if(tex_entry != NULL) {
@@ -192,8 +198,8 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
           oxygarum_group_add(mat->textures, tex, tex_entry->name);
         }
       } else {
+        oxygarum_update_material_values(mat);
         oxygarum_group_add(ret->materials, (void*) mat, name);
-	printf("loaded material %s\n", name);
         RESET_CMD;
       }
 
@@ -280,7 +286,6 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
     // begin
     } else {
       if(strcmp(cmd, "include") == 0) {
-        printf("include..\n");
         ret = oxygarum_load_oxy3d_file(args, ret);
 
       } else if(strcmp(cmd, "texture") == 0) {

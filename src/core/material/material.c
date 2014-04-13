@@ -62,6 +62,9 @@ void oxygarum_update_material_values(material_t *material) {
   
   // emission
   material->gl_emission[0] = (GLfloat) material->emission;
+  material->gl_emission[1] = (GLfloat) material->emission;
+  material->gl_emission[2] = (GLfloat) material->emission;
+  material->gl_emission[3] = (GLfloat) 1.0;
   
   // shininess
   material->gl_shininess[0] = (GLfloat) 0.0f;

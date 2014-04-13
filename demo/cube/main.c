@@ -38,8 +38,6 @@ int main(int argc, char **argv) {
   
   cube->mesh->default_material->shade_program = program;
   wall->mesh->default_material->shade_program = program;
-  wall->mesh->default_material->roughness = 0.9f;
-  oxygarum_update_material_values(wall->mesh->default_material);
   suzanne->mesh->default_material->shade_program = program;
   
   // setup scene
