@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdlib.h>
+#include <GL/gl.h>
 
 #include "material.h"
 #include "shader.h"
@@ -34,8 +35,7 @@ material_t *oxygarum_create_material(void) {
   material->emission = 0.0f;
   material->refractivity = 0.0f;
   
-  material->shade_program = 0; 
-  
+  material->shader = NULL;
   oxygarum_update_material_values(material);
   
   return material;
@@ -92,18 +92,49 @@ void oxygarum_use_material(material_t *material) {
     glMaterialfv(GL_FRONT, GL_EMISSION, &material->gl_emission);
     glMaterialfv(GL_FRONT, GL_SHININESS, &material->gl_shininess);
     
-    oxygarum_use_shader(material->shade_program, material->shader_inputs);
+    oxygarum_use_shader(material->shader);
   }
 }
 
-void oxygarum_use_shader(GLuint program, group_t *params) {
-  glUseProgram(program);
-  GLint tex0 = glGetUniformLocation(program, "Texture0");
-  GLint tex1 = glGetUniformLocation(program, "Texture1");
-  GLint tex2 = glGetUniformLocation(program, "Texture2");
+void oxygarum_use_shader(shader_t *shader) {
+  if(shader == NULL) {
+    glUseProgram(0);
+    return;
+  }
   
-  glUniform1i(tex0, 0);
-  glUniform1i(tex1, 1);
-  glUniform1i(tex2, 2);
+  glUseProgram(shader->program);
+  
+  group_entry_t *entry = shader->inputs->head;
+  while(entry != NULL) {
+    shader_input_t *input = (shader_input_t*) entry->element;
+    switch(input->type) {
+      case INT1:
+        glUniform1iv(input->location, input->pointer);
+        break;
+      case INT2:
+        glUniform2iv(input->location, input->pointer);
+        break;
+      case INT3:
+        glUniform3iv(input->location, input->pointer);
+        break;
+      case INT4:
+        glUniform4iv(input->location, input->pointer);
+        break;
+
+      case FLOAT1:
+        glUniform1fv(input->location, input->pointer);
+        break;
+      case FLOAT2:
+        glUniform2fv(input->location, input->pointer);
+        break;
+      case FLOAT3:
+        glUniform3fv(input->location, input->pointer);
+        break;
+      case FLOAT4:
+        glUniform4fv(input->location, input->pointer);
+        break;
+    }
+    entry = entry->next;
+  }
 }
 

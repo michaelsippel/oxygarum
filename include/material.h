@@ -22,6 +22,7 @@
 #include <GL/gl.h>
 #include "group.h"
 #include "texture.h"
+#include "shader.h"
 
 typedef struct color_st {
   float r;
@@ -49,8 +50,7 @@ typedef struct material {
   GLfloat gl_emission[4];
   GLfloat gl_shininess[1];
   
-  GLuint shade_program;
-  group_t *shader_inputs;
+  shader_t *shader;
 } material_t;
 
 material_t *oxygarum_create_material(void);
