@@ -36,14 +36,9 @@ int main(int argc, char **argv) {
   glAttachShader(program, fshader);
   glLinkProgram(program); 
 
-  shader_t *shader = malloc(sizeof(shader_t));
-  shader->program = program;  
-
-  shader->inputs = oxygarum_create_group();
-
-  cube->mesh->default_material->shader = shader;
-  wall->mesh->default_material->shader = shader;
-  suzanne->mesh->default_material->shader = shader;
+  cube->mesh->default_material->shade_program = program;
+  wall->mesh->default_material->shade_program = program;
+  suzanne->mesh->default_material->shade_program = program;
   
   // setup scene
   screen_t *screen = oxygarum_create_screen();

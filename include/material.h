@@ -50,7 +50,8 @@ typedef struct material {
   GLfloat gl_emission[4];
   GLfloat gl_shininess[1];
   
-  shader_t *shader;
+  GLuint shade_program;
+  group_t *shader_inputs;
 } material_t;
 
 material_t *oxygarum_create_material(void);

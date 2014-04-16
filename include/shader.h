@@ -38,15 +38,10 @@ typedef struct shader_input {
   void *pointer;
 } shader_input_t;
 
-typedef struct shader {
-  GLuint program;
-  group_t *inputs;
-} shader_t;
-
 GLuint oxygarum_create_shader(GLuint type, char *text, int len);
 GLuint oxygarum_create_shader_from_file(GLuint type, const char *shader_path);
 
-void oxygarum_use_shader(shader_t *shader);
+void oxygarum_use_shader(GLuint program, group_t *inputs);
 
 #endif
 

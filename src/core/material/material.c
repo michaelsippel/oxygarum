@@ -35,7 +35,8 @@ material_t *oxygarum_create_material(void) {
   material->emission = 0.0f;
   material->refractivity = 0.0f;
   
-  material->shader = NULL;
+  material->shade_program = NULL;
+  material->shader_inputs = oxygarum_create_group();
   oxygarum_update_material_values(material);
   
   return material;
@@ -92,19 +93,14 @@ void oxygarum_use_material(material_t *material) {
     glMaterialfv(GL_FRONT, GL_EMISSION, &material->gl_emission);
     glMaterialfv(GL_FRONT, GL_SHININESS, &material->gl_shininess);
     
-    oxygarum_use_shader(material->shader);
+    oxygarum_use_shader(material->shade_program, material->shader_inputs);
   }
 }
 
-void oxygarum_use_shader(shader_t *shader) {
-  if(shader == NULL) {
-    glUseProgram(0);
-    return;
-  }
+void oxygarum_use_shader(GLuint program, group_t *inputs) {
+  glUseProgram(program);
   
-  glUseProgram(shader->program);
-  
-  group_entry_t *entry = shader->inputs->head;
+  group_entry_t *entry = inputs->head;
   while(entry != NULL) {
     shader_input_t *input = (shader_input_t*) entry->element;
     switch(input->type) {
