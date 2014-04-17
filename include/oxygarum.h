@@ -58,6 +58,7 @@ float oxygarum_update(void);
 
 typedef struct load_return {
   group_t *textures;
+  group_t *shaders;
   group_t *materials;
   group_t *meshes;
   group_t *objects;

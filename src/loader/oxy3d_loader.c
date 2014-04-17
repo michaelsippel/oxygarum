@@ -116,14 +116,16 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
   }
   
   if(ret->textures == NULL) ret->textures = oxygarum_create_group();
+  if(ret->shaders == NULL) ret->shaders = oxygarum_create_group();
   if(ret->materials == NULL) ret->materials = oxygarum_create_group();
   if(ret->meshes == NULL) ret->meshes = oxygarum_create_group();
   if(ret->objects == NULL) ret->objects = oxygarum_create_group();
   
 #define CMD_INCLUDE 0
 #define CMD_TEXTURE 1
-#define CMD_MATERIAL 2
-#define CMD_MESH 3
+#define CMD_SHADER 2
+#define CMD_MATERIAL 3
+#define CMD_MESH 4
 
 #define SET_CMD(x) strcpy(name, args);cmd_id = x;
 #define RESET_CMD cmd_id = -1;fseek(f, pos1, SEEK_SET);read = 0;end = 0;
@@ -143,6 +145,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
   char buf[256];
   texture_t *tex = NULL;
   material_t *mat = NULL;
+  GLuint shader;
   mesh3d_t *mesh = NULL;
   int read = 0;
   
@@ -177,6 +180,23 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
         RESET_CMD;
       }
 
+    // shader
+    } else if(cmd_id == CMD_SHADER) {
+      if(strcmp(cmd, "vsh") == 0) {
+        GLint vshader = oxygarum_create_shader_from_file(GL_VERTEX_SHADER, args);
+        glAttachShader(shader, vshader);
+      } else if(strcmp(cmd, "fsh") == 0) {
+        GLint vshader = oxygarum_create_shader_from_file(GL_FRAGMENT_SHADER, args);
+        glAttachShader(shader, vshader);
+      } else if(strcmp(cmd, "gsh") == 0) {
+        GLint vshader = oxygarum_create_shader_from_file(GL_GEOMETRY_SHADER, args);
+        glAttachShader(shader, vshader);
+      } else {
+        glLinkProgram(shader);
+        oxygarum_group_add(ret->shaders, (void*) shader, name);
+        RESET_CMD;
+      }
+
     // material
     } else if(cmd_id == CMD_MATERIAL) {
       if(strcmp(cmd, "color") == 0) {
@@ -190,13 +210,14 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
       } else if(strcmp(cmd, "emission") == 0) {
         sscanf(args, "%f", &mat->emission);
       } else if(strcmp(cmd, "t") == 0) {
-        sscanf(args, "%s", &path);
-        
-        group_entry_t *tex_entry = oxygarum_get_group_entry(ret->textures, path);
+        group_entry_t *tex_entry = oxygarum_get_group_entry(ret->textures, args);
         if(tex_entry != NULL) {
           tex = (texture_t*) tex_entry->element;
           oxygarum_group_add(mat->textures, tex, tex_entry->name);
         }
+      } else if(strcmp(cmd, "s") == 0) {
+        shader = (GLint) oxygarum_get_group_entry(ret->shaders, args)->element;
+        mat->shade_program = shader;
       } else {
         oxygarum_update_material_values(mat);
         oxygarum_group_add(ret->materials, (void*) mat, name);
@@ -290,6 +311,10 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
 
       } else if(strcmp(cmd, "texture") == 0) {
         SET_CMD(CMD_TEXTURE);
+
+      } else if(strcmp(cmd, "shader") == 0) {
+        SET_CMD(CMD_SHADER);
+        shader = glCreateProgram();
 
       } else if(strcmp(cmd, "material") == 0) {
         SET_CMD(CMD_MATERIAL);

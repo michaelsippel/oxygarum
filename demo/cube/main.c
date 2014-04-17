@@ -27,38 +27,6 @@ int main(int argc, char **argv) {
 
   object3d_t *suzanne = oxygarum_create_object3d();
   suzanne->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "suzanne")->element;
-
-  // load shaders
-  GLint vshader = oxygarum_create_shader_from_file(GL_VERTEX_SHADER, "../shader.vert");
-  GLint fshader = oxygarum_create_shader_from_file(GL_FRAGMENT_SHADER, "../shader.frag");
-  GLint program = glCreateProgram();
-  glAttachShader(program, vshader);
-  glAttachShader(program, fshader);
-  glLinkProgram(program); 
-
-  cube->mesh->default_material->shade_program = program;
-  wall->mesh->default_material->shade_program = program;
-  suzanne->mesh->default_material->shade_program = program;
-
-  int ii0 = 0, ii1 = 1, ii2 = 2;
-  shader_input_t *i0 = malloc(sizeof(shader_input_t));
-  shader_input_t *i1 = malloc(sizeof(shader_input_t));
-  shader_input_t *i2 = malloc(sizeof(shader_input_t));
-  i0->type = INT1; i0->location = glGetUniformLocation(program, "Texture0"); i0->pointer = &ii0;
-  i1->type = INT1; i1->location = glGetUniformLocation(program, "Texture1"); i1->pointer = &ii1;
-  i2->type = INT1; i2->location = glGetUniformLocation(program, "Texture2"); i2->pointer = &ii2;
-
-  oxygarum_group_add(cube->mesh->default_material->shader_inputs, i0, 0);
-  oxygarum_group_add(cube->mesh->default_material->shader_inputs, i1, 0);
-  oxygarum_group_add(cube->mesh->default_material->shader_inputs, i2, 0);
-
-  oxygarum_group_add(wall->mesh->default_material->shader_inputs, i0, 0);
-  oxygarum_group_add(wall->mesh->default_material->shader_inputs, i1, 0);
-  oxygarum_group_add(wall->mesh->default_material->shader_inputs, i2, 0);
-
-  oxygarum_group_add(suzanne->mesh->default_material->shader_inputs, i0, 0);
-  oxygarum_group_add(suzanne->mesh->default_material->shader_inputs, i1, 0);
-  oxygarum_group_add(suzanne->mesh->default_material->shader_inputs, i2, 0);
   
   // setup scene
   screen_t *screen = oxygarum_create_screen();
