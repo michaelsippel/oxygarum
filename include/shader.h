@@ -33,7 +33,7 @@
 #define FLOAT4 0x7
 
 typedef struct shader_input {
-  GLuint location;
+  GLint location;
   int type;
   void *pointer;
 } shader_input_t;

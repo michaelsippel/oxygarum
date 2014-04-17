@@ -105,29 +105,29 @@ void oxygarum_use_shader(GLuint program, group_t *inputs) {
     shader_input_t *input = (shader_input_t*) entry->element;
     switch(input->type) {
       case INT1:
-        glUniform1iv(input->location, input->pointer);
+        glUniform1iv(input->location, 1, input->pointer);
         break;
       case INT2:
-        glUniform2iv(input->location, input->pointer);
+        glUniform2iv(input->location, 2, input->pointer);
         break;
       case INT3:
-        glUniform3iv(input->location, input->pointer);
+        glUniform3iv(input->location, 3, input->pointer);
         break;
       case INT4:
-        glUniform4iv(input->location, input->pointer);
+        glUniform4iv(input->location, 4, input->pointer);
         break;
 
       case FLOAT1:
-        glUniform1fv(input->location, input->pointer);
+        glUniform1fv(input->location, 1, input->pointer);
         break;
       case FLOAT2:
-        glUniform2fv(input->location, input->pointer);
+        glUniform2fv(input->location, 2, input->pointer);
         break;
       case FLOAT3:
-        glUniform3fv(input->location, input->pointer);
+        glUniform3fv(input->location, 3, input->pointer);
         break;
       case FLOAT4:
-        glUniform4fv(input->location, input->pointer);
+        glUniform4fv(input->location, 4, input->pointer);
         break;
     }
     entry = entry->next;
