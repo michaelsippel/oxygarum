@@ -209,6 +209,8 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
         sscanf(args, "%f", &mat->roughness);
       } else if(strcmp(cmd, "emission") == 0) {
         sscanf(args, "%f", &mat->emission);
+      } else if(strcmp(cmd, "refractivity") == 0) {
+        sscanf(args, "%f", &mat->refractivity);
       } else if(strcmp(cmd, "tex") == 0) {
         GLint id;
         group_entry_t *tex_entry = oxygarum_get_group_entry(ret->textures, args);
