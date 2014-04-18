@@ -68,7 +68,7 @@ void oxygarum_update_material_values(material_t *material) {
   material->gl_emission[3] = (GLfloat) 1.0;
   
   // shininess
-  material->gl_shininess[0] = (GLfloat) 0.0f;
+  material->gl_shininess[0] = (GLfloat) material->refractivity;
 }
 
 void oxygarum_use_material(material_t *material) {
@@ -81,7 +81,8 @@ void oxygarum_use_material(material_t *material) {
       
       glEnable(GL_TEXTURE_2D);
       glBindTexture(GL_TEXTURE_2D, tex->id);
-      
+      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);    
+
       entry = entry->next;
       i++;
     }
@@ -93,44 +94,7 @@ void oxygarum_use_material(material_t *material) {
     glMaterialfv(GL_FRONT, GL_EMISSION, &material->gl_emission);
     glMaterialfv(GL_FRONT, GL_SHININESS, &material->gl_shininess);
     
-    oxygarum_use_shader(material->shade_program, material->shader_inputs);
-  }
-}
-
-void oxygarum_use_shader(GLuint program, group_t *inputs) {
-  glUseProgram(program);
-  
-  group_entry_t *entry = inputs->head;
-  while(entry != NULL) {
-    shader_input_t *input = (shader_input_t*) entry->element;
-    switch(input->type) {
-      case INT1:
-        glUniform1iv(input->location, 1, input->pointer);
-        break;
-      case INT2:
-        glUniform2iv(input->location, 2, input->pointer);
-        break;
-      case INT3:
-        glUniform3iv(input->location, 3, input->pointer);
-        break;
-      case INT4:
-        glUniform4iv(input->location, 4, input->pointer);
-        break;
-
-      case FLOAT1:
-        glUniform1fv(input->location, 1, input->pointer);
-        break;
-      case FLOAT2:
-        glUniform2fv(input->location, 2, input->pointer);
-        break;
-      case FLOAT3:
-        glUniform3fv(input->location, 3, input->pointer);
-        break;
-      case FLOAT4:
-        glUniform4fv(input->location, 4, input->pointer);
-        break;
-    }
-    entry = entry->next;
+    glUseProgram(material->shade_program);
   }
 }
 

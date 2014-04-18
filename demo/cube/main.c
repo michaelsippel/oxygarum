@@ -27,7 +27,12 @@ int main(int argc, char **argv) {
 
   object3d_t *suzanne = oxygarum_create_object3d();
   suzanne->mesh = (mesh3d_t*) oxygarum_get_group_entry(ret->meshes, "suzanne")->element;
-  
+
+  glUseProgram(cube->mesh->default_material->shade_program);
+  glUniform1i(0, 0);
+  glUniform1i(1, 1);
+  glUniform1i(2, 2);
+
   // setup scene
   screen_t *screen = oxygarum_create_screen();
   scene_t *scene = oxygarum_create_scene();

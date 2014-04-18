@@ -209,13 +209,14 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
         sscanf(args, "%f", &mat->roughness);
       } else if(strcmp(cmd, "emission") == 0) {
         sscanf(args, "%f", &mat->emission);
-      } else if(strcmp(cmd, "t") == 0) {
+      } else if(strcmp(cmd, "tex") == 0) {
+        GLint id;
         group_entry_t *tex_entry = oxygarum_get_group_entry(ret->textures, args);
         if(tex_entry != NULL) {
           tex = (texture_t*) tex_entry->element;
           oxygarum_group_add(mat->textures, tex, tex_entry->name);
         }
-      } else if(strcmp(cmd, "s") == 0) {
+      } else if(strcmp(cmd, "shading") == 0) {
         shader = (GLint) oxygarum_get_group_entry(ret->shaders, args)->element;
         mat->shade_program = shader;
       } else {

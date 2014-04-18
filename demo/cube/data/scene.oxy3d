@@ -14,14 +14,11 @@ path data/cube_normal.png
 texture cube_emit_texture
 path data/cube_emit.png
 
-material cube_material
-t cube_diffuse_texture
-t cube_normal_texture
-t cube_emit_texture
-color ffffff 1.0
-roughness 1.0
-emission 1.0
-s basic_shader
+texture suzanne_diffuse_texture
+path data/suzanne_diffuse.png
+
+texture suzanne_normal_texture
+path data/suzanne_normal.png
 
 texture wall_diffuse_texture
 path data/wall_diffuse.png
@@ -29,29 +26,32 @@ path data/wall_diffuse.png
 texture wall_normal_texture
 path data/wall_normal.png
 
+material cube_material
+color ffffff 1.0
+roughness 1.0
+emission 1.0
+tex cube_diffuse_texture
+tex cube_normal_texture
+tex cube_emit_texture
+shading basic_shader
+
 material wall_material
-t wall_diffuse_texture
-t wall_normal_texture
-t black_texture
 color ffffff 1.0
 roughness 1.0
 emission 0.0
-s basic_shader
-
-texture suzanne_diffuse_texture
-path data/suzanne_diffuse.png
-
-texture suzanne_normal_texture
-path data/suzanne_normal.png
+tex wall_diffuse_texture
+tex wall_normal_texture
+tex black_texture
+shading basic_shader
 
 material suzanne_material
-t suzanne_diffuse_texture
-t suzanne_normal_texture
-t black_texture
 color ffffff 1.0
 roughness 1.0
 emission 0.0
-s basic_shader
+tex suzanne_diffuse_texture
+tex suzanne_normal_texture
+tex black_texture
+shading basic_shader
 
 include data/cube.oxy3d
 include data/wall.oxy3d

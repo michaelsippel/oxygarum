@@ -23,15 +23,6 @@
 
 #include "group.h"
 
-#define INT1 0x0
-#define INT2 0x1
-#define INT3 0x2
-#define INT4 0x3
-#define FLOAT1 0x4
-#define FLOAT2 0x5
-#define FLOAT3 0x6
-#define FLOAT4 0x7
-
 typedef struct shader_input {
   GLint location;
   int type;
@@ -40,8 +31,6 @@ typedef struct shader_input {
 
 GLuint oxygarum_create_shader(GLuint type, char *text, int len);
 GLuint oxygarum_create_shader_from_file(GLuint type, const char *shader_path);
-
-void oxygarum_use_shader(GLuint program, group_t *inputs);
 
 #endif
 
