@@ -33,7 +33,7 @@ material_t *oxygarum_create_material(void) {
   
   material->roughness = 0.8f;
   material->emission = 0.0f;
-  material->refractivity = 0.0f;
+  material->refractivity = 0.5f;
   
   material->shade_program = NULL;
   material->shader_inputs = oxygarum_create_group();
@@ -73,15 +73,21 @@ void oxygarum_update_material_values(material_t *material) {
 
 void oxygarum_use_material(material_t *material) {
   if(material != NULL) {
+    glUseProgram(material->shade_program);
+
     group_entry_t *entry = material->textures->head;
     int i = 0;
     while(entry != NULL) {
-      texture_t *tex = (texture_t*) entry->element;
-      glActiveTexture(GL_TEXTURE0 + i);
+      mapped_texture_t *mapped_tex = (texture_t*) entry->element;
+      glActiveTexture(GL_TEXTURE0 + mapped_tex->mapping);
       
       glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, tex->id);
-      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);    
+      glBindTexture(GL_TEXTURE_2D, mapped_tex->texture->id);
+      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+      if(material->shade_program != 0) {
+        glUniform1i(mapped_tex->location, mapped_tex->mapping);
+      }
 
       entry = entry->next;
       i++;
@@ -93,8 +99,6 @@ void oxygarum_use_material(material_t *material) {
     glMaterialfv(GL_FRONT, GL_SPECULAR, &material->gl_specular);
     glMaterialfv(GL_FRONT, GL_EMISSION, &material->gl_emission);
     glMaterialfv(GL_FRONT, GL_SHININESS, &material->gl_shininess);
-    
-    glUseProgram(material->shade_program);
   }
 }
 

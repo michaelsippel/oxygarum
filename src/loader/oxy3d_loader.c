@@ -212,10 +212,14 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
       } else if(strcmp(cmd, "refractivity") == 0) {
         sscanf(args, "%f", &mat->refractivity);
       } else if(strcmp(cmd, "tex") == 0) {
-        GLint id;
-        group_entry_t *tex_entry = oxygarum_get_group_entry(ret->textures, args);
+        int pos;
+        sscanf(args, "%d %s %s", &pos, &buf, &path);
+        group_entry_t *tex_entry = oxygarum_get_group_entry(ret->textures, path);
         if(tex_entry != NULL) {
-          tex = (texture_t*) tex_entry->element;
+          mapped_texture_t *tex = malloc(sizeof(mapped_texture_t));
+          tex->texture = (texture_t*) tex_entry->element;
+          tex->location = glGetUniformLocation(shader, buf);
+          tex->mapping = pos;
           oxygarum_group_add(mat->textures, tex, tex_entry->name);
         }
       } else if(strcmp(cmd, "shading") == 0) {

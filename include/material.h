@@ -36,6 +36,13 @@ typedef union color {
   float color[4];
 } color_t;
 
+typedef struct mapped_texture {
+  texture_t *texture;
+  
+  GLint location;
+  GLint mapping;
+} mapped_texture_t;
+
 typedef struct material {
   group_t *textures;
   
