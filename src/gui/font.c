@@ -18,6 +18,8 @@
  */
 #include <stdlib.h>
 #include <string.h>
+#include <GL/glew.h>
+#include <GL/gl.h>
 
 #include "font.h"
 

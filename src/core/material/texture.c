@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <png.h>
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -28,8 +29,6 @@
 
 extern SDL_Window *sdl_window;
 extern SDL_Renderer *sdl_renderer;
-
-static texture_id texture_counter = 0;
 
 texture_t *oxygarum_load_texture_from_file(const char *path, group_t *params) {
   texture_t *tex = (texture_t*) malloc(sizeof(texture_t));
@@ -58,7 +57,7 @@ texture_t *oxygarum_load_texture_from_file(const char *path, group_t *params) {
       }
       break;
     default: 
-      return;
+      return NULL;
   }
 
   // flip image

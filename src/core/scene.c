@@ -16,8 +16,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "scene.h"
+#include <stdlib.h>
 
+#include "scene.h"
 #include "object.h"
 #include "particle.h"
 #include "font.h"
@@ -38,8 +39,6 @@ scene_t *oxygarum_create_scene(void) {
 }
 
 void oxygarum_render_scene_3d(scene_t *scene) {
-  int i;
-
   group_entry_t *entry;  
 
   // update lights
@@ -105,8 +104,6 @@ void oxygarum_render_scene_3d(scene_t *scene) {
 }
 
 void oxygarum_render_scene_2d(scene_t *scene) {
-  int i;
-  
   group_entry_t *entry;  
   
   // render 2D-Objects

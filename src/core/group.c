@@ -16,9 +16,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "group.h"
-
 #include <stdlib.h>
+#include <string.h>
+
+#include "group.h"
 
 group_t *oxygarum_create_group(void) {
   group_t *group = malloc(sizeof(group_t));

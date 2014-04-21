@@ -9,8 +9,8 @@ CFLAGS = -Wall $(INCLUDE)
 
 all: $(OBJS) lib
 
-%.c : %.o
-	$(CC) $(CFLAGS) -o $@ $(LIBDIR) $<
+%.o : %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 lib: $(OBJS)
 	ar -rcs oxygarum.a $^

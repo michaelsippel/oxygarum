@@ -32,7 +32,6 @@
 
 static int end = 0;
 int readstr(FILE *f, char *string) {
-    int i = 0;
     do {
 	if(fgets(string, 255, f) == NULL) {
           if(end == 0) {
@@ -131,7 +130,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
 #define RESET_CMD cmd_id = -1;fseek(f, pos1, SEEK_SET);read = 0;end = 0;
 
   char line[256];
-  int i,j,k;
+  int i,j;
   int pos1 = 0;
   int pos2 = 0;
   
@@ -151,7 +150,6 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
   
   int num_vertices = 0;
   int num_normals = 0;
-  int num_uvmaps = 0;
   int num_texcoords = 0;
   int num_faces = 0;
   vertex3d_t *vertices;
@@ -161,13 +159,13 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
   
   
   while(readstr(f, line) == 0) {
-    j = 0;
-    while(line[j] != ' ') {
-      cmd[j] = line[j];
-      j++;
+    i = 0;
+    while(line[i] != ' ') {
+      cmd[i] = line[i];
+      i++;
     }
-    cmd[j] = '\0';
-    strcpy(args, line + j + 1); 
+    cmd[i] = '\0';
+    strcpy(args, line + i + 1); 
 
     // texture
     if(cmd_id == CMD_TEXTURE) {
@@ -213,7 +211,7 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
         sscanf(args, "%f", &mat->refractivity);
       } else if(strcmp(cmd, "tex") == 0) {
         int pos;
-        sscanf(args, "%d %s %s", &pos, &buf, &path);
+        sscanf(args, "%d %s %s", &pos, buf, path);
         group_entry_t *tex_entry = oxygarum_get_group_entry(ret->textures, path);
         if(tex_entry != NULL) {
           mapped_texture_t *tex = malloc(sizeof(mapped_texture_t));
@@ -263,28 +261,28 @@ struct load_return *oxygarum_load_oxy3d_file(const char *f_path, struct load_ret
           vertex_id *face_vertices = calloc(num_values, sizeof(vertex_id));
           uv_id *face_coords = calloc(num_values, sizeof(uv_id));
           
-          for(j = 0; j < num_values; j++) {
-            k = 0;
+          for(i = 0; i < num_values; i++) {
+            j = 0;
             while(args[line_pos] != ' ') {
-              buf[k] = args[line_pos];
-              k++;
+              buf[j] = args[line_pos];
+              j++;
               line_pos++;
             }
-            buf[k] = '\0';
+            buf[j] = '\0';
             line_pos++;
             int num_sub_values = count_char(buf, '/');
             switch(num_sub_values) {
               case 0:
-                sscanf(buf, "%d", &face_vertices[j]);
-                face_vertices[j] --;
+                sscanf(buf, "%d", &face_vertices[i]);
+                face_vertices[i] --;
                 break;
               case 1:
-                sscanf(buf, "%d/%d", &face_vertices[j], &face_coords[j]);
-                face_vertices[j] --;
-                face_coords[j] --;
+                sscanf(buf, "%d/%d", &face_vertices[i], &face_coords[i]);
+                face_vertices[i] --;
+                face_coords[i] --;
                 break;
               case 2:
-                //sscanf(buf, "%d/%d/%d", &face_vertices[j], &face_coords[j], &face_normals[j]);
+                //sscanf(buf, "%d/%d/%d", &face_vertices[i], &face_coords[i], &face_normals[i]);
                 break;
             }
           }

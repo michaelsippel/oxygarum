@@ -16,10 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <GL/gl.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <GL/glew.h>
+#include <GL/gl.h>
 
 #include "shader.h"
 

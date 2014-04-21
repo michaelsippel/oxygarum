@@ -18,6 +18,9 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <GL/glew.h>
+#include <GL/gl.h>
 
 #include "vertex.h"
 #include "face.h"
@@ -27,7 +30,7 @@ object3d_t *oxygarum_create_object3d(void) {
   object3d_t *object = malloc(sizeof(object3d_t));
   memset(object, 0, sizeof(object3d_t));
   
-  object->status = OBJECT_VISIBLE;
+  object->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
   
   return object;
 }
@@ -62,7 +65,7 @@ void oxygarum_render_object3d(object3d_t *obj) {
   obj->feedback.x = feedback[1];
   obj->feedback.y = feedback[2];  
   
-  if(! obj->status & OBJECT_DEPTH_BUFFERING) {
+  if(! (obj->status & OBJECT_DEPTH_BUFFERING)) {
     glDisable(GL_DEPTH_TEST);
   }
   

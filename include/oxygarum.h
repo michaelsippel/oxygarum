@@ -19,8 +19,6 @@
 #ifndef _OXYGARUM_H
 #define _OXYGARUM_H
 
-#include <GL/gl.h>
-
 #if defined(__cplusplus)
 extern "C" {
 #endif

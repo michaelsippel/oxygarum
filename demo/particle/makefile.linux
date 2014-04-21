@@ -3,7 +3,7 @@ OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
 INCLUDE = -I/usr/include/ -I../../include
 LIBDIR  = -L/usr/X11R6/lib 
-LIBRARIES = -lX11 -lSDL2 -lGL -lGLU -lm -lSDL2_image
+LIBRARIES = -lX11 -lSDL2 -lGLEW -lGL -lGLU -lm -lSDL2_image
 
 CC = gcc
 CFLAGS = -Wall $(INCLUDE)

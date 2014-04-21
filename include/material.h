@@ -19,6 +19,7 @@
 #ifndef _MATERIAL_H
 #define _MATERIAL_H
 
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include "group.h"
 #include "texture.h"

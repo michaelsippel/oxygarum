@@ -16,6 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <GL/glew.h>
 #include <GL/gl.h>
 #include <SDL2/SDL.h>
 
@@ -56,6 +57,7 @@ void oxygarum_init_opengl(void) {
 void init_oxygarum(void) {
   oxygarum_init_sdl();
   oxygarum_init_opengl();
+  glewInit();
 }
 
 void oxygarum_set_resolution(int _width, int _height) {

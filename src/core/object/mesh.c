@@ -18,6 +18,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "object.h"
 #include "mesh.h"
@@ -67,7 +68,7 @@ void oxygarum_create_render_instance(mesh3d_t *mesh) {
 }
 
 void oxygarum_update_render_instance(mesh3d_t *mesh) {
-  int i,j,l,m;
+  int i,j,l;
   
   render_instance_t *instance = mesh->instance;  
   

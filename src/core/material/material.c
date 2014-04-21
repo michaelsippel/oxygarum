@@ -17,6 +17,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <stdlib.h>
+#include <GL/glew.h>
 #include <GL/gl.h>
 
 #include "material.h"
@@ -35,7 +36,7 @@ material_t *oxygarum_create_material(void) {
   material->emission = 0.0f;
   material->refractivity = 0.5f;
   
-  material->shade_program = NULL;
+  material->shade_program = 0;
   material->shader_inputs = oxygarum_create_group();
   oxygarum_update_material_values(material);
   
@@ -78,7 +79,7 @@ void oxygarum_use_material(material_t *material) {
     group_entry_t *entry = material->textures->head;
     int i = 0;
     while(entry != NULL) {
-      mapped_texture_t *mapped_tex = (texture_t*) entry->element;
+      mapped_texture_t *mapped_tex = (mapped_texture_t*) entry->element;
       glActiveTexture(GL_TEXTURE0 + mapped_tex->mapping);
       
       glEnable(GL_TEXTURE_2D);
@@ -93,12 +94,12 @@ void oxygarum_use_material(material_t *material) {
       i++;
     }
     
-    glColor4fv(&material->color.color);
-    glMaterialfv(GL_FRONT, GL_AMBIENT, &material->gl_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, &material->gl_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, &material->gl_specular);
-    glMaterialfv(GL_FRONT, GL_EMISSION, &material->gl_emission);
-    glMaterialfv(GL_FRONT, GL_SHININESS, &material->gl_shininess);
+    glColor4fv((GLfloat*) &material->color.color);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, (GLfloat*) &material->gl_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, (GLfloat*) &material->gl_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, (GLfloat*) &material->gl_specular);
+    glMaterialfv(GL_FRONT, GL_EMISSION, (GLfloat*) &material->gl_emission);
+    glMaterialfv(GL_FRONT, GL_SHININESS, (GLfloat*) &material->gl_shininess);
   }
 }
 

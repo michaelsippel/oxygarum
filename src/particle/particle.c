@@ -16,10 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <GL/gl.h>
-#include <GL/glext.h>
 #include <stdlib.h>
 #include <string.h>
+#include <GL/glew.h>
+#include <GL/gl.h>
+
 #include "particle.h"
 
 static GLuint particle_program;
@@ -32,7 +33,7 @@ GLint loc_gvector;
 GLint loc_gvertex;
 GLint loc_gspeed;
 
-static GLint random_buffer_id;
+static GLuint random_buffer_id;
 static float random_buffer[1024];
 
 float rand_between(float min, float max) {
@@ -83,7 +84,7 @@ void oxygarum_init_particle_shader(void) {
   // create noise-texture
   int i;
   for(i = 0; i < 1024; i++) {
-    random_buffer[i] = 1.0f/(float)i+1;
+    random_buffer[i] = (float)i/1024.0f;
   }
   
   glGenTextures(1, &random_buffer_id);

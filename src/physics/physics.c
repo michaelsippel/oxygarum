@@ -18,6 +18,9 @@
  */
 #include <stdlib.h>
 #include <string.h>
+#include <GL/glew.h>
+#include <GL/gl.h>
+
 #include "physics.h"
 #include "scene.h"
 #include "vertex.h"
