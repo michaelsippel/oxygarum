@@ -29,19 +29,21 @@ typedef struct particle {
   float lifetime;
   float size;
   color_t color;
-  float seed;
+  float seed_off;
 } particle_t;
 
 typedef struct particle_emitter {
   GLuint particle_buffer[2];
   int input;
-  int output;  
+  int output;
   
   vertex3d_t pos;
+  vertex3d_t spawn_point;
   vector3d_t gravity_vector;
   vertex3d_t gravity_vertex;
-  float gravity_speed;  
-  
+  float gravity_speed;
+  particle_t *borders;
+
   texture_t *texture;
   
   unsigned int particle_counter;

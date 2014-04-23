@@ -85,7 +85,7 @@ void oxygarum_render_scene_3d(scene_t *scene) {
     
     entry = entry->next;
   }
-  
+
   // render particles
   entry = scene->particle_emitters->head;
   while(entry != NULL) {
