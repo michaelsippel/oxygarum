@@ -19,13 +19,22 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "vertex.h"
+#include "transformation.h"
 
-typedef struct camera {
-  vertex3d_t pos;
-  vertex3d_t rot;
-  float fov;
-} camera_t;
+/**
+ * Camera Class.
+ * Defines the Location and Rotation of View
+ */
+Class Camera : Transformation {
+	public:
+		Camera();
+		Camera(Transformation *transform);
+		Camera(Vertex3D *position_);
+		Camera(Vertex3D *position_, Vector3D *rotation_);
+		~Camera();
+
+		float fov;
+};
 
 #endif
 

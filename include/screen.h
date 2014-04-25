@@ -30,7 +30,8 @@
 #include "material.h"
 
 /**
- * Definines the properties of a Screen
+ * @class Viewport
+ * @brief Definines the properties of a Screen
  */
 Class Viewport {
 	public:
@@ -43,7 +44,9 @@ Class Viewport {
 };
 
 /**
- * Class for rendering a scene.
+ * @class Screen
+ * @brief Class for rendering a scene.
+ *
  * It sets up the viewport, position and rotation of the camera
  * and the projection-matrices for 2D/3D rendering.
  */

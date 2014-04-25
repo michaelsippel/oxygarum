@@ -1,5 +1,5 @@
 /**
- *  src/core/screen/viewport.cpp
+ *  include/transformation.h
  *
  *  (C) Copyright 2014 Michael Sippel
  *
@@ -16,36 +16,26 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef _TRANSFORMATION_H
+#define _TRANSFORMATION_H
+
+#include "vertex.h"
+#include "vector.h"
 
 /**
- * @author Michael Sippel <michamimosa@gmail.com>
+ * Class for transforming in 3D-space
  */
+Class Transform {
+	public:
+		Vertex3D *position;
+		Vector3D *rotation;
 
-#include "screen.h"
+		void setPosition(Vertex3D *position_);
+		void setRotation(Vector3D *rotation_);
+		void move(Vector3D *position_);
+		void rotate(Vector3D *rotation_);
+		void transform(Vertex3D *position_, Vector3D *rotation_);
+};
 
-/**
- * Default constructor.
- * Creates a Viewport with default values
- */
-Viewport::Viewport() {
-	this->x = 0;
-	this->y = 0;
-	this->width = 800;
-	this->height = 600;
-}
-
-/**
- * Adapted constructor.
- * Initalizes the object with special values
- */
-Viewport::Viewport(int x_, int y_, int width_, int height_)
-: x(x_), y(y_), width(width_), height(height_) {
-}
-
-/**
- * Destructor.
- * Deletes a Viewport object
- */
-Viewport::~Viewport() {
-}
+#endif
 

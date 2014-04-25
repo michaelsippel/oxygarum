@@ -1,5 +1,5 @@
 /**
- *  src/core/screen/viewport.cpp
+ *  src/core/screen/camera.cpp
  *
  *  (C) Copyright 2014 Michael Sippel
  *
@@ -21,31 +21,35 @@
  * @author Michael Sippel <michamimosa@gmail.com>
  */
 
-#include "screen.h"
+#include "camera.h"
 
 /**
  * Default constructor.
- * Creates a Viewport with default values
+ * Creates a Camera class with default values
  */
-Viewport::Viewport() {
-	this->x = 0;
-	this->y = 0;
-	this->width = 800;
-	this->height = 600;
+Camera::Camera() {
+	this->position = new Vertex3D();
+	this->rotation = new Vector3D();
 }
 
-/**
- * Adapted constructor.
- * Initalizes the object with special values
- */
-Viewport::Viewport(int x_, int y_, int width_, int height_)
-: x(x_), y(y_), width(width_), height(height_) {
+Camera::Camera(Transformation *transform) {
+	this->position = transform->position;
+	this->rotation = transform->rotation;
+}
+
+Camera::Camera(Vertex3D *position_)
+: position(position_) {
+	this->rotation = new Vector3D();
+}
+
+Camera::Camera(Vertex3D *position_, Vector3D *rotation_)
+: position(position_), rotation(_rotation) {
 }
 
 /**
  * Destructor.
- * Deletes a Viewport object
+ * Deletes a Camera object
  */
-Viewport::~Viewport() {
+Camera::~Camera() {
 }
 
