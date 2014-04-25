@@ -1,7 +1,7 @@
 /**
- *  src/core/material/material.c
+ *  src/core/material/material.cpp
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,6 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #include <stdlib.h>
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -23,57 +28,56 @@
 #include "material.h"
 #include "shader.h"
 
-material_t *oxygarum_create_material(void) {
-  material_t *material = malloc(sizeof(material_t));
-  material->textures = oxygarum_create_group();
+Material::Material() {
+	this->textures = new List()<MappedTexture>;
 
-  material->color.rgb.r = 1.0f;
-  material->color.rgb.b = 1.0f;
-  material->color.rgb.g = 1.0f;
-  material->color.rgb.a = 1.0f;
-  
-  material->roughness = 0.8f;
-  material->emission = 0.0f;
-  material->refractivity = 0.5f;
-  
-  material->shade_program = 0;
-  material->shader_inputs = oxygarum_create_group();
-  oxygarum_update_material_values(material);
-  
-  return material;
+	this->color = Color();
+	material->color.rgb.r = 1.0f;
+	material->color.rgb.b = 1.0f;
+	material->color.rgb.g = 1.0f;
+	material->color.rgb.a = 1.0f;
+
+	material->roughness = 0.8f;
+	material->emission = 0.0f;
+	material->refractivity = 0.5f;
+
+	material->shade_program = 0;
+	this->update_values();
 }
 
-void oxygarum_update_material_values(material_t *material) {
+Material::~Material() {
+}
+
+void Material::update_values() {
   // ambient
-  material->gl_ambient[0] = (GLfloat) 1.0f;
-  material->gl_ambient[1] = (GLfloat) 1.0f;
-  material->gl_ambient[2] = (GLfloat) 1.0f;
-  material->gl_ambient[3] = (GLfloat) 1.0f;
+  this->gl_ambient[0] = (GLfloat) 1.0f;
+  this->gl_ambient[1] = (GLfloat) 1.0f;
+  this->gl_ambient[2] = (GLfloat) 1.0f;
+  this->gl_ambient[3] = (GLfloat) 1.0f;
   
   // diffuse
-  material->gl_diffuse[0] = (GLfloat) material->roughness;
-  material->gl_diffuse[1] = (GLfloat) material->roughness;
-  material->gl_diffuse[2] = (GLfloat) material->roughness;
-  material->gl_diffuse[3] = (GLfloat) 1.0f;
+  this->gl_diffuse[0] = (GLfloat) this->roughness;
+  this->gl_diffuse[1] = (GLfloat) this->roughness;
+  this->gl_diffuse[2] = (GLfloat) this->roughness;
+  this->gl_diffuse[3] = (GLfloat) 1.0f;
   
   // specular
-  material->gl_specular[0] = (GLfloat) 1.0f - material->roughness;
-  material->gl_specular[1] = (GLfloat) 1.0f - material->roughness;
-  material->gl_specular[2] = (GLfloat) 1.0f - material->roughness;
-  material->gl_specular[3] = (GLfloat) 1.0f;
+  this->gl_specular[0] = (GLfloat) 1.0f - this->roughness;
+  this->gl_specular[1] = (GLfloat) 1.0f - this->roughness;
+  this->gl_specular[2] = (GLfloat) 1.0f - this->roughness;
+  this->gl_specular[3] = (GLfloat) 1.0f;
   
   // emission
-  material->gl_emission[0] = (GLfloat) material->emission;
-  material->gl_emission[1] = (GLfloat) material->emission;
-  material->gl_emission[2] = (GLfloat) material->emission;
-  material->gl_emission[3] = (GLfloat) 1.0;
+  this->gl_emission[0] = (GLfloat) this->emission;
+  this->gl_emission[1] = (GLfloat) this->emission;
+  this->gl_emission[2] = (GLfloat) this->emission;
+  this->gl_emission[3] = (GLfloat) 1.0;
   
   // shininess
-  material->gl_shininess[0] = (GLfloat) material->refractivity;
+  this->gl_shininess[0] = (GLfloat) this->refractivity;
 }
 
-void oxygarum_use_material(material_t *material) {
-  if(material != NULL) {
+void Material::use(void) {
     glUseProgram(material->shade_program);
 
     group_entry_t *entry = material->textures->head;
@@ -100,6 +104,5 @@ void oxygarum_use_material(material_t *material) {
     glMaterialfv(GL_FRONT, GL_SPECULAR, (GLfloat*) &material->gl_specular);
     glMaterialfv(GL_FRONT, GL_EMISSION, (GLfloat*) &material->gl_emission);
     glMaterialfv(GL_FRONT, GL_SHININESS, (GLfloat*) &material->gl_shininess);
-  }
 }
 

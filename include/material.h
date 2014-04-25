@@ -1,7 +1,7 @@
 /**
  *  include/material.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,11 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _MATERIAL_H
 #define _MATERIAL_H
 
 #include <GL/glew.h>
 #include <GL/gl.h>
+
 #include "group.h"
 #include "texture.h"
 #include "shader.h"
@@ -44,27 +50,29 @@ typedef struct mapped_texture {
   GLint mapping;
 } mapped_texture_t;
 
-typedef struct material {
-  group_t *textures;
-  
-  color_t color;
-  float roughness;
-  float emission;
-  float refractivity;
-  
-  GLfloat gl_ambient[4];
-  GLfloat gl_diffuse[4];
-  GLfloat gl_specular[4];
-  GLfloat gl_emission[4];
-  GLfloat gl_shininess[1];
-  
-  GLuint shade_program;
-  group_t *shader_inputs;
-} material_t;
+Class Material {
+	public:
+		Material();
+		~Material();
 
-material_t *oxygarum_create_material(void);
-void oxygarum_update_material_values(material_t *material);
-void oxygarum_use_material(material_t *material);
+		List<MappedTexture> *textures;
+
+		Color color;
+		float roughness;
+		float emission;
+		float refractivity;
+
+		GLfloat gl_ambient[4];
+		GLfloat gl_diffuse[4];
+		GLfloat gl_specular[4];
+		GLfloat gl_emission[4];
+		GLfloat gl_shininess[1];
+
+		GLuint shade_program;
+
+		void update_values(void);
+		void use(void);
+};
 
 #endif
 
