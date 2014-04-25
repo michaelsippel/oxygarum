@@ -1,7 +1,7 @@
 /**
- *  src/core/scene.c
+ *  src/core/scene.cpp
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,21 +24,23 @@
 #include "font.h"
 #include "light.h"
 
-scene_t *oxygarum_create_scene(void) {
-  scene_t *scene = malloc(sizeof(scene_t));
-  
-  scene->objects3d = oxygarum_create_group();
-  scene->objects2d = oxygarum_create_group();
-  scene->texts = oxygarum_create_group();
-  scene->particle_emitters = oxygarum_create_group();
-  scene->lights = oxygarum_create_group();
-  
-  scene->physics = NULL;  
-  
-  return scene;
+Scene::Scene() {
+	this->objects3D = new List()<Object3D>;
+	this->objects2D = new List()<Object2D>;
+	this->texts = new List()<Text>;
+	this->particle_emitters = new List()<ParticleEmitter>
+	this->lights = new List()<Light>
 }
 
-void oxygarum_render_scene_3d(scene_t *scene) {
+Scene::~Scene() {
+	delete this->objects3d;
+	delete this->objects2d;
+	delete this->texts;
+	delete this->particle_emitters;
+	delete this->lights;
+}
+
+void Scene::render3D(void) {
   group_entry_t *entry;  
 
   // update lights
@@ -103,7 +105,7 @@ void oxygarum_render_scene_3d(scene_t *scene) {
   }
 }
 
-void oxygarum_render_scene_2d(scene_t *scene) {
+void Scene::render2D(void) {
   group_entry_t *entry;  
   
   // render 2D-Objects
@@ -137,10 +139,5 @@ void oxygarum_render_scene_2d(scene_t *scene) {
     
     entry = entry->next;
   }
-}
-
-light_t *oxygarum_create_light(void) {
-  light_t *light = malloc(sizeof(light_t));
-  return light;
 }
 

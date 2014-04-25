@@ -1,7 +1,7 @@
 /**
  *  include/scene.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,19 +26,29 @@
 #include "font.h"
 #include "group.h"
 
-typedef struct scene {
-  group_t *objects3d;
-  group_t *objects2d;
-  group_t *texts;
-  group_t *particle_emitters;
-  group_t *lights;
-  
-  struct physics *physics;
-} scene_t;
+/**
+ * Class for a set of objects
+ */
+Class Scene {
+	public:
+		Scene();
+		~Scene();
 
-scene_t *oxygarum_create_scene(void);
-void oxygarum_render_scene_3d(scene_t *scene);
-void oxygarum_render_scene_2d(scene_t *scene);
+		List<Object3D> *objects3D;
+		List<Object2D> *objects2D;
+		List<Text> *texts;
+		List<ParticleEmitter> *particle_emitters;
+		List<Light> *lights;
+
+		ListEntry *addObject3D(Object3D *object);
+		ListEntry *addObject2D(Object3D *object);
+		ListEntry *addText(Text *text);
+		ListEntry *addParticleEmitter(ParticleEmitter *emitter);
+		ListEntry *addLight(Light *light);
+
+		void render3D(void);
+		void render2D(void);
+};
 
 #endif
 
