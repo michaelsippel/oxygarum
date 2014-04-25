@@ -1,7 +1,7 @@
 /**
  *  include/screen.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,6 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _SCREEN_H
 #define _SCREEN_H
 
@@ -24,24 +29,26 @@
 #include "camera.h"
 #include "material.h"
 
-typedef struct viewport {
-  float x;
-  float y;
-  float width;
-  float height;
-} viewport_t;
+/**
+ * Class for rendering a scene.
+ * It sets up the viewport, position and rotation of the camera
+ * and the projection-matrices for 2D/3D rendering.
+ */
+Class Screen {
+	public:
+		Screen();
+		Screen(Scene *scene_);
+		Screen(Scene *scene_, Camera *camera_);
+		Screen(Scene *scene_, Camera *camera_, Viewport *viewport_);
+		~Screen();
 
-typedef struct screen {
-  scene_t *scene;
-  camera_t *camera;
-  viewport_t viewport;
-  float width;
-  float height;
-  color_t background;
-} screen_t;
+		Scene *scene;
+		Camera *camera;
+		Viewport *viewport;
+		Color *background;
 
-screen_t *oxygarum_create_screen(void);
-void oxygarum_render_screen(screen_t *screen);
+		void render(void);
+};
 
 #endif
 

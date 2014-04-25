@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
   screen->width = screen->viewport.width = 1300;
   screen->height = screen->viewport.height = 680;
 
-  glPointSize(10);  
+  glPointSize(20);  
 
   // create emitter
   particle_t borders[2];
@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
   borders[0].color.rgb.g = 0.0;
   borders[0].color.rgb.b = 0;
   borders[0].color.rgb.a = 1.0f;
-  borders[0].lifetime = 5;
+  borders[0].lifetime = 2;
   borders[0].size = 0;
   borders[1].pos.x = 0.1;
   borders[1].pos.y = 0.1;

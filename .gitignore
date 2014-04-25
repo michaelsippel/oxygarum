@@ -1,4 +1,5 @@
 *.c~
+*.cpp~
 *.h~
 *.o
 *.a
@@ -9,11 +10,9 @@
 *.exe
 *.vert~
 *.frag~
+*~
 convert_obj
 demo/cube/cube
-demo/walk/walk
-demo/easter_bunny/bunny
-demo/human/human
 demo/pong/pong
 demo/gui/gui
 demo/particle/particle
