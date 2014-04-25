@@ -1,7 +1,7 @@
 /**
- *  src/core/object/object.c
+ *  src/core/object/object3d.cpp
  *
- *  (C) Copyright 2012-2013 Michael Sippel
+ *  (C) Copyright 2012-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,29 +22,62 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
-#include "vertex.h"
-#include "face.h"
 #include "object.h"
 
-object3d_t *oxygarum_create_object3d(void) {
-  object3d_t *object = malloc(sizeof(object3d_t));
-  memset(object, 0, sizeof(object3d_t));
-  
-  object->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
-  
-  return object;
+Object3D::Object3D() {
+	this->position = Vector3D();
+	this->rotation = Vector3D();
+
+	this->mesh = NULL;
+	this->material = NULL;
+
+	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-object2d_t *oxygarum_create_object2d(void) {
-  object2d_t *object = malloc(sizeof(object2d_t));
-  memset(object, 0, sizeof(object2d_t));
-  
-  object->status = OBJECT_VISIBLE;  
-  
-  return object;
+Object3D::Object3D(Transformation3D transform) {
+	this->position = transform.position;
+	this->rotation = transform.rotation;
+
+	this->mesh = NULL;
+	this->material = NULL;
+
+	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-void oxygarum_render_object3d(object3d_t *obj) {
+Object3D::Object3D(Vector3D position_)
+: position(position_) {
+	this->rotation = Vector3D();
+
+	this->mesh = NULL;
+	this->material = NULL;
+
+	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+}
+
+Object3D::Object3D(Vector3D position_, Vector3D rotation_)
+: position(position_), rotation(rotation_) {
+	this->mesh = NULL;
+	this->material = NULL;
+
+	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+}
+
+Object3D::~Object3D() {
+}
+
+void Object3D::setFlag(int flag) {
+	this->status |= flag;
+}
+
+void Object3D::removeFlag(int flag) {
+	this->status &= ~flag;
+}
+
+int Object3D::getStatus(void) {
+	return status;
+}
+
+void Object3D::render(void) {
   int i;
   group_entry_t *entry;  
 
@@ -111,13 +144,6 @@ void oxygarum_render_object3d(object3d_t *obj) {
     for(i = 0; i < obj->mesh->face_counter; i++) {    
       oxygarum_render_face3d(obj->mesh, material, obj->mesh->faces[i]);
     }
-  }
-}
-
-void oxygarum_render_object2d(object2d_t *obj) {
-  int i;
-  for(i = 0; i < obj->mesh->face_counter; i++) {
-    oxygarum_render_face2d(obj->mesh, obj->mesh->faces[i]);
   }
 }
 

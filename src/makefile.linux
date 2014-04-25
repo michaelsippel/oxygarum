@@ -1,4 +1,4 @@
-SRCS = $(shell find -name '*.c')
+SRCS = $(shell find -name '*.cpp')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
 INCLUDE = -I/usr/include/ -I../include
@@ -9,7 +9,7 @@ CFLAGS = -Wall $(INCLUDE)
 
 all: $(OBJS) lib
 
-%.o : %.c
+%.o : %.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 lib: $(OBJS)

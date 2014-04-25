@@ -25,10 +25,10 @@
  * Camera Class.
  * Defines the Location and Rotation of View
  */
-Class Camera : Transformation {
+Class Camera : Transformation3D {
 	public:
 		Camera();
-		Camera(Transformation transform);
+		Camera(Transformation3D transform);
 		Camera(Vector3D position_);
 		Camera(Vector3D position_, Vector3D rotation_);
 		~Camera();

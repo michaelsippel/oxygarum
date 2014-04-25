@@ -32,7 +32,7 @@ Camera::Camera() {
 	this->position = Vector3D();
 }
 
-Camera::Camera(Transformation transform) {
+Camera::Camera(Transformation3D transform) {
 	this->position = transform.position;
 	this->rotation = transform.rotation;
 }
@@ -42,7 +42,7 @@ Camera::Camera(Vector3D position_)
 	this->rotation = Vector3D();
 }
 
-Camera::Camera(Vectorx3D position_, Vector3D rotation_)
+Camera::Camera(Vector3D position_, Vector3D rotation_)
 : position(position_), rotation(_rotation) {
 }
 

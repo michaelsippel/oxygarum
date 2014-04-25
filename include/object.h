@@ -1,7 +1,7 @@
 /**
  *  include/object.h
  *
- *  (C) Copyright 2012-2013 Michael Sippel
+ *  (C) Copyright 2012-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,45 +16,70 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
-#include "vertex.h"
 #include "vector.h"
-#include "face.h"
-#include "material.h"
 #include "mesh.h"
+#include "material.h"
 
 #define OBJECT_VISIBLE         0x1
 #define OBJECT_TRANSPARENT     0x2
 #define OBJECT_DEPTH_BUFFERING 0x4
 #define OBJECT_RENDER_VBO      0x8
 
-typedef struct object3d {
-  mesh3d_t *mesh;
-  vertex3d_t pos;
-  vertex3d_t rot;
-  vertex2d_t feedback;
-  
-  material_t *material;
-  int status;
-  
-  struct physics_properties *physics_properties;
-} object3d_t;
+/**
+ * @class Object3D
+ * @brief blah
+ */
+Class Object3D : Transformation3D {
+	public:
+		Object3D();
+		Object3D(Transformation3D transform);
+		Object3D(Vector3D position_);
+		Object3D(Vector3D position_, Vector3D rotation_);
+		~Object();
 
-typedef struct object2d {
-  mesh2d_t *mesh;
-  vertex2d_t pos;
-  float rot;
-  vertex2d_t feedback;
-  int status;
-} object2d_t;
+		Mesh3D *mesh;
+		Material *material;
+		Vector2D feedback;
 
-object3d_t *oxygarum_create_object3d(void);
-object2d_t *oxygarum_create_object2d(void);
+		void render(void);
+		void setFlag(int flag);
+		void removeFlag(int flag);
+		int getStatus(void);
 
-void oxygarum_render_object3d(object3d_t *object);
-void oxygarum_render_object2d(object2d_t *object);
+	private:
+		int status;
+};
+
+/**
+ * @class Object2D
+ * @brief blah
+ */
+Class Object2D : Transformation2D {
+	public:
+		Object2D();
+		Object2D(Transformation2D *transform);
+		Object2D(Vector2D position_);
+		Object2D(Vector2D position_, float rotation_);
+		~Object2D();
+
+		Mesh2D *mesh;
+		Material *material;
+
+		void render(void);
+		void setFlag(int flag);
+		int getStatus(void);
+
+	private:
+		int status;
+};
 
 #endif
 

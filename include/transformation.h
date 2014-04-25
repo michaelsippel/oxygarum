@@ -16,17 +16,25 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _TRANSFORMATION_H
 #define _TRANSFORMATION_H
 
-#include "vertex.h"
 #include "vector.h"
 
 /**
  * Class for transforming in 3D-space
  */
-Class Transformation {
+Class Transformation3D {
 	public:
+		Transformation3D();
+		Transformation3D(Vector3D position, Vector3D rotation);
+		~Transformation3D();
+
 		Vector3D position;
 		Vector3D rotation;
 
@@ -34,6 +42,24 @@ Class Transformation {
 		void setRotation(Vector3D rotation_);
 		void move(Vector3D position_);
 		void rotate(Vector3D rotation_);
+};
+
+/**
+ * Class for transforming in 2D-space
+ */
+Class Transformation2D {
+	public:
+		Transformation2D();
+		Transformation2D(Vector2D position, float rotation);
+		~Transformation();
+
+		Vector2D position;
+		float rotation;
+
+		void setPosition(Vector2D position_);
+		void setRotation(float rotation_);
+		void move(Vector2D position_);
+		void rotate(float rotation_);
 };
 
 #endif
