@@ -1,5 +1,5 @@
 /**
- *  src/core/screen.cpp
+ *  src/core/screen/screen.cpp
  *
  *  (C) Copyright 2013-2014 Michael Sippel
  *
@@ -79,7 +79,7 @@ void Screen::render(void) {
 	gluPerspective(this->camera->getFov(), (GLfloat)this->viewport.width/(GLfloat)this->viewport.height, 1.0f, 1000.0f);
 
 	vertex3d_t cpos = this->camera->getPosition();
-    vertex3d_t crot = this->camera->getRotation();
+	vertex3d_t crot = this->camera->getRotation();
 
 	glRotatef(crot.x, 1.0f,0.0f,0.0f);
 	glRotatef(crot.y, 0.0f,1.0f,0.0f);

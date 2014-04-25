@@ -30,6 +30,19 @@
 #include "material.h"
 
 /**
+ * Definines the properties of a Screen
+ */
+Class Viewport {
+	public:
+		Viewport();
+		Viewport(int x_, int y_, int width_, int height_);
+		~Viewport();
+
+		int x, y;
+		int width, height;
+};
+
+/**
  * Class for rendering a scene.
  * It sets up the viewport, position and rotation of the camera
  * and the projection-matrices for 2D/3D rendering.
