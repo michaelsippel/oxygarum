@@ -1,7 +1,7 @@
 /**
  *  include/vector.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,21 +19,26 @@
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
-#include "vertex.h"
+/**
+ * Vector class.
+ */
+Class Vector3D {
+	public:
+		Vector3D();
+		Vector3D(Vector3D o, Vector3D p);
+		Vector3D(float x_, float y_, float z_);
+		~Vector3D();
 
-typedef vertex3d_t vector3d_t;
-typedef vertex2d_t vector2d_t;
-typedef unsigned int normal_id;
+		float x, y, z;
 
-vector3d_t *oxygarum_create_vector3d(vertex3d_t *o, vertex3d_t *p);
-vector3d_t *oxygarum_normalize_vector3d(vector3d_t *vector);
-float oxygarum_vector3d_multiply_scalar(vector3d_t *v1, vector3d_t *v2);
-vector3d_t *oxygarum_vector3d_multiply_cross(vector3d_t *v1, vector3d_t *v2);
+		void normalize(void);
 
-vector2d_t *oxygarum_create_vector2d(vertex2d_t *o, vertex2d_t *p);
-vector2d_t *oxygarum_normalize_vector2d(vector2d_t *vector);
-float oxygarum_vector2d_multiply_scalar(vector2d_t *v1, vector2d_t *v2);
-vector2d_t *oxygarum_vector2d_multiply_cross(vector2d_t *v1, vector2d_t *v2);
+		void add(Vector3D v);
+		void sub(Vector3D v);
+		float scalar(Vector3D v);
+		void dot(Vector3D v);
+		void dot(Vector3D v1, Vector3D v2);
+}
 
 #endif
 
