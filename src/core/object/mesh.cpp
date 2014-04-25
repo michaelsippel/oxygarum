@@ -16,6 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,18 +58,6 @@ mesh2d_t *oxygarum_create_mesh2d(vertex_id num_vertices, vertex2d_t *vertices, u
   mesh->material = material;
   
   return mesh;
-}
-
-void oxygarum_create_render_instance(mesh3d_t *mesh) {
-  render_instance_t *instance = malloc(sizeof(render_instance_t));  
-  mesh->instance = instance;  
-  
-  instance->indices = NULL;
-  instance->vertices = NULL;
-  instance->normals = NULL;  
-  instance->texcoords = NULL;
-  
-  oxygarum_update_render_instance(mesh);
 }
 
 void oxygarum_update_render_instance(mesh3d_t *mesh) {
@@ -170,5 +163,64 @@ void oxygarum_calc_normals(mesh3d_t *mesh) {
   }
 
   free(common_face_count);
+}
+
+void oxygarum_render_face3d(mesh3d_t *mesh, material_t *material, face_t *face) {
+  int i;
+  
+  if(face->vertex_counter == 3)
+    glBegin(GL_TRIANGLES);
+  else if(face->vertex_counter == 4)
+    glBegin(GL_QUADS);
+  else
+    glBegin(GL_POLYGON);
+  
+  for(i = 0; i < face->vertex_counter; i++) {
+    vertex_id id = face->vertices[i];
+    
+    if(mesh->texcoords != NULL && face->uv_map != NULL) {
+      int j;
+      for(j = 0; j < material->textures->size; j++) {
+        glMultiTexCoord2f(GL_TEXTURE0 + j, mesh->texcoords[face->uv_map[i]].u, mesh->texcoords[face->uv_map[i]].v);
+      }
+    }
+
+    if(mesh->normals != NULL)
+      glNormal3f(mesh->normals[id].x, mesh->normals[id].y, mesh->normals[id].z);
+    
+    glVertex3f(
+ 	mesh->vertices[id].x,
+ 	mesh->vertices[id].y,
+ 	mesh->vertices[id].z
+    );
+  }
+  glEnd();
+}
+
+void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face) {
+  int i;
+  
+  if(face->vertex_counter == 3)
+    glBegin(GL_TRIANGLES);
+  else if(face->vertex_counter == 4)
+    glBegin(GL_QUADS);
+  else
+    glBegin(GL_POLYGON);
+  
+  for(i = 0; i < face->vertex_counter; i++) {
+    vertex_id id = face->vertices[i];
+    
+    int j;
+    for(j = 0; j < mesh->material->textures->size; j++) {
+      glMultiTexCoord2f(GL_TEXTURE0 + j, mesh->texcoords[face->uv_map[j]].u, mesh->texcoords[face->uv_map[j]].v);
+    }
+    
+    glVertex2f(
+ 	mesh->vertices[id].x,
+ 	mesh->vertices[id].y
+    );
+  }
+  
+  glEnd();
 }
 

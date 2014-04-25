@@ -1,5 +1,5 @@
 /**
- *  include/face.h
+ *  src/core/object/face.c
  *
  *  (C) Copyright 2012-2013 Michael Sippel
  *
@@ -21,27 +21,30 @@
  * @author Michael Sippel <michamimosa@gmail.com>
  */
 
-#ifndef _FACE_H
-#define _FACE_H
+#include <stdlib.h>
+#include <string.h>
 
 #include "vector.h"
-#include "mesh.h"
+#include "face.h"
 
-Class Face {
-	friend class Mesh3D, Mesh2D;
+Face::Face() {
+	this->num_vertices = 0;
+	this->vertices = NULL;
+	this->texcoords = NULL;
+	this->normal = Vector3D();
+}
 
-	public:
-		Face();
-		Face(int num_vertices_, int *vertices_);
-		Face(int num_vertices_, int *vertices_, int *texcoords_);
-		~Face();
+Face::Face(int num_vertices_, int *vertices_)
+: num_vertices(num_vertices_), vertices(vertices_) {
+	this->texcoords = NULL;
+	this->normal = Vector3D();
+}
 
-	private:
-		int num_vertices;
-		int *vertices;
-		int *texcoords;
-		Vector3D normal;
-};
+Face::Face(int num_vertices_, int *vertices_, int *texcoords_)
+: num_vertices(num_vertices_), vertices(vertices_), texcoords(texcoords_)  {
+	this->normal = Vector3D();
+}
 
-#endif
+Face::~Face() {
+}
 

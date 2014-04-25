@@ -16,6 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _MESH_H
 #define _MESH_H
 
@@ -23,54 +28,76 @@
 #include "face.h"
 #include "material.h"
 
-typedef struct render_instance {
-  unsigned int index_id;
-  unsigned int vertex_id;
-  unsigned int normal_id;
-  unsigned int texcoord_id;
-  
-  unsigned int index_counter;
-  unsigned int vertex_counter;
-  unsigned int *indices;
-  vertex3d_t *vertices;
-  vector3d_t *normals;
-  uv_t *texcoords;
-} render_instance_t;
+Class RenderInstance {
+	public:
+		RenderInstance();
+		RenderInstance(Mesh3D *mesh_);
+		~RenderInstance();
 
-typedef struct mesh3d {
-  vertex_id vertex_counter;
-  vertex3d_t *vertices;
-  vector3d_t *normals;
-  
-  uv_id texcoord_counter;
-  uv_t *texcoords;
-  
-  face_id face_counter;
-  face_t **faces;
-  
-  material_t *default_material;
-  render_instance_t *instance;
-} mesh3d_t;
+		Mesh3D *mesh;
+		void create(void);
 
-typedef struct mesh2d {
-  vertex_id vertex_counter;
-  vertex2d_t *vertices;
-  
-  uv_id texcoord_counter;
-  uv_t *texcoords;  
-  
-  face_t **faces;
-  face_id face_counter;
-  
-  material_t *material;
-} mesh2d_t;
+	private:
+		unsigned int index_id;
+		unsigned int vertex_id;
+		unsigned int normal_id;
+		unsigned int texcoord_id;
 
-mesh3d_t *oxygarum_create_mesh3d(vertex_id num_vertices, vertex3d_t *vertices, uv_id num_texcoords, uv_t *texcoords, face_id num_faces, face_t **faces, material_t *material);
-mesh2d_t *oxygarum_create_mesh2d(vertex_id num_vertices, vertex2d_t *vertices, uv_id num_texcoords, uv_t *texcoords, face_id num_faces, face_t **faces, material_t *material);
+		unsigned int index_counter;
+		unsigned int vertex_counter;
+		unsigned int *indices;
+		Vector3D *vertices;
+		Vector3D *normals;
+		Vector2D *texcoords;
+};
 
-void oxygarum_calc_normals(mesh3d_t *mesh);
-void oxygarum_create_render_instance(mesh3d_t *mesh);
-void oxygarum_update_render_instance(mesh3d_t *mesh);
+Class Mesh3D {
+	friend class RenderInstance;
+
+	public:
+		Mesh3D();
+		Mesh3D(int num_vertices_, Vector3D *vertices_);
+		~Mesh3D();
+
+		Material *default_material;
+		RenderInstance *instance;
+
+		void calc_normals(void);
+		void renderInstance(void);
+		void renderImmediate(void);
+
+	private:
+		int num_vertices;
+		Vector3D *vertices;
+		Vector3D *normals;
+
+		int num_texcoords;
+		Vector2D *texcoords;
+
+		int num_faces;
+		Face **faces;
+};
+
+Class Mesh2D {
+	public:
+		Mesh2D();
+		Mesh2D(int num_vertices_, Vector2D *vertices_);
+		~Mesh2D();
+
+		Material *default_material;
+
+		void render(void);
+
+	private:
+		int num_vertices;
+		Vector3D *vertices;
+
+		int num_texcoords;
+		Vector2D *texcoords;  
+
+		int num_faces;
+		Face **faces;
+};
 
 #endif
 
