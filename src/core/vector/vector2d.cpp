@@ -1,5 +1,5 @@
 /**
- *  src/core/vector/vector3d.cpp
+ *  src/core/vector/vector2d.cpp
  *
  *  (C) Copyright 2013-2014 Michael Sippel
  *
@@ -22,63 +22,54 @@
 
 #include "vector.h"
 
-Vector3D::Vector3D() {
+Vector2D::Vector2D() {
 	this->x = 0.0f;
 	this->y = 0.0f;
-	this->z = 0.0f;
 }
 
-Vector3D::Vector3D(float x_, float y_, float z_)
-: x(x_), y(y_), z(z_) {
+Vector2D::Vector2D(float x_, float y_)
+: x(x_), y(y_) {
 }
 
-Vector3D::Vector3D(Vector3D o, Vector3D p) {
+Vector2D::Vector2D(Vector2D o, Vector2D p) {
 	this->x = p.x - o.x;
 	this->y = p.y - o.y;
-	this->z = p.z - o.z;
 }
 
-Vector3D::~Vector3D() {
+Vector2D::~Vector2D() {
 }
 
-void Vector3D::normalize(void) {
+void Vector2D::normalize(void) {
 	float len = sqrt(
 		this->x * this->x + 
-		this->y * this->y + 
-		this->z * this->z
+		this->y * this->y
 	);
 
 	this->x /= len;
 	this->y /= len;
-	this->z /= len;
 }
 
-void Vector3D::add(Vector3D v) {
+void Vector2D::add(Vector3D v) {
 	this->x += v.x;
 	this->y += v.y;
-	this->z += v.z;
 }
 
-void Vector3D::sub(Vector3D v) {
+void Vector2D::sub(Vector2D v) {
 	this->x -= v.x;
 	this->y -= v.y;
-	this->z -= v.z;
 }
 
-float Vector3D::scalar(Vector3D v) {
-	return (
-		this->x * v.x + 
-		this->y * v.y + 
-		this->z * v.z);
+float Vector2D::scalar(Vector2D v) {
+	return (this.x * v.x +
+		this.y * v.y);
 }
 
-Vector3D::dot(vector3D v1, vector3D v2) {
-	this->x = (v1.y * v2.z) - (v1.z * v2.y);
-	this->y = (v1.z * v2.x) - (v1.x * v2.z);
-	this->z = (v1.x * v2.y) - (v1.y * v2.x);
+Vector2D::dot(vector2D v1, vector2D v2) {
+  this->x = (v1.y * v2.x) - (v1.x * v2.y);
+  this->y = (v1.x * v2.y) - (v1.y * v2.x);
 }
 
-Vector3D::dot(vector3D v) {
+Vector2D::dot(vector2D v) {
 	this->dot(*this, v);
 }
 

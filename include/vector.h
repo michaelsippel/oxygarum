@@ -40,5 +40,23 @@ Class Vector3D {
 		void dot(Vector3D v1, Vector3D v2);
 }
 
+Class Vector2D {
+	public:
+		Vector2D();
+		Vector2D(Vector2D o, Vector2D p);
+		Vector2D(float x_, float y_);
+		~Vector2D();
+
+		float x, y;
+
+		void normalize(void);
+
+		void add(Vector2D v);
+		void sub(Vector2D v);
+		float scalar(Vector2D v);
+		void dot(Vector2D v);
+		void dot(Vector2D v1, Vector2D v2);
+}
+
 #endif
 
