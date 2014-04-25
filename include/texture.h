@@ -1,7 +1,7 @@
 /**
- *  src/texture.h
+ *  include/texture.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,6 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _TEXTURE_H
 #define _TEXTURE_H
 
@@ -24,32 +29,48 @@
 
 #include "group.h"
 
-typedef unsigned int texture_id;
-typedef unsigned int uv_id;
-
-typedef struct uv_t {
-  float u;
-  float v;
-} uv_t;
-
+/**
+ * @struct texture_parameter
+ * @brief Parameters for loading textures
+ *
+ * e.g. texture filters, mipmapping
+ */
 typedef struct texture_parameter {
   GLenum type;
   GLenum value;
 } texture_parameter_t;
 
-typedef struct texture {
-  unsigned int width;
-  unsigned int height;
+/**
+ * @class Texture
+ * @brief Texture class
+ */
+Class Texture {
+	public:
+		Texture();
+		Texture(const char *path);
+		Texture(const char *path, List<texture_parameter_t> *params_);
+		~Texture();
 
-  GLenum format;
-  uint32_t bpp;  
+		List<texture_parameter_t> *params;
 
-  uint8_t *data;
-  texture_id id;
-} texture_t;
+		void read_file(const char *path);
+		void load(void);
+		void bind(void);
 
-texture_t *oxygarum_load_texture_from_file(const char *path, group_t *params);
-void oxygarum_load_texture(texture_t *tex, group_t *params);
+		int getWidth(void);
+		int getHeight(void);
+		int getBpp(void);
+		GLenum getFormat(void);
+		GLint getID(void);
+
+	private:
+		unsigned int width;
+		unsigned int height;
+		unsigned int bpp;
+		uint8_t *data;
+		GLenum format;
+		GLint id;
+};
 
 #endif
 

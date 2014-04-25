@@ -1,7 +1,7 @@
 /**
- *  src/core/material/texture.c
+ *  src/core/material/texture.cpp
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -30,9 +30,24 @@
 extern SDL_Window *sdl_window;
 extern SDL_Renderer *sdl_renderer;
 
-texture_t *oxygarum_load_texture_from_file(const char *path, group_t *params) {
-  texture_t *tex = (texture_t*) malloc(sizeof(texture_t));
-  
+Texture::Texture() {
+	params = new List()<texture_parameter_t>;
+}
+
+Texture::Texture(const char *path) {
+	params = new List()<texture_parameter_t>;
+	this->read_file(path);
+}
+
+Texture::Texture(const char *path, List<texture_parameter_t> *params_)
+: params(params_) {
+	this->read_file(path);
+}
+
+Texture::~Texture() {
+}
+
+void Texture::read_file(const char *path) {
   SDL_Surface *surface = IMG_Load(path);
   tex->width = surface->w;
   tex->height = surface->h;
@@ -73,14 +88,15 @@ texture_t *oxygarum_load_texture_from_file(const char *path, group_t *params) {
     }
   }
 
-  oxygarum_load_texture(tex, params);  
-
-  return tex;
 }
 
-void oxygarum_load_texture(texture_t *tex, group_t *params) {
+void Texture::bind(void) {
+	glBindTexture(GL_TEXTURE_2D, tex->id);
+}
+
+void Texture::load(void) {
   glGenTextures(1, &tex->id);
-  glBindTexture(GL_TEXTURE_2D, tex->id);
+  this->bind();
   
   glTexImage2D(GL_TEXTURE_2D, 0, tex->bpp, tex->width, tex->height, 0, tex->format, GL_UNSIGNED_BYTE, tex->data);
   
