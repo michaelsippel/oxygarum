@@ -28,9 +28,9 @@
 Class Camera : Transformation {
 	public:
 		Camera();
-		Camera(Transformation *transform);
-		Camera(Vertex3D *position_);
-		Camera(Vertex3D *position_, Vector3D *rotation_);
+		Camera(Transformation transform);
+		Camera(Vector3D position_);
+		Camera(Vector3D position_, Vector3D rotation_);
 		~Camera();
 
 		float fov;

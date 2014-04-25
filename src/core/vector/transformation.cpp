@@ -1,5 +1,5 @@
 /**
- *  src/core/screen/camera.cpp
+ *  src/core/vector/transformation.cpp
  *
  *  (C) Copyright 2014 Michael Sippel
  *
@@ -21,35 +21,21 @@
  * @author Michael Sippel <michamimosa@gmail.com>
  */
 
-#include "camera.h"
+#include "transformation.h"
 
-/**
- * Default constructor.
- * Creates a Camera class with default values
- */
-Camera::Camera() {
-	this->position = Vector3D();
-	this->position = Vector3D();
+Transformation::setPosition(Vertex3D position_) {
+	this->position = position_;
 }
 
-Camera::Camera(Transformation transform) {
-	this->position = transform.position;
-	this->rotation = transform.rotation;
+Transformation::setRotation(Vector3D rotation_) {
+	this->rotation = rotation_;
 }
 
-Camera::Camera(Vector3D position_)
-: position(position_) {
-	this->rotation = Vector3D();
+Transformation::move(Vector3D position_) {
+	this->position.add(position_);
 }
 
-Camera::Camera(Vectorx3D position_, Vector3D rotation_)
-: position(position_), rotation(_rotation) {
-}
-
-/**
- * Destructor.
- * Deletes a Camera object
- */
-Camera::~Camera() {
+Transformation::rotate(Vector3D rotation_) {
+	this->rotation.add(rotation_);
 }
 

@@ -25,16 +25,15 @@
 /**
  * Class for transforming in 3D-space
  */
-Class Transform {
+Class Transformation {
 	public:
-		Vertex3D *position;
-		Vector3D *rotation;
+		Vector3D position;
+		Vector3D rotation;
 
-		void setPosition(Vertex3D *position_);
-		void setRotation(Vector3D *rotation_);
-		void move(Vector3D *position_);
-		void rotate(Vector3D *rotation_);
-		void transform(Vertex3D *position_, Vector3D *rotation_);
+		void setPosition(Vector3D position_);
+		void setRotation(Vector3D rotation_);
+		void move(Vector3D position_);
+		void rotate(Vector3D rotation_);
 };
 
 #endif
