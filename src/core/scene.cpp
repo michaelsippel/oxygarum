@@ -30,26 +30,25 @@
 #include "light.h"
 
 Scene::Scene() {
-	this->objects3D = new List()<Object3D>;
-	this->objects2D = new List()<Object2D>;
-	this->texts = new List()<Text>;
-	this->particle_emitters = new List()<ParticleEmitter>
-	this->lights = new List()<Light>
+	this->objects3D = new List<Object3D>();
+	this->objects2D = new List<Object2D>();
+	//this->texts = new List<Text>();
+	//this->particle_emitters = new List<ParticleEmitter>();
+	//this->lights = new List<Light>();
 }
 
 Scene::~Scene() {
-	delete this->objects3d;
-	delete this->objects2d;
-	delete this->texts;
-	delete this->particle_emitters;
-	delete this->lights;
+	delete this->objects3D;
+	delete this->objects2D;
+	//delete this->texts;
+	//delete this->particle_emitters;
+	//delete this->lights;
 }
 
 void Scene::render3D(void) {
-  group_entry_t *entry;  
-
-  // update lights
-  entry = scene->lights->head;
+/*
+	// update lights
+	entry = scene->lights->head;
   while(entry != NULL) {
     light_t *light = (light_t*) entry->element;
     if(light == NULL) {
@@ -70,29 +69,31 @@ void Scene::render3D(void) {
     
     entry = entry->next;
   }
-  
-  // render 3D-Objects
-  entry = scene->objects3d->head;
-  while(entry != NULL) {
-    object3d_t *obj = (object3d_t*) entry->element;
-    
-    if(obj == NULL) {
-      continue;
-    }
-    
-    if(obj->status & OBJECT_VISIBLE) {
-      glPushMatrix();
-      glPushAttrib(GL_ENABLE_BIT);
-      
-      oxygarum_render_object3d(obj);
-      
-      glPopAttrib();
-      glPopMatrix();
-    }
-    
-    entry = entry->next;
-  }
+  */
 
+	// render 3D-Objects
+	ListEntry<Object3D> *entry = this->objects3D->getHead();
+
+	while(entry != NULL) {
+		Object3D *obj = entry->element;
+		if(obj == NULL) {
+			continue;
+		}
+
+		if(obj->getStatus() & OBJECT_VISIBLE) {
+			glPushMatrix();
+			glPushAttrib(GL_ENABLE_BIT);
+
+			obj->useTransformation();
+			obj->render();
+
+			glPopAttrib();
+			glPopMatrix();
+		}
+    
+		entry = entry->getNext();
+	}
+/*
   // render particles
   entry = scene->particle_emitters->head;
   while(entry != NULL) {
@@ -107,11 +108,11 @@ void Scene::render3D(void) {
     glPopMatrix();
     
     entry = entry->next;
-  }
+  }*/
 }
 
 void Scene::render2D(void) {
-  group_entry_t *entry;  
+/*  group_entry_t *entry;  
   
   // render 2D-Objects
   entry = scene->objects2d->head;
@@ -143,6 +144,6 @@ void Scene::render2D(void) {
     glPopMatrix();
     
     entry = entry->next;
-  }
+  }*/
 }
 

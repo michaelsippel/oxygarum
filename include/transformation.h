@@ -33,16 +33,29 @@
 class Transformation3D {
 	public:
 		Transformation3D();
-		Transformation3D(Vector3D position, Vector3D rotation);
+		Transformation3D(Vector3D position_, Vector3D rotation_);
+		Transformation3D(Vector3D position_, Vector3D rotation_, float scaling_);
 		~Transformation3D();
 
 		Vector3D position;
 		Vector3D rotation;
+		Vector3D scaling;
 
 		void setPosition(Vector3D position_);
+		void setPosition(float x, float y, float z);
 		void setRotation(Vector3D rotation_);
+		void setRotation(float x, float y, float z);
+		void setScaling(Vector3D scale_);
+		void setScaling(float x, float y, float z);
+
 		void move(Vector3D position_);
+		void move(float x, float y, float z);
 		void rotate(Vector3D rotation_);
+		void rotate(float x, float y, float z);
+		void scale(Vector3D scaling_);
+		void scale(float x, float y, float z);
+
+		void useTransformation(void);
 };
 
 /**
@@ -52,16 +65,27 @@ class Transformation3D {
 class Transformation2D {
 	public:
 		Transformation2D();
-		Transformation2D(Vector2D position, float rotation);
+		Transformation2D(Vector2D position_, float rotation_);
+		Transformation2D(Vector2D position_, float rotation_, float scaling_);
 		~Transformation2D();
 
 		Vector2D position;
 		float rotation;
+		Vector2D scaling;
 
 		void setPosition(Vector2D position_);
+		void setPosition(float x, float y);
 		void setRotation(float rotation_);
+		void setScaling(Vector2D scaling_);
+		void setScaling(float x, float y);
+
 		void move(Vector2D position_);
+		void move(float x, float y);
 		void rotate(float rotation_);
+		void scale(Vector2D scaling_);
+		void scale(float x, float y);
+
+		void useTransformation(void);
 };
 
 #endif
