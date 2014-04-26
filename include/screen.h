@@ -1,7 +1,7 @@
 /**
  *  include/screen.h
  *
- *  (C) Copyright 2013-2014 Michael Sippel
+ *  Copyright (C) 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
 #ifndef _SCREEN_H
 #define _SCREEN_H
 
-#include "vertex.h"
 #include "scene.h"
 #include "camera.h"
 #include "material.h"
@@ -33,7 +32,7 @@
  * @class Viewport
  * @brief Definines the properties of a Screen
  */
-Class Viewport {
+class Viewport {
 	public:
 		Viewport();
 		Viewport(int x_, int y_, int width_, int height_);
@@ -50,7 +49,7 @@ Class Viewport {
  * It sets up the viewport, position and rotation of the camera
  * and the projection-matrices for 2D/3D rendering.
  */
-Class Screen {
+class Screen {
 	public:
 		Screen();
 		Screen(Scene *scene_);

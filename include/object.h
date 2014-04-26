@@ -1,7 +1,7 @@
 /**
  *  include/object.h
  *
- *  (C) Copyright 2012-2014 Michael Sippel
+ *  Copyright (C) 2012-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@
  * @class Object3D
  * @brief blah
  */
-Class Object3D : Transformation3D {
+class Object3D : Transformation3D {
 	public:
 		Object3D();
 		Object3D(Transformation3D transform);
@@ -62,7 +62,7 @@ Class Object3D : Transformation3D {
  * @class Object2D
  * @brief blah
  */
-Class Object2D : Transformation2D {
+class Object2D : Transformation2D {
 	public:
 		Object2D();
 		Object2D(Transformation2D *transform);

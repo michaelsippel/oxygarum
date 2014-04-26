@@ -1,7 +1,7 @@
 /**
  *  include/mesh.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  Copyright (C) 2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,11 +24,11 @@
 #ifndef _MESH_H
 #define _MESH_H
 
-#include "vertex.h"
+#include "vector.h"
 #include "face.h"
 #include "material.h"
 
-Class RenderInstance {
+class RenderInstance {
 	public:
 		RenderInstance();
 		RenderInstance(Mesh3D *mesh_);
@@ -51,7 +51,7 @@ Class RenderInstance {
 		Vector2D *texcoords;
 };
 
-Class Mesh3D {
+class Mesh3D {
 	friend class RenderInstance;
 
 	public:
@@ -78,7 +78,7 @@ Class Mesh3D {
 		Face **faces;
 };
 
-Class Mesh2D {
+class Mesh2D {
 	public:
 		Mesh2D();
 		Mesh2D(int num_vertices_, Vector2D *vertices_);

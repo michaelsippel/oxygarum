@@ -1,7 +1,7 @@
 /**
  *  include/physics.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  Copyright (C) 2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,12 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _PHYSICS_H
 #define _PHYSICS_H
 
 #include "scene.h"
 #include "vector.h"
-#include "group.h"
+#include "list.h"
 
 #define FORCE_FIELD_TYPE_VECTOR 0x0
 #define FORCE_FIELD_TYPE_VERTEX 0x1

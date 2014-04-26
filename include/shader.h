@@ -1,7 +1,7 @@
 /**
  *  include/shader.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  Copyright (C) 2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,12 +16,17 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _SHADER_H
 #define _SHADER_H
 
 #include <GL/gl.h>
 
-#include "group.h"
+#include "list.h"
 
 typedef struct shader_input {
   GLint location;

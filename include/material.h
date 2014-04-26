@@ -1,7 +1,7 @@
 /**
  *  include/material.h
  *
- *  (C) Copyright 2013-2014 Michael Sippel
+ *  Copyright (C) 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
-#include "group.h"
+#include "list.h"
 #include "texture.h"
 #include "shader.h"
 
@@ -50,7 +50,7 @@ typedef struct mapped_texture {
   GLint mapping;
 } mapped_texture_t;
 
-Class Material {
+class Material {
 	public:
 		Material();
 		~Material();

@@ -1,7 +1,7 @@
 /**
  *  include/transformation.h
  *
- *  (C) Copyright 2014 Michael Sippel
+ *  Copyright (C) 2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 /**
  * Class for transforming in 3D-space
  */
-Class Transformation3D {
+class Transformation3D {
 	public:
 		Transformation3D();
 		Transformation3D(Vector3D position, Vector3D rotation);
@@ -47,7 +47,7 @@ Class Transformation3D {
 /**
  * Class for transforming in 2D-space
  */
-Class Transformation2D {
+class Transformation2D {
 	public:
 		Transformation2D();
 		Transformation2D(Vector2D position, float rotation);

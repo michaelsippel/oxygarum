@@ -1,7 +1,7 @@
 /**
  *  include/font.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  Copyright (C) 2013 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,10 +16,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _FONT_H
 #define _FONT_H
 
-#include "vertex.h"
+#include "vector.h"
 #include "texture.h"
 #include "material.h"
 

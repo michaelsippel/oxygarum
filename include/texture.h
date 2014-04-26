@@ -1,7 +1,7 @@
 /**
  *  include/texture.h
  *
- *  (C) Copyright 2013-2014 Michael Sippel
+ *  Copyright (C) 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #include <stdint.h>
 #include <GL/gl.h>
 
-#include "group.h"
+#include "list.h"
 
 /**
  * @struct texture_parameter
@@ -44,7 +44,7 @@ typedef struct texture_parameter {
  * @class Texture
  * @brief Texture class
  */
-Class Texture {
+class Texture {
 	public:
 		Texture();
 		Texture(const char *path);

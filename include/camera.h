@@ -16,6 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
@@ -25,7 +30,7 @@
  * Camera Class.
  * Defines the Location and Rotation of View
  */
-Class Camera : Transformation3D {
+class Camera : Transformation3D {
 	public:
 		Camera();
 		Camera(Transformation3D transform);

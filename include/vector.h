@@ -1,7 +1,7 @@
 /**
  *  include/vector.h
  *
- *  (C) Copyright 2014 Michael Sippel
+ *  Copyright (C) 2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,13 +17,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
 /**
  * Vector class.
  */
-Class Vector3D {
+class Vector3D {
 	public:
 		Vector3D();
 		Vector3D(Vector3D o, Vector3D p);
@@ -41,7 +45,7 @@ Class Vector3D {
 		void dot(Vector3D v1, Vector3D v2);
 }
 
-Class Vector2D {
+class Vector2D {
 	public:
 		Vector2D();
 		Vector2D(Vector2D o, Vector2D p);

@@ -1,7 +1,7 @@
 /**
  *  src/core/screen/viewport.cpp
  *
- *  (C) Copyright 2014 Michael Sippel
+ *  Copyright (C) 2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

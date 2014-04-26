@@ -1,7 +1,7 @@
 /**
  *  include/scene.h
  *
- *  (C) Copyright 2013-2014 Michael Sippel
+ *  Copyright (C) 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,12 +29,12 @@
 #include "physics.h"
 #include "light.h"
 #include "font.h"
-#include "group.h"
+#include "list.h"
 
 /**
  * Class for a set of objects
  */
-Class Scene {
+class Scene {
 	public:
 		Scene();
 		~Scene();
