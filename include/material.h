@@ -31,20 +31,18 @@
 #include "texture.h"
 #include "shader.h"
 
-typedef struct color_st {
-  float r;
-  float g;
-  float b;
-  float a;
-} color_st_t;
+class Color {
+	public:
+		Color();
+		Color(float r_, float g_, float b_);
+		Color(float r_, float g_, float b_, float a_);
+		~Color();
 
-typedef union color {
-  color_st_t rgb;
-  float color[4];
-} color_t;
+		float r,g,b,a;
+};
 
 typedef struct mapped_texture {
-  texture_t *texture;
+  Texture *texture;
   
   GLint location;
   GLint mapping;
@@ -55,7 +53,7 @@ class Material {
 		Material();
 		~Material();
 
-		List<MappedTexture> *textures;
+		List<mapped_texture_t> *textures;
 
 		Color color;
 		float roughness;
@@ -71,6 +69,7 @@ class Material {
 		GLuint shade_program;
 
 		void update_values(void);
+		GLint map_texture(Texture *tex, char *name);
 		void use(void);
 };
 

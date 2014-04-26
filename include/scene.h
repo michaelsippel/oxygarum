@@ -32,7 +32,8 @@
 #include "list.h"
 
 /**
- * Class for a set of objects
+ * @class Scene
+ * @brief Class for a set of objects
  */
 class Scene {
 	public:
@@ -41,15 +42,15 @@ class Scene {
 
 		List<Object3D> *objects3D;
 		List<Object2D> *objects2D;
-		List<Text> *texts;
-		List<ParticleEmitter> *particle_emitters;
-		List<Light> *lights;
+		//List<Text> *texts;
+		//List<ParticleEmitter> *particle_emitters;
+		//List<Light> *lights;
 
-		ListEntry *addObject3D(Object3D *object);
-		ListEntry *addObject2D(Object3D *object);
-		ListEntry *addText(Text *text);
-		ListEntry *addParticleEmitter(ParticleEmitter *emitter);
-		ListEntry *addLight(Light *light);
+		ListEntry<Object3D> *addObject3D(Object3D *object);
+		ListEntry<Object2D> *addObject2D(Object3D *object);
+		//ListEntry *addText(Text *text);
+		//ListEntry *addParticleEmitter(ParticleEmitter *emitter);
+		//ListEntry *addLight(Light *light);
 
 		void render3D(void);
 		void render2D(void);

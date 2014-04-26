@@ -54,13 +54,13 @@ class Screen {
 		Screen();
 		Screen(Scene *scene_);
 		Screen(Scene *scene_, Camera *camera_);
-		Screen(Scene *scene_, Camera *camera_, Viewport *viewport_);
+		Screen(Scene *scene_, Camera *camera_, Viewport viewport_);
 		~Screen();
 
 		Scene *scene;
 		Camera *camera;
-		Viewport *viewport;
-		Color *background;
+		Color background;
+		Viewport viewport;
 
 		void render(void);
 };

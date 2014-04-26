@@ -31,11 +31,11 @@ extern SDL_Window *sdl_window;
 extern SDL_Renderer *sdl_renderer;
 
 Texture::Texture() {
-	params = new List()<texture_parameter_t>;
+	params = new List<texture_parameter_t>();
 }
 
 Texture::Texture(const char *path) {
-	params = new List()<texture_parameter_t>;
+	params = new List<texture_parameter_t>();
 	this->read_file(path);
 }
 
@@ -48,57 +48,56 @@ Texture::~Texture() {
 }
 
 void Texture::read_file(const char *path) {
-  SDL_Surface *surface = IMG_Load(path);
-  tex->width = surface->w;
-  tex->height = surface->h;
-  tex->data = surface->pixels;
+	SDL_Surface *surface = IMG_Load(path);
+	this->width = surface->w;
+	this->height = surface->h;
+	this->data = surface->pixels;
 
-  tex->bpp = surface->format->BytesPerPixel;
-  int mask       = surface->format->Rmask;
+	this->bpp = surface->format->BytesPerPixel;
+	int mask  = surface->format->Rmask;
 
-  switch(tex->bpp) {
-    case 3:
-      if (mask == 0x000000ff){
-        tex->format = GL_RGB;
-      } else {
-        tex->format = GL_BGR;
-      }
-      break;
-    case 4:
-      if (mask == 0x000000ff){
-        tex->format = GL_RGBA;
-      } else {
-        tex->format = GL_BGRA;
-      }
-      break;
-    default: 
-      return NULL;
-  }
+	switch(tex->bpp) {
+		case 3:
+			if (mask == 0x000000ff){
+				tex->format = GL_RGB;
+			} else {
+				tex->format = GL_BGR;
+			}
+			break;
+		case 4:
+			if (mask == 0x000000ff){
+				tex->format = GL_RGBA;
+			} else {
+				tex->format = GL_BGRA;
+			}
+			break;
+			default: 
+				return NULL;
+	}
 
-  // flip image
-  int i,j,k;
-  uint8_t tmp;
-  #define SWAP(a,b) {tmp = a; a = b; b = tmp;}
-  for(i = 0 ; i < (tex->height / 2); i++) {
-    for(j = 0 ; j < tex->width * tex->bpp; j += tex->bpp) {
-      for(k = 0; k < tex->bpp; k++) {
-        SWAP(tex->data[(i * tex->width * tex->bpp) + j + k],
-        tex->data[((tex->height - i - 1) * tex->width * tex->bpp) + j + k]);
-      }
-    }
-  }
-
+	// flip image
+	int i,j,k;
+	uint8_t tmp;
+	#define SWAP(a,b) {tmp = a; a = b; b = tmp;}
+	for(i = 0 ; i < (this->height / 2); i++) {
+		for(j = 0 ; j < this->width * this->bpp; j += this->bpp) {
+			for(k = 0; k < this->bpp; k++) {
+				SWAP(this->data[(i * this->width * this->bpp) + j + k],
+				this->data[((this->height - i - 1) * this->width * this->bpp) + j + k]);
+			}
+		}
+	}
 }
 
 void Texture::bind(void) {
-	glBindTexture(GL_TEXTURE_2D, tex->id);
+	glBindTexture(GL_TEXTURE_2D, this->id);
 }
 
 void Texture::load(void) {
-  glGenTextures(1, &tex->id);
+  glGenTextures(1, &this->id);
   this->bind();
   
-  glTexImage2D(GL_TEXTURE_2D, 0, tex->bpp, tex->width, tex->height, 0, tex->format, GL_UNSIGNED_BYTE, tex->data);
+  glTexImage2D(GL_TEXTURE_2D, 0, this->bpp, this->width, this->height, 0, this->format, GL_UNSIGNED_BYTE, this->data);
   
   if(params != NULL) {
     group_entry_t *entry = params->head;

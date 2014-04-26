@@ -23,7 +23,7 @@
 
 #ifndef _PHYSICS_H
 #define _PHYSICS_H
-
+/*
 #include "scene.h"
 #include "vector.h"
 #include "list.h"
@@ -61,6 +61,6 @@ void oxygarum_remove_force_field(physics_t *physics, int id);
 void oxygarum_calc_acceleration(physics_t *physics, physics_properties_t *properties, float anim_speed);
 void oxygarum_calc_softbody(physics_t *physics, physics_properties_t *properties, float anim_speed);
 void oxygarum_update_physics(struct scene *scene, float frametime);
-
+*/
 #endif
 

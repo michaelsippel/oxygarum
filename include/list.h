@@ -25,6 +25,27 @@
 #define _LIST_H
 
 /**
+ * @class ListEntry
+ */
+template <typename T>
+class ListEntry {
+	friend class List;
+
+	public:
+		ListEntry();
+		ListEntry(T *element_);
+		ListEntry(T *element_, char *name_);
+		~ListEntry();
+
+		T *element;
+		char name[256];
+
+	private:
+		ListEntry<T> *prev;
+		ListEntry<T> *next;
+};
+
+/**
  * @class List
  */
 template <typename T>
@@ -46,27 +67,6 @@ class List {
 		ListEntry<T> *head;
 		ListEntry<T> *current;
 		int size;
-};
-
-/**
- * @class ListEntry
- */
-template <typename T>
-class ListEntry {
-	friend class List;
-
-	public:
-		ListEntry();
-		ListEntry(T *element_);
-		ListEntry(T *element_, char *name_);
-		~ListEntry();
-
-		T *element;
-		char name[256];
-
-	private:
-		ListEntry<T> *prev;
-		ListEntry<T> *next;
 };
 
 #endif

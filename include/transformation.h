@@ -27,7 +27,8 @@
 #include "vector.h"
 
 /**
- * Class for transforming in 3D-space
+ * @class Transformation3D
+ * @brief Class for transforming in 3D-space
  */
 class Transformation3D {
 	public:
@@ -45,13 +46,14 @@ class Transformation3D {
 };
 
 /**
- * Class for transforming in 2D-space
+ * @class Transformation2D
+ * @brief Class for transforming in 2D-space
  */
 class Transformation2D {
 	public:
 		Transformation2D();
 		Transformation2D(Vector2D position, float rotation);
-		~Transformation();
+		~Transformation2D();
 
 		Vector2D position;
 		float rotation;

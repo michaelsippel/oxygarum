@@ -1,7 +1,7 @@
 /**
  *  include/camera.h
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,10 +27,12 @@
 #include "transformation.h"
 
 /**
- * Camera Class.
+ * @class Camera
+ * @brief Camera Class.
+ *
  * Defines the Location and Rotation of View
  */
-class Camera : Transformation3D {
+class Camera : public Transformation3D {
 	public:
 		Camera();
 		Camera(Transformation3D transform);

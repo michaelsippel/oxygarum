@@ -23,7 +23,7 @@
 
 #ifndef _LIGHT_H
 #define _LIGHT_H
-
+/*
 #include <GL/gl.h>
 #include "vector.h"
 
@@ -38,6 +38,6 @@ typedef struct light {
 } light_t;
 
 light_t *oxygarum_create_light(void);
-
+*/
 #endif
 

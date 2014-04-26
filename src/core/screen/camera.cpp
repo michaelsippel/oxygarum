@@ -29,7 +29,7 @@
  */
 Camera::Camera() {
 	this->position = Vector3D();
-	this->position = Vector3D();
+	this->rotation = Vector3D();
 }
 
 Camera::Camera(Transformation3D transform) {
@@ -37,13 +37,14 @@ Camera::Camera(Transformation3D transform) {
 	this->rotation = transform.rotation;
 }
 
-Camera::Camera(Vector3D position_)
-: position(position_) {
+Camera::Camera(Vector3D position_) {
+	this->position = position_;
 	this->rotation = Vector3D();
 }
 
-Camera::Camera(Vector3D position_, Vector3D rotation_)
-: position(position_), rotation(_rotation) {
+Camera::Camera(Vector3D position_, Vector3D rotation_) {
+	this->position = position_;
+	this->rotation = rotation_;
 }
 
 /**

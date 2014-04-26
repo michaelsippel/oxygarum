@@ -28,6 +28,8 @@
 #include "face.h"
 #include "material.h"
 
+class Mesh3D;
+
 class RenderInstance {
 	public:
 		RenderInstance();

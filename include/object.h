@@ -25,6 +25,7 @@
 #define _OBJECT_H
 
 #include "vector.h"
+#include "transformation.h"
 #include "mesh.h"
 #include "material.h"
 
@@ -37,13 +38,13 @@
  * @class Object3D
  * @brief blah
  */
-class Object3D : Transformation3D {
+class Object3D : public Transformation3D {
 	public:
 		Object3D();
 		Object3D(Transformation3D transform);
 		Object3D(Vector3D position_);
 		Object3D(Vector3D position_, Vector3D rotation_);
-		~Object();
+		~Object3D();
 
 		Mesh3D *mesh;
 		Material *material;
@@ -62,7 +63,7 @@ class Object3D : Transformation3D {
  * @class Object2D
  * @brief blah
  */
-class Object2D : Transformation2D {
+class Object2D : public Transformation2D {
 	public:
 		Object2D();
 		Object2D(Transformation2D *transform);

@@ -36,26 +36,26 @@ extern SDL_Renderer *sdl_renderer;
 Screen::Screen() {
 	this->scene = new Scene();
 	this->camera = new Camera();
-	this->viewport = new Viewport(0, 0, 800, 600);
-	this->background = new Color(0.1f, 0.1f, 0.1f, 1.0f);
+	this->viewport = Viewport(0, 0, 800, 600);
+	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
 Screen::Screen(Scene *scene_)
 : scene(scene_) {
 	this->camera = new Camera();
-	this->viewport = new Viewport(0, 0, 800, 600);
-	this->background = new Color(0.1f, 0.1f, 0.1f, 1.0f);
+	this->viewport = Viewport(0, 0, 800, 600);
+	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
 Screen::Screen(Scene *scene_, Camera *camera_)
 : scene(scene_), camera(camera_) {
-	this->viewport = new Viewport(0, 0, 800, 600);
-	this->background = new Color(0.1f, 0.1f, 0.1f, 1.0f);
+	this->viewport = Viewport(0, 0, 800, 600);
+	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
-Screen::Screen(Scene *scene_, Camera *camera_, Viewport *viewport_)
+Screen::Screen(Scene *scene_, Camera *camera_, Viewport viewport_)
 : scene(scene_), camera(camera_), viewport(viewport_) {
-	this->background = new Color(0.1f, 0.1f, 0.1f, 1.0f);
+	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
 /*
@@ -72,25 +72,22 @@ void Screen::render(void) {
 	glViewport(this->viewport.x, this->viewport.y, this->viewport.width, this->viewport.height);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(this->background.rgb.r, this->background.rgb.g, this->background.rgb.b, this->background.rgb.a);
+	glClearColor(this->background.r, this->background.g, this->background.b, this->background.a);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluPerspective(this->camera->getFov(), (GLfloat)this->viewport.width/(GLfloat)this->viewport.height, 1.0f, 1000.0f);
+	gluPerspective(this->camera->fov, (GLfloat)this->viewport.width/(GLfloat)this->viewport.height, 1.0f, 1000.0f);
 
-	vertex3d_t cpos = this->camera->getPosition();
-	vertex3d_t crot = this->camera->getRotation();
+	glRotatef(this->camera->rotation.x, 1.0f,0.0f,0.0f);
+	glRotatef(this->camera->rotation.y, 0.0f,1.0f,0.0f);
+	glRotatef(this->camera->rotation.z, 0.0f,0.0f,1.0f);
+	glTranslatef(this->camera->position.x, this->camera->position.y, this->camera->position.z);
 
-	glRotatef(crot.x, 1.0f,0.0f,0.0f);
-	glRotatef(crot.y, 0.0f,1.0f,0.0f);
-	glRotatef(crot.z, 0.0f,0.0f,1.0f);
-	glTranslatef(cpos.x, cpos.y, cpos.z);
-
-	this->scene->render3d();
+	this->scene->render3D();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glOrtho(0, screen->viewport.width, 0, screen->viewport.height, -1, 1);
+	glOrtho(0, this->viewport.width, 0, this->viewport.height, -1, 1);
 
 	glUseProgram(0);
 	glPushAttrib(GL_ENABLE_BIT);
@@ -100,7 +97,7 @@ void Screen::render(void) {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		oxygarum_render_scene_2d(screen->scene);
+		this->scene->render2D();
 	glPopAttrib();
 
 	glFlush();

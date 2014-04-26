@@ -23,7 +23,7 @@
 
 #ifndef _PARTICLE_H
 #define _PARTICLE_H
-
+/*
 #include "vector.h"
 #include "material.h"
 
@@ -61,6 +61,6 @@ void oxygarum_init_particle_shader(void);
 
 void oxygarum_render_particle_system(particle_emitter_t *emitter);
 void oxygarum_update_particle_system(particle_emitter_t *emitter, float frametime);
-
+*/
 #endif
 

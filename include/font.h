@@ -23,7 +23,7 @@
 
 #ifndef _FONT_H
 #define _FONT_H
-
+/*
 #include "vector.h"
 #include "texture.h"
 #include "material.h"
@@ -49,6 +49,6 @@ typedef struct text {
 font_t *oxygarum_create_font(texture_t *texture, int w, int h, char start, float space);
 text_t *oxygarum_create_text(char *string, font_t *font, float x, float y);
 void oxygarum_render_text(text_t *text);
-
+*/
 #endif
 

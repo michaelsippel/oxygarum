@@ -28,7 +28,8 @@
 #include "mesh.h"
 
 class Face {
-	friend class Mesh3D, Mesh2D;
+	friend class Mesh3D;
+	friend class Mesh2D;
 
 	public:
 		Face();

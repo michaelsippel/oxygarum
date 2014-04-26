@@ -43,7 +43,7 @@ class Vector3D {
 		float scalar(Vector3D v);
 		void dot(Vector3D v);
 		void dot(Vector3D v1, Vector3D v2);
-}
+};
 
 class Vector2D {
 	public:
@@ -61,7 +61,7 @@ class Vector2D {
 		float scalar(Vector2D v);
 		void dot(Vector2D v);
 		void dot(Vector2D v1, Vector2D v2);
-}
+};
 
 #endif
 
