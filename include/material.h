@@ -39,13 +39,15 @@ class Color {
 		~Color();
 
 		float r,g,b,a;
+
+		void use(void);
 };
 
 typedef struct mapped_texture {
-  Texture *texture;
-  
-  GLint location;
-  GLint mapping;
+	Texture *texture;
+
+	GLint location;
+	GLint mapping;
 } mapped_texture_t;
 
 class Material {
@@ -53,7 +55,7 @@ class Material {
 		Material();
 		~Material();
 
-		List<mapped_texture_t> *textures;
+		List<mapped_texture> *textures;
 
 		Color color;
 		float roughness;

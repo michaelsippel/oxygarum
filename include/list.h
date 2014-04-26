@@ -24,29 +24,12 @@
 #ifndef _LIST_H
 #define _LIST_H
 
-/**
- * @class ListEntry
- */
 template <typename T>
-class ListEntry {
-	friend class List;
-
-	public:
-		ListEntry();
-		ListEntry(T *element_);
-		ListEntry(T *element_, char *name_);
-		~ListEntry();
-
-		T *element;
-		char name[256];
-
-	private:
-		ListEntry<T> *prev;
-		ListEntry<T> *next;
-};
+class ListEntry;
 
 /**
  * @class List
+ * @brief Class for a fast implementation of a doubly-linked list
  */
 template <typename T>
 class List {
@@ -61,6 +44,8 @@ class List {
 		void join(List<T> *list);
 
 		ListEntry<T> *getEntry(char *name);
+		ListEntry<T> *getHead();
+		ListEntry<T> *getCurrent();
 		int getSize(void);
 
 	private:
@@ -68,6 +53,33 @@ class List {
 		ListEntry<T> *current;
 		int size;
 };
+
+/**
+ * @class ListEntry
+ * @brief Entry of a List
+ */
+template <typename T>
+class ListEntry {
+	friend class List<T>;
+
+	public:
+		ListEntry();
+		ListEntry(T *element_);
+		ListEntry(T *element_, char *name_);
+		~ListEntry();
+
+		T *element;
+		char name[256];
+
+		ListEntry<T> *getPrev(void);
+		ListEntry<T> *getNext(void);
+
+	private:
+		ListEntry<T> *prev;
+		ListEntry<T> *next;
+};
+
+#include "list_impl.h"
 
 #endif
 

@@ -29,19 +29,13 @@
 #include "shader.h"
 
 Material::Material() {
-	this->textures = new List()<MappedTexture>;
+	this->textures = new List<mapped_texture>();
 
 	this->color = Color();
-	material->color.rgb.r = 1.0f;
-	material->color.rgb.b = 1.0f;
-	material->color.rgb.g = 1.0f;
-	material->color.rgb.a = 1.0f;
-
-	material->roughness = 0.8f;
-	material->emission = 0.0f;
-	material->refractivity = 0.5f;
-
-	material->shade_program = 0;
+	this->roughness = 0.8f;
+	this->emission = 0.0f;
+	this->refractivity = 0.5f;
+	this->shade_program = 0;
 	this->update_values();
 }
 
@@ -49,60 +43,60 @@ Material::~Material() {
 }
 
 void Material::update_values() {
-  // ambient
-  this->gl_ambient[0] = (GLfloat) 1.0f;
-  this->gl_ambient[1] = (GLfloat) 1.0f;
-  this->gl_ambient[2] = (GLfloat) 1.0f;
-  this->gl_ambient[3] = (GLfloat) 1.0f;
+	// ambient
+	this->gl_ambient[0] = (GLfloat) 1.0f;
+	this->gl_ambient[1] = (GLfloat) 1.0f;
+	this->gl_ambient[2] = (GLfloat) 1.0f;
+	this->gl_ambient[3] = (GLfloat) 1.0f;
+ 
+	// diffuse
+	this->gl_diffuse[0] = (GLfloat) this->roughness;
+	this->gl_diffuse[1] = (GLfloat) this->roughness;
+	this->gl_diffuse[2] = (GLfloat) this->roughness;
+	this->gl_diffuse[3] = (GLfloat) 1.0f;
+
+	// specular
+	this->gl_specular[0] = (GLfloat) 1.0f - this->roughness;
+	this->gl_specular[1] = (GLfloat) 1.0f - this->roughness;
+	this->gl_specular[2] = (GLfloat) 1.0f - this->roughness;
+	this->gl_specular[3] = (GLfloat) 1.0f;
   
-  // diffuse
-  this->gl_diffuse[0] = (GLfloat) this->roughness;
-  this->gl_diffuse[1] = (GLfloat) this->roughness;
-  this->gl_diffuse[2] = (GLfloat) this->roughness;
-  this->gl_diffuse[3] = (GLfloat) 1.0f;
-  
-  // specular
-  this->gl_specular[0] = (GLfloat) 1.0f - this->roughness;
-  this->gl_specular[1] = (GLfloat) 1.0f - this->roughness;
-  this->gl_specular[2] = (GLfloat) 1.0f - this->roughness;
-  this->gl_specular[3] = (GLfloat) 1.0f;
-  
-  // emission
-  this->gl_emission[0] = (GLfloat) this->emission;
-  this->gl_emission[1] = (GLfloat) this->emission;
-  this->gl_emission[2] = (GLfloat) this->emission;
-  this->gl_emission[3] = (GLfloat) 1.0;
-  
-  // shininess
-  this->gl_shininess[0] = (GLfloat) this->refractivity;
+	// emission
+	this->gl_emission[0] = (GLfloat) this->emission;
+	this->gl_emission[1] = (GLfloat) this->emission;
+	this->gl_emission[2] = (GLfloat) this->emission;
+	this->gl_emission[3] = (GLfloat) 1.0;
+
+	// shininess
+	this->gl_shininess[0] = (GLfloat) this->refractivity;
 }
 
 void Material::use(void) {
-    glUseProgram(material->shade_program);
+	glUseProgram(this->shade_program);
 
-    group_entry_t *entry = material->textures->head;
-    int i = 0;
-    while(entry != NULL) {
-      mapped_texture_t *mapped_tex = (mapped_texture_t*) entry->element;
-      glActiveTexture(GL_TEXTURE0 + mapped_tex->mapping);
-      
-      glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, mapped_tex->texture->id);
-      glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	ListEntry<mapped_texture> *entry = this->textures->getHead();
+	int i = 0;
+	while(entry != NULL) {
+		mapped_texture_t *mapped_tex = entry->element;
+		glActiveTexture(GL_TEXTURE0 + mapped_tex->mapping);
 
-      if(material->shade_program != 0) {
-        glUniform1i(mapped_tex->location, mapped_tex->mapping);
-      }
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, mapped_tex->texture->getID());
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-      entry = entry->next;
-      i++;
-    }
-    
-    glColor4fv((GLfloat*) &material->color.color);
-    glMaterialfv(GL_FRONT, GL_AMBIENT, (GLfloat*) &material->gl_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, (GLfloat*) &material->gl_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, (GLfloat*) &material->gl_specular);
-    glMaterialfv(GL_FRONT, GL_EMISSION, (GLfloat*) &material->gl_emission);
-    glMaterialfv(GL_FRONT, GL_SHININESS, (GLfloat*) &material->gl_shininess);
+		if(this->shade_program != 0) {
+			glUniform1i(mapped_tex->location, mapped_tex->mapping);
+		}
+
+		entry = entry->getNext();
+		i++;
+	}
+
+	this->color.use();
+	glMaterialfv(GL_FRONT, GL_AMBIENT, (GLfloat*) &this->gl_ambient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, (GLfloat*) &this->gl_diffuse);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, (GLfloat*) &this->gl_specular);
+	glMaterialfv(GL_FRONT, GL_EMISSION, (GLfloat*) &this->gl_emission);
+	glMaterialfv(GL_FRONT, GL_SHININESS, (GLfloat*) &this->gl_shininess);
 }
 

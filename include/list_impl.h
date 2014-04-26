@@ -1,5 +1,5 @@
 /**
- *  src/core/list.cpp
+ *  include/list_impl.h
  *
  *  Copyright (C) 2014 Michael Sippel
  *
@@ -26,15 +26,18 @@
 
 #include "list.h"
 
-List::List() {
+template <typename T>
+List<T>::List() {
 	this->head = NULL;
 	this->current = NULL;
 }
 
-List::~List() {
+template <typename T>
+List<T>::~List() {
 }
 
-void List::add(ListEntry<T> *entry) {
+template <typename T>
+void List<T>::add(ListEntry<T> *entry) {
 	entry->next = NULL;
 	entry->prev = this->current;
 
@@ -42,28 +45,31 @@ void List::add(ListEntry<T> *entry) {
 		this->current->next = entry;
 	}
 	this->current = entry;
-	if(group->head == NULL) {
-		group->head = entry;
+	if(this->head == NULL) {
+		this->head = entry;
 	}
 
 	this->size++;
 }
 
-void List::add(T *element) {
-	ListEntry<T> *entry = new ListEntry(element)<T>;
+template <typename T>
+ListEntry<T> *List<T>::add(T *element) {
+	ListEntry<T> *entry = new ListEntry<T>(element);
 	this->add(entry);
 
 	return entry;
 }
 
-void List::add(T *element, char *name) {
-	ListEntry<T> *entry = new ListEntry(element, name)<T>;
+template <typename T>
+ListEntry<T> *List<T>::add(T *element, char *name) {
+	ListEntry<T> *entry = new ListEntry<T>(element, name);
 	this->add(entry);
 
 	return entry;
 }
 
-void List::remove(ListEntry<T> *entry) {
+template <typename T>
+void List<T>::remove(ListEntry<T> *entry) {
 	if(entry->prev != NULL) {
 		entry->prev->next = entry->next;
 	} else {
@@ -77,7 +83,8 @@ void List::remove(ListEntry<T> *entry) {
 	}	
 }
 
-void List::join(List<T> *list) {
+template <typename T>
+void List<T>::join(List<T> *list) {
 	if(list != NULL) {
 		if(this->head == NULL) {
 			this->head = list->head;
@@ -94,10 +101,11 @@ void List::join(List<T> *list) {
 	}
 }
 
-ListEntry<T> *List::get_entry(char *name) {
-	ListEntry *entry = this->head;
+template <typename T>
+ListEntry<T> *List<T>::getEntry(char *name_) {
+	ListEntry<T> *entry = this->head;
 	while(entry != NULL) {
-		if(strcmp(entry->name, name) == 0) {
+		if(strcmp(entry->name, name_) == 0) {
 			return entry;
 		}
 		entry = entry->next;
@@ -106,27 +114,51 @@ ListEntry<T> *List::get_entry(char *name) {
 	return NULL;
 }
 
-ListEntry::ListEntry() {
+template <typename T>
+ListEntry<T> *List<T>::getHead(void) {
+	return this->head;
+}
+
+template <typename T>
+ListEntry<T> *List<T>::getCurrent(void) {
+	return this->current;
+}
+
+template <typename T>
+ListEntry<T>::ListEntry() {
 	this->element = NULL;
 	strcpy(this->name, "");
 	this->prev = NULL;
 	this->next = NULL;
 }
 
-ListEntry::ListEntry(T *element_)
+template <typename T>
+ListEntry<T>::ListEntry(T *element_)
 : element(element_) {
 	strcpy(this->name, "");
 	this->prev = NULL;
 	this->next = NULL;
 }
 
-ListEntry::ListEntry(T *element_, char *name_)
+template <typename T>
+ListEntry<T>::ListEntry(T *element_, char *name_)
 : element(element_) {
 	strcpy(this->name, name_);
 	this->prev = NULL;
 	this->next = NULL;
 }
 
-ListEntry::~ListEntry() {
+template <typename T>
+ListEntry<T>::~ListEntry() {
+}
+
+template <typename T>
+ListEntry<T> *ListEntry<T>::getPrev(void) {
+	return this->prev;
+}
+
+template <typename T>
+ListEntry<T> *ListEntry<T>::getNext(void) {
+	return this->next;
 }
 

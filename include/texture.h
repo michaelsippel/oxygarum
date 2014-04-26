@@ -48,10 +48,10 @@ class Texture {
 	public:
 		Texture();
 		Texture(const char *path);
-		Texture(const char *path, List<texture_parameter_t> *params_);
+		Texture(const char *path, List<texture_parameter> *params_);
 		~Texture();
 
-		List<texture_parameter_t> *params;
+		List<texture_parameter> *params;
 
 		void read_file(const char *path);
 		void load(void);
@@ -69,7 +69,7 @@ class Texture {
 		unsigned int bpp;
 		uint8_t *data;
 		GLenum format;
-		GLint id;
+		GLuint id;
 };
 
 #endif
