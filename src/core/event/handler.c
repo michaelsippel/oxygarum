@@ -20,7 +20,7 @@
 #include <stddef.h>
 #include <SDL2/SDL.h>
 
-void oxygarum_handle_sdl_event(SDL_Event *event) {  
+void oxygarum_handle_sdl_event(SDL_Event *event) {
   switch(event->type) {
     case SDL_KEYDOWN:
       oxygarum_handle_keyboard_event(event->key.keysym.sym);
