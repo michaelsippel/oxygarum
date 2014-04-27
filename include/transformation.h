@@ -42,18 +42,14 @@ class Transformation3D {
 		Vector3D scaling;
 
 		void setPosition(Vector3D position_);
-		void setPosition(float x, float y, float z);
 		void setRotation(Vector3D rotation_);
-		void setRotation(float x, float y, float z);
 		void setScaling(Vector3D scale_);
-		void setScaling(float x, float y, float z);
+		void setScaling(float x_);
 
 		void move(Vector3D position_);
-		void move(float x, float y, float z);
 		void rotate(Vector3D rotation_);
-		void rotate(float x, float y, float z);
 		void scale(Vector3D scaling_);
-		void scale(float x, float y, float z);
+		void scale(float x_);
 
 		void useTransformation(void);
 };
@@ -74,16 +70,14 @@ class Transformation2D {
 		Vector2D scaling;
 
 		void setPosition(Vector2D position_);
-		void setPosition(float x, float y);
 		void setRotation(float rotation_);
 		void setScaling(Vector2D scaling_);
-		void setScaling(float x, float y);
+		void setScaling(float x_);
 
 		void move(Vector2D position_);
-		void move(float x, float y);
 		void rotate(float rotation_);
 		void scale(Vector2D scaling_);
-		void scale(float x, float y);
+		void scale(float x_);
 
 		void useTransformation(void);
 };

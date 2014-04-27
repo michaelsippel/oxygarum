@@ -45,48 +45,32 @@ void Transformation3D::setPosition(Vertex3D position_) {
 	this->position = position_;
 }
 
-void Transformation3D::setPosition(float x, float y, float z) {
-	this->position = Vector3D(x, y, z);
-}
-
 void Transformation3D::setRotation(Vector3D rotation_) {
 	this->rotation = rotation_;
-}
-
-void Transformation3D::setRotation(float x, float y, float z) {
-	this->rotation = Vector3D(x, y, z);
 }
 
 void Transformation3D::setScaling(Vector3D scaling_) {
 	this->scaling = scaling_;
 }
 
-void Transformation3D::setScaling(float x, float y, float z) {
-	this->scaling = Vector3D(x, y, z);
+void Transformation3D::setScaling(float x_) {
+	this->scaling = Vector3D(x_, x_, x_);
 }
 
 void Transformation3D::move(Vector3D position_) {
 	this->position.add(position_);
 }
 
-void Transformation3D::move(float x, float y, float z) {
-	this->position.add(Vector3D(x, y, z));
-}
-
 void Transformation3D::rotate(Vector3D rotation_) {
 	this->rotation.add(rotation_);
-}
-
-void Transformation3D::rotate(float x, float y, float z) {
-	this->rotation.add(Vector3D(x, y, z));
 }
 
 void Transformation3D::scale(Vector3D scaling_) {
 	this->scaling.add(scaling_);
 }
 
-void Transformation3D::scale(float x, float y, float z) {
-	this->scaling.add(Vector3D(x, y, z));
+void Transformation3D::scale(float x_) {
+	this->scaling.add(Vector3D(x_, x_, x_));
 }
 
 void Transformation3D::useTransformation(void) {

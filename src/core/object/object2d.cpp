@@ -28,6 +28,7 @@
 #include <GL/gl.h>
 
 #include "object.h"
+#include "transformation.h"
 
 Object2D::Object2D() {
 	this->position = Vector2D();
@@ -39,7 +40,7 @@ Object2D::Object2D() {
 	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object3D::Object2D(Transformation2D transform) {
+Object2D::Object2D(Transformation2D transform) {
 	this->position = transform.position;
 	this->rotation = transform.rotation;
 
@@ -49,8 +50,8 @@ Object3D::Object2D(Transformation2D transform) {
 	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object3D::Object2D(Vector2D position_)
-: position(position_) {
+Object2D::Object2D(Vector2D position_) {
+	this->position = position_;
 	this->rotation = 0.0f;
 
 	this->mesh = NULL;
@@ -59,15 +60,16 @@ Object3D::Object2D(Vector2D position_)
 	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object3D::Object2D(Vector2D position_, float rotation_)
-: position(position_), rotation(rotation_) {
+Object2D::Object2D(Vector2D position_, float rotation_) {
+	this->position = position_;
+	this->rotation = rotation_;
 	this->mesh = NULL;
 	this->material = NULL;
 
 	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object3D::~Object2D() {
+Object2D::~Object2D() {
 }
 
 void Object2D::setFlag(int flag) {
@@ -82,10 +84,10 @@ int Object2D::getStatus(void) {
 	return status;
 }
 
-void Object2D::render(void) {
+void Object2D::render(void) {/*TODO
   int i;
   for(i = 0; i < obj->mesh->face_counter; i++) {
     oxygarum_render_face2d(obj->mesh, obj->mesh->faces[i]);
-  }
+  }*/
 }
 

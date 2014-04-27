@@ -57,16 +57,12 @@ void Transformation2D::setScaling(Vector2D scaling_) {
 	this->scaling = scaling_;
 }
 
-void Transformation2D::setScaling(float x, float y) {
-	this->scaling = Vector2D(x, y);
+void Transformation2D::setScaling(float x_) {
+	this->scaling = Vector2D(x_, x_);
 }
 
 void Transformation2D::move(Vector2D position_) {
 	this->position.add(position_);
-}
-
-void Transformation2D::move(float x, float y) {
-	this->position.add(Vector2D(x, y));
 }
 
 void Transformation2D::rotate(float rotation_) {
@@ -77,8 +73,8 @@ void Transformation2D::scale(Vector2D scaling_) {
 	this->scaling.add(scaling_);
 }
 
-void Transformation2D::scale(float x, float y) {
-	this->scaling.add(Vector2D(x, y));
+void Transformation2D::scale(float x_) {
+	this->scaling.add(Vector2D(x, x_));
 }
 
 void Transformation3D::useTransformation(void) {

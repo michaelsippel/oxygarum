@@ -1,7 +1,7 @@
 /**
  *  include/mesh.h
  *
- *  Copyright (C) 2013 Michael Sippel
+ *  Copyright (C) 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ class RenderInstance {
 
 		Mesh3D *mesh;
 		void create(void);
+		void render(int num_textures);
 
 	private:
 		unsigned int index_id;
@@ -45,8 +46,8 @@ class RenderInstance {
 		unsigned int normal_id;
 		unsigned int texcoord_id;
 
-		unsigned int index_counter;
-		unsigned int vertex_counter;
+		unsigned int num_indices;
+		unsigned int num_vertices;
 		unsigned int *indices;
 		Vector3D *vertices;
 		Vector3D *normals;
@@ -58,14 +59,16 @@ class Mesh3D {
 
 	public:
 		Mesh3D();
-		Mesh3D(int num_vertices_, Vector3D *vertices_);
+		Mesh3D(int num_vertices_, Vector3D *vertices_, int num_faces_, Face **faces_);
+		Mesh3D(int num_vertices_, Vector3D *vertices_, int num_texcoords_, Vector2D *texcoords_, int num_faces_, Face **faces_);
+		Mesh3D(int num_vertices_, Vector3D *vertices_, int num_texcoords_, Vector2D *texcoords_, int num_faces_, Face **faces_, Material *material_);
 		~Mesh3D();
 
 		Material *default_material;
 		RenderInstance *instance;
 
 		void calc_normals(void);
-		void renderInstance(void);
+		void renderInstance(int num_textures);
 		void renderImmediate(void);
 
 	private:

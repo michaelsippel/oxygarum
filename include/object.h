@@ -48,7 +48,7 @@ class Object3D : public Transformation3D {
 
 		Mesh3D *mesh;
 		Material *material;
-		Vector2D feedback;
+		Vector3D feedback;
 
 		void render(void);
 		void setFlag(int flag);
@@ -66,7 +66,7 @@ class Object3D : public Transformation3D {
 class Object2D : public Transformation2D {
 	public:
 		Object2D();
-		Object2D(Transformation2D *transform);
+		Object2D(Transformation2D transform);
 		Object2D(Vector2D position_);
 		Object2D(Vector2D position_, float rotation_);
 		~Object2D();
@@ -76,6 +76,7 @@ class Object2D : public Transformation2D {
 
 		void render(void);
 		void setFlag(int flag);
+		void removeFlag(int flag);
 		int getStatus(void);
 
 	private:

@@ -25,17 +25,23 @@
 #define _FACE_H
 
 #include "vector.h"
-#include "mesh.h"
+
+class Mesh3D;
+class Mesh2D;
+class RenderInstance;
 
 class Face {
 	friend class Mesh3D;
 	friend class Mesh2D;
+	friend class RenderInstance;
 
 	public:
 		Face();
 		Face(int num_vertices_, int *vertices_);
 		Face(int num_vertices_, int *vertices_, int *texcoords_);
 		~Face();
+
+		Vector3D getNormal();
 
 	private:
 		int num_vertices;

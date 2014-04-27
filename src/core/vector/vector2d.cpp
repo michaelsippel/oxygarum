@@ -54,9 +54,19 @@ void Vector2D::add(Vector3D v) {
 	this->y += v.y;
 }
 
+void Vector2D::add(float x_) {
+	this->x += x_;
+	this->y += x_;
+}
+
 void Vector2D::sub(Vector2D v) {
 	this->x -= v.x;
 	this->y -= v.y;
+}
+
+void Vector2D::sub(float x_) {
+	this->x -= x_;
+	this->y -= y_;
 }
 
 float Vector2D::scalar(Vector2D v) {

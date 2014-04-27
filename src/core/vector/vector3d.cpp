@@ -59,11 +59,50 @@ void Vector3D::add(Vector3D v) {
 	this->z += v.z;
 }
 
+void Vector3D:add(float x_) {
+	this->x += x_;
+	this->y += x_;
+	this->z += x_;
+}
+
 void Vector3D::sub(Vector3D v) {
 	this->x -= v.x;
 	this->y -= v.y;
 	this->z -= v.z;
 }
+
+void Vector3D::sub(float x_) {
+	this->x -= x_;
+	this->y -= x_;
+	this->z -= x_;
+}
+
+void Vector3D::mul(Vector3D v) {
+	this->x *= v.x;
+	this->y *= v.y;
+	this->z *= v.z;
+}
+
+void Vector3D::mul(float x_) {
+	this->x *= x_;
+	this->y *= x_;
+	this->z *= z_;
+}
+
+void Vector3D::div(Vector3D v) {
+	if(v.x > 0.0f) this->x /= v.x;
+	if(v.y > 0.0f) this->y /= v.y;
+	if(v.z > 0.0f) this->z /= v.z;
+}
+
+void Vector3D::div(float x_) {
+	if(x_ > 0.0f) {
+		this->x /= x_;
+		this->y /= x_;
+		this->z /= x_;
+	}
+}
+
 
 float Vector3D::scalar(Vector3D v) {
 	return (
