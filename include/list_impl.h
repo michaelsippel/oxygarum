@@ -125,6 +125,11 @@ ListEntry<T> *List<T>::getCurrent(void) {
 }
 
 template <typename T>
+int List<T>::getSize(void) {
+	return this->size;
+}
+
+template <typename T>
 ListEntry<T>::ListEntry() {
 	this->element = NULL;
 	strcpy(this->name, "");

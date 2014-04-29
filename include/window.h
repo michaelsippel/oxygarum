@@ -1,7 +1,7 @@
 /**
- *  include/oxygarum.h
+ *  include/window.h
  *
- *  Copyright (C) 2012-2013 Michael Sippel
+ *  Copyright (C) 2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,28 +21,32 @@
  * @author Michael Sippel <michamimosa@gmail.com>
  */
 
-#ifndef _OXYGARUM_H
-#define _OXYGARUM_H
+#ifndef _WINDOW_H
+#define _WINDOW_H
 
-#include <GL/glew.h>
-#include <GL/gl.h>
 #include <SDL2/SDL.h>
-#include "camera.h"
-#include "event.h"
-#include "face.h"
-#include "font.h"
-#include "object.h"
-#include "material.h"
-#include "mesh.h"
-#include "particle.h"
-#include "physics.h"
-#include "shader.h"
-#include "scene.h"
-#include "screen.h"
-#include "texture.h"
-//#include "gui.h"
-#include "light.h"
-#include "window.h"
+
+class SDLWindow {
+	public:
+		SDLWindow();
+		SDLWindow(int width, int height);
+		SDLWindow(char *title_, int width, int height);
+		~SDLWindow();
+
+		float update(void);
+
+		int getWidth(void);
+		int getHeight(void);
+
+	private:
+		void init(void);
+		int width;
+		int height;
+		char *title;
+
+		SDL_Window *sdl_window;
+		SDL_GLContext *sdl_context;
+};
 
 #endif
 

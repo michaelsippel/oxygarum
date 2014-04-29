@@ -112,3 +112,7 @@ void Texture::load(void) {
 	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
+GLuint Texture::getID(void) {
+	return this->id;
+}
+

@@ -1,19 +1,19 @@
-SRCS = $(shell find -name '*.c')
+SRCS = $(shell find -name '*.cpp')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
 INCLUDE = -I/usr/include/ -I../../include
 LIBDIR  = -L/usr/X11R6/lib
 LIBRARIES = -lX11 -lSDL2 -lGLEW -lGL -lGLU -lm -lSDL2_image
 
-CC = gcc
+CC = g++
 CFLAGS = -Wall $(INCLUDE)
 OXY = ../../src/oxygarum.a
 
 cube: $(OBJS)
 	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(OXY)
 
-%.c : %.o
-	$(CC) $(CFLAGS) -o $@ $(LIBDIR) $< $(LIBRARIES)  
+%.o : %.cpp
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	rm $(OBJS)

@@ -61,7 +61,7 @@ class Texture {
 		int getHeight(void);
 		int getBpp(void);
 		GLenum getFormat(void);
-		GLint getID(void);
+		GLuint getID(void);
 
 	private:
 		unsigned int width;

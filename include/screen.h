@@ -24,6 +24,7 @@
 #ifndef _SCREEN_H
 #define _SCREEN_H
 
+#include "window.h"
 #include "scene.h"
 #include "camera.h"
 #include "material.h"
@@ -52,15 +53,17 @@ class Viewport {
 class Screen {
 	public:
 		Screen();
-		Screen(Scene *scene_);
-		Screen(Scene *scene_, Camera *camera_);
-		Screen(Scene *scene_, Camera *camera_, Viewport viewport_);
+		Screen(SDLWindow *window_);
+		Screen(SDLWindow *window_, Scene *scene_);
+		Screen(SDLWindow *window_, Scene *scene_, Camera *camera_);
+		Screen(SDLWindow *window_, Scene *scene_, Camera *camera_, Viewport viewport_);
 		~Screen();
 
 		Scene *scene;
 		Camera *camera;
 		Color background;
 		Viewport viewport;
+		SDLWindow *window;
 
 		void render(void);
 };

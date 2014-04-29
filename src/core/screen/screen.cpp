@@ -26,35 +26,41 @@
 #include <SDL2/SDL.h>
 #include "screen.h"
 
-extern SDL_Window *sdl_window;
-extern SDL_Renderer *sdl_renderer;
-
 /**
  * Default constructor.
  * Creates a Screen object with default values
  */
 Screen::Screen() {
+	this->window = new SDLWindow();
 	this->scene = new Scene();
 	this->camera = new Camera();
 	this->viewport = Viewport(0, 0, 800, 600);
 	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
-Screen::Screen(Scene *scene_)
-: scene(scene_) {
+Screen::Screen(SDLWindow *window_)
+: window(window_) {
+	this->scene = new Scene();
 	this->camera = new Camera();
 	this->viewport = Viewport(0, 0, 800, 600);
 	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
-Screen::Screen(Scene *scene_, Camera *camera_)
-: scene(scene_), camera(camera_) {
+Screen::Screen(SDLWindow *window_, Scene *scene_)
+: window(window_), scene(scene_) {
+	this->camera = new Camera();
 	this->viewport = Viewport(0, 0, 800, 600);
 	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
-Screen::Screen(Scene *scene_, Camera *camera_, Viewport viewport_)
-: scene(scene_), camera(camera_), viewport(viewport_) {
+Screen::Screen(SDLWindow *window_, Scene *scene_, Camera *camera_)
+: window(window_), scene(scene_), camera(camera_) {
+	this->viewport = Viewport(0, 0, 800, 600);
+	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
+}
+
+Screen::Screen(SDLWindow *window_, Scene *scene_, Camera *camera_, Viewport viewport_)
+: window(window_), scene(scene_), camera(camera_), viewport(viewport_) {
 	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
@@ -82,8 +88,8 @@ void Screen::render(void) {
 	glRotatef(this->camera->rotation.y, 0.0f,1.0f,0.0f);
 	glRotatef(this->camera->rotation.z, 0.0f,0.0f,1.0f);
 	glTranslatef(this->camera->position.x, this->camera->position.y, this->camera->position.z);
-
-	this->scene->render3D();
+/*
+	//this->scene->render3D();
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -97,10 +103,9 @@ void Screen::render(void) {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		this->scene->render2D();
+		//this->scene->render2D();
 	glPopAttrib();
-
+*/
 	glFlush();
-	SDL_GL_SwapWindow(sdl_window);
 }
 

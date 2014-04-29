@@ -22,14 +22,6 @@
 
 #include "oxygarum.h"
 
-int width, height;
-int view_x, view_y;
-float fov = 45.0f;
-const char *title = NULL;
-
-SDL_Window *sdl_window;
-SDL_GLContext *sdl_context;
-
 void oxygarum_init_sdl(void) {
   char str[100];
   if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
