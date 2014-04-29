@@ -20,33 +20,31 @@
 /**
  * @author Michael Sippel <michamimosa@gmail.com>
  */
+#include <GL/glew.h>
+#include <GL/gl.h>
 
 #include "transformation.h"
 
 Transformation2D::Transformation2D() {
 	this->position = Vector2D();
 	this->rotation = 0.0f;
-	this->scaling = 1.0f;
+	this->scaling = Vector2D(1.0f, 1.0f);
 }
 
-Transformation2D::Transformation2D(Vector2D position_, Vector2D rotation_)
+Transformation2D::Transformation2D(Vector2D position_, float rotation_)
 : position(position_), rotation(rotation_) {
-	this->scaling = 1.0f;
+	this->scaling = Vector2D(1.0f, 1.0f);
 }
 
-Transformation2D::Transformation2D(Vector2D position_, Vector2D rotation_, float scaling_)
+Transformation2D::Transformation2D(Vector2D position_, float rotation_, Vector2D scaling_)
 : position(position_), rotation(rotation_), scaling(scaling_) {
 }
 
 Transformation2D::~Transformation2D() {
 }
 
-void Transformation2D::setPosition(Vertex2D position_) {
+void Transformation2D::setPosition(Vector2D position_) {
 	this->position = position_;
-}
-
-void Transformation2D::setPosition(float x, float y) {
-	this->position = Vector2D(x, y);
 }
 
 void Transformation2D::setRotation(float rotation_) {
@@ -74,10 +72,10 @@ void Transformation2D::scale(Vector2D scaling_) {
 }
 
 void Transformation2D::scale(float x_) {
-	this->scaling.add(Vector2D(x, x_));
+	this->scaling.add(Vector2D(x_, x_));
 }
 
-void Transformation3D::useTransformation(void) {
+void Transformation2D::useTransformation(void) {
 	glRotatef(this->rotation, 0.0f, 0.0f, 1.0f);
 	glScalef(this->scaling.x, this->scaling.y, 1.0f);
 	glTranslatef(this->position.x, this->position.y, 0.0f);

@@ -105,7 +105,7 @@ void Object3D::render(void) {
 	mat->use();
 
 	if(this->status & OBJECT_RENDER_VBO && this->mesh->instance != NULL) {
-		this->mesh->renderInstance();
+		this->mesh->renderInstance(mat->textures->getSize());
 	} else {
 		this->mesh->renderImmediate();
 	}

@@ -20,6 +20,8 @@
 /**
  * @author Michael Sippel <michamimosa@gmail.com>
  */
+#include <GL/glew.h>
+#include <GL/gl.h>
 
 #include "transformation.h"
 
@@ -34,14 +36,14 @@ Transformation3D::Transformation3D(Vector3D position_, Vector3D rotation_)
 	this->scaling = Vector3D(1.0f, 1.0f, 1.0f);
 }
 
-Transformation3D::Transformation3D(Vector3D position_, Vector3D rotation_, float scaling_)
+Transformation3D::Transformation3D(Vector3D position_, Vector3D rotation_, Vector3D scaling_)
 : position(position_), rotation(rotation_), scaling(scaling_) {
 }
 
 Transformation3D::~Transformation3D() {
 }
 
-void Transformation3D::setPosition(Vertex3D position_) {
+void Transformation3D::setPosition(Vector3D position_) {
 	this->position = position_;
 }
 

@@ -49,7 +49,7 @@ void Vector2D::normalize(void) {
 	this->y /= len;
 }
 
-void Vector2D::add(Vector3D v) {
+void Vector2D::add(Vector2D v) {
 	this->x += v.x;
 	this->y += v.y;
 }
@@ -66,20 +66,20 @@ void Vector2D::sub(Vector2D v) {
 
 void Vector2D::sub(float x_) {
 	this->x -= x_;
-	this->y -= y_;
+	this->y -= x_;
 }
 
 float Vector2D::scalar(Vector2D v) {
-	return (this.x * v.x +
-		this.y * v.y);
+	return (this->x * v.x +
+		this->y * v.y);
 }
 
-Vector2D::dot(vector2D v1, vector2D v2) {
+void Vector2D::dot(Vector2D v1, Vector2D v2) {
   this->x = (v1.y * v2.x) - (v1.x * v2.y);
   this->y = (v1.x * v2.y) - (v1.y * v2.x);
 }
 
-Vector2D::dot(vector2D v) {
+void Vector2D::dot(Vector2D v) {
 	this->dot(*this, v);
 }
 

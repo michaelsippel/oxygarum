@@ -34,7 +34,7 @@ class Transformation3D {
 	public:
 		Transformation3D();
 		Transformation3D(Vector3D position_, Vector3D rotation_);
-		Transformation3D(Vector3D position_, Vector3D rotation_, float scaling_);
+		Transformation3D(Vector3D position_, Vector3D rotation_, Vector3D scaling_);
 		~Transformation3D();
 
 		Vector3D position;
@@ -62,7 +62,7 @@ class Transformation2D {
 	public:
 		Transformation2D();
 		Transformation2D(Vector2D position_, float rotation_);
-		Transformation2D(Vector2D position_, float rotation_, float scaling_);
+		Transformation2D(Vector2D position_, float rotation_, Vector2D scaling_);
 		~Transformation2D();
 
 		Vector2D position;
