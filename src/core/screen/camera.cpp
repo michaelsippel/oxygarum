@@ -30,19 +30,29 @@
 Camera::Camera() {
 	this->position = Vector3D();
 	this->rotation = Vector3D();
+	this->fov = 45.0f;
 }
 
 Camera::Camera(Transformation3D transform) {
 	this->position = transform.position;
 	this->rotation = transform.rotation;
+	this->fov = 45.0f;
 }
 
 Camera::Camera(Vector3D position_) {
 	this->position = position_;
 	this->rotation = Vector3D();
+	this->fov = 45.0f;
 }
 
 Camera::Camera(Vector3D position_, Vector3D rotation_) {
+	this->position = position_;
+	this->rotation = rotation_;
+	this->fov = 45.0f;
+}
+
+Camera::Camera(Vector3D position_, Vector3D rotation_, float fov_)
+: fov(fov_) {
 	this->position = position_;
 	this->rotation = rotation_;
 }

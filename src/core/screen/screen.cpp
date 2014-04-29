@@ -83,11 +83,15 @@ void Screen::render(void) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluPerspective(this->camera->fov, (GLfloat)this->viewport.width/(GLfloat)this->viewport.height, 1.0f, 1000.0f);
+	this->camera->useTransformation();
 
-	glRotatef(this->camera->rotation.x, 1.0f,0.0f,0.0f);
-	glRotatef(this->camera->rotation.y, 0.0f,1.0f,0.0f);
-	glRotatef(this->camera->rotation.z, 0.0f,0.0f,1.0f);
-	glTranslatef(this->camera->position.x, this->camera->position.y, this->camera->position.z);
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+	glBegin(GL_TRIANGLES);
+		glVertex3f( 0.0f,  1.0f, 0.0f);
+		glVertex3f( 1.0f, -1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 0.0f);
+	glEnd();
+
 /*
 	//this->scene->render3D();
 

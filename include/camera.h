@@ -38,6 +38,7 @@ class Camera : public Transformation3D {
 		Camera(Transformation3D transform);
 		Camera(Vector3D position_);
 		Camera(Vector3D position_, Vector3D rotation_);
+		Camera(Vector3D position_, Vector3D rotation_, float fov_);
 		~Camera();
 
 		float fov;
