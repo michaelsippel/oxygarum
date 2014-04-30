@@ -13,8 +13,7 @@
 
 int main(int argc, char **argv) {
 	SDLWindow *window = new SDLWindow("Oxygarum demo", 800, 600);
-	Screen *screen = new Screen(window);
-	screen->camera->setPosition(Vector3D(0.0f, 0.0f, -5.0f));
+	Camera *camera = new Camera(window, Vector3D(0.0f, 0.0f, -5.0f));
 
 	// main loop
 	while(1) {
@@ -26,10 +25,12 @@ int main(int argc, char **argv) {
 					break;
 			}
 		}
-		screen->render();
+		camera->render();
 
 		// update (calculate frametime, handle events, etc.)
 		float frametime = window->update();
+
+		camera->position.x += 0.005 * frametime;
 	}
 
 	return 0;

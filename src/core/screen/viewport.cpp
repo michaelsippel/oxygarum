@@ -20,8 +20,9 @@
 /**
  * @author Michael Sippel <michamimosa@gmail.com>
  */
-
-#include "screen.h"
+#include <GL/glew.h>
+#include <GL/gl.h>
+#include "camera.h"
 
 /**
  * Default constructor.
@@ -47,5 +48,9 @@ Viewport::Viewport(int x_, int y_, int width_, int height_)
  * Deletes a Viewport object
  */
 Viewport::~Viewport() {
+}
+
+void Viewport::use(void) {
+	glViewport(this->x, this->y, this->width, this->height);
 }
 

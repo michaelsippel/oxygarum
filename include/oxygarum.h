@@ -38,7 +38,6 @@
 #include "physics.h"
 #include "shader.h"
 #include "scene.h"
-#include "screen.h"
 #include "texture.h"
 //#include "gui.h"
 #include "light.h"

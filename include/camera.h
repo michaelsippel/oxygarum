@@ -25,6 +25,26 @@
 #define _CAMERA_H
 
 #include "transformation.h"
+#include "window.h"
+#include "scene.h"
+#include "camera.h"
+#include "material.h"
+
+/**
+ * @class Viewport
+ * @brief Definines the properties of a Screen
+ */
+class Viewport {
+	public:
+		Viewport();
+		Viewport(int x_, int y_, int width_, int height_);
+		~Viewport();
+
+		int x, y;
+		int width, height;
+
+		void use(void);
+};
 
 /**
  * @class Camera
@@ -35,13 +55,24 @@
 class Camera : public Transformation3D {
 	public:
 		Camera();
-		Camera(Transformation3D transform);
-		Camera(Vector3D position_);
-		Camera(Vector3D position_, Vector3D rotation_);
-		Camera(Vector3D position_, Vector3D rotation_, float fov_);
+		Camera(SDLWindow *window_);
+		Camera(SDLWindow *window_, Scene *scene_);
+		Camera(SDLWindow *window_, Scene *scene_, Viewport viewport_);
+		Camera(SDLWindow *window_, Transformation3D transform);
+		Camera(SDLWindow *window_, Transformation3D transform, Viewport viewport_);
+		Camera(SDLWindow *window_, Vector3D position_);
+		Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_);
+		Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_, float fov_);
 		~Camera();
 
+		Scene *scene;
+		Camera *camera;
+		Color background;
+		Viewport viewport;
+		SDLWindow *window;
 		float fov;
+
+		void render(void);
 };
 
 #endif
