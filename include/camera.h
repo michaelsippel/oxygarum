@@ -38,10 +38,12 @@ class Viewport {
 	public:
 		Viewport();
 		Viewport(int x_, int y_, int width_, int height_);
+		Viewport(int x_, int y_, int width_, int height_, Color background_);
 		~Viewport();
 
 		int x, y;
 		int width, height;
+		Color background;
 
 		void use(void);
 };
@@ -67,7 +69,6 @@ class Camera : public Transformation3D {
 
 		Scene *scene;
 		Camera *camera;
-		Color background;
 		Viewport viewport;
 		SDLWindow *window;
 		float fov;

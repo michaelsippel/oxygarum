@@ -30,8 +30,7 @@
 Camera::Camera() {
 	this->window = new SDLWindow();
 	this->scene = new Scene();
-	this->viewport = Viewport(0, 0, 800, 600);
-	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
+	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
 	this->position = Vector3D();
 	this->rotation = Vector3D();
 	this->fov = 45.0f;
@@ -41,7 +40,6 @@ Camera::Camera(SDLWindow *window_)
 : window(window_) {
 	this->scene = new Scene();
 	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
-	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 	this->position = Vector3D();
 	this->rotation = Vector3D();
 	this->fov = 45.0f;
@@ -50,7 +48,6 @@ Camera::Camera(SDLWindow *window_)
 Camera::Camera(SDLWindow *window_, Scene *scene_)
 : window(window_), scene(scene_) {
 	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
-	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 	this->position = Vector3D();
 	this->rotation = Vector3D();
 	this->fov = 45.0f;
@@ -58,7 +55,6 @@ Camera::Camera(SDLWindow *window_, Scene *scene_)
 
 Camera::Camera(SDLWindow *window_, Scene *scene_, Viewport viewport_)
 : window(window_), scene(scene_), viewport(viewport_) {
-	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 	this->position = Vector3D();
 	this->rotation = Vector3D();
 	this->fov = 45.0f;
@@ -68,15 +64,15 @@ Camera::Camera(SDLWindow *window_, Transformation3D transform)
 : window(window_) {
 	this->position = transform.position;
 	this->rotation = transform.rotation;
-	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
+	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
 	this->fov = 45.0f;
 }
 
 Camera::Camera(SDLWindow *window_, Vector3D position_)
 : window(window_) {
 	this->position = position_;
-	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 	this->rotation = Vector3D();
+	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
 	this->fov = 45.0f;
 }
 
@@ -84,15 +80,15 @@ Camera::Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_)
 : window(window_) {
 	this->position = position_;
 	this->rotation = rotation_;
-	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
+	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
 	this->fov = 45.0f;
 }
 
 Camera::Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_, float fov_)
 : window(window_), fov(fov_) {
-	this->background = Color(0.1f, 0.1f, 0.1f, 1.0f);
 	this->position = position_;
 	this->rotation = rotation_;
+	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
 }
 
 /**
@@ -107,9 +103,6 @@ Camera::~Camera() {
  */
 void Camera::render(void) {
 	this->viewport.use();
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(this->background.r, this->background.g, this->background.b, this->background.a);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

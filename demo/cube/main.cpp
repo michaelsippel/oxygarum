@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 		// update (calculate frametime, handle events, etc.)
 		float frametime = window->update();
 
-		camera->position.x += 0.005 * frametime;
+		camera->position.x += 0.001 * frametime;
 	}
 
 	return 0;
