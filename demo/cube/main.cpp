@@ -29,9 +29,10 @@ int main(int argc, char **argv) {
 
 		// update (calculate frametime, handle events, etc.)
 		float frametime = window->update();
-
-		camera->position.x += 0.001 * frametime;
 	}
+
+	List<int> *l = new List<int>();
+	ListEntry<int> *e = l->getHead();//new ListEntry<int>();
 
 	return 0;
 }

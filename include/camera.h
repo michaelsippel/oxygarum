@@ -73,6 +73,7 @@ class Camera : public Transformation3D {
 		SDLWindow *window;
 		float fov;
 
+		void use(void);
 		void render(void);
 };
 

@@ -62,6 +62,7 @@ Camera::Camera(SDLWindow *window_, Scene *scene_, Viewport viewport_)
 
 Camera::Camera(SDLWindow *window_, Transformation3D transform)
 : window(window_) {
+	this->scene = new Scene();
 	this->position = transform.position;
 	this->rotation = transform.rotation;
 	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
@@ -70,6 +71,7 @@ Camera::Camera(SDLWindow *window_, Transformation3D transform)
 
 Camera::Camera(SDLWindow *window_, Vector3D position_)
 : window(window_) {
+	this->scene = new Scene();
 	this->position = position_;
 	this->rotation = Vector3D();
 	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
@@ -78,6 +80,7 @@ Camera::Camera(SDLWindow *window_, Vector3D position_)
 
 Camera::Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_)
 : window(window_) {
+	this->scene = new Scene();
 	this->position = position_;
 	this->rotation = rotation_;
 	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
@@ -86,6 +89,7 @@ Camera::Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_)
 
 Camera::Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_, float fov_)
 : window(window_), fov(fov_) {
+	this->scene = new Scene();
 	this->position = position_;
 	this->rotation = rotation_;
 	this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
@@ -99,9 +103,9 @@ Camera::~Camera() {
 }
 
 /*
- * Renders the scene from camera view
+ * Set all matrices
  */
-void Camera::render(void) {
+void Camera::use(void) {
 	this->viewport.use();
 
 	glMatrixMode(GL_MODELVIEW);
@@ -109,14 +113,15 @@ void Camera::render(void) {
 	gluPerspective(this->fov, (GLfloat)this->viewport.width/(GLfloat)this->viewport.height, 1.0f, 1000.0f);
 
 	this->useTransformation();
+}
 
-	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_TRIANGLES);
-		glVertex3f( 0.0f,  1.0f, 0.0f);
-		glVertex3f( 1.0f, -1.0f, 0.0f);
-		glVertex3f(-1.0f, -1.0f, 0.0f);
-	glEnd();
+/*
+ * Renders the scene from camera view
+ */
+void Camera::render(void) {
+	this->use();
 
+	if(this->scene != NULL) this->scene->render3D();
 /*
 	//this->scene->render3D();
 

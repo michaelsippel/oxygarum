@@ -116,7 +116,7 @@ ListEntry<T> *List<T>::getEntry(char *name_) {
 
 template <typename T>
 ListEntry<T> *List<T>::getHead(void) {
-	return this->head;
+	return NULL;//this->head;
 }
 
 template <typename T>
