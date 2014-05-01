@@ -69,7 +69,7 @@ class Mesh3D {
 
 		void calc_normals(void);
 		void renderInstance(int num_textures);
-		void renderImmediate(void);
+		void renderImmediate(int num_textures);
 
 	private:
 		int num_vertices;

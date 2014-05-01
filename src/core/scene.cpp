@@ -75,7 +75,7 @@ void Scene::render3D(void) {
 
 	// render 3D-Objects
 	ListEntry<Object3D> *entry = this->objects3D->getHead();
-/*
+
 	while(entry != NULL) {
 		Object3D *obj = entry->element;
 		if(obj == NULL) {
@@ -87,14 +87,14 @@ void Scene::render3D(void) {
 			glPushAttrib(GL_ENABLE_BIT);
 
 			obj->useTransformation();
-			//obj->render();
+			obj->render();
 
 			glPopAttrib();
 			glPopMatrix();
 		}
     
 		entry = entry->getNext();
-	}*/
+	}
 /*
   // render particles
   entry = scene->particle_emitters->head;

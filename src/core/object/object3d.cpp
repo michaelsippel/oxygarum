@@ -102,12 +102,16 @@ void Object3D::render(void) {
 		mat = this->mesh->default_material;
 	}
 
-	mat->use();
+	int num_textures = 0;
+	if(mat != NULL){
+		mat->use();
+		num_textures = mat->textures->getSize();
+	}
 
 	if(this->status & OBJECT_RENDER_VBO && this->mesh->instance != NULL) {
-		this->mesh->renderInstance(mat->textures->getSize());
+		this->mesh->renderInstance(num_textures);
 	} else {
-		this->mesh->renderImmediate();
+		this->mesh->renderImmediate(num_textures);
 	}
 }
 

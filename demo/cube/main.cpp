@@ -15,6 +15,24 @@ int main(int argc, char **argv) {
 	SDLWindow *window = new SDLWindow("Oxygarum demo", 800, 600);
 	Camera *camera = new Camera(window, Vector3D(0.0f, 0.0f, -5.0f));
 
+	Vector3D vertices[4] = {
+		Vector3D(-1.0f, 1.0f, 0.0f),
+		Vector3D( 1.0f, 1.0f, 0.0f),
+		Vector3D( 1.0f,-1.0f, 0.0f),
+		Vector3D(-1.0f,-1.0f, 0.0f)
+	};
+
+	int indices[4] = {0, 1, 2, 3};
+	Face *faces[1] = {
+		new Face(4, (int*) &indices)
+	};
+
+	Mesh3D *mesh = new Mesh3D(4, (Vector3D*) &vertices, 1, (Face**) &faces);
+	Object3D *obj = new Object3D();
+	obj->mesh = mesh;
+
+	camera->scene->objects3D->add(obj);
+
 	// main loop
 	while(1) {
 		SDL_Event event;
@@ -30,9 +48,6 @@ int main(int argc, char **argv) {
 		// update (calculate frametime, handle events, etc.)
 		float frametime = window->update();
 	}
-
-	List<int> *l = new List<int>();
-	ListEntry<int> *e = l->getHead();//new ListEntry<int>();
 
 	return 0;
 }

@@ -33,7 +33,9 @@ Mesh3D::Mesh3D() {
 
 Mesh3D::Mesh3D(int num_vertices_, Vector3D *vertices_, int num_faces_, Face **faces_)
 : num_vertices(num_vertices_), vertices(vertices_), num_faces(num_faces_), faces(faces_) {
-	this->calc_normals();
+	//this->calc_normals();
+	this->normals = NULL;
+	this->texcoords = NULL;
 	this->instance = NULL;
 	this->default_material = NULL;
 }
@@ -87,35 +89,44 @@ void Mesh3D::renderInstance(int num_textures) {
 	}
 }
 
-void Mesh3D::renderImmediate(void) {/*TODO
-  int i;
-  
-  if(face->vertex_counter == 3)
-    glBegin(GL_TRIANGLES);
-  else if(face->vertex_counter == 4)
-    glBegin(GL_QUADS);
-  else
-    glBegin(GL_POLYGON);
-  
-  for(i = 0; i < face->vertex_counter; i++) {
-    vertex_id id = face->vertices[i];
-    
-    if(mesh->texcoords != NULL && face->uv_map != NULL) {
-      int j;
-      for(j = 0; j < material->textures->size; j++) {
-        glMultiTexCoord2f(GL_TEXTURE0 + j, mesh->texcoords[face->uv_map[i]].u, mesh->texcoords[face->uv_map[i]].v);
-      }
-    }
+void Mesh3D::renderImmediate(int num_textures) {
+	int i,j,k;
 
-    if(mesh->normals != NULL)
-      glNormal3f(mesh->normals[id].x, mesh->normals[id].y, mesh->normals[id].z);
-    
-    glVertex3f(
- 	mesh->vertices[id].x,
- 	mesh->vertices[id].y,
- 	mesh->vertices[id].z
-    );
-  }
-  glEnd();*/
+	for(i = 0; i < this->num_faces; i++) {
+		Face *face = this->faces[i];
+
+		switch(face->num_vertices) {
+			case 3:
+				glBegin(GL_TRIANGLES);
+				break;
+			case 4:
+				glBegin(GL_QUADS);
+				break;
+			default:
+				glBegin(GL_POLYGON);
+				break;
+		}
+
+		for(j = 0; j < face->num_vertices; j++) {
+			int id = face->vertices[j];
+
+			if(this->texcoords != NULL && face->texcoords != NULL) {
+				for(k = 0; k < num_textures; k++) {
+					glMultiTexCoord2f(GL_TEXTURE0 + k, this->texcoords[face->texcoords[k]].x, this->texcoords[face->texcoords[k]].y);
+				}
+			}
+
+			if(this->normals != NULL) {
+				glNormal3f(this->normals[id].x, this->normals[id].y, this->normals[id].z);
+			}
+
+			glVertex3f(
+				this->vertices[id].x,
+				this->vertices[id].y,
+				this->vertices[id].z
+			);
+		}
+		glEnd();
+	}
 }
 

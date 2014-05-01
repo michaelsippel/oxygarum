@@ -20,7 +20,7 @@
 /**
  * @author Michael Sippel <michamimosa@gmail.com>
  */
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -116,7 +116,7 @@ ListEntry<T> *List<T>::getEntry(char *name_) {
 
 template <typename T>
 ListEntry<T> *List<T>::getHead(void) {
-	return NULL;//this->head;
+	return this->head;
 }
 
 template <typename T>
