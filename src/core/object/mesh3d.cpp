@@ -33,8 +33,7 @@ Mesh3D::Mesh3D() {
 
 Mesh3D::Mesh3D(int num_vertices_, Vector3D *vertices_, int num_faces_, Face **faces_)
 : num_vertices(num_vertices_), vertices(vertices_), num_faces(num_faces_), faces(faces_) {
-	//this->calc_normals();
-	this->normals = NULL;
+	this->calc_normals();
 	this->texcoords = NULL;
 	this->instance = NULL;
 	this->default_material = NULL;
@@ -57,12 +56,13 @@ Mesh3D::~Mesh3D() {
 }
 
 void Mesh3D::calc_normals(void) {
-	int i, j;
-	int *common_face_count = (int*) calloc(this->num_vertices, sizeof(int));
+	this->normals = (Vector3D*) calloc(this->num_vertices, sizeof(Vector3D));
 
-	Face *face;
+	int i, j;
+	int common_face_count[this->num_vertices];
+
 	for(i = 0; i < this->num_faces; i++) {
-		face = this->faces[i];
+		Face *face = this->faces[i];
 
 		Vector3D edge1 = Vector3D(this->vertices[face->vertices[0]], this->vertices[face->vertices[1]]);
 		Vector3D edge2 = Vector3D(this->vertices[face->vertices[1]], this->vertices[face->vertices[2]]);
@@ -77,10 +77,8 @@ void Mesh3D::calc_normals(void) {
 	}
 
 	for(i = 0; i < this->num_vertices; i++) {
-		this->normals[i].div(common_face_count[i]);
+		this->normals[i].div((float)common_face_count[i]);
 	}
-
-	free(common_face_count);
 }
 
 void Mesh3D::renderInstance(int num_textures) {

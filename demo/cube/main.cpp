@@ -12,8 +12,8 @@
 #include <unistd.h>
 
 int main(int argc, char **argv) {
-	SDLWindow *window = new SDLWindow("Oxygarum demo", 800, 600);
-	Camera *camera = new Camera(window, Vector3D(0.0f, 0.0f, -5.0f));
+	SDLWindow *window = new SDLWindow("Oxygarum demo", 1024, 576);
+	Camera *camera = new Camera(window, Vector3D(0.0f, 0.0f, -10.0f));
 
 	Vector3D vertices[4] = {
 		Vector3D(-1.0f, 1.0f, 0.0f),
@@ -45,8 +45,8 @@ int main(int argc, char **argv) {
 		}
 		camera->render();
 
-		// update (calculate frametime, handle events, etc.)
 		float frametime = window->update();
+		camera->move(Vector3D(0.0f, 0.0f, 0.01*frametime));
 	}
 
 	return 0;

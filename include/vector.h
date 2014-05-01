@@ -39,13 +39,13 @@ class Vector3D {
 		void normalize(void);
 
 		void add(Vector3D v);
-		void add(float x);
+		void add(float x_);
 		void sub(Vector3D v);
-		void sub(float x);
+		void sub(float x_);
 		void mul(Vector3D v);
-		void mul(float x);
+		void mul(float x_);
 		void div(Vector3D v);
-		void div(float x);
+		void div(float x_);
 
 		float scalar(Vector3D v);
 		void dot(Vector3D v);
@@ -64,13 +64,13 @@ class Vector2D {
 		void normalize(void);
 
 		void add(Vector2D v);
-		void add(float x);
+		void add(float x_);
 		void sub(Vector2D v);
-		void sub(float x);
+		void sub(float x_);
 		void mul(Vector2D v);
-		void mul(float x);
+		void mul(float x_);
 		void div(Vector2D v);
-		void div(float x);
+		void div(float x_);
 
 		float scalar(Vector2D v);
 		void dot(Vector2D v);
