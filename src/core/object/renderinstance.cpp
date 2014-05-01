@@ -31,6 +31,14 @@
 #include "mesh.h"
 
 RenderInstance::RenderInstance() {
+	this->num_vertices = 0;
+	this->num_indices = 0;
+
+	this->index_id = 0;
+	this->vertex_id = 0;
+	this->normal_id = 0;
+	this->texcoord_id = 0;
+
 	this->indices = NULL;
 	this->vertices = NULL;
 	this->normals = NULL;
@@ -39,6 +47,19 @@ RenderInstance::RenderInstance() {
 
 RenderInstance::RenderInstance(Mesh3D *mesh_)
 : mesh(mesh_) {
+	this->num_vertices = 0;
+	this->num_indices = 0;
+
+	this->index_id = 0;
+	this->vertex_id = 0;
+	this->normal_id = 0;
+	this->texcoord_id = 0;
+
+	this->indices = NULL;
+	this->vertices = NULL;
+	this->normals = NULL;
+	this->texcoords = NULL;
+
 	this->create();
 }
 
@@ -81,10 +102,10 @@ void RenderInstance::create(void) {
 	}
 	this->num_indices *= 3;
 
-	this->indices  = (unsigned int*) realloc(this->indices,  this->num_indices  * sizeof(unsigned int));
-	this->vertices = (Vector3D*) realloc(this->vertices, this->num_vertices * sizeof(Vector3D));
-	this->normals  = (Vector3D*) realloc(this->normals,  this->num_vertices * sizeof(Vector3D));
-	this->texcoords= (Vector2D*) realloc(this->texcoords, this->num_vertices * sizeof(Vector2D));
+	this->indices  = (unsigned int*) calloc(this->num_indices, sizeof(unsigned int));
+	this->vertices = (Vector3D*) calloc(this->num_vertices, sizeof(Vector3D));
+	this->normals  = (Vector3D*) calloc(this->num_vertices, sizeof(Vector3D));
+	this->texcoords= (Vector2D*) calloc(this->num_vertices, sizeof(Vector2D));
 
 	int cur_index = 0;
 	int cur_vertex = 0;
@@ -103,20 +124,30 @@ void RenderInstance::create(void) {
 			this->vertices[cur_vertex].x = mesh->vertices[face->vertices[j]].x;
 			this->vertices[cur_vertex].y = mesh->vertices[face->vertices[j]].y;
 			this->vertices[cur_vertex].z = mesh->vertices[face->vertices[j]].z;
-			this->normals [cur_vertex].x = mesh->normals [face->vertices[j]].x;
-			this->normals [cur_vertex].y = mesh->normals [face->vertices[j]].y;
-			this->normals [cur_vertex].z = mesh->normals [face->vertices[j]].z;
-			this->texcoords[cur_vertex].x = mesh->texcoords[face->texcoords[j]].x;
-			this->texcoords[cur_vertex].y = mesh->texcoords[face->texcoords[j]].y;
+
+			if(mesh->normals != NULL) {
+				this->normals [cur_vertex].x = mesh->normals[face->vertices[j]].x;
+				this->normals [cur_vertex].y = mesh->normals[face->vertices[j]].y;
+				this->normals [cur_vertex].z = mesh->normals[face->vertices[j]].z;
+			}
+
+			if(mesh->texcoords != NULL && face->texcoords != NULL) {
+				this->texcoords[cur_vertex].x = mesh->texcoords[face->texcoords[j]].x;
+				this->texcoords[cur_vertex].y = mesh->texcoords[face->texcoords[j]].y;
+			}
  
 			cur_vertex++;
 		}
 	}
 
+	glGenBuffers(1, &this->index_id);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_id);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->num_indices*sizeof(unsigned int), this->indices, GL_STATIC_DRAW);
+
 	glGenBuffers(1, &this->vertex_id);
 	glBindBuffer(GL_ARRAY_BUFFER, this->vertex_id);
 	glBufferData(GL_ARRAY_BUFFER, this->num_vertices*sizeof(Vector3D), this->vertices, GL_STATIC_DRAW);
- 
+
 	glGenBuffers(1, &this->normal_id);
 	glBindBuffer(GL_ARRAY_BUFFER, this->normal_id);
 	glBufferData(GL_ARRAY_BUFFER, this->num_vertices*sizeof(Vector3D), this->normals, GL_STATIC_DRAW);
@@ -124,9 +155,5 @@ void RenderInstance::create(void) {
 	glGenBuffers(1, &this->texcoord_id);
 	glBindBuffer(GL_ARRAY_BUFFER, this->texcoord_id);
 	glBufferData(GL_ARRAY_BUFFER, this->num_vertices*sizeof(Vector2D), this->texcoords, GL_STATIC_DRAW);
-  
-	glGenBuffers(1, &this->index_id);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->index_id);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->num_indices*sizeof(unsigned int), this->indices, GL_STATIC_DRAW);
 }
 

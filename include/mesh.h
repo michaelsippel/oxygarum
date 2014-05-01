@@ -41,10 +41,10 @@ class RenderInstance {
 		void render(int num_textures);
 
 	private:
-		unsigned int index_id;
-		unsigned int vertex_id;
-		unsigned int normal_id;
-		unsigned int texcoord_id;
+		GLuint index_id;
+		GLuint vertex_id;
+		GLuint normal_id;
+		GLuint texcoord_id;
 
 		unsigned int num_indices;
 		unsigned int num_vertices;

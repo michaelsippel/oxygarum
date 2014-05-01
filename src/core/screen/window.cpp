@@ -48,6 +48,7 @@ void SDLWindow::init(void) {
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 	this->sdl_window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL);
 	this->sdl_context = (SDL_GLContext*) SDL_GL_CreateContext(this->sdl_window);
+	glewInit();
 }
 
 float SDLWindow::update(void) {

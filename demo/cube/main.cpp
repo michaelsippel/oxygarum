@@ -28,8 +28,11 @@ int main(int argc, char **argv) {
 	};
 
 	Mesh3D *mesh = new Mesh3D(4, (Vector3D*) &vertices, 1, (Face**) &faces);
+	mesh->instance = new RenderInstance(mesh);
+
 	Object3D *obj = new Object3D();
 	obj->mesh = mesh;
+	obj->setFlag(OBJECT_RENDER_VBO);
 
 	camera->scene->objects3D->add(obj);
 
