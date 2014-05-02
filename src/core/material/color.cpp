@@ -47,6 +47,6 @@ Color::~Color() {
 }
 
 void Color::use(void) {
-	
+	glColor4f(this->r, this->g, this->b, this->a);
 }
 

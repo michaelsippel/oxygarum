@@ -13,7 +13,7 @@
 
 int main(int argc, char **argv) {
 	SDLWindow *window = new SDLWindow("Oxygarum demo", 1024, 576);
-	Camera *camera = new Camera(window, Vector3D(0.0f, 0.0f, -10.0f));
+	Camera *camera = new Camera(window, Vector3D(0.0f, 0.0f, 1.0f));
 
 	Vector3D vertices[4] = {
 		Vector3D(-1.0f, 1.0f, 0.0f),
@@ -34,6 +34,8 @@ int main(int argc, char **argv) {
 	obj->mesh = mesh;
 	obj->setFlag(OBJECT_RENDER_VBO);
 
+	obj->material = new Material(Color(1.0f, 0.0f, 0.0f, 1.0f));
+
 	camera->scene->objects3D->add(obj);
 
 	// main loop
@@ -49,7 +51,7 @@ int main(int argc, char **argv) {
 		camera->render();
 
 		float frametime = window->update();
-		camera->move(Vector3D(0.0f, 0.0f, 0.01*frametime));
+		camera->move(Vector3D(0.0f, 0.0f, -0.01*frametime));
 	}
 
 	return 0;

@@ -53,6 +53,7 @@ typedef struct mapped_texture {
 class Material {
 	public:
 		Material();
+		Material(Color color_);
 		~Material();
 
 		List<mapped_texture> *textures;

@@ -39,6 +39,17 @@ Material::Material() {
 	this->update_values();
 }
 
+Material::Material(Color color_)
+: color(color_) {
+	this->textures = new List<mapped_texture>();
+
+	this->roughness = 0.8f;
+	this->emission = 0.0f;
+	this->refractivity = 0.5f;
+	this->shade_program = 0;
+	this->update_values();
+}
+
 Material::~Material() {
 }
 
