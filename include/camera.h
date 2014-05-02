@@ -30,6 +30,8 @@
 #include "camera.h"
 #include "material.h"
 
+namespace oxygarum {
+
 /**
  * @class Viewport
  * @brief Definines the properties of a Screen
@@ -75,6 +77,8 @@ class Camera : public Transformation3D {
 
 		void use(void);
 		void render(void);
+};
+
 };
 
 #endif

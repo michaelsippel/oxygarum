@@ -24,6 +24,8 @@
 
 #include "object.h"
 
+namespace oxygarum {
+
 Object3D::Object3D() {
 	this->position = Vector3D();
 	this->rotation = Vector3D();
@@ -114,4 +116,6 @@ void Object3D::render(void) {
 		this->mesh->renderImmediate(num_textures);
 	}
 }
+
+};
 

@@ -29,6 +29,8 @@
 
 #include "list.h"
 
+namespace oxygarum {
+
 /**
  * @struct texture_parameter
  * @brief Parameters for loading textures
@@ -70,6 +72,8 @@ class Texture {
 		uint8_t *data;
 		GLenum format;
 		GLuint id;
+};
+
 };
 
 #endif

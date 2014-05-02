@@ -28,6 +28,8 @@
 #include "object.h"
 #include "mesh.h"
 
+namespace oxygarum {
+
 Mesh2D::Mesh2D() {
 }
 
@@ -61,3 +63,6 @@ void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face) {
   glEnd();
 }
 */
+
+};
+

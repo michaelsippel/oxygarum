@@ -24,6 +24,8 @@
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
+namespace oxygarum {
+
 /**
  * Vector class.
  */
@@ -75,6 +77,8 @@ class Vector2D {
 		float scalar(Vector2D v);
 		void dot(Vector2D v);
 		void dot(Vector2D v1, Vector2D v2);
+};
+
 };
 
 #endif

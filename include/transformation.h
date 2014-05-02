@@ -26,6 +26,8 @@
 
 #include "vector.h"
 
+namespace oxygarum {
+
 /**
  * @class Transformation3D
  * @brief Class for transforming in 3D-space
@@ -80,6 +82,8 @@ class Transformation2D {
 		void scale(float x_);
 
 		void useTransformation(void);
+};
+
 };
 
 #endif

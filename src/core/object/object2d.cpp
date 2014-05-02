@@ -30,6 +30,8 @@
 #include "object.h"
 #include "transformation.h"
 
+namespace oxygarum {
+
 Object2D::Object2D() {
 	this->position = Vector2D();
 	this->rotation = 0.0f;
@@ -90,4 +92,6 @@ void Object2D::render(void) {/*TODO
     oxygarum_render_face2d(obj->mesh, obj->mesh->faces[i]);
   }*/
 }
+
+};
 

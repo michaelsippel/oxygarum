@@ -29,6 +29,8 @@
 #include "mesh.h"
 #include "material.h"
 
+namespace oxygarum {
+
 #define OBJECT_VISIBLE         0x1
 #define OBJECT_TRANSPARENT     0x2
 #define OBJECT_DEPTH_BUFFERING 0x4
@@ -81,6 +83,8 @@ class Object2D : public Transformation2D {
 
 	private:
 		int status;
+};
+
 };
 
 #endif

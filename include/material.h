@@ -31,6 +31,8 @@
 #include "texture.h"
 #include "shader.h"
 
+namespace oxygarum {
+
 class Color {
 	public:
 		Color();
@@ -74,6 +76,8 @@ class Material {
 		void update_values(void);
 		GLint map_texture(Texture *tex, char *name, GLint mapping);
 		void use(void);
+};
+
 };
 
 #endif

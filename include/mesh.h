@@ -28,6 +28,8 @@
 #include "face.h"
 #include "material.h"
 
+namespace oxygarum {
+
 class Mesh3D;
 
 class RenderInstance {
@@ -102,6 +104,8 @@ class Mesh2D {
 
 		int num_faces;
 		Face **faces;
+};
+
 };
 
 #endif

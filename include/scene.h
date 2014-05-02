@@ -31,6 +31,8 @@
 #include "font.h"
 #include "list.h"
 
+namespace oxygarum {
+
 /**
  * @class Scene
  * @brief Class for a set of objects
@@ -54,6 +56,8 @@ class Scene {
 
 		void render3D(void);
 		void render2D(void);
+};
+
 };
 
 #endif

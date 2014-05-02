@@ -29,6 +29,8 @@
 #include "font.h"
 #include "light.h"
 
+namespace oxygarum {
+
 Scene::Scene() {
 	this->objects3D = new List<Object3D>();
 	this->objects2D = new List<Object2D>();
@@ -148,4 +150,6 @@ void Scene::render2D(void) {
     entry = entry->next;
   }*/
 }
+
+};
 

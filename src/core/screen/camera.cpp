@@ -23,6 +23,8 @@
 
 #include "camera.h"
 
+namespace oxygarum {
+
 /**
  * Default constructor.
  * Creates a Camera class with default values
@@ -142,4 +144,6 @@ void Camera::render(void) {
 */
 	glFlush();
 }
+
+};
 

@@ -26,6 +26,8 @@
 
 #include <SDL2/SDL.h>
 
+namespace oxygarum {
+
 class SDLWindow {
 	public:
 		SDLWindow();
@@ -46,6 +48,8 @@ class SDLWindow {
 
 		SDL_Window *sdl_window;
 		SDL_GLContext *sdl_context;
+};
+
 };
 
 #endif

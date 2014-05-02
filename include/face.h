@@ -26,6 +26,8 @@
 
 #include "vector.h"
 
+namespace oxygarum {
+
 class Mesh3D;
 class Mesh2D;
 class RenderInstance;
@@ -48,6 +50,8 @@ class Face {
 		int *vertices;
 		int *texcoords;
 		Vector3D normal;
+};
+
 };
 
 #endif

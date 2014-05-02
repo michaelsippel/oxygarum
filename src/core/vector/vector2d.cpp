@@ -22,6 +22,8 @@
 
 #include "vector.h"
 
+namespace oxygarum {
+
 Vector2D::Vector2D() {
 	this->x = 0.0f;
 	this->y = 0.0f;
@@ -82,4 +84,6 @@ void Vector2D::dot(Vector2D v1, Vector2D v2) {
 void Vector2D::dot(Vector2D v) {
 	this->dot(*this, v);
 }
+
+};
 

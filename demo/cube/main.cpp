@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+using namespace oxygarum;
+
 int main(int argc, char **argv) {
 	SDLWindow *window = new SDLWindow("Oxygarum demo", 1024, 576);
 	Camera *camera = new Camera(window, Vector3D(0.0f, 0.0f, 1.0f));
@@ -40,7 +42,7 @@ int main(int argc, char **argv) {
 	obj->mesh = mesh;
 	obj->setFlag(OBJECT_RENDER_VBO);
 
-	Texture *tex = new Texture("data/cube_diffuse.png");
+	Texture *tex = new Texture("data/wall_diffuse.png");
 	obj->material = new Material(Color(1.0f, 1.0f, 1.0f, 1.0f));
 	obj->material->map_texture(tex, "Texture0", 0);
 
@@ -61,7 +63,7 @@ int main(int argc, char **argv) {
 		camera->render();
 
 		float frametime = window->update();
-		camera->move(Vector3D(0.0f, 0.0f, -0.01*frametime));
+		obj->move(Vector3D(0.0f, 0.0f, -0.01*frametime));
 	}
 
 	return 0;

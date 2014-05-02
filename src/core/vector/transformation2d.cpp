@@ -25,6 +25,8 @@
 
 #include "transformation.h"
 
+namespace oxygarum {
+
 Transformation2D::Transformation2D() {
 	this->position = Vector2D();
 	this->rotation = 0.0f;
@@ -80,4 +82,6 @@ void Transformation2D::useTransformation(void) {
 	glScalef(this->scaling.x, this->scaling.y, 1.0f);
 	glTranslatef(this->position.x, this->position.y, 0.0f);
 }
+
+};
 

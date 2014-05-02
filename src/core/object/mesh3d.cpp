@@ -28,6 +28,8 @@
 #include "object.h"
 #include "mesh.h"
 
+namespace oxygarum {
+
 Mesh3D::Mesh3D() {
 }
 
@@ -127,4 +129,6 @@ void Mesh3D::renderImmediate(int num_textures) {
 		glEnd();
 	}
 }
+
+};
 

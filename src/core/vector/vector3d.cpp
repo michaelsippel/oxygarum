@@ -22,6 +22,8 @@
 
 #include "vector.h"
 
+namespace oxygarum {
+
 Vector3D::Vector3D() {
 	this->x = 0.0f;
 	this->y = 0.0f;
@@ -120,4 +122,6 @@ void Vector3D::dot(Vector3D v1, Vector3D v2) {
 void Vector3D::dot(Vector3D v) {
 	this->dot(*this, v);
 }
+
+};
 

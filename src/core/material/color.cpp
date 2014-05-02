@@ -27,6 +27,8 @@
 
 #include "material.h"
 
+namespace oxygarum {
+
 Color::Color() {
 	this->r = 1.0f;
 	this->g = 1.0f;
@@ -49,4 +51,6 @@ Color::~Color() {
 void Color::use(void) {
 	glColor4f(this->r, this->g, this->b, this->a);
 }
+
+};
 

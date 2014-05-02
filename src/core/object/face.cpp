@@ -27,6 +27,8 @@
 #include "vector.h"
 #include "face.h"
 
+namespace oxygarum {
+
 Face::Face() {
 	this->num_vertices = 0;
 	this->vertices = NULL;
@@ -47,4 +49,6 @@ Face::Face(int num_vertices_, int *vertices_, int *texcoords_)
 
 Face::~Face() {
 }
+
+};
 

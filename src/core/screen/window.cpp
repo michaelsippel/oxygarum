@@ -25,6 +25,8 @@
 #include <SDL2/SDL.h>
 #include "window.h"
 
+namespace oxygarum {
+
 SDLWindow::SDLWindow() {
 	this->width = 800;
 	this->height = 600;
@@ -71,4 +73,6 @@ int SDLWindow::getWidth(void) {
 int SDLWindow::getHeight(void) {
 	return this->height;
 }
+
+};
 

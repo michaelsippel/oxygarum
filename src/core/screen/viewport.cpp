@@ -24,6 +24,8 @@
 #include <GL/gl.h>
 #include "camera.h"
 
+namespace oxygarum {
+
 /**
  * Default constructor.
  * Creates a Viewport with default values
@@ -62,4 +64,6 @@ void Viewport::use(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(this->background.r, this->background.g, this->background.b, this->background.a);
 }
+
+};
 

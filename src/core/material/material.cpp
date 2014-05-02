@@ -28,6 +28,8 @@
 #include "material.h"
 #include "shader.h"
 
+namespace oxygarum {
+
 Material::Material() {
 	this->textures = new List<mapped_texture>();
 
@@ -111,7 +113,6 @@ void Material::use(void) {
 			glUniform1i(mapped_tex->location, mapped_tex->mapping);
 		}
 
-		printf("activate texture %d with id %d\n", mapped_tex->mapping, mapped_tex->texture->getID());
 		entry = entry->getNext();
 		i++;
 	}
@@ -123,4 +124,6 @@ void Material::use(void) {
 	glMaterialfv(GL_FRONT, GL_EMISSION, (GLfloat*) &this->gl_emission);
 	glMaterialfv(GL_FRONT, GL_SHININESS, (GLfloat*) &this->gl_shininess);
 }
+
+};
 

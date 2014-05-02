@@ -27,8 +27,7 @@
 
 #include "texture.h"
 
-extern SDL_Window *sdl_window;
-extern SDL_Renderer *sdl_renderer;
+namespace oxygarum {
 
 Texture::Texture() {
 	this->params = new List<texture_parameter_t>();
@@ -117,4 +116,6 @@ void Texture::load(void) {
 GLuint Texture::getID(void) {
 	return this->id;
 }
+
+};
 

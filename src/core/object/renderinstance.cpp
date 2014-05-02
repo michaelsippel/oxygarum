@@ -30,6 +30,8 @@
 #include "object.h"
 #include "mesh.h"
 
+namespace oxygarum {
+
 RenderInstance::RenderInstance() {
 	this->num_vertices = 0;
 	this->num_indices = 0;
@@ -156,4 +158,6 @@ void RenderInstance::create(void) {
 	glBindBuffer(GL_ARRAY_BUFFER, this->texcoord_id);
 	glBufferData(GL_ARRAY_BUFFER, this->num_vertices*sizeof(Vector2D), this->texcoords, GL_STATIC_DRAW);
 }
+
+};
 
