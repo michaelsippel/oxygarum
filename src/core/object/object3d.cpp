@@ -100,7 +100,7 @@ void Object3D::render(void) {
 	}
 
 	Material *mat = this->material;
-	if(mat == NULL) {
+	if(mat == NULL && this->mesh != NULL) {
 		mat = this->mesh->default_material;
 	}
 
@@ -110,10 +110,12 @@ void Object3D::render(void) {
 		num_textures = mat->textures->getSize();
 	}
 
-	if(this->status & OBJECT_RENDER_VBO && this->mesh->instance != NULL) {
-		this->mesh->renderInstance(num_textures);
-	} else {
-		this->mesh->renderImmediate(num_textures);
+	if(this->mesh != NULL) {
+		if(this->status & OBJECT_RENDER_VBO && this->mesh->instance != NULL) {
+			this->mesh->renderInstance(num_textures);
+		} else {
+			this->mesh->renderImmediate(num_textures);
+		}
 	}
 }
 

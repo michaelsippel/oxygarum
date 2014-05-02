@@ -112,7 +112,7 @@ void Mesh3D::renderImmediate(int num_textures) {
 
 			if(this->texcoords != NULL && face->texcoords != NULL) {
 				for(k = 0; k < num_textures; k++) {
-					glMultiTexCoord2f(GL_TEXTURE0 + k, this->texcoords[face->texcoords[k]].x, this->texcoords[face->texcoords[k]].y);
+					glMultiTexCoord2f(GL_TEXTURE0 + k, this->texcoords[face->texcoords[j]].x, this->texcoords[face->texcoords[j]].y);
 				}
 			}
 
