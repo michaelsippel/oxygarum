@@ -87,6 +87,8 @@ void Texture::read_file(const char *path) {
 			}
 		}
 	}
+
+	this->load();
 }
 
 void Texture::bind(void) {

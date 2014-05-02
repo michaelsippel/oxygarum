@@ -1,6 +1,5 @@
 //
-// this simple demo will draw a rotating
-// textured cube using the oxygarum 3D-Engine.
+// A simple demo
 //
 // Copyright (C) 2012-2013 Michael Sippel
 // <michamimosa@gmail.com>
@@ -22,21 +21,32 @@ int main(int argc, char **argv) {
 		Vector3D(-1.0f,-1.0f, 0.0f)
 	};
 
-	int indices[4] = {0, 1, 2, 3};
-	Face *faces[1] = {
-		new Face(4, (int*) &indices)
+	Vector2D texcoords[4] = {
+		Vector2D(-1.0f, 1.0f),
+		Vector2D( 1.0f, 1.0f),
+		Vector2D( 1.0f,-1.0f),
+		Vector2D(-1.0f,-1.0f)
 	};
 
-	Mesh3D *mesh = new Mesh3D(4, (Vector3D*) &vertices, 1, (Face**) &faces);
+	int indices[4] = {0, 1, 2, 3};
+	Face *faces[1] = {
+		new Face(4, (int*) &indices, (int*) &indices)
+	};
+
+	Mesh3D *mesh = new Mesh3D(4, (Vector3D*) &vertices, 4, (Vector2D*) &texcoords, 1, (Face**) &faces);
 	mesh->instance = new RenderInstance(mesh);
 
 	Object3D *obj = new Object3D();
 	obj->mesh = mesh;
 	obj->setFlag(OBJECT_RENDER_VBO);
 
-	obj->material = new Material(Color(1.0f, 0.0f, 0.0f, 1.0f));
+	Texture *tex = new Texture("data/cube_diffuse.png");
+	obj->material = new Material(Color(1.0f, 1.0f, 1.0f, 1.0f));
+	obj->material->map_texture(tex, "Texture0", 0);
 
 	camera->scene->objects3D->add(obj);
+
+	glEnable(GL_TEXTURE_2D);
 
 	// main loop
 	while(1) {

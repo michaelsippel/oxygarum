@@ -72,7 +72,7 @@ class Material {
 		GLuint shade_program;
 
 		void update_values(void);
-		GLint map_texture(Texture *tex, char *name);
+		GLint map_texture(Texture *tex, char *name, GLint mapping);
 		void use(void);
 };
 

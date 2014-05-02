@@ -82,6 +82,18 @@ void Material::update_values() {
 	this->gl_shininess[0] = (GLfloat) this->refractivity;
 }
 
+GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
+	mapped_texture_t *mapped_tex = (mapped_texture_t*) malloc(sizeof(mapped_texture_t));
+
+	mapped_tex->texture = tex;
+	mapped_tex->location = glGetUniformLocation(this->shade_program, name);
+	mapped_tex->mapping = mapping;
+
+	this->textures->add(mapped_tex);
+
+	return mapped_tex->location;
+}
+
 void Material::use(void) {
 	glUseProgram(this->shade_program);
 
@@ -92,13 +104,14 @@ void Material::use(void) {
 		glActiveTexture(GL_TEXTURE0 + mapped_tex->mapping);
 
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, mapped_tex->texture->getID());
+		mapped_tex->texture->bind();
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 		if(this->shade_program != 0) {
 			glUniform1i(mapped_tex->location, mapped_tex->mapping);
 		}
 
+		printf("activate texture %d with id %d\n", mapped_tex->mapping, mapped_tex->texture->getID());
 		entry = entry->getNext();
 		i++;
 	}
