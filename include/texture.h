@@ -49,14 +49,15 @@ typedef struct texture_parameter {
 class Texture {
 	public:
 		Texture();
-		Texture(const char *path);
-		Texture(const char *path, List<texture_parameter> *params_);
+		Texture(unsigned int width_, unsigned int height_, uint8_t *data_);
+		Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_);
+		Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_, List<texture_parameter> *params_);
 		~Texture();
 
 		List<texture_parameter> *params;
 
-		void read_file(const char *path);
 		void load(void);
+		void load(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_);
 		void bind(void);
 
 		int getWidth(void);
@@ -72,6 +73,10 @@ class Texture {
 		uint8_t *data;
 		GLenum format;
 		GLuint id;
+};
+
+namespace loader {
+	Texture *load_texture(const char *path);
 };
 
 };

@@ -16,6 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/**
+ * @author Michael Sippel <michamimosa@gmail.com>
+ */
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -31,71 +36,61 @@ namespace oxygarum {
 
 Texture::Texture() {
 	this->params = new List<texture_parameter_t>();
+	this->id = 0;
 }
 
-Texture::Texture(const char *path) {
+Texture::Texture(unsigned int width_, unsigned int height_, uint8_t *data_) {
 	this->params = new List<texture_parameter_t>();
-	this->read_file(path);
+	this->id = 0;
+	this->load(width_, height_, 3, data_);
 }
 
-Texture::Texture(const char *path, List<texture_parameter_t> *params_)
+Texture::Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_) {
+	this->params = new List<texture_parameter_t>();
+	this->id = 0;
+	this->load(width_, height_, bpp_, data_);
+}
+
+Texture::Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_, List<texture_parameter> *params_)
 : params(params_) {
-	this->read_file(path);
+	this->id = 0;
+	this->load(width_, height_, bpp_, data_);
 }
 
 Texture::~Texture() {
-}
-
-void Texture::read_file(const char *path) {
-	SDL_Surface *surface = IMG_Load(path);
-	this->width = surface->w;
-	this->height = surface->h;
-	this->data = (uint8_t*) surface->pixels;
-
-	this->bpp = surface->format->BytesPerPixel;
-	int mask  = surface->format->Rmask;
-
-	switch(this->bpp) {
-		case 3:
-			if (mask == 0x000000ff){
-				this->format = GL_RGB;
-			} else {
-				this->format = GL_BGR;
-			}
-			break;
-		case 4:
-			if (mask == 0x000000ff){
-				this->format = GL_RGBA;
-			} else {
-				this->format = GL_BGRA;
-			}
-			break;
-			default:
-				return;
-	}
-
-	// flip image
-	unsigned int i,j,k;
-	uint8_t tmp;
-	#define SWAP(a,b) {tmp = a; a = b; b = tmp;}
-	for(i = 0; i < (this->height / 2); i++) {
-		for(j = 0; j < this->width * this->bpp;  j += this->bpp) {
-			for(k = 0; k < this->bpp; k++) {
-				SWAP(this->data[(i * this->width * this->bpp) + j + k],
-				this->data[((this->height - i - 1) * this->width * this->bpp) + j + k]);
-			}
-		}
-	}
-
-	this->load();
+	glDeleteTextures(1, &this->id);
 }
 
 void Texture::bind(void) {
 	glBindTexture(GL_TEXTURE_2D, this->id);
 }
 
+void Texture::load(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_) {
+	this->width = width_;
+	this->height = height_;
+	this->bpp = bpp_;
+	this->data = data_;
+
+	switch(this->bpp) {
+		case 3:
+			this->format = GL_RGB;
+			break;
+
+		case 4:
+			this->format = GL_RGBA;
+			break;
+
+		default:
+			return;
+	}
+
+	this->load();
+}
+
 void Texture::load(void) {
-	glGenTextures(1, &this->id);
+	if(this->id == 0) {
+		glGenTextures(1, &this->id);
+	}
 	this->bind();
 
 	glTexImage2D(GL_TEXTURE_2D, 0, this->bpp, this->width, this->height, 0, this->format, GL_UNSIGNED_BYTE, this->data);

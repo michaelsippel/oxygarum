@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 	obj->mesh = mesh;
 	obj->setFlag(OBJECT_RENDER_VBO);
 
-	Texture *tex = new Texture("data/wall_diffuse.png");
+	Texture *tex = loader::load_texture("data/wall_diffuse.png");
 	obj->material = new Material(Color(1.0f, 1.0f, 1.0f, 1.0f));
 	obj->material->map_texture(tex, "Texture0", 0);
 
