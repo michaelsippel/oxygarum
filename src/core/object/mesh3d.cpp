@@ -61,7 +61,7 @@ void Mesh3D::calc_normals(void) {
 	this->normals = (Vector3D*) calloc(this->num_vertices, sizeof(Vector3D));
 
 	int i, j;
-	int common_face_count[this->num_vertices];
+	int *common_face_count = (int*) calloc(this->num_vertices, sizeof(int));
 
 	for(i = 0; i < this->num_faces; i++) {
 		Face *face = this->faces[i];
@@ -82,6 +82,8 @@ void Mesh3D::calc_normals(void) {
 		this->normals[i].div((float)common_face_count[i]);
 		this->normals[i].normalize();
 	}
+
+	free(common_face_count);
 }
 
 void Mesh3D::renderInstance(int num_textures) {

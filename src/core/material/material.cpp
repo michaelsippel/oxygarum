@@ -37,7 +37,7 @@ Material::Material() {
 	this->roughness = 0.8f;
 	this->emission = 0.0f;
 	this->refractivity = 0.5f;
-	this->shade_program = 0;
+	this->shade_program = NULL;
 	this->update_values();
 }
 
@@ -48,7 +48,7 @@ Material::Material(Color color_)
 	this->roughness = 0.8f;
 	this->emission = 0.0f;
 	this->refractivity = 0.5f;
-	this->shade_program = 0;
+	this->shade_program = NULL;
 	this->update_values();
 }
 
@@ -88,7 +88,11 @@ GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
 	mapped_texture_t *mapped_tex = (mapped_texture_t*) malloc(sizeof(mapped_texture_t));
 
 	mapped_tex->texture = tex;
-	mapped_tex->location = glGetUniformLocation(this->shade_program->getID(), name);
+	if(this->shade_program != NULL) {
+		mapped_tex->location = glGetUniformLocation(this->shade_program->getID(), name);
+	} else {
+		mapped_tex->location = 0;
+	}
 	mapped_tex->mapping = mapping;
 
 	this->textures->add(mapped_tex);
@@ -97,7 +101,9 @@ GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
 }
 
 void Material::use(void) {
-	this->shade_program->use();
+	if(this->shade_program != NULL) {
+		this->shade_program->use();
+	}
 
 	ListEntry<mapped_texture> *entry = this->textures->getHead();
 	int i = 0;
@@ -109,7 +115,7 @@ void Material::use(void) {
 		mapped_tex->texture->bind();
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-		if(this->shade_program->getID() != 0) {
+		if(this->shade_program != NULL) {
 			glUniform1i(mapped_tex->location, mapped_tex->mapping);
 		}
 

@@ -33,7 +33,7 @@ namespace oxygarum {
 
 Scene::Scene() {
 	this->objects3D = new List<Object3D>();
-	this->objects2D = new List<Object2D>();
+	//this->objects2D = new List<Object2D>();
 	//this->texts = new List<Text>();
 	//this->particle_emitters = new List<ParticleEmitter>();
 	this->lights = new List<Light>();
@@ -41,10 +41,10 @@ Scene::Scene() {
 
 Scene::~Scene() {
 	delete this->objects3D;
-	delete this->objects2D;
+	//delete this->objects2D;
 	//delete this->texts;
 	//delete this->particle_emitters;
-	//delete this->lights;
+	delete this->lights;
 }
 
 void Scene::render3D(void) {
@@ -86,7 +86,7 @@ void Scene::render3D(void) {
 			glPopAttrib();
 			glPopMatrix();
 		}
-    
+
 		o_entry = o_entry->getNext();
 	}
 /*
