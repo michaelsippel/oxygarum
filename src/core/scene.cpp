@@ -36,7 +36,7 @@ Scene::Scene() {
 	this->objects2D = new List<Object2D>();
 	//this->texts = new List<Text>();
 	//this->particle_emitters = new List<ParticleEmitter>();
-	//this->lights = new List<Light>();
+	this->lights = new List<Light>();
 }
 
 Scene::~Scene() {
@@ -48,38 +48,30 @@ Scene::~Scene() {
 }
 
 void Scene::render3D(void) {
-/*
 	// update lights
-	entry = scene->lights->head;
-  while(entry != NULL) {
-    light_t *light = (light_t*) entry->element;
-    if(light == NULL) {
-      continue;
-    }
-    
-    glPushMatrix();
-      glTranslatef(light->pos.x, light->pos.y, light->pos.z);
-      glRotatef(light->rot.x, 1.0f,0.0f,0.0f);
-      glRotatef(light->rot.y, 0.0f,1.0f,0.0f);
-      glRotatef(light->rot.z, 0.0f,0.0f,1.0f);
-      
-      glLightfv(light->gl_light, GL_AMBIENT, light->ambient);
-      glLightfv(light->gl_light, GL_DIFFUSE, light->diffuse);
-      glLightfv(light->gl_light, GL_SPECULAR, light->specular);
-      glLightfv(light->gl_light, GL_POSITION, light->r_pos);
-    glPopMatrix();
-    
-    entry = entry->next;
-  }
-  */
+	ListEntry<Light> *l_entry = this->lights->getHead();
 
-	if(this->objects3D == NULL){ return;}
+	while(l_entry != NULL) {
+		Light *light = l_entry->element;
+		if(light == NULL) {
+			continue;
+		}
+
+		glPushMatrix();
+
+		light->useTransformation();
+		light->update();
+
+		glPopMatrix();
+
+		l_entry = l_entry->getNext();
+	}
 
 	// render 3D-Objects
-	ListEntry<Object3D> *entry = this->objects3D->getHead();
+	ListEntry<Object3D> *o_entry = this->objects3D->getHead();
 
-	while(entry != NULL) {
-		Object3D *obj = entry->element;
+	while(o_entry != NULL) {
+		Object3D *obj = o_entry->element;
 		if(obj == NULL) {
 			continue;
 		}
@@ -95,7 +87,7 @@ void Scene::render3D(void) {
 			glPopMatrix();
 		}
     
-		entry = entry->getNext();
+		o_entry = o_entry->getNext();
 	}
 /*
   // render particles

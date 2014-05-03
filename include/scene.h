@@ -46,7 +46,7 @@ class Scene {
 		List<Object2D> *objects2D;
 		//List<Text> *texts;
 		//List<ParticleEmitter> *particle_emitters;
-		//List<Light> *lights;
+		List<Light> *lights;
 
 		ListEntry<Object3D> *addObject3D(Object3D *object);
 		ListEntry<Object2D> *addObject2D(Object3D *object);

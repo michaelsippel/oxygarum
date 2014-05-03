@@ -23,21 +23,31 @@
 
 #ifndef _LIGHT_H
 #define _LIGHT_H
-/*
+
 #include <GL/gl.h>
 #include "vector.h"
+#include "transformation.h"
+#include "material.h"
 
-typedef struct light {
-  GLfloat ambient[4];
-  GLfloat diffuse[4];
-  GLfloat specular[4];
-  GLfloat r_pos[4];
-  vertex3d_t pos;
-  vertex3d_t rot;
-  GLenum gl_light;
-} light_t;
+namespace oxygarum {
 
-light_t *oxygarum_create_light(void);
-*/
+class Light : public Transformation3D {
+	public:
+		Light();
+		Light(GLenum gl_light_);
+		Light(GLenum gl_light_, Color color);
+		~Light();
+
+		GLfloat ambient[4];
+		GLfloat diffuse[4];
+		GLfloat specular[4];
+		GLfloat r_pos[4];
+		GLenum gl_light;
+
+		void update(void);
+};
+
+};
+
 #endif
 

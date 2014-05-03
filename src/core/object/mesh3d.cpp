@@ -80,6 +80,7 @@ void Mesh3D::calc_normals(void) {
 
 	for(i = 0; i < this->num_vertices; i++) {
 		this->normals[i].div((float)common_face_count[i]);
+		this->normals[i].normalize();
 	}
 }
 
