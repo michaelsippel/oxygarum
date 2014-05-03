@@ -90,7 +90,7 @@ void Object3D::render(void) {
 	glRenderMode(GL_RENDER);
 
 	if(! (this->status & OBJECT_DEPTH_BUFFERING)) {
-		glDisable(GL_DEPTH_TEST);
+		//glDisable(GL_DEPTH_TEST);
 	}
 
 	if(this->status & OBJECT_TRANSPARENT) {    

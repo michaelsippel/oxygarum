@@ -41,20 +41,20 @@ color ffffff 1.0
 roughness 0.8
 refractivity 1.0
 emission 0.0
-shading basic_shader
+#shading basic_shader
 tex 0 Texture0 wall_diffuse_texture
-tex 1 Texture1 wall_normal_texture
-tex 2 Texture2 black_texture
+#tex 1 Texture1 wall_normal_texture
+#tex 2 Texture2 black_texture
 
 material suzanne_material
 color ffffff 1.0
 roughness 0.8
 refractivity 0.1
 emission 0.0
-shading basic_shader
+#shading basic_shader
 tex 0 Texture0 suzanne_diffuse_texture
-tex 1 Texture1 suzanne_normal_texture
-tex 2 Texture2 black_texture
+#tex 1 Texture1 suzanne_normal_texture
+#tex 2 Texture2 black_texture
 
 include data/cube.oxy3d
 include data/wall.oxy3d
