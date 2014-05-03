@@ -128,7 +128,7 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 	}
 
 	if(ret->textures == NULL) ret->textures = new List<Texture>();
-	if(ret->shaders == NULL) ret->shaders = new List<GLuint>();
+	if(ret->shaders == NULL) ret->shaders = new List<ShadeProgram>();
 	if(ret->materials == NULL) ret->materials = new List<Material>();
 	if(ret->meshes == NULL) ret->meshes = new List<Mesh3D>();
 	if(ret->objects == NULL) ret->objects = new List<Object3D>();
@@ -157,7 +157,7 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 	char buf[256];
 	Texture *tex = NULL;
 	Material *mat = NULL;
-	GLuint shader;
+	ShadeProgram *shader = NULL;
 	Mesh3D *mesh = NULL;
 	int read = 0;
 
@@ -192,17 +192,17 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 		// shader
 		} else if(cmd_id == CMD_SHADER) {
 			if(strcmp(cmd, "vsh") == 0) {
-				//GLint vshader = oxygarum_create_shader_from_file(GL_VERTEX_SHADER, args);
-				//glAttachShader(shader, vshader);
+				Shader *vshader = load_shader(GL_VERTEX_SHADER, args);
+				shader->attach(vshader);
 			} else if(strcmp(cmd, "fsh") == 0) {
-				//GLint vshader = oxygarum_create_shader_from_file(GL_FRAGMENT_SHADER, args);
-				//glAttachShader(shader, vshader);
+				Shader *fshader = load_shader(GL_FRAGMENT_SHADER, args);
+				shader->attach(fshader);
 			} else if(strcmp(cmd, "gsh") == 0) {
-				//GLint vshader = oxygarum_create_shader_from_file(GL_GEOMETRY_SHADER, args);
-				//glAttachShader(shader, vshader);
+				Shader *gshader = load_shader(GL_GEOMETRY_SHADER, args);
+				shader->attach(gshader);
 			} else {
-				glLinkProgram(shader);
-				ret->shaders->add((GLuint*) &shader, name);
+				shader->link();
+				ret->shaders->add(shader, name);
 				RESET_CMD;
 			}
 
@@ -226,7 +226,7 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 				ListEntry<Texture> *tex_entry = ret->textures->getEntry(path);
 				mat->map_texture(tex_entry->element, buf, pos);
 			} else if(strcmp(cmd, "shading") == 0) {
-				shader = *ret->shaders->getEntry(args)->element;
+				shader = ret->shaders->getEntry(args)->element;
 				mat->shade_program = shader;
 			} else {
 				mat->update_values();
@@ -324,11 +324,12 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 
 			} else if(strcmp(cmd, "shader") == 0) {
 				SET_CMD(CMD_SHADER);
-				shader = glCreateProgram();
+				shader = new ShadeProgram();
 
 			} else if(strcmp(cmd, "material") == 0) {
 				SET_CMD(CMD_MATERIAL);
 				mat = new Material();
+
 			} else if(strcmp(cmd, "mesh") == 0) {
 				pos2 = ftell(f);
 				mesh = NULL;

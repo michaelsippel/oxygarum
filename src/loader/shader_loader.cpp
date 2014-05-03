@@ -1,5 +1,5 @@
 /**
- *  include/shader.h
+ *  src/loader/shader_loader.cpp
  *
  *  Copyright (C) 2013-2014 Michael Sippel
  *
@@ -21,50 +21,30 @@
  * @author Michael Sippel <michamimosa@gmail.com>
  */
 
-#ifndef _SHADER_H
-#define _SHADER_H
-
-#include <GL/glew.h>
-#include <GL/gl.h>
-#include "list.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "shader.h"
 
 namespace oxygarum {
-
-class Shader {
-	friend class ShadeProgram;
-
-	public:
-		Shader();
-		Shader(GLuint type_, const char *source, int len);
-		~Shader();
-
-		void compile(GLuint type_, const char *source, int len);
-
-	private:
-		GLuint type;
-		GLuint id;
-};
-
-class ShadeProgram {
-	public:
-		ShadeProgram();
-		~ShadeProgram();
-
-		void attach(Shader *shader);
-		void link(void);
-		void use(void);
-
-		GLuint getID(void);
-
-	private:
-		GLuint id;
-};
-
 namespace loader {
-	Shader *load_shader(GLuint type, const char *path);
-};
+
+Shader *load_shader(GLuint type, const char *path) {
+	FILE *file = fopen(path, "r");
+
+	fseek(file, 0, SEEK_END);
+	int len = ftell(file);
+	char *text = (char*) malloc(len);
+	fseek(file, 0, SEEK_SET);
+	fread(text, len, 1, file);
+	fclose(file);
+
+  	Shader *shader = new Shader(type, text, len);
+	free(text);
+
+	return shader;
+}
 
 };
-
-#endif
+};
 

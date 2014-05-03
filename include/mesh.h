@@ -27,6 +27,7 @@
 #include "vector.h"
 #include "face.h"
 #include "material.h"
+#include "shader.h"
 
 namespace oxygarum {
 
@@ -110,7 +111,7 @@ namespace loader {
 	class Object3D;
 	struct load_return {
 		List<Texture> *textures;
-		List<GLuint> *shaders;
+		List<ShadeProgram> *shaders;
 		List<Material> *materials;
 		List<Mesh3D> *meshes;
 		List<Object3D> *objects;

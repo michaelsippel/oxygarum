@@ -71,7 +71,7 @@ class Material {
 		GLfloat gl_emission[4];
 		GLfloat gl_shininess[1];
 
-		GLuint shade_program;
+		ShadeProgram *shade_program;
 
 		void update_values(void);
 		GLint map_texture(Texture *tex, char *name, GLint mapping);

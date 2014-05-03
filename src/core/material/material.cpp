@@ -88,7 +88,7 @@ GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
 	mapped_texture_t *mapped_tex = (mapped_texture_t*) malloc(sizeof(mapped_texture_t));
 
 	mapped_tex->texture = tex;
-	mapped_tex->location = glGetUniformLocation(this->shade_program, name);
+	mapped_tex->location = glGetUniformLocation(this->shade_program->getID(), name);
 	mapped_tex->mapping = mapping;
 
 	this->textures->add(mapped_tex);
@@ -97,7 +97,7 @@ GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
 }
 
 void Material::use(void) {
-	glUseProgram(this->shade_program);
+	this->shade_program->use();
 
 	ListEntry<mapped_texture> *entry = this->textures->getHead();
 	int i = 0;
@@ -109,7 +109,7 @@ void Material::use(void) {
 		mapped_tex->texture->bind();
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-		if(this->shade_program != 0) {
+		if(this->shade_program->getID() != 0) {
 			glUniform1i(mapped_tex->location, mapped_tex->mapping);
 		}
 
