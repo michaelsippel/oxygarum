@@ -25,10 +25,13 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
-#include "material.h"
+#include "logger.h"
 #include "shader.h"
+#include "material.h"
 
 namespace oxygarum {
+
+Logger *Material::logger = new Logger("material");
 
 Material::Material() {
 	this->textures = new List<mapped_texture>();
@@ -92,6 +95,7 @@ GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
 		mapped_tex->location = glGetUniformLocation(this->shade_program->getID(), name);
 	} else {
 		mapped_tex->location = 0;
+		this->logger->log(WARNING, "attempt to map a texture without shader.\n");
 	}
 	mapped_tex->mapping = mapping;
 

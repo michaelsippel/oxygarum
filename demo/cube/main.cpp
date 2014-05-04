@@ -13,12 +13,6 @@
 using namespace oxygarum;
 
 int main(int argc, char **argv) {
-	Logger *logger = new Logger("oxygarum");
-	logger->log(INFO, "Hello from Logger!");
-
-	Logger *sub_logger = new Logger(logger, "test_sub_logger");
-	sub_logger->log(ERROR, "panic!!");
-
 	SDLWindow *window = new SDLWindow("Oxygarum demo", 1025, 576);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);

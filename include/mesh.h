@@ -28,6 +28,7 @@
 #include "face.h"
 #include "material.h"
 #include "shader.h"
+#include "logger.h"
 
 namespace oxygarum {
 
@@ -42,6 +43,8 @@ class RenderInstance {
 		Mesh3D *mesh;
 		void create(void);
 		void render(int num_textures);
+
+		static Logger *logger;
 
 	private:
 		GLuint index_id;
@@ -74,6 +77,8 @@ class Mesh3D {
 		void renderInstance(int num_textures);
 		void renderImmediate(int num_textures);
 
+		static Logger *logger;
+
 	private:
 		int num_vertices;
 		Vector3D *vertices;
@@ -95,6 +100,8 @@ class Mesh2D {
 		Material *default_material;
 
 		void render(void);
+
+		static Logger *logger;
 
 	private:
 		int num_vertices;

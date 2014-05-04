@@ -27,10 +27,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "logger.h"
 #include "object.h"
 #include "mesh.h"
 
 namespace oxygarum {
+
+Logger *RenderInstance::logger = new Logger("renderinstance");
 
 RenderInstance::RenderInstance() {
 	this->num_vertices = 0;
@@ -157,6 +160,8 @@ void RenderInstance::create(void) {
 	glGenBuffers(1, &this->texcoord_id);
 	glBindBuffer(GL_ARRAY_BUFFER, this->texcoord_id);
 	glBufferData(GL_ARRAY_BUFFER, this->num_vertices*sizeof(Vector2D), this->texcoords, GL_STATIC_DRAW);
+
+	this->logger->log(INFO, "render-instance created");
 }
 
 };

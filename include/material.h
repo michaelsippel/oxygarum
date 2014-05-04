@@ -27,6 +27,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
+#include "logger.h"
 #include "list.h"
 #include "texture.h"
 #include "shader.h"
@@ -76,6 +77,8 @@ class Material {
 		void update_values(void);
 		GLint map_texture(Texture *tex, char *name, GLint mapping);
 		void use(void);
+
+		static Logger *logger;
 };
 
 };

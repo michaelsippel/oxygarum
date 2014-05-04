@@ -25,6 +25,7 @@
 #define _WINDOW_H
 
 #include <SDL2/SDL.h>
+#include "logger.h"
 
 namespace oxygarum {
 
@@ -39,6 +40,8 @@ class SDLWindow {
 
 		int getWidth(void);
 		int getHeight(void);
+
+		static Logger *logger;
 
 	private:
 		void init(void);

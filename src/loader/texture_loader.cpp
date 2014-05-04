@@ -23,6 +23,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "logger.h"
 #include "texture.h"
 
 namespace oxygarum {

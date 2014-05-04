@@ -26,6 +26,7 @@
 
 #include <GL/glew.h>
 #include <GL/gl.h>
+#include "logger.h"
 #include "list.h"
 
 namespace oxygarum {
@@ -39,6 +40,8 @@ class Shader {
 		~Shader();
 
 		void compile(GLuint type_, const char *source, int len);
+
+		static Logger *logger;
 
 	private:
 		GLuint type;
@@ -55,6 +58,8 @@ class ShadeProgram {
 		void use(void);
 
 		GLuint getID(void);
+
+		static Logger *logger;
 
 	private:
 		GLuint id;

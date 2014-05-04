@@ -20,9 +20,12 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
+#include "logger.h"
 #include "shader.h"
 
 namespace oxygarum {
+
+Logger *Shader::logger = new Logger("shader");
 
 Shader::Shader() {
 }
@@ -61,9 +64,14 @@ void Shader::compile(GLuint type_, const char *source, int len) {
 	}
 
 	if(llen > 1) {
+		this->logger->log(ERROR, "shader compiling fails:");
 		printf("Error compiling %s:\n%s\n", shadertype, log);
+	} else {
+		this->logger->log(INFO, "shader compiled");	
 	}
 }
+
+Logger *ShadeProgram::logger = new Logger("shadeprogram");
 
 ShadeProgram::ShadeProgram() {
 	this->id = glCreateProgram();
@@ -84,7 +92,10 @@ void ShadeProgram::link(void) {
 	char log[len+1];
 
 	if(len > 1) {
+		this->logger->log(ERROR, "shader linker:");
 		printf("Error linking program:\n", log);
+	} else {
+		this->logger->log(INFO, "program linked");
 	}
 }
 

@@ -25,10 +25,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "logger.h"
 #include "object.h"
 #include "mesh.h"
 
 namespace oxygarum {
+
+Logger *Mesh3D::logger = new Logger("mesh3d");
 
 Mesh3D::Mesh3D() {
 }
@@ -89,6 +92,9 @@ void Mesh3D::calc_normals(void) {
 void Mesh3D::renderInstance(int num_textures) {
 	if(this->instance != NULL) {
 		this->instance->render(num_textures);
+	} else {
+		this->logger->log(ERROR, "call to render VBO without instance (now using immediate mode)");
+		this->renderImmediate(num_textures);
 	}
 }
 
@@ -117,10 +123,14 @@ void Mesh3D::renderImmediate(int num_textures) {
 				for(k = 0; k < num_textures; k++) {
 					glMultiTexCoord2f(GL_TEXTURE0 + k, this->texcoords[face->texcoords[j]].x, this->texcoords[face->texcoords[j]].y);
 				}
+			} else {
+				this->logger->log(WARNING, "no texcoords avaiable");
 			}
 
 			if(this->normals != NULL) {
 				glNormal3f(this->normals[id].x, this->normals[id].y, this->normals[id].z);
+			} else {
+				this->logger->log(WARNING, "no normals available");			
 			}
 
 			glVertex3f(

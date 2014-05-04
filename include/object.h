@@ -24,6 +24,7 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
+#include "logger.h"
 #include "vector.h"
 #include "transformation.h"
 #include "mesh.h"
@@ -57,6 +58,8 @@ class Object3D : public Transformation3D {
 		void removeFlag(int flag);
 		int getStatus(void);
 
+		static Logger *logger;
+
 	private:
 		int status;
 };
@@ -80,6 +83,8 @@ class Object2D : public Transformation2D {
 		void setFlag(int flag);
 		void removeFlag(int flag);
 		int getStatus(void);
+
+		static Logger *logger;
 
 	private:
 		int status;

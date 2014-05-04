@@ -22,9 +22,12 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
+#include "logger.h"
 #include "object.h"
 
 namespace oxygarum {
+
+Logger *Object3D::logger = new Logger("object3d");
 
 Object3D::Object3D() {
 	this->position = Vector3D();
@@ -90,7 +93,7 @@ void Object3D::render(void) {
 	glRenderMode(GL_RENDER);
 
 	if(! (this->status & OBJECT_DEPTH_BUFFERING)) {
-		//glDisable(GL_DEPTH_TEST);
+		glDisable(GL_DEPTH_TEST);
 	}
 
 	if(this->status & OBJECT_TRANSPARENT) {    
@@ -99,23 +102,29 @@ void Object3D::render(void) {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
+	if(mesh == NULL) {
+		this->logger->log(ERROR, "object X has no mesh");
+		return;
+	}
+
 	Material *mat = this->material;
-	if(mat == NULL && this->mesh != NULL) {
+	if(mat == NULL) {
 		mat = this->mesh->default_material;
+		//this->logger->log(INFO, "using default material for object X");
 	}
 
 	int num_textures = 0;
 	if(mat != NULL){
 		mat->use();
 		num_textures = mat->textures->getSize();
+	} else {
+		this->logger->log(WARNING, "object X has no material");
 	}
 
-	if(this->mesh != NULL) {
-		if(this->status & OBJECT_RENDER_VBO && this->mesh->instance != NULL) {
-			this->mesh->renderInstance(num_textures);
-		} else {
-			this->mesh->renderImmediate(num_textures);
-		}
+	if(this->status & OBJECT_RENDER_VBO) {
+		this->mesh->renderInstance(num_textures);
+	} else {
+		this->mesh->renderImmediate(num_textures);
 	}
 }
 

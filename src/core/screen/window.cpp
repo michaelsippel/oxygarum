@@ -23,9 +23,12 @@
 
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
+#include "logger.h"
 #include "window.h"
 
 namespace oxygarum {
+
+Logger *SDLWindow::logger = new Logger("window");
 
 SDLWindow::SDLWindow() {
 	this->width = 800;
@@ -47,10 +50,31 @@ SDLWindow::~SDLWindow() {
 }
 
 void SDLWindow::init(void) {
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
+		this->logger->log(ERROR, "SDL init failed!");
+	} else {
+		this->logger->log(INFO, "SDL initalized!");
+	}
+
 	this->sdl_window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL);
+	if(this->sdl_window == NULL) {
+		this->logger->log(ERROR, "SDL create window failed!");
+	} else {
+		this->logger->log(INFO, "Window created!");
+	}
+
 	this->sdl_context = (SDL_GLContext*) SDL_GL_CreateContext(this->sdl_window);
-	glewInit();
+	if(this->sdl_context == NULL) {
+		this->logger->log(ERROR, "OpenGL context creation failed!");
+	} else {
+		this->logger->log(INFO, "OpenGL context created!");
+	}
+
+	if(glewInit() == GLEW_OK) {
+		this->logger->log(INFO, "glewInit was sucessful!");
+	} else {
+		this->logger->log(ERROR, "glewInit failed!");
+	}
 }
 
 float SDLWindow::update(void) {
