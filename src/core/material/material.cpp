@@ -93,7 +93,7 @@ GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
 		mapped_tex->location = glGetUniformLocation(this->shade_program->getID(), name);
 	} else {
 		mapped_tex->location = 0;
-		this->logger->log(WARNING, "attempt to map a texture without shader.\n");
+		this->logger->log(WARNING, "attempt to map a texture without shader");
 	}
 	mapped_tex->mapping = mapping;
 

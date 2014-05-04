@@ -80,9 +80,13 @@ float SDLWindow::update(void) {
 	float frametime = time_cur - time_prev;
 	time_prev = time_cur;
 
-	SDL_GL_SwapWindow(this->sdl_window);
+	this->swap();
 
 	return frametime;
+}
+
+void SDLWindow::swap(void) {
+	SDL_GL_SwapWindow(this->sdl_window);
 }
 
 int SDLWindow::getWidth(void) {

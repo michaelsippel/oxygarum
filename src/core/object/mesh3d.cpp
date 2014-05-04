@@ -37,6 +37,7 @@ Mesh3D::Mesh3D() {
 Mesh3D::Mesh3D(int num_vertices_, Vector3D *vertices_, int num_faces_, Face **faces_)
 : num_vertices(num_vertices_), vertices(vertices_), num_faces(num_faces_), faces(faces_) {
 	this->calc_normals();
+	this->num_texcoords = 0;
 	this->texcoords = NULL;
 	this->instance = NULL;
 	this->default_material = NULL;
@@ -85,6 +86,7 @@ void Mesh3D::calc_normals(void) {
 	}
 
 	free(common_face_count);
+	this->logger->log(INFO, "normals calculated");
 }
 
 void Mesh3D::renderInstance(int num_textures) {

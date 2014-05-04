@@ -159,7 +159,7 @@ void RenderInstance::create(void) {
 	glBindBuffer(GL_ARRAY_BUFFER, this->texcoord_id);
 	glBufferData(GL_ARRAY_BUFFER, this->num_vertices*sizeof(Vector2D), this->texcoords, GL_STATIC_DRAW);
 
-	this->logger->log(INFO, "render-instance created");
+	this->logger->log(INFO, "render-instance created (%d indices, %d vertices)", this->num_indices, this->num_vertices);
 }
 
 };

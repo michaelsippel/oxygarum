@@ -37,6 +37,7 @@ class SDLWindow {
 		~SDLWindow();
 
 		float update(void);
+		void swap(void);
 
 		int getWidth(void);
 		int getHeight(void);

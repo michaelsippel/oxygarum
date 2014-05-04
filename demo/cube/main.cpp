@@ -25,9 +25,9 @@ int main(int argc, char **argv) {
 	cube->setFlag(OBJECT_RENDER_VBO);
 	wall->setFlag(OBJECT_RENDER_VBO);
 	suzanne->setFlag(OBJECT_RENDER_VBO);
-	scene->objects3D->add(cube);
-	scene->objects3D->add(wall);
-	scene->objects3D->add(suzanne);
+	scene->objects3D->add(cube, "cube");
+	scene->objects3D->add(wall, "wall");
+	scene->objects3D->add(suzanne, "suzanne");
 
 	Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
 	scene->lights->add(light);
@@ -43,12 +43,12 @@ int main(int argc, char **argv) {
 
 	Camera *left = new Camera(window, scene, Viewport(0,0, window->getWidth()/2, window->getHeight()));
 	Camera *right = new Camera(window, scene, Viewport(window->getWidth()/2,0, window->getWidth()/2, window->getHeight()));
-	left->position = Vector3D(-5.0f, -2.0f, -5.0f);
-	left->rotation = Vector3D(0.0f, -44.5f,  0.0f);
+	left->position = Vector3D(-4.0f, -10.0f, -5.0f);
+	left->rotation = Vector3D(40.0f, -44.5f,  0.0f);
 	left->fov = 45.0f;
 
-	right->position = Vector3D(-5.0f, -2.0f, -5.0f);
-	right->rotation = Vector3D(0.0f, -45.5f,  0.0f);
+	right->position = Vector3D(-8.0f, -2.0f, -4.0f);
+	right->rotation = Vector3D(0.0f, -60.5f,  0.0f);
 	right->fov = 45.0f;
 
 	Logger *fps_logger = new Logger("fps");
@@ -56,6 +56,7 @@ int main(int argc, char **argv) {
 
 	// main loop
 	while(1) {
+		// handle events
 		SDL_Event event;
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -65,11 +66,12 @@ int main(int argc, char **argv) {
 			}
 		}
 
+		// render
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		left->render();
 		right->render();
 
+		// update
 		float frametime = window->update();
 		time += frametime;
 		if(time >= 1000) {

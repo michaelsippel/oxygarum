@@ -30,6 +30,7 @@
 #include "light.h"
 #include "font.h"
 #include "list.h"
+#include "logger.h"
 
 namespace oxygarum {
 
@@ -56,6 +57,8 @@ class Scene {
 
 		void render3D(void);
 		void render2D(void);
+
+		static Logger *logger;
 };
 
 };
