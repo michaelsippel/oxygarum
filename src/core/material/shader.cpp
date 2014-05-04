@@ -21,11 +21,10 @@
 #include <GL/gl.h>
 
 #include "logger.h"
+#include "material.h"
 #include "shader.h"
 
 namespace oxygarum {
-
-Logger *Shader::logger = new Logger("shader");
 
 Shader::Shader() {
 }
@@ -69,8 +68,6 @@ void Shader::compile(GLuint type_, const char *source, int len) {
 		this->logger->log(INFO, "shader compiled");	
 	}
 }
-
-Logger *ShadeProgram::logger = new Logger("shadeprogram");
 
 ShadeProgram::ShadeProgram() {
 	this->id = glCreateProgram();

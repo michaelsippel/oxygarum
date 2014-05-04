@@ -76,5 +76,5 @@ class Logger {
 
 };
 
-#endif _LOGGER_H
+#endif
 

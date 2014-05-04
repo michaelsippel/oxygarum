@@ -1,5 +1,5 @@
 /**
- *  src/object/mesh.cpp
+ *  src/core/object/mesh.cpp
  *
  *  (C) Copyright 2013-2014 Michael Sippel
  *
@@ -32,8 +32,6 @@
 #include "mesh.h"
 
 namespace oxygarum {
-
-Logger *RenderInstance::logger = new Logger("renderinstance");
 
 RenderInstance::RenderInstance() {
 	this->num_vertices = 0;

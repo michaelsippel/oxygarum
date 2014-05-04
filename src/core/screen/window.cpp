@@ -28,8 +28,6 @@
 
 namespace oxygarum {
 
-Logger *SDLWindow::logger = new Logger("window");
-
 SDLWindow::SDLWindow() {
 	this->width = 800;
 	this->height = 600;
@@ -52,29 +50,26 @@ SDLWindow::~SDLWindow() {
 void SDLWindow::init(void) {
 	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
 		this->logger->log(ERROR, "SDL init failed!");
-	} else {
-		this->logger->log(INFO, "SDL initalized!");
+		return;
 	}
 
 	this->sdl_window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL);
 	if(this->sdl_window == NULL) {
 		this->logger->log(ERROR, "SDL create window failed!");
-	} else {
-		this->logger->log(INFO, "Window created!");
+		return;
 	}
 
 	this->sdl_context = (SDL_GLContext*) SDL_GL_CreateContext(this->sdl_window);
 	if(this->sdl_context == NULL) {
 		this->logger->log(ERROR, "OpenGL context creation failed!");
-	} else {
-		this->logger->log(INFO, "OpenGL context created!");
+		return;
 	}
 
-	if(glewInit() == GLEW_OK) {
-		this->logger->log(INFO, "glewInit was sucessful!");
-	} else {
+	if(glewInit() != GLEW_OK) {
 		this->logger->log(ERROR, "glewInit failed!");
 	}
+
+	this->logger->log(INFO, "window created");
 }
 
 float SDLWindow::update(void) {

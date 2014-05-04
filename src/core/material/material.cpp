@@ -31,8 +31,6 @@
 
 namespace oxygarum {
 
-Logger *Material::logger = new Logger("material");
-
 Material::Material() {
 	this->textures = new List<mapped_texture>();
 

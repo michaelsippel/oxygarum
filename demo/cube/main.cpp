@@ -51,6 +51,9 @@ int main(int argc, char **argv) {
 	right->rotation = Vector3D(0.0f, -45.5f,  0.0f);
 	right->fov = 45.0f;
 
+	Logger *fps_logger = new Logger("fps");
+	float time = 0;
+
 	// main loop
 	while(1) {
 		SDL_Event event;
@@ -68,6 +71,11 @@ int main(int argc, char **argv) {
 		right->render();
 
 		float frametime = window->update();
+		time += frametime;
+		if(time >= 1000) {
+			fps_logger->log(INFO, "%f fps, %f ms per frame", 1/frametime*1000, frametime);
+			time = 0;
+		}
 
 		int mx, my;
 		SDL_GetMouseState(&mx, &my);

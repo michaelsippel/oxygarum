@@ -1,5 +1,5 @@
 /**
- *  src/object/mesh3d.cpp
+ *  src/core/object/mesh3d.cpp
  *
  *  (C) Copyright 2013-2014 Michael Sippel
  *
@@ -30,8 +30,6 @@
 #include "mesh.h"
 
 namespace oxygarum {
-
-Logger *Mesh3D::logger = new Logger("mesh3d");
 
 Mesh3D::Mesh3D() {
 }

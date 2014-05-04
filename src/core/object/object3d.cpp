@@ -27,8 +27,6 @@
 
 namespace oxygarum {
 
-Logger *Object3D::logger = new Logger("object3d");
-
 Object3D::Object3D() {
 	this->position = Vector3D();
 	this->rotation = Vector3D();
