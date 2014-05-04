@@ -50,7 +50,6 @@ class LogData {
 
 	private:
 		Logger *parent;
-		char prefix_str[256];
 
 		enum log_type type;
 		char text[256];
@@ -68,7 +67,9 @@ class Logger {
 
 		Logger *parent;
 		char prefix[64];
+		char prefix_str[256];
 
+		void generate_prefix_str(char *prefix_);
 		void log(enum log_type type, const char *text);
 };
 

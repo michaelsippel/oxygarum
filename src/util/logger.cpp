@@ -36,7 +36,7 @@ Logger::Logger() {
 }
 
 Logger::Logger(char *prefix_) {
-	strcpy(this->prefix, prefix_);
+	this->generate_prefix_str(prefix_);
 	this->log_data = new List<LogData>();
 	this->sub_loggers = new List<Logger>();
 	this->parent = NULL;
@@ -46,7 +46,7 @@ Logger::Logger(Logger *parent_, char *prefix_) {
 	parent_->sub_loggers->add(parent_);
 	this->parent = parent_;
 
-	strcpy(this->prefix, prefix_);
+	this->generate_prefix_str(prefix_);
 	this->log_data = new List<LogData>();
 	this->sub_loggers = new List<Logger>();
 }
@@ -54,11 +54,21 @@ Logger::Logger(Logger *parent_, char *prefix_) {
 Logger::~Logger() {
 }
 
+void Logger::generate_prefix_str(char *prefix_) {
+	strcpy(this->prefix, prefix_);
+
+	if(this->parent != NULL) {
+		strcpy(this->prefix_str, this->parent->prefix_str);
+		strcat(this->prefix_str, "/");
+	}
+	strcat(this->prefix_str, prefix_);
+}
+
 void Logger::log(enum log_type type, const char *text) {
 	LogData *data = new LogData(this, type, text);
 	this->log_data->add(data);
 
-	printf("%s %s %s\n", data->getTypeString(), data->getPrefixString(), data->text);
+	printf("[%s] %s: %s\n", data->getTypeString(), this->prefix_str, data->text);
 }
 
 LogData::LogData() {
@@ -73,16 +83,6 @@ LogData::LogData(enum log_type type_, const char *text_)
 LogData::LogData(Logger *parent_, enum log_type type_, const char *text_)
 : parent(parent_), type(type_) {
 	strcpy(this->text, text_);
-	if(this->parent != NULL) {
-		Logger *l = this->parent;
-
-		while(l != NULL) {
-			strcat(this->prefix_str, l->prefix);
-			strcat(this->prefix_str, ":");
-
-			l = l->parent;
-		}
-	}
 }
 
 LogData::~LogData() {
@@ -92,13 +92,13 @@ char *LogData::getTypeString(void) {
 	char *type_str;
 	switch(this->type) {
 		case INFO:
-			type_str = "[INFO]";
+			type_str = "INFO";
 			break;
 		case WARNING:
-			type_str = "[WARNING]";
+			type_str = "WARNING";
 			break;
 		case ERROR:
-			type_str = "[ERROR]";
+			type_str = "ERROR";
 			break;
 	}
 
@@ -106,7 +106,7 @@ char *LogData::getTypeString(void) {
 }
 
 char *LogData::getPrefixString(void) {
-	return (char*) &this->prefix_str;
+	return (char*) &this->parent->prefix_str;
 }
 
 };
