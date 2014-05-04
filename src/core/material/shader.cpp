@@ -53,19 +53,18 @@ void Shader::compile(GLuint type_, const char *source, int len) {
 	char *shadertype;
 	switch(type) {
 		case GL_VERTEX_SHADER:
-			shadertype = "Vertexshader";
+			shadertype = "vertexshader";
 			break;
 		case GL_GEOMETRY_SHADER:
-			shadertype = "Geometryshader";
+			shadertype = "geometryshader";
 			break;
 		case GL_FRAGMENT_SHADER:
-			shadertype = "Fragmentshader";
+			shadertype = "fragmentshader";
 			break;
 	}
 
 	if(llen > 1) {
-		this->logger->log(ERROR, "shader compiling fails:");
-		printf("Error compiling %s:\n%s\n", shadertype, log);
+		this->logger->log(ERROR, "compiling %s:\n%s\n", shadertype, log);
 	} else {
 		this->logger->log(INFO, "shader compiled");	
 	}
@@ -92,8 +91,7 @@ void ShadeProgram::link(void) {
 	char log[len+1];
 
 	if(len > 1) {
-		this->logger->log(ERROR, "shader linker:");
-		printf("Error linking program:\n", log);
+		this->logger->log(ERROR, "linking program:\n", log);
 	} else {
 		this->logger->log(INFO, "program linked");
 	}

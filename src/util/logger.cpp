@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "list.h"
 #include "logger.h"
@@ -64,8 +65,14 @@ void Logger::generate_prefix_str(char *prefix_) {
 	strcat(this->prefix_str, prefix_);
 }
 
-void Logger::log(enum log_type type, const char *text) {
-	LogData *data = new LogData(this, type, text);
+void Logger::log(enum log_type type, const char *text, ...) {
+	char buffer[256];
+	va_list args;
+	va_start(args, text);
+	vsprintf(buffer, text, args);
+	va_end(args);
+
+	LogData *data = new LogData(this, type, buffer);
 	this->log_data->add(data);
 
 	printf("[%s] %s: %s\n", data->getTypeString(), this->prefix_str, data->text);

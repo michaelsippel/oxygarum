@@ -25,6 +25,7 @@
 #define _LOGGER_H
 
 #include <stdio.h>
+#include <stdarg.h>
 #include "list.h"
 
 namespace oxygarum {
@@ -70,7 +71,7 @@ class Logger {
 		char prefix_str[256];
 
 		void generate_prefix_str(char *prefix_);
-		void log(enum log_type type, const char *text);
+		void log(enum log_type type, const char *text, ...);
 };
 
 };
