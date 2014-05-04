@@ -40,6 +40,7 @@
 #include "scene.h"
 #include "texture.h"
 //#include "gui.h"
+#include "logger.h"
 #include "light.h"
 #include "window.h"
 
