@@ -11,6 +11,7 @@
 *.vert~
 *.frag~
 *~
+*.swp
 convert_obj
 demo/cube/cube
 demo/pong/pong

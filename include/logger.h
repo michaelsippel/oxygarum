@@ -26,6 +26,8 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
+#include <time.h>
 #include "list.h"
 
 namespace oxygarum {
@@ -54,6 +56,7 @@ class LogData {
 
 		enum log_type type;
 		char text[256];
+		time_t log_time;
 };
 
 class Logger {

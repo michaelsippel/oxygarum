@@ -75,7 +75,10 @@ void Logger::log(enum log_type type, const char *text, ...) {
 	LogData *data = new LogData(this, type, buffer);
 	this->log_data->add(data);
 
-	printf("[%s] %s: %s\n", data->getTypeString(), this->prefix_str, data->text);
+	char *time_str = ctime(&data->log_time);
+	time_str[strlen(time_str)-1] = '\0';
+
+	printf("[%s %s] %s: %s\n", time_str, data->getTypeString(), this->prefix_str, data->text);
 }
 
 LogData::LogData() {
@@ -85,11 +88,13 @@ LogData::LogData(enum log_type type_, const char *text_)
 : type(type_) {
 	strcpy(this->text, text_);
 	this->parent = NULL;
+	time(&this->log_time);
 }
 
 LogData::LogData(Logger *parent_, enum log_type type_, const char *text_)
 : parent(parent_), type(type_) {
 	strcpy(this->text, text_);
+	time(&this->log_time);
 }
 
 LogData::~LogData() {
