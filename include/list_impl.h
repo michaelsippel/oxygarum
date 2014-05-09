@@ -103,6 +103,10 @@ void List<T>::join(List<T> *list) {
 
 template <typename T>
 ListEntry<T> *List<T>::getEntry(char *name_) {
+	if(name_ == NULL) {
+		return NULL;
+	}
+
 	ListEntry<T> *entry = this->head;
 	while(entry != NULL) {
 		if(strcmp(entry->name, name_) == 0) {
@@ -148,7 +152,11 @@ ListEntry<T>::ListEntry(T *element_)
 template <typename T>
 ListEntry<T>::ListEntry(T *element_, char *name_)
 : element(element_) {
-	strcpy(this->name, name_);
+	if(name_ != NULL) {
+		strcpy(this->name, name_);
+	} else {
+		strcpy(this->name, "");
+	}
 	this->prev = NULL;
 	this->next = NULL;
 }

@@ -40,6 +40,7 @@ Material::Material() {
 	this->refractivity = 0.5f;
 	this->shade_program = NULL;
 	this->update_values();
+	this->logger->log(INFO, "created new Material");
 }
 
 Material::Material(Color color_)
@@ -104,7 +105,7 @@ GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
 
 void Material::use(void) {
 	if(this->shade_program != NULL) {
-		this->shade_program->use();
+		//this->shade_program->use();
 	}
 
 	ListEntry<mapped_texture> *entry = this->textures->getHead();
