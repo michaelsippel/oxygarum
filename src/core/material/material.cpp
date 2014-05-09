@@ -105,7 +105,7 @@ GLint Material::map_texture(Texture *tex, char *name, GLint mapping) {
 
 void Material::use(void) {
 	if(this->shade_program != NULL) {
-		//this->shade_program->use();
+		this->shade_program->use();
 	}
 
 	ListEntry<mapped_texture> *entry = this->textures->getHead();

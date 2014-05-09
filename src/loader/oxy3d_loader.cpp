@@ -238,9 +238,8 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 		} else if(cmd_id == CMD_MESH) {
 			if(strcmp(cmd, "usemtl") == 0 || strcmp(cmd, "m") == 0) {
 				if(read) {
-					ListEntry<Material> *mat_entry = ret->materials->getEntry(args);printf("got entry\n");
+					ListEntry<Material> *mat_entry = ret->materials->getEntry(args);
 					if(mat_entry != NULL) {
-						printf("%s\n", mat_entry->name);
 						mat = mat_entry->element;
 					} else {
 						mat = NULL;
@@ -263,14 +262,11 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 				num_texcoords ++;
 			} else if(strcmp(cmd, "f") == 0) {
 				if(read) {
-					printf("reading face..\n");
 					int num_values = count_char(args, ' ') + 1;
 					int line_pos = 0;
 
 					int *face_vertices = (int*) calloc(num_values, sizeof(int));
 					int *face_coords = (int*) calloc(num_values, sizeof(int));
-
-					printf("%d values..(%s)\n", num_values, args);
 
 					for(i = 0; i < num_values; i++) {
 						j = 0;
@@ -282,7 +278,7 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 						buf[j] = '\0';
 						line_pos++;
 						int num_sub_values = count_char(buf, '/');
-						printf("%d subvalues (%s)\n", num_sub_values, buf);
+						
 						switch(num_sub_values) {
 							case 0:
 								sscanf(buf, "%d", &face_vertices[i]);
@@ -298,7 +294,6 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 								break;
 						}
 					}
-					printf("write %d vertices (0x%x, 0x%X) to face %d\n", num_values, face_vertices, face_coords, num_faces);
 					faces[num_faces] = new Face(num_values, face_vertices, face_coords);
 				}
 				num_faces ++;
@@ -308,7 +303,6 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 					ret->meshes->add(mesh, name);
 					RESET_CMD;
 				} else {
-					printf("counting finished.. reset position to %d\n", pos2);
 					read = 1;
 					end = 0;
 					fseek(f, pos2, SEEK_SET);
@@ -349,7 +343,6 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret) {
 				num_normals = 0;
 				num_texcoords = 0;
 				num_faces = 0;
-				printf("load mesh %s; file pos: %d\n", name, pos2);
 			}
 		}
 
