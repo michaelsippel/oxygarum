@@ -30,6 +30,7 @@ template <typename T>
 List<T>::List() {
 	this->head = NULL;
 	this->current = NULL;
+	this->size = 0;
 }
 
 template <typename T>

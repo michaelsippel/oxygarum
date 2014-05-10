@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
 		// render
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		left->render();
-		right->render();
+		//right->render();
 
 		// update
 		float frametime = window->update();

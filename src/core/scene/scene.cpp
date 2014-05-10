@@ -55,7 +55,7 @@ void Scene::render3D(void) {
 		//this->logger->log(INFO, "rendering light \"%s\"", l_entry->name);
 		Light *light = l_entry->element;
 		if(light == NULL) {
-			//continue;
+			continue;
 		}
 
 		glPushMatrix();
@@ -75,7 +75,7 @@ void Scene::render3D(void) {
 		//this->logger->log(INFO, "rendering object \"%s\"", o_entry->name);
 		Object3D *obj = o_entry->element;
 		if(obj == NULL) {
-			//continue;
+			continue;
 		}
 
 		if(obj->getStatus() & OBJECT_VISIBLE) {
