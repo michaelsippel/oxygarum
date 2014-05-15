@@ -1,7 +1,7 @@
 /**
  *  include/event.h
  *
- *  Copyright (C) 2013 Michael Sippel
+ *  Copyright (C) 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -24,13 +24,38 @@
 #ifndef _KEYBOARD_H
 #define _KEYBOARD_H
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
+#include "list.h"
 
-void oxygarum_handle_sdl_event(SDL_Event *event);
-void oxygarum_handle_keyboard_event(unsigned char key);
-void oxygarum_handle_keyboard_event_up(unsigned char key);
-void oxygarum_set_keyboard_event(unsigned char key, void (*handler)(void));
-void oxygarum_set_keyboard_event_up(unsigned char key, void (*handler)(void));
+namespace oxygarum
+{
+
+class EventHandler
+{
+	public:
+		EventHandler();
+		EventHandler(uint32_t type_, void (*handler_)(SDL_Event*));
+		~EventHandler();
+
+		uint32_t type;
+		void (*function)(SDL_Event*);
+};
+
+class EventManager
+{
+	public:
+		EventManager();
+		~EventManager();
+
+		List<EventHandler> *handlers;
+
+		void poll_events(void);
+
+		ListEntry<EventHandler> *register_handler(EventHandler *event);
+		ListEntry<EventHandler> *register_handler(uint32_t type, void (*function)(SDL_Event*));
+};
+
+};
 
 #endif
 
