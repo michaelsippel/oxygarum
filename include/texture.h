@@ -32,15 +32,21 @@
 namespace oxygarum {
 
 /**
- * @struct texture_parameter
+ * @class TextureParameter
  * @brief Parameters for loading textures
  *
  * e.g. texture filters, mipmapping
  */
-typedef struct texture_parameter {
-  GLenum type;
-  GLenum value;
-} texture_parameter_t;
+class TextureParameter
+{
+	public:
+		TextureParameter();
+		TextureParameter(GLenum type_, GLenum value_);
+		~TextureParameter();
+
+		GLenum type;
+		GLenum value;
+};
 
 /**
  * @class Texture
@@ -51,10 +57,10 @@ class Texture {
 		Texture();
 		Texture(unsigned int width_, unsigned int height_, uint8_t *data_);
 		Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_);
-		Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_, List<texture_parameter> *params_);
+		Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_, List<TextureParameter> *params_);
 		~Texture();
 
-		List<texture_parameter> *params;
+		List<TextureParameter> *params;
 
 		void load(void);
 		void load(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_);

@@ -60,9 +60,7 @@ Viewport::~Viewport() {
 
 void Viewport::use(void) {
 	glViewport(this->x, this->y, this->width, this->height);
-
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glClearColor(this->background.r, this->background.g, this->background.b, this->background.a);
+	glClearColor(this->background.r, this->background.g, this->background.b, this->background.a);
 }
 
 };

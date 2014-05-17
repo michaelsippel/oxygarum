@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
 	wall->setFlag(OBJECT_RENDER_VBO);
 	suzanne->setFlag(OBJECT_RENDER_VBO);
 	scene->objects3D->add(cube, "cube");
-	scene->objects3D->add(wall, "wall");
+	//scene->objects3D->add(wall, "wall");
 	scene->objects3D->add(suzanne, "suzanne");
 
 	Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
@@ -52,6 +52,8 @@ int main(int argc, char **argv) {
 	right->position = Vector3D(-8.0f, -2.0f, -4.0f);
 	right->rotation = Vector3D(0.0f, -60.5f,  0.0f);
 	right->fov = 45.0f;
+
+	right->viewport.background = Color(1.0f, 0.0f, 0.0f, 1.0f);
 
 	Logger *fps_logger = new Logger("fps");
 	float time = 0;

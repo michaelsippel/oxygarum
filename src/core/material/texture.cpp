@@ -34,24 +34,37 @@
 
 namespace oxygarum {
 
+TextureParameter::TextureParameter()
+{
+}
+
+TextureParameter::TextureParameter(GLenum type_, GLenum value_)
+: type(type_), value(value_)
+{
+}
+
+TextureParameter::~TextureParameter()
+{
+}
+
 Texture::Texture() {
-	this->params = new List<texture_parameter_t>();
+	this->params = new List<TextureParameter>();
 	this->id = 0;
 }
 
 Texture::Texture(unsigned int width_, unsigned int height_, uint8_t *data_) {
-	this->params = new List<texture_parameter_t>();
+	this->params = new List<TextureParameter>();
 	this->id = 0;
 	this->load(width_, height_, 3, data_);
 }
 
 Texture::Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_) {
-	this->params = new List<texture_parameter_t>();
+	this->params = new List<TextureParameter>();
 	this->id = 0;
 	this->load(width_, height_, bpp_, data_);
 }
 
-Texture::Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_, List<texture_parameter> *params_)
+Texture::Texture(unsigned int width_, unsigned int height_, unsigned int bpp_, uint8_t *data_, List<TextureParameter> *params_)
 : params(params_) {
 	this->id = 0;
 	this->load(width_, height_, bpp_, data_);
@@ -96,16 +109,15 @@ void Texture::load(void) {
 	glTexImage2D(GL_TEXTURE_2D, 0, this->bpp, this->width, this->height, 0, this->format, GL_UNSIGNED_BYTE, this->data);
 
 	if(this->params != NULL) {
-		ListEntry<texture_parameter> *entry = this->params->getHead();
+		ListEntry<TextureParameter> *entry = this->params->getHead();
 		while(entry != NULL) {
-			texture_parameter_t *param = entry->element;
+			TextureParameter *param = entry->element;
 			glTexParameteri(GL_TEXTURE_2D, param->type, param->value);
 
 			entry = entry->getNext();
 		}
+		glGenerateMipmap(GL_TEXTURE_2D);
 	}
-
-	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 GLuint Texture::getID(void) {
