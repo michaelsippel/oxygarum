@@ -26,23 +26,26 @@
 #include <string.h>
 #include "shader.h"
 
-namespace oxygarum {
-namespace loader {
+namespace oxygarum
+{
+namespace loader
+{
 
-Shader *load_shader(GLuint type, const char *path) {
-	FILE *file = fopen(path, "r");
+Shader *load_shader(GLuint type, const char *path)
+{
+    FILE *file = fopen(path, "r");
 
-	fseek(file, 0, SEEK_END);
-	int len = ftell(file);
-	char *text = (char*) malloc(len);
-	fseek(file, 0, SEEK_SET);
-	fread(text, len, 1, file);
-	fclose(file);
+    fseek(file, 0, SEEK_END);
+    int len = ftell(file);
+    char *text = (char*) malloc(len);
+    fseek(file, 0, SEEK_SET);
+    fread(text, len, 1, file);
+    fclose(file);
 
-  	Shader *shader = new Shader(type, text, len);
-	free(text);
+    Shader *shader = new Shader(type, text, len);
+    free(text);
 
-	return shader;
+    return shader;
 }
 
 };

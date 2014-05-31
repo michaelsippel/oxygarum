@@ -22,105 +22,123 @@
 
 #include "vector.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Vector3D::Vector3D() {
-	this->x = 0.0f;
-	this->y = 0.0f;
-	this->z = 0.0f;
+Vector3D::Vector3D()
+{
+    this->x = 0.0f;
+    this->y = 0.0f;
+    this->z = 0.0f;
 }
 
 Vector3D::Vector3D(float x_, float y_, float z_)
-: x(x_), y(y_), z(z_) {
+    : x(x_), y(y_), z(z_)
+{
 }
 
-Vector3D::Vector3D(Vector3D o, Vector3D p) {
-	this->x = p.x - o.x;
-	this->y = p.y - o.y;
-	this->z = p.z - o.z;
+Vector3D::Vector3D(Vector3D o, Vector3D p)
+{
+    this->x = p.x - o.x;
+    this->y = p.y - o.y;
+    this->z = p.z - o.z;
 }
 
-Vector3D::~Vector3D() {
+Vector3D::~Vector3D()
+{
 }
 
-void Vector3D::normalize(void) {
-	float len = sqrt(
-		this->x * this->x + 
-		this->y * this->y + 
-		this->z * this->z
-	);
+void Vector3D::normalize(void)
+{
+    float len = sqrt(
+                    this->x * this->x +
+                    this->y * this->y +
+                    this->z * this->z
+                );
 
-	this->x /= len;
-	this->y /= len;
-	this->z /= len;
+    this->x /= len;
+    this->y /= len;
+    this->z /= len;
 }
 
-void Vector3D::add(Vector3D v) {
-	this->x += v.x;
-	this->y += v.y;
-	this->z += v.z;
+void Vector3D::add(Vector3D v)
+{
+    this->x += v.x;
+    this->y += v.y;
+    this->z += v.z;
 }
 
-void Vector3D::add(float x_) {
-	this->x += x_;
-	this->y += x_;
-	this->z += x_;
+void Vector3D::add(float x_)
+{
+    this->x += x_;
+    this->y += x_;
+    this->z += x_;
 }
 
-void Vector3D::sub(Vector3D v) {
-	this->x -= v.x;
-	this->y -= v.y;
-	this->z -= v.z;
+void Vector3D::sub(Vector3D v)
+{
+    this->x -= v.x;
+    this->y -= v.y;
+    this->z -= v.z;
 }
 
-void Vector3D::sub(float x_) {
-	this->x -= x_;
-	this->y -= x_;
-	this->z -= x_;
+void Vector3D::sub(float x_)
+{
+    this->x -= x_;
+    this->y -= x_;
+    this->z -= x_;
 }
 
-void Vector3D::mul(Vector3D v) {
-	this->x *= v.x;
-	this->y *= v.y;
-	this->z *= v.z;
+void Vector3D::mul(Vector3D v)
+{
+    this->x *= v.x;
+    this->y *= v.y;
+    this->z *= v.z;
 }
 
-void Vector3D::mul(float x_) {
-	this->x *= x_;
-	this->y *= x_;
-	this->z *= x_;
+void Vector3D::mul(float x_)
+{
+    this->x *= x_;
+    this->y *= x_;
+    this->z *= x_;
 }
 
-void Vector3D::div(Vector3D v) {
-	if(v.x > 0.0f) this->x /= v.x;
-	if(v.y > 0.0f) this->y /= v.y;
-	if(v.z > 0.0f) this->z /= v.z;
+void Vector3D::div(Vector3D v)
+{
+    if(v.x > 0.0f) this->x /= v.x;
+    if(v.y > 0.0f) this->y /= v.y;
+    if(v.z > 0.0f) this->z /= v.z;
 }
 
-void Vector3D::div(float x_) {
-	if(x_ > 0.0f) {
-		this->x /= x_;
-		this->y /= x_;
-		this->z /= x_;
-	}
+void Vector3D::div(float x_)
+{
+    if(x_ > 0.0f)
+    {
+        this->x /= x_;
+        this->y /= x_;
+        this->z /= x_;
+    }
 }
 
 
-float Vector3D::scalar(Vector3D v) {
-	return (
-		this->x * v.x + 
-		this->y * v.y + 
-		this->z * v.z);
+float Vector3D::scalar(Vector3D v)
+{
+    return (
+               this->x * v.x +
+               this->y * v.y +
+               this->z * v.z);
 }
 
-void Vector3D::dot(Vector3D v1, Vector3D v2) {
-	this->x = (v1.y * v2.z) - (v1.z * v2.y);
-	this->y = (v1.z * v2.x) - (v1.x * v2.z);
-	this->z = (v1.x * v2.y) - (v1.y * v2.x);
+void Vector3D::dot(Vector3D v1, Vector3D v2)
+{
+    this->x = (v1.y * v2.z) - (v1.z * v2.y);
+    this->y = (v1.z * v2.x) - (v1.x * v2.z);
+    this->z = (v1.x * v2.y) - (v1.y * v2.x);
 }
 
-void Vector3D::dot(Vector3D v) {
-	this->dot(*this, v);
+void Vector3D::dot(Vector3D v)
+{
+    this->dot(*this, v);
 }
 
 };

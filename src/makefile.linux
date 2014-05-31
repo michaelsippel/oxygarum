@@ -6,6 +6,7 @@ LIBDIR  = -L/usr/X11R6/lib
 
 CC = g++
 CFLAGS = -Wall $(INCLUDE)
+STYLEFLAGS = --style=allman --indent-classes --indent-switches
 
 all: $(OBJS) lib
 
@@ -14,6 +15,9 @@ all: $(OBJS) lib
 
 lib: $(OBJS)
 	ar -rcs oxygarum.a $^
+
+style: $(SRCS)
+	astyle $(STYLEFLAGS) $^
 
 clean:
 	rm $(OBJS)

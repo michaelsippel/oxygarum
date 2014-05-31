@@ -24,82 +24,100 @@
 #include "material.h"
 #include "shader.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Shader::Shader() {
+Shader::Shader()
+{
 }
 
-Shader::Shader(GLuint type_, const char *source, int len) {
-	this->compile(type_, source, len);
+Shader::Shader(GLuint type_, const char *source, int len)
+{
+    this->compile(type_, source, len);
 }
 
-Shader::~Shader() {
-	glDeleteShader(this->id);
+Shader::~Shader()
+{
+    glDeleteShader(this->id);
 }
 
-void Shader::compile(GLuint type_, const char *source, int len) {
-	this->type = type_;
-	this->id = glCreateShader(this->type);
+void Shader::compile(GLuint type_, const char *source, int len)
+{
+    this->type = type_;
+    this->id = glCreateShader(this->type);
 
-	glShaderSource(this->id, 1, (const GLchar**) &source, &len);
-	glCompileShader(this->id);
+    glShaderSource(this->id, 1, (const GLchar**) &source, &len);
+    glCompileShader(this->id);
 
-	int llen;
-	glGetShaderiv(this->id, GL_INFO_LOG_LENGTH , &llen);
-	GLchar log[llen+1];
-	glGetShaderInfoLog(this->id, llen+1, &llen, (GLchar*) &log);
+    int llen;
+    glGetShaderiv(this->id, GL_INFO_LOG_LENGTH , &llen);
+    GLchar log[llen+1];
+    glGetShaderInfoLog(this->id, llen+1, &llen, (GLchar*) &log);
 
-	char *shadertype;
-	switch(type) {
-		case GL_VERTEX_SHADER:
-			shadertype = "vertexshader";
-			break;
-		case GL_GEOMETRY_SHADER:
-			shadertype = "geometryshader";
-			break;
-		case GL_FRAGMENT_SHADER:
-			shadertype = "fragmentshader";
-			break;
-	}
+    char *shadertype;
+    switch(type)
+    {
+        case GL_VERTEX_SHADER:
+            shadertype = "vertexshader";
+            break;
+        case GL_GEOMETRY_SHADER:
+            shadertype = "geometryshader";
+            break;
+        case GL_FRAGMENT_SHADER:
+            shadertype = "fragmentshader";
+            break;
+    }
 
-	if(llen > 1) {
-		this->logger->log(ERROR, "compiling %s:\n%s\n", shadertype, log);
-	} else {
-		this->logger->log(INFO, "shader compiled");	
-	}
+    if(llen > 1)
+    {
+        this->logger->log(ERROR, "compiling %s:\n%s\n", shadertype, log);
+    }
+    else
+    {
+        this->logger->log(INFO, "shader compiled");
+    }
 }
 
-ShadeProgram::ShadeProgram() {
-	this->id = glCreateProgram();
+ShadeProgram::ShadeProgram()
+{
+    this->id = glCreateProgram();
 }
 
-ShadeProgram::~ShadeProgram() {
-	glDeleteProgram(this->id);
+ShadeProgram::~ShadeProgram()
+{
+    glDeleteProgram(this->id);
 }
 
-void ShadeProgram::attach(Shader *shader) {
-	glAttachShader(this->id, shader->id);
+void ShadeProgram::attach(Shader *shader)
+{
+    glAttachShader(this->id, shader->id);
 }
 
-void ShadeProgram::link(void) {
-	glLinkProgram(this->id);
-	int len;
-	glGetProgramiv(this->id, GL_INFO_LOG_LENGTH , &len);
-	char log[len+1];
+void ShadeProgram::link(void)
+{
+    glLinkProgram(this->id);
+    int len;
+    glGetProgramiv(this->id, GL_INFO_LOG_LENGTH , &len);
+    char log[len+1];
 
-	if(len > 1) {
-		this->logger->log(ERROR, "linking program:\n", log);
-	} else {
-		this->logger->log(INFO, "program linked");
-	}
+    if(len > 1)
+    {
+        this->logger->log(ERROR, "linking program:\n", log);
+    }
+    else
+    {
+        this->logger->log(INFO, "program linked");
+    }
 }
 
-void ShadeProgram::use(void) {
-	glUseProgram(this->id);
+void ShadeProgram::use(void)
+{
+    glUseProgram(this->id);
 }
 
-GLuint ShadeProgram::getID(void) {
-	return this->id;
+GLuint ShadeProgram::getID(void)
+{
+    return this->id;
 }
 
 };

@@ -30,18 +30,19 @@
 #include "shader.h"
 #include "scene.h"
 
-namespace oxygarum {
-	Logger *engine_logger = new Logger("oxygarum");
-	Logger *SDLWindow::logger = new Logger(engine_logger, "window");
+namespace oxygarum
+{
+Logger *engine_logger = new Logger("oxygarum");
+Logger *SDLWindow::logger = new Logger(engine_logger, "window");
 
-	Logger *Scene::logger = new Logger(engine_logger, "scene");
+Logger *Scene::logger = new Logger(engine_logger, "scene");
 
-	Logger *Object3D::logger = new Logger(engine_logger, "object3d");
-	Logger *Mesh3D::logger = new Logger(Object3D::logger, "mesh3d");
-	Logger *RenderInstance::logger = new Logger(Mesh3D::logger, "renderinstance");
+Logger *Object3D::logger = new Logger(engine_logger, "object3d");
+Logger *Mesh3D::logger = new Logger(Object3D::logger, "mesh3d");
+Logger *RenderInstance::logger = new Logger(Mesh3D::logger, "renderinstance");
 
-	Logger *Material::logger = new Logger(engine_logger, "material");
-	Logger *Shader::logger = new Logger(Material::logger, "shader");
-	Logger *ShadeProgram::logger = new Logger(Material::logger, "shadeprogram");
+Logger *Material::logger = new Logger(engine_logger, "material");
+Logger *Shader::logger = new Logger(Material::logger, "shader");
+Logger *ShadeProgram::logger = new Logger(Material::logger, "shadeprogram");
 };
 

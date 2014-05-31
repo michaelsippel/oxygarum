@@ -28,97 +28,112 @@
 #include "list.h"
 #include "logger.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Logger::Logger() {
-	this->log_data = new List<LogData>();
-	this->sub_loggers = new List<Logger>();
-	this->parent = NULL;
+Logger::Logger()
+{
+    this->log_data = new List<LogData>();
+    this->sub_loggers = new List<Logger>();
+    this->parent = NULL;
 }
 
-Logger::Logger(char *prefix_) {
-	this->generate_prefix_str(prefix_);
-	this->log_data = new List<LogData>();
-	this->sub_loggers = new List<Logger>();
-	this->parent = NULL;
+Logger::Logger(char *prefix_)
+{
+    this->generate_prefix_str(prefix_);
+    this->log_data = new List<LogData>();
+    this->sub_loggers = new List<Logger>();
+    this->parent = NULL;
 }
 
-Logger::Logger(Logger *parent_, char *prefix_) {
-	parent_->sub_loggers->add(parent_);
-	this->parent = parent_;
+Logger::Logger(Logger *parent_, char *prefix_)
+{
+    parent_->sub_loggers->add(parent_);
+    this->parent = parent_;
 
-	this->generate_prefix_str(prefix_);
-	this->log_data = new List<LogData>();
-	this->sub_loggers = new List<Logger>();
+    this->generate_prefix_str(prefix_);
+    this->log_data = new List<LogData>();
+    this->sub_loggers = new List<Logger>();
 }
 
-Logger::~Logger() {
+Logger::~Logger()
+{
 }
 
-void Logger::generate_prefix_str(char *prefix_) {
-	strcpy(this->prefix, prefix_);
+void Logger::generate_prefix_str(char *prefix_)
+{
+    strcpy(this->prefix, prefix_);
 
-	if(this->parent != NULL) {
-		strcpy(this->prefix_str, this->parent->prefix_str);
-		strcat(this->prefix_str, "/");
-	}
-	strcat(this->prefix_str, prefix_);
+    if(this->parent != NULL)
+    {
+        strcpy(this->prefix_str, this->parent->prefix_str);
+        strcat(this->prefix_str, "/");
+    }
+    strcat(this->prefix_str, prefix_);
 }
 
-void Logger::log(enum log_type type, const char *text, ...) {
-	char buffer[256];
-	va_list args;
-	va_start(args, text);
-	vsprintf(buffer, text, args);
-	va_end(args);
+void Logger::log(enum log_type type, const char *text, ...)
+{
+    char buffer[256];
+    va_list args;
+    va_start(args, text);
+    vsprintf(buffer, text, args);
+    va_end(args);
 
-	LogData *data = new LogData(this, type, buffer);
-	this->log_data->add(data);
+    LogData *data = new LogData(this, type, buffer);
+    this->log_data->add(data);
 
-	char *time_str = ctime(&data->log_time);
-	time_str[strlen(time_str)-1] = '\0';
+    char *time_str = ctime(&data->log_time);
+    time_str[strlen(time_str)-1] = '\0';
 
-	printf("[%s %s] %s: %s\n", time_str, data->getTypeString(), this->prefix_str, data->text);
+    printf("[%s %s] %s: %s\n", time_str, data->getTypeString(), this->prefix_str, data->text);
 }
 
-LogData::LogData() {
+LogData::LogData()
+{
 }
 
 LogData::LogData(enum log_type type_, const char *text_)
-: type(type_) {
-	strcpy(this->text, text_);
-	this->parent = NULL;
-	time(&this->log_time);
+    : type(type_)
+{
+    strcpy(this->text, text_);
+    this->parent = NULL;
+    time(&this->log_time);
 }
 
 LogData::LogData(Logger *parent_, enum log_type type_, const char *text_)
-: parent(parent_), type(type_) {
-	strcpy(this->text, text_);
-	time(&this->log_time);
+    : parent(parent_), type(type_)
+{
+    strcpy(this->text, text_);
+    time(&this->log_time);
 }
 
-LogData::~LogData() {
+LogData::~LogData()
+{
 }
 
-char *LogData::getTypeString(void) {
-	char *type_str;
-	switch(this->type) {
-		case INFO:
-			type_str = "INFO";
-			break;
-		case WARNING:
-			type_str = "WARNING";
-			break;
-		case ERROR:
-			type_str = "ERROR";
-			break;
-	}
+char *LogData::getTypeString(void)
+{
+    char *type_str;
+    switch(this->type)
+    {
+        case INFO:
+            type_str = (char*) "INFO";
+            break;
+        case WARNING:
+            type_str = (char*) "WARNING";
+            break;
+        case ERROR:
+            type_str = (char*) "ERROR";
+            break;
+    }
 
-	return type_str;
+    return type_str;
 }
 
-char *LogData::getPrefixString(void) {
-	return (char*) &this->parent->prefix_str;
+char *LogData::getPrefixString(void)
+{
+    return (char*) &this->parent->prefix_str;
 }
 
 };

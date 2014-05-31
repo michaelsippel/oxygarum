@@ -25,105 +25,125 @@
 #include "logger.h"
 #include "object.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Object3D::Object3D() {
-	this->position = Vector3D();
-	this->rotation = Vector3D();
+Object3D::Object3D()
+{
+    this->position = Vector3D();
+    this->rotation = Vector3D();
 
-	this->mesh = NULL;
-	this->material = NULL;
+    this->mesh = NULL;
+    this->material = NULL;
 
-	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+    this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object3D::Object3D(Transformation3D transform) {
-	this->position = transform.position;
-	this->rotation = transform.rotation;
+Object3D::Object3D(Transformation3D transform)
+{
+    this->position = transform.position;
+    this->rotation = transform.rotation;
 
-	this->mesh = NULL;
-	this->material = NULL;
+    this->mesh = NULL;
+    this->material = NULL;
 
-	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+    this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object3D::Object3D(Vector3D position_) {
-	this->position = position_;
-	this->rotation = Vector3D();
+Object3D::Object3D(Vector3D position_)
+{
+    this->position = position_;
+    this->rotation = Vector3D();
 
-	this->mesh = NULL;
-	this->material = NULL;
+    this->mesh = NULL;
+    this->material = NULL;
 
-	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+    this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object3D::Object3D(Vector3D position_, Vector3D rotation_) {
-	this->position = position_;
-	this->rotation = rotation_;
+Object3D::Object3D(Vector3D position_, Vector3D rotation_)
+{
+    this->position = position_;
+    this->rotation = rotation_;
 
-	this->mesh = NULL;
-	this->material = NULL;
+    this->mesh = NULL;
+    this->material = NULL;
 
-	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+    this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object3D::~Object3D() {
+Object3D::~Object3D()
+{
 }
 
-void Object3D::setFlag(int flag) {
-	this->status |= flag;
+void Object3D::setFlag(int flag)
+{
+    this->status |= flag;
 }
 
-void Object3D::removeFlag(int flag) {
-	this->status &= ~flag;
+void Object3D::removeFlag(int flag)
+{
+    this->status &= ~flag;
 }
 
-int Object3D::getStatus(void) {
-	return status;
+int Object3D::getStatus(void)
+{
+    return status;
 }
 
-void Object3D::render(void) {
-	glFeedbackBuffer(3, GL_3D, (GLfloat*) &this->feedback);
-	glRenderMode(GL_FEEDBACK);
-	glBegin(GL_POINTS);
-		glVertex3f(0.0f,0.0f,0.0f);
-	glEnd();
-	glRenderMode(GL_RENDER);
+void Object3D::render(void)
+{
+    glFeedbackBuffer(3, GL_3D, (GLfloat*) &this->feedback);
+    glRenderMode(GL_FEEDBACK);
+    glBegin(GL_POINTS);
+    glVertex3f(0.0f,0.0f,0.0f);
+    glEnd();
+    glRenderMode(GL_RENDER);
 
-	if(! (this->status & OBJECT_DEPTH_BUFFERING)) {
-		glDisable(GL_DEPTH_TEST);
-	}
+    if(! (this->status & OBJECT_DEPTH_BUFFERING))
+    {
+        glDisable(GL_DEPTH_TEST);
+    }
 
-	if(this->status & OBJECT_TRANSPARENT) {    
-		glDisable(GL_CULL_FACE);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	}
+    if(this->status & OBJECT_TRANSPARENT)
+    {
+        glDisable(GL_CULL_FACE);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
 
-	if(mesh == NULL) {
-		this->logger->log(ERROR, "object X has no mesh");
-		return;
-	}
+    if(mesh == NULL)
+    {
+        this->logger->log(ERROR, "object X has no mesh");
+        return;
+    }
 
-	Material *mat = this->material;
-	if(mat == NULL) {
-		mat = this->mesh->default_material;
+    Material *mat = this->material;
+    if(mat == NULL)
+    {
+        mat = this->mesh->default_material;
 //		//this->logger->log(INFO, "using default material for object X");
-	}
+    }
 
-	int num_textures = 0;
-	if(mat != NULL){
-		mat->use();
-		num_textures = mat->textures->getSize();
-	} else {
-		this->logger->log(WARNING, "object X has no material");
-	}
+    int num_textures = 0;
+    if(mat != NULL)
+    {
+        mat->use();
+        num_textures = mat->textures->getSize();
+    }
+    else
+    {
+        this->logger->log(WARNING, "object X has no material");
+    }
 
-	if(this->status & OBJECT_RENDER_VBO) {
-		this->mesh->renderInstance(num_textures);
-	} else {
-		this->mesh->renderImmediate(num_textures);
-	}
+    if(this->status & OBJECT_RENDER_VBO)
+    {
+        this->mesh->renderInstance(num_textures);
+    }
+    else
+    {
+        this->mesh->renderImmediate(num_textures);
+    }
 }
 
 };

@@ -27,27 +27,32 @@
 #include "vector.h"
 #include "face.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Face::Face() {
-	this->num_vertices = 0;
-	this->vertices = NULL;
-	this->texcoords = NULL;
-	this->normal = Vector3D();
+Face::Face()
+{
+    this->num_vertices = 0;
+    this->vertices = NULL;
+    this->texcoords = NULL;
+    this->normal = Vector3D();
 }
 
 Face::Face(int num_vertices_, int *vertices_)
-: num_vertices(num_vertices_), vertices(vertices_) {
-	this->texcoords = NULL;
-	this->normal = Vector3D();
+    : num_vertices(num_vertices_), vertices(vertices_)
+{
+    this->texcoords = NULL;
+    this->normal = Vector3D();
 }
 
 Face::Face(int num_vertices_, int *vertices_, int *texcoords_)
-: num_vertices(num_vertices_), vertices(vertices_), texcoords(texcoords_)  {
-	this->normal = Vector3D();
+    : num_vertices(num_vertices_), vertices(vertices_), texcoords(texcoords_)
+{
+    this->normal = Vector3D();
 }
 
-Face::~Face() {
+Face::~Face()
+{
 }
 
 };

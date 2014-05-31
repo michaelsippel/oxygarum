@@ -28,38 +28,41 @@
 #include "object.h"
 #include "mesh.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Mesh2D::Mesh2D() {
+Mesh2D::Mesh2D()
+{
 }
 
-Mesh2D::~Mesh2D() {
+Mesh2D::~Mesh2D()
+{
 }
 /*TODO
 void oxygarum_render_face2d(mesh2d_t *mesh, face_t *face) {
   int i;
-  
+
   if(face->vertex_counter == 3)
     glBegin(GL_TRIANGLES);
   else if(face->vertex_counter == 4)
     glBegin(GL_QUADS);
   else
     glBegin(GL_POLYGON);
-  
+
   for(i = 0; i < face->vertex_counter; i++) {
     vertex_id id = face->vertices[i];
-    
+
     int j;
     for(j = 0; j < mesh->material->textures->size; j++) {
       glMultiTexCoord2f(GL_TEXTURE0 + j, mesh->texcoords[face->uv_map[j]].u, mesh->texcoords[face->uv_map[j]].v);
     }
-    
+
     glVertex2f(
  	mesh->vertices[id].x,
  	mesh->vertices[id].y
     );
   }
-  
+
   glEnd();
 }
 */

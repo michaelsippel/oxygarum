@@ -30,24 +30,26 @@
 #include "camera.h"
 #include "material.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
 /**
  * @class Viewport
  * @brief Definines the properties of a Screen
  */
-class Viewport {
-	public:
-		Viewport();
-		Viewport(int x_, int y_, int width_, int height_);
-		Viewport(int x_, int y_, int width_, int height_, Color background_);
-		~Viewport();
+class Viewport
+{
+    public:
+        Viewport();
+        Viewport(int x_, int y_, int width_, int height_);
+        Viewport(int x_, int y_, int width_, int height_, Color background_);
+        ~Viewport();
 
-		int x, y;
-		int width, height;
-		Color background;
+        int x, y;
+        int width, height;
+        Color background;
 
-		void use(void);
+        void use(void);
 };
 
 /**
@@ -56,27 +58,28 @@ class Viewport {
  *
  * Defines the Location and Rotation of View
  */
-class Camera : public Transformation3D {
-	public:
-		Camera();
-		Camera(SDLWindow *window_);
-		Camera(SDLWindow *window_, Scene *scene_);
-		Camera(SDLWindow *window_, Scene *scene_, Viewport viewport_);
-		Camera(SDLWindow *window_, Transformation3D transform);
-		Camera(SDLWindow *window_, Transformation3D transform, Viewport viewport_);
-		Camera(SDLWindow *window_, Vector3D position_);
-		Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_);
-		Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_, float fov_);
-		~Camera();
+class Camera : public Transformation3D
+{
+    public:
+        Camera();
+        Camera(SDLWindow *window_);
+        Camera(SDLWindow *window_, Scene *scene_);
+        Camera(SDLWindow *window_, Scene *scene_, Viewport viewport_);
+        Camera(SDLWindow *window_, Transformation3D transform);
+        Camera(SDLWindow *window_, Transformation3D transform, Viewport viewport_);
+        Camera(SDLWindow *window_, Vector3D position_);
+        Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_);
+        Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_, float fov_);
+        ~Camera();
 
-		Scene *scene;
-		Camera *camera;
-		Viewport viewport;
-		SDLWindow *window;
-		float fov;
+        Scene *scene;
+        Camera *camera;
+        Viewport viewport;
+        SDLWindow *window;
+        float fov;
 
-		void use(void);
-		void render(void);
+        void use(void);
+        void render(void);
 };
 
 };

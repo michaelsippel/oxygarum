@@ -28,12 +28,12 @@ namespace oxygarum
 
 EventHandler::EventHandler()
 {
-	this->type = 0;
-	this->function = NULL;
+    this->type = 0;
+    this->function = NULL;
 }
 
 EventHandler::EventHandler(uint32_t type_, void (*function_)(SDL_Event*))
-: type(type_), function(function_)
+    : type(type_), function(function_)
 {
 }
 
@@ -44,7 +44,7 @@ EventHandler::~EventHandler()
 
 EventManager::EventManager()
 {
-	this->handlers = new List<EventHandler>();
+    this->handlers = new List<EventHandler>();
 }
 
 EventManager::~EventManager()
@@ -53,42 +53,42 @@ EventManager::~EventManager()
 
 void EventManager::poll_events(void)
 {
-	SDL_Event e;
-	while(SDL_PollEvent(&e))
-	{
-		ListEntry<EventHandler> *entry = this->handlers->getHead();
-		int handled = 0;
-		while(entry != NULL)
-		{
-			EventHandler *handler = entry->element;
-			if(handler->type == e.type)
-			{
-				if(handler->function != NULL)
-				{
-					handler->function(&e);
-					handled = 1;
-				}
-			}
-			
-			entry = entry->getNext();
-		}
-		
-		if( (!handled) && e.type == SDL_QUIT)
-		{
-			exit(0);
-		}
-	}
+    SDL_Event e;
+    while(SDL_PollEvent(&e))
+    {
+        ListEntry<EventHandler> *entry = this->handlers->getHead();
+        int handled = 0;
+        while(entry != NULL)
+        {
+            EventHandler *handler = entry->element;
+            if(handler->type == e.type)
+            {
+                if(handler->function != NULL)
+                {
+                    handler->function(&e);
+                    handled = 1;
+                }
+            }
+
+            entry = entry->getNext();
+        }
+
+        if( (!handled) && e.type == SDL_QUIT)
+        {
+            exit(0);
+        }
+    }
 }
 
 ListEntry<EventHandler> *EventManager::register_handler(EventHandler *handler)
 {
-	return this->handlers->add(handler);
+    return this->handlers->add(handler);
 }
 
 ListEntry<EventHandler> *EventManager::register_handler(uint32_t type, void (*function)(SDL_Event*))
 {
-	EventHandler *handler = new EventHandler(type, function);
-	return this->handlers->add(handler);
+    EventHandler *handler = new EventHandler(type, function);
+    return this->handlers->add(handler);
 }
 
 };

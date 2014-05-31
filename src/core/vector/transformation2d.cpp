@@ -25,62 +25,76 @@
 
 #include "transformation.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Transformation2D::Transformation2D() {
-	this->position = Vector2D();
-	this->rotation = 0.0f;
-	this->scaling = Vector2D(1.0f, 1.0f);
+Transformation2D::Transformation2D()
+{
+    this->position = Vector2D();
+    this->rotation = 0.0f;
+    this->scaling = Vector2D(1.0f, 1.0f);
 }
 
 Transformation2D::Transformation2D(Vector2D position_, float rotation_)
-: position(position_), rotation(rotation_) {
-	this->scaling = Vector2D(1.0f, 1.0f);
+    : position(position_), rotation(rotation_)
+{
+    this->scaling = Vector2D(1.0f, 1.0f);
 }
 
 Transformation2D::Transformation2D(Vector2D position_, float rotation_, Vector2D scaling_)
-: position(position_), rotation(rotation_), scaling(scaling_) {
+    : position(position_), rotation(rotation_), scaling(scaling_)
+{
 }
 
-Transformation2D::~Transformation2D() {
+Transformation2D::~Transformation2D()
+{
 }
 
-void Transformation2D::setPosition(Vector2D position_) {
-	this->position = position_;
+void Transformation2D::setPosition(Vector2D position_)
+{
+    this->position = position_;
 }
 
-void Transformation2D::setRotation(float rotation_) {
-	this->rotation = rotation_;
+void Transformation2D::setRotation(float rotation_)
+{
+    this->rotation = rotation_;
 }
 
-void Transformation2D::setScaling(Vector2D scaling_) {
-	this->scaling = scaling_;
+void Transformation2D::setScaling(Vector2D scaling_)
+{
+    this->scaling = scaling_;
 }
 
-void Transformation2D::setScaling(float x_) {
-	this->scaling = Vector2D(x_, x_);
+void Transformation2D::setScaling(float x_)
+{
+    this->scaling = Vector2D(x_, x_);
 }
 
-void Transformation2D::move(Vector2D position_) {
-	this->position.add(position_);
+void Transformation2D::move(Vector2D position_)
+{
+    this->position.add(position_);
 }
 
-void Transformation2D::rotate(float rotation_) {
-	this->rotation += rotation_;
+void Transformation2D::rotate(float rotation_)
+{
+    this->rotation += rotation_;
 }
 
-void Transformation2D::scale(Vector2D scaling_) {
-	this->scaling.add(scaling_);
+void Transformation2D::scale(Vector2D scaling_)
+{
+    this->scaling.add(scaling_);
 }
 
-void Transformation2D::scale(float x_) {
-	this->scaling.add(Vector2D(x_, x_));
+void Transformation2D::scale(float x_)
+{
+    this->scaling.add(Vector2D(x_, x_));
 }
 
-void Transformation2D::useTransformation(void) {
-	glRotatef(this->rotation, 0.0f, 0.0f, 1.0f);
-	glScalef(this->scaling.x, this->scaling.y, 1.0f);
-	glTranslatef(this->position.x, this->position.y, 0.0f);
+void Transformation2D::useTransformation(void)
+{
+    glRotatef(this->rotation, 0.0f, 0.0f, 1.0f);
+    glScalef(this->scaling.x, this->scaling.y, 1.0f);
+    glTranslatef(this->position.x, this->position.y, 0.0f);
 }
 
 };

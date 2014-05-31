@@ -24,33 +24,51 @@
 #include <GL/gl.h>
 #include <light.h>
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Light::Light() {
-	this->gl_light = GL_LIGHT0;
+Light::Light()
+{
+    this->gl_light = GL_LIGHT0;
 }
 
 Light::Light(GLenum gl_light_)
-: gl_light(gl_light_) {
+    : gl_light(gl_light_)
+{
 }
 
 Light::Light(GLenum gl_light_, Color color)
-: gl_light(gl_light_) {
-	this->ambient[0] = 0.0f; this->ambient[1] = 0.0f; this->ambient[2] = 0.0f; this->ambient[3] = 1.0f;
-	this->diffuse[0] = color.r*0.8; this->diffuse[1] = color.g*0.8; this->diffuse[2] = color.b*0.8; this->diffuse[3] = color.a*0.8;
-	this->specular[0] = color.r; this->specular[1] = color.g; this->specular[2] = color.b; this->specular[3] = color.a;
-	this->r_pos[0] = 0.0f; this->r_pos[1] = 0.0f; this->r_pos[2] = 0.0f; this->r_pos[3] = 1.0f;
+    : gl_light(gl_light_)
+{
+    this->ambient[0] = 0.0f;
+    this->ambient[1] = 0.0f;
+    this->ambient[2] = 0.0f;
+    this->ambient[3] = 1.0f;
+    this->diffuse[0] = color.r*0.8;
+    this->diffuse[1] = color.g*0.8;
+    this->diffuse[2] = color.b*0.8;
+    this->diffuse[3] = color.a*0.8;
+    this->specular[0] = color.r;
+    this->specular[1] = color.g;
+    this->specular[2] = color.b;
+    this->specular[3] = color.a;
+    this->r_pos[0] = 0.0f;
+    this->r_pos[1] = 0.0f;
+    this->r_pos[2] = 0.0f;
+    this->r_pos[3] = 1.0f;
 }
 
-Light::~Light() {
+Light::~Light()
+{
 }
 
-void Light::update(void) {
-	glEnable(this->gl_light);
-	glLightfv(this->gl_light, GL_AMBIENT, (GLfloat*) &this->ambient);
-	glLightfv(this->gl_light, GL_DIFFUSE, (GLfloat*) &this->diffuse);
-	glLightfv(this->gl_light, GL_SPECULAR, (GLfloat*) &this->specular);
-	glLightfv(this->gl_light, GL_POSITION, (GLfloat*) &this->r_pos);
+void Light::update(void)
+{
+    glEnable(this->gl_light);
+    glLightfv(this->gl_light, GL_AMBIENT, (GLfloat*) &this->ambient);
+    glLightfv(this->gl_light, GL_DIFFUSE, (GLfloat*) &this->diffuse);
+    glLightfv(this->gl_light, GL_SPECULAR, (GLfloat*) &this->specular);
+    glLightfv(this->gl_light, GL_POSITION, (GLfloat*) &this->r_pos);
 }
 
 };

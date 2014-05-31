@@ -30,67 +30,78 @@
 #include "object.h"
 #include "transformation.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Object2D::Object2D() {
-	this->position = Vector2D();
-	this->rotation = 0.0f;
+Object2D::Object2D()
+{
+    this->position = Vector2D();
+    this->rotation = 0.0f;
 
-	this->mesh = NULL;
-	this->material = NULL;
+    this->mesh = NULL;
+    this->material = NULL;
 
-	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+    this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object2D::Object2D(Transformation2D transform) {
-	this->position = transform.position;
-	this->rotation = transform.rotation;
+Object2D::Object2D(Transformation2D transform)
+{
+    this->position = transform.position;
+    this->rotation = transform.rotation;
 
-	this->mesh = NULL;
-	this->material = NULL;
+    this->mesh = NULL;
+    this->material = NULL;
 
-	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+    this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object2D::Object2D(Vector2D position_) {
-	this->position = position_;
-	this->rotation = 0.0f;
+Object2D::Object2D(Vector2D position_)
+{
+    this->position = position_;
+    this->rotation = 0.0f;
 
-	this->mesh = NULL;
-	this->material = NULL;
+    this->mesh = NULL;
+    this->material = NULL;
 
-	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+    this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object2D::Object2D(Vector2D position_, float rotation_) {
-	this->position = position_;
-	this->rotation = rotation_;
-	this->mesh = NULL;
-	this->material = NULL;
+Object2D::Object2D(Vector2D position_, float rotation_)
+{
+    this->position = position_;
+    this->rotation = rotation_;
+    this->mesh = NULL;
+    this->material = NULL;
 
-	this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
+    this->status = OBJECT_VISIBLE | OBJECT_DEPTH_BUFFERING;
 }
 
-Object2D::~Object2D() {
+Object2D::~Object2D()
+{
 }
 
-void Object2D::setFlag(int flag) {
-	this->status |= flag;
+void Object2D::setFlag(int flag)
+{
+    this->status |= flag;
 }
 
-void Object2D::removeFlag(int flag) {
-	this->status &= ~flag;
+void Object2D::removeFlag(int flag)
+{
+    this->status &= ~flag;
 }
 
-int Object2D::getStatus(void) {
-	return status;
+int Object2D::getStatus(void)
+{
+    return status;
 }
 
-void Object2D::render(void) {/*TODO
-  int i;
-  for(i = 0; i < obj->mesh->face_counter; i++) {
-    oxygarum_render_face2d(obj->mesh, obj->mesh->faces[i]);
-  }*/
+void Object2D::render(void)
+{
+    /*TODO
+      int i;
+      for(i = 0; i < obj->mesh->face_counter; i++) {
+        oxygarum_render_face2d(obj->mesh, obj->mesh->faces[i]);
+      }*/
 }
 
 };

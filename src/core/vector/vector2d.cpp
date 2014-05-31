@@ -22,67 +22,80 @@
 
 #include "vector.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-Vector2D::Vector2D() {
-	this->x = 0.0f;
-	this->y = 0.0f;
+Vector2D::Vector2D()
+{
+    this->x = 0.0f;
+    this->y = 0.0f;
 }
 
 Vector2D::Vector2D(float x_, float y_)
-: x(x_), y(y_) {
+    : x(x_), y(y_)
+{
 }
 
-Vector2D::Vector2D(Vector2D o, Vector2D p) {
-	this->x = p.x - o.x;
-	this->y = p.y - o.y;
+Vector2D::Vector2D(Vector2D o, Vector2D p)
+{
+    this->x = p.x - o.x;
+    this->y = p.y - o.y;
 }
 
-Vector2D::~Vector2D() {
+Vector2D::~Vector2D()
+{
 }
 
-void Vector2D::normalize(void) {
-	float len = sqrt(
-		this->x * this->x + 
-		this->y * this->y
-	);
+void Vector2D::normalize(void)
+{
+    float len = sqrt(
+                    this->x * this->x +
+                    this->y * this->y
+                );
 
-	this->x /= len;
-	this->y /= len;
+    this->x /= len;
+    this->y /= len;
 }
 
-void Vector2D::add(Vector2D v) {
-	this->x += v.x;
-	this->y += v.y;
+void Vector2D::add(Vector2D v)
+{
+    this->x += v.x;
+    this->y += v.y;
 }
 
-void Vector2D::add(float x_) {
-	this->x += x_;
-	this->y += x_;
+void Vector2D::add(float x_)
+{
+    this->x += x_;
+    this->y += x_;
 }
 
-void Vector2D::sub(Vector2D v) {
-	this->x -= v.x;
-	this->y -= v.y;
+void Vector2D::sub(Vector2D v)
+{
+    this->x -= v.x;
+    this->y -= v.y;
 }
 
-void Vector2D::sub(float x_) {
-	this->x -= x_;
-	this->y -= x_;
+void Vector2D::sub(float x_)
+{
+    this->x -= x_;
+    this->y -= x_;
 }
 
-float Vector2D::scalar(Vector2D v) {
-	return (this->x * v.x +
-		this->y * v.y);
+float Vector2D::scalar(Vector2D v)
+{
+    return (this->x * v.x +
+            this->y * v.y);
 }
 
-void Vector2D::dot(Vector2D v1, Vector2D v2) {
-  this->x = (v1.y * v2.x) - (v1.x * v2.y);
-  this->y = (v1.x * v2.y) - (v1.y * v2.x);
+void Vector2D::dot(Vector2D v1, Vector2D v2)
+{
+    this->x = (v1.y * v2.x) - (v1.x * v2.y);
+    this->y = (v1.x * v2.y) - (v1.y * v2.x);
 }
 
-void Vector2D::dot(Vector2D v) {
-	this->dot(*this, v);
+void Vector2D::dot(Vector2D v)
+{
+    this->dot(*this, v);
 }
 
 };

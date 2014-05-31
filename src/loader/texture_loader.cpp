@@ -26,30 +26,36 @@
 #include "logger.h"
 #include "texture.h"
 
-namespace oxygarum {
-namespace loader {
+namespace oxygarum
+{
+namespace loader
+{
 
-Texture *load_texture(const char *path) {
-	SDL_Surface *surface = IMG_Load(path);
-	unsigned int width = surface->w;
-	unsigned int height = surface->h;
-	unsigned int bpp = surface->format->BytesPerPixel;
-	uint8_t *data = (uint8_t*) surface->pixels;
+Texture *load_texture(const char *path)
+{
+    SDL_Surface *surface = IMG_Load(path);
+    unsigned int width = surface->w;
+    unsigned int height = surface->h;
+    unsigned int bpp = surface->format->BytesPerPixel;
+    uint8_t *data = (uint8_t*) surface->pixels;
 
-	// flip image
-	unsigned int i,j,k;
-	uint8_t tmp;
-	#define SWAP(a,b) {tmp = a; a = b; b = tmp;}
-	for(i = 0; i < (height / 2); i++) {
-		for(j = 0; j < width * bpp;  j += bpp) {
-			for(k = 0; k < bpp; k++) {
-				SWAP(data[(i * width * bpp) + j + k],
-				data[((height - i - 1) * width * bpp) + j + k]);
-			}
-		}
-	}
+    // flip image
+    unsigned int i,j,k;
+    uint8_t tmp;
+#define SWAP(a,b) {tmp = a; a = b; b = tmp;}
+    for(i = 0; i < (height / 2); i++)
+    {
+        for(j = 0; j < width * bpp;  j += bpp)
+        {
+            for(k = 0; k < bpp; k++)
+            {
+                SWAP(data[(i * width * bpp) + j + k],
+                     data[((height - i - 1) * width * bpp) + j + k]);
+            }
+        }
+    }
 
-	return new Texture(width, height, bpp, data);
+    return new Texture(width, height, bpp, data);
 }
 
 };

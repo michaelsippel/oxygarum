@@ -26,75 +26,89 @@
 #include "logger.h"
 #include "window.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-SDLWindow::SDLWindow() {
-	this->width = 800;
-	this->height = 600;
-	this->init();
+SDLWindow::SDLWindow()
+{
+    this->width = 800;
+    this->height = 600;
+    this->init();
 }
 
 SDLWindow::SDLWindow(int width_, int height_)
-: width(width_), height(height_) {
-	this->init();
+    : width(width_), height(height_)
+{
+    this->init();
 }
 
 SDLWindow::SDLWindow(char *title_, int width_, int height_)
-: title(title_), width(width_), height(height_) {
-	this->init();
+    : title(title_), width(width_), height(height_)
+{
+    this->init();
 }
 
-SDLWindow::~SDLWindow() {
+SDLWindow::~SDLWindow()
+{
 }
 
-void SDLWindow::init(void) {
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-		this->logger->log(ERROR, "SDL init failed!");
-		return;
-	}
+void SDLWindow::init(void)
+{
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
+    {
+        this->logger->log(ERROR, "SDL init failed!");
+        return;
+    }
 
-	this->sdl_window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL);
-	if(this->sdl_window == NULL) {
-		this->logger->log(ERROR, "SDL create window failed!");
-		return;
-	}
+    this->sdl_window = SDL_CreateWindow(title, 0, 0, width, height, SDL_WINDOW_OPENGL);
+    if(this->sdl_window == NULL)
+    {
+        this->logger->log(ERROR, "SDL create window failed!");
+        return;
+    }
 
-	this->sdl_context = (SDL_GLContext*) SDL_GL_CreateContext(this->sdl_window);
-	if(this->sdl_context == NULL) {
-		this->logger->log(ERROR, "OpenGL context creation failed!");
-		return;
-	}
+    this->sdl_context = (SDL_GLContext*) SDL_GL_CreateContext(this->sdl_window);
+    if(this->sdl_context == NULL)
+    {
+        this->logger->log(ERROR, "OpenGL context creation failed!");
+        return;
+    }
 
-	if(glewInit() != GLEW_OK) {
-		this->logger->log(ERROR, "glewInit failed!");
-	}
+    if(glewInit() != GLEW_OK)
+    {
+        this->logger->log(ERROR, "glewInit failed!");
+    }
 
-	this->logger->log(INFO, "window created");
+    this->logger->log(INFO, "window created");
 }
 
-float SDLWindow::update(void) {
-	// calc frametime
-	static float time_prev = 0;
-	float time_cur = (float) SDL_GetTicks();
+float SDLWindow::update(void)
+{
+    // calc frametime
+    static float time_prev = 0;
+    float time_cur = (float) SDL_GetTicks();
 
-	float frametime = time_cur - time_prev;
-	time_prev = time_cur;
+    float frametime = time_cur - time_prev;
+    time_prev = time_cur;
 
-	this->swap();
+    this->swap();
 
-	return frametime;
+    return frametime;
 }
 
-void SDLWindow::swap(void) {
-	SDL_GL_SwapWindow(this->sdl_window);
+void SDLWindow::swap(void)
+{
+    SDL_GL_SwapWindow(this->sdl_window);
 }
 
-int SDLWindow::getWidth(void) {
-	return this->width;
+int SDLWindow::getWidth(void)
+{
+    return this->width;
 }
 
-int SDLWindow::getHeight(void) {
-	return this->height;
+int SDLWindow::getHeight(void)
+{
+    return this->height;
 }
 
 };
