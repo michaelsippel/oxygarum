@@ -1,16 +1,17 @@
 SRCS = $(shell find -name '*.cpp')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-INCLUDE = -I/usr/include/ -I../../include
+INCLUDE = -I/usr/include/ -I../../include -I../../../Dasyur/include
 LIBDIR  = -L/usr/X11R6/lib
 LIBRARIES = -lX11 -lSDL2 -lGLEW -lGL -lGLU -lm -lSDL2_image
 
 CC = g++
 CFLAGS = -Wall $(INCLUDE)
 OXY = ../../src/oxygarum.a
+DASYUR = ../../../Dasyur/dasyur.a
 
 cube: $(OBJS)
-	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(OXY)
+	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(DASYUR) $(OXY)
 
 %.o : %.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<

@@ -1,8 +1,8 @@
 SRCS = $(shell find -name '*.cpp')
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
-INCLUDE = -I/usr/include/ -I../include
-LIBDIR  = -L/usr/X11R6/lib 
+INCLUDE = -I/usr/include/ -I../include -I../../Dasyur/include
+LIBDIR  = -L/usr/X11R6/lib
 
 CC = g++
 CFLAGS = -Wall $(INCLUDE)
