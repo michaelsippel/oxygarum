@@ -30,7 +30,8 @@
 #include "mesh.h"
 #include "material.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
 #define OBJECT_VISIBLE         0x1
 #define OBJECT_TRANSPARENT     0x2
@@ -41,53 +42,55 @@ namespace oxygarum {
  * @class Object3D
  * @brief blah
  */
-class Object3D : public Transformation3D {
-	public:
-		Object3D();
-		Object3D(Transformation3D transform);
-		Object3D(Vector3D position_);
-		Object3D(Vector3D position_, Vector3D rotation_);
-		~Object3D();
+class Object3D : public Transformation3D
+{
+    public:
+        Object3D();
+        Object3D(Transformation3D transform);
+        Object3D(Vector3D position_);
+        Object3D(Vector3D position_, Vector3D rotation_);
+        ~Object3D();
 
-		Mesh3D *mesh;
-		Material *material;
-		Vector3D feedback;
+        Mesh3D *mesh;
+        Material *material;
+        Vector3D feedback;
 
-		void render(void);
-		void setFlag(int flag);
-		void removeFlag(int flag);
-		int getStatus(void);
+        void render(void);
+        void setFlag(int flag);
+        void removeFlag(int flag);
+        int getStatus(void);
 
-		static Logger *logger;
+        static Logger *logger;
 
-	private:
-		int status;
+    private:
+        int status;
 };
 
 /**
  * @class Object2D
  * @brief blah
  */
-class Object2D : public Transformation2D {
-	public:
-		Object2D();
-		Object2D(Transformation2D transform);
-		Object2D(Vector2D position_);
-		Object2D(Vector2D position_, float rotation_);
-		~Object2D();
+class Object2D : public Transformation2D
+{
+    public:
+        Object2D();
+        Object2D(Transformation2D transform);
+        Object2D(Vector2D position_);
+        Object2D(Vector2D position_, float rotation_);
+        ~Object2D();
 
-		Mesh2D *mesh;
-		Material *material;
+        Mesh2D *mesh;
+        Material *material;
 
-		void render(void);
-		void setFlag(int flag);
-		void removeFlag(int flag);
-		int getStatus(void);
+        void render(void);
+        void setFlag(int flag);
+        void removeFlag(int flag);
+        int getStatus(void);
 
-		static Logger *logger;
+        static Logger *logger;
 
-	private:
-		int status;
+    private:
+        int status;
 };
 
 };

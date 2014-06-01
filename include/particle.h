@@ -40,7 +40,7 @@ typedef struct particle_emitter {
   GLuint particle_buffer[2];
   int input;
   int output;
-  
+
   vertex3d_t pos;
   vertex3d_t spawn_point;
   vector3d_t gravity_vector;
@@ -49,7 +49,7 @@ typedef struct particle_emitter {
   particle_t *borders;
 
   texture_t *texture;
-  
+
   unsigned int particle_counter;
   unsigned int max_particles;
   unsigned int emission_rate;

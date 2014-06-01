@@ -32,26 +32,27 @@ class ListEntry;
  * @brief Class for a fast implementation of a doubly-linked list
  */
 template <typename T>
-class List {
-	public:
-		List();
-		~List();
+class List
+{
+    public:
+        List();
+        ~List();
 
-		ListEntry<T> *add(T *element);
-		ListEntry<T> *add(T *element, char *name);
-		void add(ListEntry<T> *entry);
-		void remove(ListEntry<T> *entry);
-		void join(List<T> *list);
+        ListEntry<T> *add(T *element);
+        ListEntry<T> *add(T *element, char *name);
+        void add(ListEntry<T> *entry);
+        void remove(ListEntry<T> *entry);
+        void join(List<T> *list);
 
-		ListEntry<T> *getEntry(char *name);
-		ListEntry<T> *getHead();
-		ListEntry<T> *getCurrent();
-		int getSize(void);
+        ListEntry<T> *getEntry(char *name);
+        ListEntry<T> *getHead();
+        ListEntry<T> *getCurrent();
+        int getSize(void);
 
-	private:
-		ListEntry<T> *head;
-		ListEntry<T> *current;
-		int size;
+    private:
+        ListEntry<T> *head;
+        ListEntry<T> *current;
+        int size;
 };
 
 /**
@@ -59,24 +60,25 @@ class List {
  * @brief Entry of a List
  */
 template <typename T>
-class ListEntry {
-	friend class List<T>;
+class ListEntry
+{
+        friend class List<T>;
 
-	public:
-		ListEntry();
-		ListEntry(T *element_);
-		ListEntry(T *element_, char *name_);
-		~ListEntry();
+    public:
+        ListEntry();
+        ListEntry(T *element_);
+        ListEntry(T *element_, char *name_);
+        ~ListEntry();
 
-		T *element;
-		char name[256];
+        T *element;
+        char name[256];
 
-		ListEntry<T> *getPrev(void);
-		ListEntry<T> *getNext(void);
+        ListEntry<T> *getPrev(void);
+        ListEntry<T> *getNext(void);
 
-	private:
-		ListEntry<T> *prev;
-		ListEntry<T> *next;
+    private:
+        ListEntry<T> *prev;
+        ListEntry<T> *next;
 };
 
 #include "list_impl.h"

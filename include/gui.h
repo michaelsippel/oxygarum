@@ -41,13 +41,14 @@
 #define NUM_WINDOW_VERTICES 36
 #define NUM_WINDOW_FACES    9
 
-typedef struct oxygarum_window {
-  vertex2d_t size;
-  
-  vertex2d_t *vertices[NUM_WINDOW_VERTICES];
-  face_t *faces[NUM_WINDOW_FACES];
-  material_t *material;
-  object2d_t *obj;
+typedef struct oxygarum_window
+{
+    vertex2d_t size;
+
+    vertex2d_t *vertices[NUM_WINDOW_VERTICES];
+    face_t *faces[NUM_WINDOW_FACES];
+    material_t *material;
+    object2d_t *obj;
 } oxygarum_window_t;
 
 oxygarum_window_t *oxygarum_create_window(float width, float height, texture_t *texture);

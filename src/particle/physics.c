@@ -18,7 +18,7 @@
  */
 
 char *particle_vertexshader =
-"\
+    "\
 #version 120\n\
 \n\
 attribute vec3 Pos;\n\

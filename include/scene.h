@@ -32,33 +32,35 @@
 #include "list.h"
 #include "logger.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
 /**
  * @class Scene
  * @brief Class for a set of objects
  */
-class Scene {
-	public:
-		Scene();
-		~Scene();
+class Scene
+{
+    public:
+        Scene();
+        ~Scene();
 
-		List<Object3D> *objects3D;
-		List<Object2D> *objects2D;
-		//List<Text> *texts;
-		//List<ParticleEmitter> *particle_emitters;
-		List<Light> *lights;
+        List<Object3D> *objects3D;
+        List<Object2D> *objects2D;
+        //List<Text> *texts;
+        //List<ParticleEmitter> *particle_emitters;
+        List<Light> *lights;
 
-		ListEntry<Object3D> *addObject3D(Object3D *object);
-		ListEntry<Object2D> *addObject2D(Object3D *object);
-		//ListEntry *addText(Text *text);
-		//ListEntry *addParticleEmitter(ParticleEmitter *emitter);
-		//ListEntry *addLight(Light *light);
+        ListEntry<Object3D> *addObject3D(Object3D *object);
+        ListEntry<Object2D> *addObject2D(Object3D *object);
+        //ListEntry *addText(Text *text);
+        //ListEntry *addParticleEmitter(ParticleEmitter *emitter);
+        //ListEntry *addLight(Light *light);
 
-		void render3D(void);
-		void render2D(void);
+        void render3D(void);
+        void render2D(void);
 
-		static Logger *logger;
+        static Logger *logger;
 };
 
 };

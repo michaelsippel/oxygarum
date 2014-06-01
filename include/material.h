@@ -32,53 +32,57 @@
 #include "texture.h"
 #include "shader.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-class Color {
-	public:
-		Color();
-		Color(float r_, float g_, float b_);
-		Color(float r_, float g_, float b_, float a_);
-		~Color();
+class Color
+{
+    public:
+        Color();
+        Color(float r_, float g_, float b_);
+        Color(float r_, float g_, float b_, float a_);
+        ~Color();
 
-		float r,g,b,a;
+        float r,g,b,a;
 
-		void use(void);
+        void use(void);
 };
 
-typedef struct mapped_texture {
-	Texture *texture;
+typedef struct mapped_texture
+{
+    Texture *texture;
 
-	GLint location;
-	GLint mapping;
+    GLint location;
+    GLint mapping;
 } mapped_texture_t;
 
-class Material {
-	public:
-		Material();
-		Material(Color color_);
-		~Material();
+class Material
+{
+    public:
+        Material();
+        Material(Color color_);
+        ~Material();
 
-		List<mapped_texture> *textures;
+        List<mapped_texture> *textures;
 
-		Color color;
-		float roughness;
-		float emission;
-		float refractivity;
+        Color color;
+        float roughness;
+        float emission;
+        float refractivity;
 
-		GLfloat gl_ambient[4];
-		GLfloat gl_diffuse[4];
-		GLfloat gl_specular[4];
-		GLfloat gl_emission[4];
-		GLfloat gl_shininess[1];
+        GLfloat gl_ambient[4];
+        GLfloat gl_diffuse[4];
+        GLfloat gl_specular[4];
+        GLfloat gl_emission[4];
+        GLfloat gl_shininess[1];
 
-		ShadeProgram *shade_program;
+        ShadeProgram *shade_program;
 
-		void update_values(void);
-		GLint map_texture(Texture *tex, char *name, GLint mapping);
-		void use(void);
+        void update_values(void);
+        GLint map_texture(Texture *tex, char *name, GLint mapping);
+        void use(void);
 
-		static Logger *logger;
+        static Logger *logger;
 };
 
 };

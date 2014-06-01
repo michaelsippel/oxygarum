@@ -32,27 +32,27 @@ namespace oxygarum
 
 class EventHandler
 {
-	public:
-		EventHandler();
-		EventHandler(uint32_t type_, void (*handler_)(SDL_Event*));
-		~EventHandler();
+    public:
+        EventHandler();
+        EventHandler(uint32_t type_, void (*handler_)(SDL_Event*));
+        ~EventHandler();
 
-		uint32_t type;
-		void (*function)(SDL_Event*);
+        uint32_t type;
+        void (*function)(SDL_Event*);
 };
 
 class EventManager
 {
-	public:
-		EventManager();
-		~EventManager();
+    public:
+        EventManager();
+        ~EventManager();
 
-		List<EventHandler> *handlers;
+        List<EventHandler> *handlers;
 
-		void poll_events(void);
+        void poll_events(void);
 
-		ListEntry<EventHandler> *register_handler(EventHandler *event);
-		ListEntry<EventHandler> *register_handler(uint32_t type, void (*function)(SDL_Event*));
+        ListEntry<EventHandler> *register_handler(EventHandler *event);
+        ListEntry<EventHandler> *register_handler(uint32_t type, void (*function)(SDL_Event*));
 };
 
 };

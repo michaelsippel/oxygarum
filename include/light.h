@@ -29,22 +29,24 @@
 #include "transformation.h"
 #include "material.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-class Light : public Transformation3D {
-	public:
-		Light();
-		Light(GLenum gl_light_);
-		Light(GLenum gl_light_, Color color);
-		~Light();
+class Light : public Transformation3D
+{
+    public:
+        Light();
+        Light(GLenum gl_light_);
+        Light(GLenum gl_light_, Color color);
+        ~Light();
 
-		GLfloat ambient[4];
-		GLfloat diffuse[4];
-		GLfloat specular[4];
-		GLfloat r_pos[4];
-		GLenum gl_light;
+        GLfloat ambient[4];
+        GLfloat diffuse[4];
+        GLfloat specular[4];
+        GLfloat r_pos[4];
+        GLenum gl_light;
 
-		void update(void);
+        void update(void);
 };
 
 };

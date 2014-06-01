@@ -21,18 +21,18 @@
 /*
 oxygarum_window_t *oxygarum_create_window(float width, float height, texture_t *texture) {
   oxygarum_window_t *win = malloc(sizeof(oxygarum_window_t));
-  
+
   win->size.x = width;
   win->size.y = height;
-  
+
   win->material = oxygarum_create_material();
   oxygarum_group_add(win->material, texture, NULL);
-  
+
   int i;
   for(i = 0; i < NUM_WINDOW_VERTICES; i++) {
     win->vertices[i] = malloc(sizeof(vertex2d_t));
-  }  
-  
+  }
+
   return win;
 }
 
@@ -42,7 +42,7 @@ face_t *oxygarum_create_window_part(oxygarum_window_t *win, int part, uv_t *uv_m
   v[1] = part*4 + 1;
   v[2] = part*4 + 2;
   v[3] = part*4 + 3;
-  
+
   // calculate X
   switch(part) {
     case OXYGARUM_WINDOW_TOP_LEFT:
@@ -60,7 +60,7 @@ face_t *oxygarum_create_window_part(oxygarum_window_t *win, int part, uv_t *uv_m
     case OXYGARUM_WINDOW_TOP_RIGHT:
       win->vertices[v[0]]->x = win->size.x - width;
   }
-  
+
   // calculate Y
   switch(part) {
     case OXYGARUM_WINDOW_TOP_LEFT:
@@ -79,18 +79,18 @@ face_t *oxygarum_create_window_part(oxygarum_window_t *win, int part, uv_t *uv_m
       win->vertices[v[0]]->y = height - win->size.y;
       break;
   }
-  
+
   win->vertices[v[1]]->x = win->vertices[v[0]]->x + width;
   win->vertices[v[1]]->y = win->vertices[v[0]]->y;
-  
+
   win->vertices[v[2]]->x = win->vertices[v[0]]->x + width;
   win->vertices[v[2]]->y = win->vertices[v[0]]->y - height;
-  
+
   win->vertices[v[3]]->x = win->vertices[v[0]]->x;
-  win->vertices[v[3]]->y = win->vertices[v[0]]->y - height; 
-  
+  win->vertices[v[3]]->y = win->vertices[v[0]]->y - height;
+
   win->faces[part] = oxygarum_create_face(4, v, uv_map);
-  
+
   return win->faces[part];
 }
 

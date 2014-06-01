@@ -27,31 +27,33 @@
 #include <SDL2/SDL.h>
 #include "logger.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-class SDLWindow {
-	public:
-		SDLWindow();
-		SDLWindow(int width, int height);
-		SDLWindow(char *title_, int width, int height);
-		~SDLWindow();
+class SDLWindow
+{
+    public:
+        SDLWindow();
+        SDLWindow(int width, int height);
+        SDLWindow(char *title_, int width, int height);
+        ~SDLWindow();
 
-		float update(void);
-		void swap(void);
+        float update(void);
+        void swap(void);
 
-		int getWidth(void);
-		int getHeight(void);
+        int getWidth(void);
+        int getHeight(void);
 
-		static Logger *logger;
+        static Logger *logger;
 
-	private:
-		void init(void);
-		int width;
-		int height;
-		char *title;
+    private:
+        void init(void);
+        int width;
+        int height;
+        char *title;
 
-		SDL_Window *sdl_window;
-		SDL_GLContext *sdl_context;
+        SDL_Window *sdl_window;
+        SDL_GLContext *sdl_context;
 };
 
 };

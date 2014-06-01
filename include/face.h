@@ -26,30 +26,32 @@
 
 #include "vector.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
 class Mesh3D;
 class Mesh2D;
 class RenderInstance;
 
-class Face {
-	friend class Mesh3D;
-	friend class Mesh2D;
-	friend class RenderInstance;
+class Face
+{
+        friend class Mesh3D;
+        friend class Mesh2D;
+        friend class RenderInstance;
 
-	public:
-		Face();
-		Face(int num_vertices_, int *vertices_);
-		Face(int num_vertices_, int *vertices_, int *texcoords_);
-		~Face();
+    public:
+        Face();
+        Face(int num_vertices_, int *vertices_);
+        Face(int num_vertices_, int *vertices_, int *texcoords_);
+        ~Face();
 
-		Vector3D getNormal();
+        Vector3D getNormal();
 
-	private:
-		int num_vertices;
-		int *vertices;
-		int *texcoords;
-		Vector3D normal;
+    private:
+        int num_vertices;
+        int *vertices;
+        int *texcoords;
+        Vector3D normal;
 };
 
 };

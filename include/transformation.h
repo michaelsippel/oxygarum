@@ -26,62 +26,65 @@
 
 #include "vector.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
 /**
  * @class Transformation3D
  * @brief Class for transforming in 3D-space
  */
-class Transformation3D {
-	public:
-		Transformation3D();
-		Transformation3D(Vector3D position_, Vector3D rotation_);
-		Transformation3D(Vector3D position_, Vector3D rotation_, Vector3D scaling_);
-		~Transformation3D();
+class Transformation3D
+{
+    public:
+        Transformation3D();
+        Transformation3D(Vector3D position_, Vector3D rotation_);
+        Transformation3D(Vector3D position_, Vector3D rotation_, Vector3D scaling_);
+        ~Transformation3D();
 
-		Vector3D position;
-		Vector3D rotation;
-		Vector3D scaling;
+        Vector3D position;
+        Vector3D rotation;
+        Vector3D scaling;
 
-		void setPosition(Vector3D position_);
-		void setRotation(Vector3D rotation_);
-		void setScaling(Vector3D scale_);
-		void setScaling(float x_);
+        void setPosition(Vector3D position_);
+        void setRotation(Vector3D rotation_);
+        void setScaling(Vector3D scale_);
+        void setScaling(float x_);
 
-		void move(Vector3D position_);
-		void rotate(Vector3D rotation_);
-		void scale(Vector3D scaling_);
-		void scale(float x_);
+        void move(Vector3D position_);
+        void rotate(Vector3D rotation_);
+        void scale(Vector3D scaling_);
+        void scale(float x_);
 
-		void useTransformation(void);
+        void useTransformation(void);
 };
 
 /**
  * @class Transformation2D
  * @brief Class for transforming in 2D-space
  */
-class Transformation2D {
-	public:
-		Transformation2D();
-		Transformation2D(Vector2D position_, float rotation_);
-		Transformation2D(Vector2D position_, float rotation_, Vector2D scaling_);
-		~Transformation2D();
+class Transformation2D
+{
+    public:
+        Transformation2D();
+        Transformation2D(Vector2D position_, float rotation_);
+        Transformation2D(Vector2D position_, float rotation_, Vector2D scaling_);
+        ~Transformation2D();
 
-		Vector2D position;
-		float rotation;
-		Vector2D scaling;
+        Vector2D position;
+        float rotation;
+        Vector2D scaling;
 
-		void setPosition(Vector2D position_);
-		void setRotation(float rotation_);
-		void setScaling(Vector2D scaling_);
-		void setScaling(float x_);
+        void setPosition(Vector2D position_);
+        void setRotation(float rotation_);
+        void setScaling(Vector2D scaling_);
+        void setScaling(float x_);
 
-		void move(Vector2D position_);
-		void rotate(float rotation_);
-		void scale(Vector2D scaling_);
-		void scale(float x_);
+        void move(Vector2D position_);
+        void rotate(float rotation_);
+        void scale(Vector2D scaling_);
+        void scale(float x_);
 
-		void useTransformation(void);
+        void useTransformation(void);
 };
 
 };

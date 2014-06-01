@@ -25,13 +25,14 @@
 #include "vertex.h"
 #include "vector.h"
 
-char *softbodyshader = 
-"void main() {\n"
-"	gl_Position = gl_Vertex;\n"
-"}\n";
+char *softbodyshader =
+    "void main() {\n"
+    "	gl_Position = gl_Vertex;\n"
+    "}\n";
 
-void oxygarum_calc_softbody(physics_t *physics, physics_properties_t *properties, float anim_speed) {
-  glUseProgram(physics->vertex_program);
-  // TODO
+void oxygarum_calc_softbody(physics_t *physics, physics_properties_t *properties, float anim_speed)
+{
+    glUseProgram(physics->vertex_program);
+    // TODO
 }
 

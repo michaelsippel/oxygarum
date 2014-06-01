@@ -24,59 +24,62 @@
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
-namespace oxygarum {
+namespace oxygarum
+{
 
 /**
  * Vector class.
  */
-class Vector3D {
-	public:
-		Vector3D();
-		Vector3D(Vector3D o, Vector3D p);
-		Vector3D(float x_, float y_, float z_);
-		~Vector3D();
+class Vector3D
+{
+    public:
+        Vector3D();
+        Vector3D(Vector3D o, Vector3D p);
+        Vector3D(float x_, float y_, float z_);
+        ~Vector3D();
 
-		float x, y, z;
+        float x, y, z;
 
-		void normalize(void);
+        void normalize(void);
 
-		void add(Vector3D v);
-		void add(float x_);
-		void sub(Vector3D v);
-		void sub(float x_);
-		void mul(Vector3D v);
-		void mul(float x_);
-		void div(Vector3D v);
-		void div(float x_);
+        void add(Vector3D v);
+        void add(float x_);
+        void sub(Vector3D v);
+        void sub(float x_);
+        void mul(Vector3D v);
+        void mul(float x_);
+        void div(Vector3D v);
+        void div(float x_);
 
-		float scalar(Vector3D v);
-		void dot(Vector3D v);
-		void dot(Vector3D v1, Vector3D v2);
+        float scalar(Vector3D v);
+        void dot(Vector3D v);
+        void dot(Vector3D v1, Vector3D v2);
 };
 
-class Vector2D {
-	public:
-		Vector2D();
-		Vector2D(Vector2D o, Vector2D p);
-		Vector2D(float x_, float y_);
-		~Vector2D();
+class Vector2D
+{
+    public:
+        Vector2D();
+        Vector2D(Vector2D o, Vector2D p);
+        Vector2D(float x_, float y_);
+        ~Vector2D();
 
-		float x, y;
+        float x, y;
 
-		void normalize(void);
+        void normalize(void);
 
-		void add(Vector2D v);
-		void add(float x_);
-		void sub(Vector2D v);
-		void sub(float x_);
-		void mul(Vector2D v);
-		void mul(float x_);
-		void div(Vector2D v);
-		void div(float x_);
+        void add(Vector2D v);
+        void add(float x_);
+        void sub(Vector2D v);
+        void sub(float x_);
+        void mul(Vector2D v);
+        void mul(float x_);
+        void div(Vector2D v);
+        void div(float x_);
 
-		float scalar(Vector2D v);
-		void dot(Vector2D v);
-		void dot(Vector2D v1, Vector2D v2);
+        float scalar(Vector2D v);
+        void dot(Vector2D v);
+        void dot(Vector2D v1, Vector2D v2);
 };
 
 };

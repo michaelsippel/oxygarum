@@ -27,152 +27,189 @@
 #include "list.h"
 
 template <typename T>
-List<T>::List() {
-	this->head = NULL;
-	this->current = NULL;
-	this->size = 0;
+List<T>::List()
+{
+    this->head = NULL;
+    this->current = NULL;
+    this->size = 0;
 }
 
 template <typename T>
-List<T>::~List() {
+List<T>::~List()
+{
 }
 
 template <typename T>
-void List<T>::add(ListEntry<T> *entry) {
-	entry->next = NULL;
-	entry->prev = this->current;
+void List<T>::add(ListEntry<T> *entry)
+{
+    entry->next = NULL;
+    entry->prev = this->current;
 
-	if(this->current != NULL) {
-		this->current->next = entry;
-	}
-	this->current = entry;
-	if(this->head == NULL) {
-		this->head = entry;
-	}
+    if(this->current != NULL)
+    {
+        this->current->next = entry;
+    }
+    this->current = entry;
+    if(this->head == NULL)
+    {
+        this->head = entry;
+    }
 
-	this->size++;
+    this->size++;
 }
 
 template <typename T>
-ListEntry<T> *List<T>::add(T *element) {
-	ListEntry<T> *entry = new ListEntry<T>(element);
-	this->add(entry);
+ListEntry<T> *List<T>::add(T *element)
+{
+    ListEntry<T> *entry = new ListEntry<T>(element);
+    this->add(entry);
 
-	return entry;
+    return entry;
 }
 
 template <typename T>
-ListEntry<T> *List<T>::add(T *element, char *name) {
-	ListEntry<T> *entry = new ListEntry<T>(element, name);
-	this->add(entry);
+ListEntry<T> *List<T>::add(T *element, char *name)
+{
+    ListEntry<T> *entry = new ListEntry<T>(element, name);
+    this->add(entry);
 
-	return entry;
+    return entry;
 }
 
 template <typename T>
-void List<T>::remove(ListEntry<T> *entry) {
-	if(entry->prev != NULL) {
-		entry->prev->next = entry->next;
-	} else {
-		this->head = entry->next;
-	}
+void List<T>::remove(ListEntry<T> *entry)
+{
+    if(entry->prev != NULL)
+    {
+        entry->prev->next = entry->next;
+    }
+    else
+    {
+        this->head = entry->next;
+    }
 
-	if(entry->next != NULL) {
-		entry->next->prev = entry->prev;
-	} else {
-		this->current = entry->prev;
-	}	
+    if(entry->next != NULL)
+    {
+        entry->next->prev = entry->prev;
+    }
+    else
+    {
+        this->current = entry->prev;
+    }
 }
 
 template <typename T>
-void List<T>::join(List<T> *list) {
-	if(list != NULL) {
-		if(this->head == NULL) {
-			this->head = list->head;
-			this->current = list->current;
-		} else {
-			if(this->current != NULL) {
-				this->current->next = list->head;
-			}
+void List<T>::join(List<T> *list)
+{
+    if(list != NULL)
+    {
+        if(this->head == NULL)
+        {
+            this->head = list->head;
+            this->current = list->current;
+        }
+        else
+        {
+            if(this->current != NULL)
+            {
+                this->current->next = list->head;
+            }
 
-			if(list->head != NULL) {
-				list->head->prev = this->current;
-			}
-		}
-	}
+            if(list->head != NULL)
+            {
+                list->head->prev = this->current;
+            }
+        }
+    }
 }
 
 template <typename T>
-ListEntry<T> *List<T>::getEntry(char *name_) {
-	if(name_ == NULL) {
-		return NULL;
-	}
+ListEntry<T> *List<T>::getEntry(char *name_)
+{
+    if(name_ == NULL)
+    {
+        return NULL;
+    }
 
-	ListEntry<T> *entry = this->head;
-	while(entry != NULL) {
-		if(strcmp(entry->name, name_) == 0) {
-			return entry;
-		}
-		entry = entry->next;
-	}
+    ListEntry<T> *entry = this->head;
+    while(entry != NULL)
+    {
+        if(strcmp(entry->name, name_) == 0)
+        {
+            return entry;
+        }
+        entry = entry->next;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 template <typename T>
-ListEntry<T> *List<T>::getHead(void) {
-	return this->head;
+ListEntry<T> *List<T>::getHead(void)
+{
+    return this->head;
 }
 
 template <typename T>
-ListEntry<T> *List<T>::getCurrent(void) {
-	return this->current;
+ListEntry<T> *List<T>::getCurrent(void)
+{
+    return this->current;
 }
 
 template <typename T>
-int List<T>::getSize(void) {
-	return this->size;
+int List<T>::getSize(void)
+{
+    return this->size;
 }
 
 template <typename T>
-ListEntry<T>::ListEntry() {
-	this->element = NULL;
-	strcpy(this->name, "");
-	this->prev = NULL;
-	this->next = NULL;
+ListEntry<T>::ListEntry()
+{
+    this->element = NULL;
+    strcpy(this->name, "");
+    this->prev = NULL;
+    this->next = NULL;
 }
 
 template <typename T>
 ListEntry<T>::ListEntry(T *element_)
-: element(element_) {
-	strcpy(this->name, "");
-	this->prev = NULL;
-	this->next = NULL;
+    : element(element_)
+{
+    strcpy(this->name, "");
+    this->prev = NULL;
+    this->next = NULL;
 }
 
 template <typename T>
 ListEntry<T>::ListEntry(T *element_, char *name_)
-: element(element_) {
-	if(name_ != NULL) {
-		strcpy(this->name, name_);
-	} else {
-		strcpy(this->name, "");
-	}
-	this->prev = NULL;
-	this->next = NULL;
+    : element(element_)
+{
+    if(name_ != NULL)
+    {
+        strcpy(this->name, name_);
+    }
+    else
+    {
+        strcpy(this->name, "");
+    }
+    this->prev = NULL;
+    this->next = NULL;
 }
 
 template <typename T>
-ListEntry<T>::~ListEntry() {
+ListEntry<T>::~ListEntry()
+{
 }
 
 template <typename T>
-ListEntry<T> *ListEntry<T>::getPrev(void) {
-	return this->prev;
+ListEntry<T> *ListEntry<T>::getPrev(void)
+{
+    return this->prev;
 }
 
 template <typename T>
-ListEntry<T> *ListEntry<T>::getNext(void) {
-	return this->next;
+ListEntry<T> *ListEntry<T>::getNext(void)
+{
+    return this->next;
 }
 

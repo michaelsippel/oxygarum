@@ -36,17 +36,17 @@ mesh2d_t *oxygarum_load_oxy2d_file(const char *path) {
   }
 
   char line[256];
-  
+
   int num_vertices = 0;
   int num_uvmaps = 0;
   int num_faces = 0;
   int num_textures = 0;
-  int i,j;  
+  int i,j;
 
   readstr(f, line);
   sscanf(line, "MATERIAL\n");
   material_t *material;
-  
+
   readstr(f, line);
   sscanf(line, "TEXTURES %d\n", &num_textures);
 
@@ -57,63 +57,63 @@ mesh2d_t *oxygarum_load_oxy2d_file(const char *path) {
   for(i = 0; i < num_textures; i++) {
     int id;
     char tex_path[256];
-    
+
     readstr(f, line);
     sscanf(line, "%d : %s\n", &id, tex_path);
     tex[id] = oxygarum_load_texture_from_file(tex_path, NULL);
   }
-  
+
   oxygarum_material_init_textures(material, num_textures, tex);
-  
+
   readstr(f, line);
   sscanf(line, "VERTICES %d\n", &num_vertices);
   vertex2d_t *vertices = calloc(num_vertices, sizeof(vertex2d_t));
 
   for(i = 0; i < num_vertices; i++) {
     int id;
-    float x,y;    
-    
+    float x,y;
+
     readstr(f, line);
     sscanf(line, "%d : %f %f\n", &id, &x, &y);
-    
+
     vertices[id].x = x;
     vertices[id].y = y;
   }
-  
+
   readstr(f, line);
   sscanf(line, "UVMAPS %d\n", &num_uvmaps);
   uv_t **uvmaps = calloc(num_uvmaps, sizeof(uv_t*));
-  
+
   for(i = 0; i < num_uvmaps; i++) {
     int id;
     int size;
-    
+
     readstr(f, line);
     sscanf(line, "%d : SIZE %d\n", &id, &size);
-    
+
     uvmaps[id] = calloc(size, sizeof(uv_t));
-    
+
     for(j = 0; j < size; j++) {
       readstr(f, line);
       sscanf(line, "%f %f\n", &uvmaps[id][j].u, &uvmaps[id][j].v);
     }
   }
-  
+
   readstr(f, line);
   sscanf(line, "FACES %d\n", &num_faces);
   face_t **faces = calloc(num_faces, sizeof(face_t*));
-  
+
   for(i = 0; i < num_faces; i++) {
     int id;
     int size;
-    
+
     readstr(f, line);
     sscanf(line, "%d : SIZE %d\n", &id, &size);
-    
+
     int uv_id;
     vertex_id *va = calloc(size, sizeof(vertex_id));
     fscanf(f, "%d ", &uv_id);
-    
+
     for(j = 0; j < size; j++) {
       fscanf(f, " %d", &va[j]);
     }
@@ -124,7 +124,7 @@ mesh2d_t *oxygarum_load_oxy2d_file(const char *path) {
 
   mesh2d_t *obj = oxygarum_create_mesh2d(num_vertices, vertices, num_faces, faces, material);
   fclose(f);
-  
+
   return obj;
 }
 */

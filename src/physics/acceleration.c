@@ -19,28 +19,32 @@
 #include "physics.h"
 #include "vector.h"
 
-void oxygarum_calc_acceleration(physics_t *physics, physics_properties_t *properties, float anim_speed) {
-  group_entry_t *entry = physics->force_fields->head;
-  
-  while(entry != NULL) {
-    force_field_t *force_field = (force_field_t*) entry->element;
-    if(force_field == NULL) {
-      continue;
+void oxygarum_calc_acceleration(physics_t *physics, physics_properties_t *properties, float anim_speed)
+{
+    group_entry_t *entry = physics->force_fields->head;
+
+    while(entry != NULL)
+    {
+        force_field_t *force_field = (force_field_t*) entry->element;
+        if(force_field == NULL)
+        {
+            continue;
+        }
+
+        switch(force_field->type)
+        {
+            case FORCE_FIELD_TYPE_VECTOR:
+                properties->pos_velocity.x += force_field->force.x * force_field->velocity * anim_speed;
+                properties->pos_velocity.y += force_field->force.y * force_field->velocity * anim_speed;
+                properties->pos_velocity.z += force_field->force.z * force_field->velocity * anim_speed;
+                break;
+            case FORCE_FIELD_TYPE_VERTEX:
+                //TODO
+                break;
+        }
+
+        entry = entry->next;
     }
-    
-    switch(force_field->type) {
-      case FORCE_FIELD_TYPE_VECTOR:
-        properties->pos_velocity.x += force_field->force.x * force_field->velocity * anim_speed;
-        properties->pos_velocity.y += force_field->force.y * force_field->velocity * anim_speed;
-        properties->pos_velocity.z += force_field->force.z * force_field->velocity * anim_speed;
-        break;
-      case FORCE_FIELD_TYPE_VERTEX:
-        //TODO
-        break;
-    }
-    
-    entry = entry->next;
-  }
 }
 
 

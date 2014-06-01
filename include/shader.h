@@ -29,44 +29,48 @@
 #include "logger.h"
 #include "list.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
-class Shader {
-	friend class ShadeProgram;
+class Shader
+{
+        friend class ShadeProgram;
 
-	public:
-		Shader();
-		Shader(GLuint type_, const char *source, int len);
-		~Shader();
+    public:
+        Shader();
+        Shader(GLuint type_, const char *source, int len);
+        ~Shader();
 
-		void compile(GLuint type_, const char *source, int len);
+        void compile(GLuint type_, const char *source, int len);
 
-		static Logger *logger;
+        static Logger *logger;
 
-	private:
-		GLuint type;
-		GLuint id;
+    private:
+        GLuint type;
+        GLuint id;
 };
 
-class ShadeProgram {
-	public:
-		ShadeProgram();
-		~ShadeProgram();
+class ShadeProgram
+{
+    public:
+        ShadeProgram();
+        ~ShadeProgram();
 
-		void attach(Shader *shader);
-		void link(void);
-		void use(void);
+        void attach(Shader *shader);
+        void link(void);
+        void use(void);
 
-		GLuint getID(void);
+        GLuint getID(void);
 
-		static Logger *logger;
+        static Logger *logger;
 
-	private:
-		GLuint id;
+    private:
+        GLuint id;
 };
 
-namespace loader {
-	Shader *load_shader(GLuint type, const char *path);
+namespace loader
+{
+Shader *load_shader(GLuint type, const char *path);
 };
 
 };

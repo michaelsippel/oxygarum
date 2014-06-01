@@ -30,101 +30,107 @@
 #include "shader.h"
 #include "logger.h"
 
-namespace oxygarum {
+namespace oxygarum
+{
 
 class Mesh3D;
 
-class RenderInstance {
-	public:
-		RenderInstance();
-		RenderInstance(Mesh3D *mesh_);
-		~RenderInstance();
+class RenderInstance
+{
+    public:
+        RenderInstance();
+        RenderInstance(Mesh3D *mesh_);
+        ~RenderInstance();
 
-		Mesh3D *mesh;
-		void create(void);
-		void render(int num_textures);
+        Mesh3D *mesh;
+        void create(void);
+        void render(int num_textures);
 
-		static Logger *logger;
+        static Logger *logger;
 
-	private:
-		GLuint index_id;
-		GLuint vertex_id;
-		GLuint normal_id;
-		GLuint texcoord_id;
+    private:
+        GLuint index_id;
+        GLuint vertex_id;
+        GLuint normal_id;
+        GLuint texcoord_id;
 
-		unsigned int num_indices;
-		unsigned int num_vertices;
-		unsigned int *indices;
-		Vector3D *vertices;
-		Vector3D *normals;
-		Vector2D *texcoords;
+        unsigned int num_indices;
+        unsigned int num_vertices;
+        unsigned int *indices;
+        Vector3D *vertices;
+        Vector3D *normals;
+        Vector2D *texcoords;
 };
 
-class Mesh3D {
-	friend class RenderInstance;
+class Mesh3D
+{
+        friend class RenderInstance;
 
-	public:
-		Mesh3D();
-		Mesh3D(int num_vertices_, Vector3D *vertices_, int num_faces_, Face **faces_);
-		Mesh3D(int num_vertices_, Vector3D *vertices_, int num_texcoords_, Vector2D *texcoords_, int num_faces_, Face **faces_);
-		Mesh3D(int num_vertices_, Vector3D *vertices_, int num_texcoords_, Vector2D *texcoords_, int num_faces_, Face **faces_, Material *material_);
-		~Mesh3D();
+    public:
+        Mesh3D();
+        Mesh3D(int num_vertices_, Vector3D *vertices_, int num_faces_, Face **faces_);
+        Mesh3D(int num_vertices_, Vector3D *vertices_, int num_texcoords_, Vector2D *texcoords_, int num_faces_, Face **faces_);
+        Mesh3D(int num_vertices_, Vector3D *vertices_, int num_texcoords_, Vector2D *texcoords_, int num_faces_, Face **faces_, Material *material_);
+        ~Mesh3D();
 
-		Material *default_material;
-		RenderInstance *instance;
+        Material *default_material;
+        RenderInstance *instance;
 
-		void calc_normals(void);
-		void renderInstance(int num_textures);
-		void renderImmediate(int num_textures);
+        void calc_normals(void);
+        void renderInstance(int num_textures);
+        void renderImmediate(int num_textures);
 
-		static Logger *logger;
+        static Logger *logger;
 
-	private:
-		int num_vertices;
-		Vector3D *vertices;
-		Vector3D *normals;
+    private:
+        int num_vertices;
+        Vector3D *vertices;
+        Vector3D *normals;
 
-		int num_texcoords;
-		Vector2D *texcoords;
+        int num_texcoords;
+        Vector2D *texcoords;
 
-		int num_faces;
-		Face **faces;
+        int num_faces;
+        Face **faces;
 };
 
-class Mesh2D {
-	public:
-		Mesh2D();
-		Mesh2D(int num_vertices_, Vector2D *vertices_);
-		~Mesh2D();
+class Mesh2D
+{
+    public:
+        Mesh2D();
+        Mesh2D(int num_vertices_, Vector2D *vertices_);
+        ~Mesh2D();
 
-		Material *default_material;
+        Material *default_material;
 
-		void render(void);
+        void render(void);
 
-		static Logger *logger;
+        static Logger *logger;
 
-	private:
-		int num_vertices;
-		Vector3D *vertices;
+    private:
+        int num_vertices;
+        Vector3D *vertices;
 
-		int num_texcoords;
-		Vector2D *texcoords;  
+        int num_texcoords;
+        Vector2D *texcoords;
 
-		int num_faces;
-		Face **faces;
+        int num_faces;
+        Face **faces;
 };
 
-namespace loader {
-	class Object3D;
-	struct load_return {
-		List<Texture> *textures;
-		List<ShadeProgram> *shaders;
-		List<Material> *materials;
-		List<Mesh3D> *meshes;
-		List<Object3D> *objects;
-	};
-	struct load_return *load_oxy3d(const char *path);
-	struct load_return *load_oxy3d(const char *f_path, struct load_return *ret);
+namespace loader
+{
+class Object3D;
+struct load_return
+{
+    List<Texture> *textures;
+    List<ShadeProgram> *shaders;
+    List<Material> *materials;
+    List<Mesh3D> *meshes;
+    List<Object3D> *objects;
+};
+struct load_return *load_oxy3d(const char *path);
+struct load_return *load_oxy3d(const char *f_path, struct load_return *ret);
 };
 
 };
