@@ -42,6 +42,12 @@ SDLWindow::SDLWindow(int width_, int height_)
     this->init();
 }
 
+SDLWindow::SDLWindow(const char *title_, int width_, int height_)
+    : title((char*)title_), width(width_), height(height_)
+{
+    this->init();
+}
+
 SDLWindow::SDLWindow(char *title_, int width_, int height_)
     : title(title_), width(width_), height(height_)
 {

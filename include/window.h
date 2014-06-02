@@ -36,6 +36,7 @@ class SDLWindow
     public:
         SDLWindow();
         SDLWindow(int width, int height);
+        SDLWindow(const char *title_, int width, int height);
         SDLWindow(char *title_, int width, int height);
         ~SDLWindow();
 
@@ -52,9 +53,10 @@ class SDLWindow
 
     private:
         void init(void);
+
+        char *title;
         int width;
         int height;
-        char *title;
 
         SDL_Window *sdl_window;
         SDL_GLContext *sdl_context;

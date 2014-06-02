@@ -54,7 +54,7 @@ void Shader::compile(GLuint type_, const char *source, int len)
     GLchar log[llen+1];
     glGetShaderInfoLog(this->id, llen+1, &llen, (GLchar*) &log);
 
-    char *shadertype;
+    const char *shadertype;
     switch(type)
     {
         case GL_VERTEX_SHADER:

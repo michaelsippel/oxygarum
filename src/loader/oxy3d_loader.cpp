@@ -370,7 +370,7 @@ struct load_return *load_oxy3d(const char *f_path, struct load_return *ret)
             {
                 if(read)
                 {
-                    Mesh3D *mesh = new Mesh3D(num_vertices, vertices, num_texcoords, texcoords, num_faces, faces, mat);
+                    mesh = new Mesh3D(num_vertices, vertices, num_texcoords, texcoords, num_faces, faces, mat);
                     ret->meshes->add(mesh, name);
                     RESET_CMD;
                 }

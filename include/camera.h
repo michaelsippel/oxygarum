@@ -72,10 +72,9 @@ class Camera : public Transformation3D
         Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_, float fov_);
         ~Camera();
 
-        Scene *scene;
-        Camera *camera;
-        Viewport viewport;
         SDLWindow *window;
+        Scene *scene;
+        Viewport viewport;
         float fov;
 
         void use(void);
