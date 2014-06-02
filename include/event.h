@@ -21,8 +21,8 @@
  * @author Michael Sippel <michamimosa@gmail.com>
  */
 
-#ifndef _KEYBOARD_H
-#define _KEYBOARD_H
+#ifndef _EVENT_H
+#define _EVENT_H
 
 #include <SDL2/SDL.h>
 #include "list.h"
@@ -34,11 +34,13 @@ class EventHandler
 {
     public:
         EventHandler();
-        EventHandler(uint32_t type_, void (*handler_)(SDL_Event*));
+        EventHandler(uint32_t type_, void (*handler_)(int argc, void **argv));
         ~EventHandler();
 
         uint32_t type;
-        void (*function)(SDL_Event*);
+        void (*function)(int argc, void **argv);
+
+        int launch(int argc, void **argv);
 };
 
 class EventManager
@@ -49,10 +51,9 @@ class EventManager
 
         List<EventHandler> *handlers;
 
-        void poll_events(void);
-
         ListEntry<EventHandler> *register_handler(EventHandler *event);
-        ListEntry<EventHandler> *register_handler(uint32_t type, void (*function)(SDL_Event*));
+        ListEntry<EventHandler> *register_handler(uint32_t type, void (*function)(int argc, void **argv));
+        int handle_event(uint32_t type, int argc, void **argv);
 };
 
 };

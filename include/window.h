@@ -26,6 +26,7 @@
 
 #include <SDL2/SDL.h>
 #include "logger.h"
+#include "event.h"
 
 namespace oxygarum
 {
@@ -38,7 +39,10 @@ class SDLWindow
         SDLWindow(char *title_, int width, int height);
         ~SDLWindow();
 
+        EventManager *eventmgr;
+
         float update(void);
+        void poll_events(void);
         void swap(void);
 
         int getWidth(void);

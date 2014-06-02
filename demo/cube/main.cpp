@@ -15,7 +15,6 @@ using namespace oxygarum;
 int main(int argc, char **argv)
 {
     SDLWindow *window = new SDLWindow("Oxygarum demo", 1025, 576);
-    EventManager *evntmngr = new EventManager();
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
@@ -29,7 +28,7 @@ int main(int argc, char **argv)
     wall->setFlag(OBJECT_RENDER_VBO);
     suzanne->setFlag(OBJECT_RENDER_VBO);
     scene->objects3D->add(cube, "cube");
-    //scene->objects3D->add(wall, "wall");
+    scene->objects3D->add(wall, "wall");
     scene->objects3D->add(suzanne, "suzanne");
 
     Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
@@ -63,7 +62,7 @@ int main(int argc, char **argv)
     while(1)
     {
         // handle events
-        evntmngr->poll_events();
+        window->poll_events();
 
         // render
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

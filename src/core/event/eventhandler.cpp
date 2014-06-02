@@ -32,15 +32,26 @@ EventHandler::EventHandler()
     this->function = NULL;
 }
 
-EventHandler::EventHandler(uint32_t type_, void (*function_)(SDL_Event*))
+EventHandler::EventHandler(uint32_t type_, void (*function_)(int argc, void **argv))
     : type(type_), function(function_)
 {
+}
+
+int EventHandler::launch(int argc, void **argv)
+{
+    if(this->function == NULL)
+    {
+        return -1;
+    }
+
+    // TODO: maybe use a thread?
+    this->function(argc, argv);
+    return 0;
 }
 
 EventHandler::~EventHandler()
 {
 }
-
 
 EventManager::EventManager()
 {
@@ -51,44 +62,34 @@ EventManager::~EventManager()
 {
 }
 
-void EventManager::poll_events(void)
-{
-    SDL_Event e;
-    while(SDL_PollEvent(&e))
-    {
-        ListEntry<EventHandler> *entry = this->handlers->getHead();
-        int handled = 0;
-        while(entry != NULL)
-        {
-            EventHandler *handler = entry->element;
-            if(handler->type == e.type)
-            {
-                if(handler->function != NULL)
-                {
-                    handler->function(&e);
-                    handled = 1;
-                }
-            }
-
-            entry = entry->getNext();
-        }
-
-        if( (!handled) && e.type == SDL_QUIT)
-        {
-            exit(0);
-        }
-    }
-}
-
 ListEntry<EventHandler> *EventManager::register_handler(EventHandler *handler)
 {
     return this->handlers->add(handler);
 }
 
-ListEntry<EventHandler> *EventManager::register_handler(uint32_t type, void (*function)(SDL_Event*))
+ListEntry<EventHandler> *EventManager::register_handler(uint32_t type, void (*function)(int argc, void **argv))
 {
     EventHandler *handler = new EventHandler(type, function);
     return this->handlers->add(handler);
+}
+
+int EventManager::handle_event(uint32_t type, int argc, void **argv)
+{
+    ListEntry<EventHandler> *entry = this->handlers->getHead();
+    while(entry != NULL)
+    {
+        EventHandler *handler = entry->element;
+
+        if(handler->type == type)
+        {
+            int ret = handler->launch(argc, argv);
+            return (ret == 0) ? 0 : -2;
+        }
+
+        entry = entry->getNext();
+    }
+
+    return -1;
 }
 
 };

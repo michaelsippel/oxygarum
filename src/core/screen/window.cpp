@@ -79,6 +79,7 @@ void SDLWindow::init(void)
         this->logger->log(ERROR, "glewInit failed!");
     }
 
+    this->eventmgr = new EventManager();
     this->logger->log(INFO, "window created");
 }
 
@@ -94,6 +95,19 @@ float SDLWindow::update(void)
     this->swap();
 
     return frametime;
+}
+
+void SDLWindow::poll_events(void)
+{
+    SDL_Event e;
+    while(SDL_PollEvent(&e))
+    {
+        int success = this->eventmgr->handle_event(e.type, 1, (void**) &e);
+        if( !(success == 0) && e.type == SDL_QUIT)
+        {
+            exit(0);
+        }
+    }
 }
 
 void SDLWindow::swap(void)
