@@ -27,12 +27,12 @@ int main(int argc, char **argv)
     cube->setFlag(OBJECT_RENDER_VBO);
     wall->setFlag(OBJECT_RENDER_VBO);
     suzanne->setFlag(OBJECT_RENDER_VBO);
-    scene->objects3D->add(cube, "cube");
-    scene->objects3D->add(wall, "wall");
-    scene->objects3D->add(suzanne, "suzanne");
+    scene->base_node->objects3D->add(cube, "cube");
+    scene->base_node->objects3D->add(wall, "wall");
+    scene->base_node->objects3D->add(suzanne, "suzanne");
 
     Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
-    scene->lights->add(light);
+    scene->base_node->lights->add(light);
 
     struct loader::load_return *ret = loader::load_oxy3d("data/scene.oxy3d");
     cube->mesh = ret->meshes->getEntry("cube")->element;

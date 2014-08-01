@@ -35,6 +35,31 @@
 namespace oxygarum
 {
 
+class SceneNode : public Transformation3D
+{
+    public:
+        SceneNode();
+        ~SceneNode();
+
+        List<SceneNode> *subnodes;
+        List<Object3D> *objects3D;
+        List<Object2D> *objects2D;
+        //List<Text> *texts;
+        //List<ParticleEmitter> *particle_emitters;
+        List<Light> *lights;
+
+        ListEntry<Object3D> *addObject3D(Object3D *object);
+        ListEntry<Object2D> *addObject2D(Object3D *object);
+        //ListEntry *addText(Text *text);
+        //ListEntry *addParticleEmitter(ParticleEmitter *emitter);
+        //ListEntry *addLight(Light *light);
+
+        void render3D(void);
+        void render2D(void);
+
+        static Logger *logger;
+};
+
 /**
  * @class Scene
  * @brief Class for a set of objects
@@ -45,11 +70,7 @@ class Scene
         Scene();
         ~Scene();
 
-        List<Object3D> *objects3D;
-        List<Object2D> *objects2D;
-        //List<Text> *texts;
-        //List<ParticleEmitter> *particle_emitters;
-        List<Light> *lights;
+        SceneNode *base_node;
 
         ListEntry<Object3D> *addObject3D(Object3D *object);
         ListEntry<Object2D> *addObject2D(Object3D *object);
