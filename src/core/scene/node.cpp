@@ -34,6 +34,9 @@ namespace oxygarum
 
 SceneNode::SceneNode()
 {
+    this->position = Vector3D();
+    this->rotation = Vector3D();
+
     this->objects3D = new List<Object3D>();
     //this->objects2D = new List<Object2D>();
     //this->texts = new List<Text>();
@@ -41,6 +44,8 @@ SceneNode::SceneNode()
     this->lights = new List<Light>();
 
     this->subnodes = new List<SceneNode>();
+
+    this->size = Vector3D(1.0f, 1.0f, 1.0f);
 }
 
 SceneNode::~SceneNode()
@@ -55,6 +60,7 @@ SceneNode::~SceneNode()
 
 void SceneNode::render3D(void)
 {
+    this->drawDebugBox();
     // update lights
     ListEntry<Light> *l_entry = this->lights->getHead();
 
@@ -170,6 +176,63 @@ void SceneNode::render2D(void)
 
         entry = entry->next;
       }*/
+}
+
+void SceneNode::drawDebugBox(void)
+{
+    float x = this->size.x * 0.5f;
+    float y = this->size.y * 0.5f;
+    float z = this->size.z * 0.5f;
+
+    glDisable(GL_LIGHTING);
+    glUseProgram(0);
+    glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+    glBegin(GL_LINES);
+    // back
+    glVertex3f(-x, -y, -z);
+    glVertex3f(-x,  y, -z);
+
+    glVertex3f(-x,  y, -z);
+    glVertex3f( x,  y, -z);
+
+    glVertex3f( x,  y, -z);
+    glVertex3f( x, -y, -z);
+
+    glVertex3f( x, -y, -z);
+    glVertex3f(-x, -y, -z);
+
+    // middle
+    glVertex3f(-x, -y, -z);
+    glVertex3f(-x, -y,  z);
+
+    glVertex3f(-x,  y, -z);
+    glVertex3f(-x,  y,  z);
+
+    glVertex3f( x,  y, -z);
+    glVertex3f( x,  y,  z);
+
+    glVertex3f( x, -y, -z);
+    glVertex3f( x, -y,  z);
+
+    // front
+    glVertex3f(-x, -y, z);
+    glVertex3f(-x,  y, z);
+
+    glVertex3f(-x,  y, z);
+    glVertex3f( x,  y, z);
+
+    glVertex3f( x,  y, z);
+    glVertex3f( x, -y, z);
+
+    glVertex3f( x, -y, z);
+    glVertex3f(-x, -y, z);
+
+    glEnd();
+}
+
+void SceneNode::updateSize(void)
+{
+    this->size = Vector3D(1.0f, 1.0f, 1.0f);
 }
 
 };

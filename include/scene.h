@@ -54,6 +54,10 @@ class SceneNode : public Transformation3D
         //ListEntry *addParticleEmitter(ParticleEmitter *emitter);
         //ListEntry *addLight(Light *light);
 
+        Vector3D size;
+
+        void drawDebugBox(void);
+        void updateSize(void);
         void render3D(void);
         void render2D(void);
 
