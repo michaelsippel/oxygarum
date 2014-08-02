@@ -27,9 +27,18 @@ int main(int argc, char **argv)
     cube->setFlag(OBJECT_RENDER_VBO);
     wall->setFlag(OBJECT_RENDER_VBO);
     suzanne->setFlag(OBJECT_RENDER_VBO);
-    scene->base_node->objects3D->add(cube, "cube");
-    scene->base_node->objects3D->add(wall, "wall");
-    scene->base_node->objects3D->add(suzanne, "suzanne");
+
+    SceneNode *node1 = new SceneNode();
+    SceneNode *node2 = new SceneNode();
+    SceneNode *node3 = new SceneNode();
+
+    node1->objects3D->add(cube, "cube");
+    node2->objects3D->add(wall, "wall");
+    node3->objects3D->add(suzanne, "suzanne");
+
+    scene->base_node->subnodes->add(node1);
+    scene->base_node->subnodes->add(node2);
+    scene->base_node->subnodes->add(node3);
 
     Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
     scene->base_node->lights->add(light);
@@ -45,7 +54,7 @@ int main(int argc, char **argv)
 
     Camera *left = new Camera(window, scene, Viewport(0, 0, window->getWidth()/2, window->getHeight()));
     Camera *right = new Camera(window, scene, Viewport(window->getWidth()/2, 0, window->getWidth()/2+1, window->getHeight()));
-    left->position = Vector3D(-4.0f, -10.0f, -5.0f);
+    left->position = Vector3D(-10.0f, -20.0f, -10.0f);
     left->rotation = Vector3D(40.0f, -44.5f,  0.0f);
     left->fov = 45.0f;
 
@@ -55,9 +64,6 @@ int main(int argc, char **argv)
 
     right->viewport.background = Color(1.0f, 0.0f, 0.0f, 1.0f);
     scene->base_node->updateSize();
-    //scene->base_node->move(Vector3D(-20.0f, 0.0f, -20.0f));
-
-
     Logger *fps_logger = new Logger("fps");
     float time = 0;
 

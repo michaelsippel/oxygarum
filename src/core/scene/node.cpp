@@ -61,7 +61,6 @@ SceneNode::~SceneNode()
 
 void SceneNode::render3D(void)
 {
-    this->drawDebugBox();
     // update lights
     ListEntry<Light> *l_entry = this->lights->getHead();
 
@@ -127,6 +126,7 @@ void SceneNode::render3D(void)
         entry = entry->next;
       }*/
 
+    this->drawDebugBox();
 
     // render subnodes
     ListEntry<SceneNode> *s_entry = this->subnodes->getHead();
@@ -231,22 +231,25 @@ void SceneNode::updateSize(void)
 {
     this->size1 = Vector3D(0.1f, 0.1f, 0.1f);
     this->size2 = Vector3D(0.1f, 0.1f, 0.1f);
-    /*
-    	// check subnodes
-    	ListEntry<SceneNode> *s_entry = this->subnodes->getHead();
-    	while(s_entry != NULL)
-    	{
-    		SceneNode *subnode = s_entry->element;
-    		if(subnode != NULL)
-    		{
-    			subnode->updateSize();
-    			if(subnode->size.x > this->size.x) this->size.x = subnode->size.x;
-    			if(subnode->size.y > this->size.y) this->size.y = subnode->size.y;
-    			if(subnode->size.z > this->size.z) this->size.z = subnode->size.z;
-    		}
-    		s_entry = s_entry->getNext();
-    	}
-    */
+
+    // check subnodes
+    ListEntry<SceneNode> *s_entry = this->subnodes->getHead();
+    while(s_entry != NULL)
+    {
+        SceneNode *subnode = s_entry->element;
+        if(subnode != NULL)
+        {
+            subnode->updateSize();
+            if(subnode->size1.x < this->size1.x) this->size1.x = subnode->size1.x;
+            if(subnode->size1.y < this->size1.y) this->size1.y = subnode->size1.y;
+            if(subnode->size1.z < this->size1.z) this->size1.z = subnode->size1.z;
+            if(subnode->size2.x > this->size2.x) this->size2.x = subnode->size2.x;
+            if(subnode->size2.y > this->size2.y) this->size2.y = subnode->size2.y;
+            if(subnode->size2.z > this->size2.z) this->size2.z = subnode->size2.z;
+        }
+        s_entry = s_entry->getNext();
+    }
+
     // check objects
     ListEntry<Object3D> *o_entry = this->objects3D->getHead();
     while(o_entry != NULL)
@@ -280,6 +283,9 @@ void SceneNode::updateSize(void)
         }
         o_entry = o_entry->getNext();
     }
+    //padding
+    this->size1.sub(0.1);
+    this->size2.add(0.1);
 
     this->logger->log(INFO, "size is %f, %f, %f", this->size1.x, this->size1.y, this->size1.z);
 }
