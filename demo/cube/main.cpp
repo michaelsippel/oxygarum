@@ -54,6 +54,9 @@ int main(int argc, char **argv)
     right->fov = 45.0f;
 
     right->viewport.background = Color(1.0f, 0.0f, 0.0f, 1.0f);
+    scene->base_node->updateSize();
+    //scene->base_node->move(Vector3D(-20.0f, 0.0f, -20.0f));
+
 
     Logger *fps_logger = new Logger("fps");
     float time = 0;

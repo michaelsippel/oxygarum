@@ -28,6 +28,7 @@
 #include "logger.h"
 #include "object.h"
 #include "mesh.h"
+#include "math.h"
 
 namespace oxygarum
 {
@@ -165,6 +166,46 @@ void Mesh3D::renderImmediate(int num_textures)
             );
         }
         glEnd();
+    }
+}
+
+void Mesh3D::getMagnitude(Vector3D *m1, Vector3D *m2)
+{
+    int i;
+    for(i = 0; i < this->num_vertices; i++)
+    {
+        if(this->vertices[i].x < 0)
+        {
+            if(this->vertices[i].x < m1->x)
+                m1->x = this->vertices[i].x;
+        }
+        else
+        {
+            if(this->vertices[i].x > m2->x)
+                m2->x = this->vertices[i].x;
+        }
+
+        if(this->vertices[i].y < 0)
+        {
+            if(this->vertices[i].y < m1->y)
+                m1->y = this->vertices[i].y;
+        }
+        else
+        {
+            if(this->vertices[i].y > m2->y)
+                m2->y = this->vertices[i].y;
+        }
+
+        if(this->vertices[i].z < 0)
+        {
+            if(this->vertices[i].z < m1->z)
+                m1->z = this->vertices[i].z;
+        }
+        else
+        {
+            if(this->vertices[i].z > m2->z)
+                m2->z = this->vertices[i].z;
+        }
     }
 }
 

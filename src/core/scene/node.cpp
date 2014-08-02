@@ -28,6 +28,7 @@
 #include "particle.h"
 #include "font.h"
 #include "light.h"
+#include "math.h"
 
 namespace oxygarum
 {
@@ -45,7 +46,7 @@ SceneNode::SceneNode()
 
     this->subnodes = new List<SceneNode>();
 
-    this->size = Vector3D(1.0f, 1.0f, 1.0f);
+    this->updateSize();
 }
 
 SceneNode::~SceneNode()
@@ -180,59 +181,107 @@ void SceneNode::render2D(void)
 
 void SceneNode::drawDebugBox(void)
 {
-    float x = this->size.x * 0.5f;
-    float y = this->size.y * 0.5f;
-    float z = this->size.z * 0.5f;
-
     glDisable(GL_LIGHTING);
     glUseProgram(0);
     glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
     glBegin(GL_LINES);
     // back
-    glVertex3f(-x, -y, -z);
-    glVertex3f(-x,  y, -z);
+    glVertex3f(this->size1.x, this->size1.y, this->size1.z);
+    glVertex3f(this->size1.x, this->size2.y, this->size1.z);
 
-    glVertex3f(-x,  y, -z);
-    glVertex3f( x,  y, -z);
+    glVertex3f(this->size1.x, this->size2.y, this->size1.z);
+    glVertex3f(this->size2.x, this->size2.y, this->size1.z);
 
-    glVertex3f( x,  y, -z);
-    glVertex3f( x, -y, -z);
+    glVertex3f(this->size2.x, this->size2.y, this->size1.z);
+    glVertex3f(this->size2.x, this->size1.y, this->size1.z);
 
-    glVertex3f( x, -y, -z);
-    glVertex3f(-x, -y, -z);
+    glVertex3f(this->size2.x, this->size1.y, this->size1.z);
+    glVertex3f(this->size1.x, this->size1.y, this->size1.z);
 
     // middle
-    glVertex3f(-x, -y, -z);
-    glVertex3f(-x, -y,  z);
+    glVertex3f(this->size1.x, this->size1.y, this->size1.z);
+    glVertex3f(this->size1.x, this->size1.y, this->size2.z);
 
-    glVertex3f(-x,  y, -z);
-    glVertex3f(-x,  y,  z);
+    glVertex3f(this->size1.x, this->size2.y, this->size1.z);
+    glVertex3f(this->size1.x, this->size2.y, this->size2.z);
 
-    glVertex3f( x,  y, -z);
-    glVertex3f( x,  y,  z);
+    glVertex3f(this->size2.x, this->size2.y, this->size1.z);
+    glVertex3f(this->size2.x, this->size2.y, this->size2.z);
 
-    glVertex3f( x, -y, -z);
-    glVertex3f( x, -y,  z);
+    glVertex3f(this->size2.x, this->size1.y, this->size1.z);
+    glVertex3f(this->size2.x, this->size1.y, this->size2.z);
 
     // front
-    glVertex3f(-x, -y, z);
-    glVertex3f(-x,  y, z);
+    glVertex3f(this->size1.x, this->size1.y, this->size2.z);
+    glVertex3f(this->size1.x, this->size2.y, this->size2.z);
 
-    glVertex3f(-x,  y, z);
-    glVertex3f( x,  y, z);
+    glVertex3f(this->size1.x, this->size2.y, this->size2.z);
+    glVertex3f(this->size2.x, this->size2.y, this->size2.z);
 
-    glVertex3f( x,  y, z);
-    glVertex3f( x, -y, z);
+    glVertex3f(this->size2.x, this->size2.y, this->size2.z);
+    glVertex3f(this->size2.x, this->size1.y, this->size2.z);
 
-    glVertex3f( x, -y, z);
-    glVertex3f(-x, -y, z);
+    glVertex3f(this->size2.x, this->size1.y, this->size2.z);
+    glVertex3f(this->size1.x, this->size1.y, this->size2.z);
 
     glEnd();
 }
 
 void SceneNode::updateSize(void)
 {
-    this->size = Vector3D(1.0f, 1.0f, 1.0f);
+    this->size1 = Vector3D(0.1f, 0.1f, 0.1f);
+    this->size2 = Vector3D(0.1f, 0.1f, 0.1f);
+    /*
+    	// check subnodes
+    	ListEntry<SceneNode> *s_entry = this->subnodes->getHead();
+    	while(s_entry != NULL)
+    	{
+    		SceneNode *subnode = s_entry->element;
+    		if(subnode != NULL)
+    		{
+    			subnode->updateSize();
+    			if(subnode->size.x > this->size.x) this->size.x = subnode->size.x;
+    			if(subnode->size.y > this->size.y) this->size.y = subnode->size.y;
+    			if(subnode->size.z > this->size.z) this->size.z = subnode->size.z;
+    		}
+    		s_entry = s_entry->getNext();
+    	}
+    */
+    // check objects
+    ListEntry<Object3D> *o_entry = this->objects3D->getHead();
+    while(o_entry != NULL)
+    {
+        Object3D *obj = o_entry->element;
+        if(obj != NULL)
+        {
+            Mesh3D *mesh = obj->mesh;
+            if(mesh != NULL)
+            {
+                Vector3D m1 = Vector3D();
+                Vector3D m2 = Vector3D();
+                mesh->getMagnitude(&m1, &m2);
+
+                m1.x = cos(obj->rotation.x) * m1.x;
+                m1.y = cos(obj->rotation.y) * m1.y;
+                m1.z = cos(obj->rotation.z) * m1.z;
+                m2.x = cos(obj->rotation.x) * m2.x;
+                m2.y = cos(obj->rotation.y) * m2.y;
+                m2.z = cos(obj->rotation.z) * m2.z;
+                m1.add(obj->position);
+                m2.add(obj->position);
+
+                if(m1.x < this->size1.x) this->size1.x = m1.x;
+                if(m1.y < this->size1.y) this->size1.y = m1.y;
+                if(m1.z < this->size1.z) this->size1.z = m1.z;
+                if(m2.x > this->size2.x) this->size2.x = m2.x;
+                if(m2.y > this->size2.y) this->size2.y = m2.y;
+                if(m2.z > this->size2.z) this->size2.z = m2.z;
+            }
+        }
+        o_entry = o_entry->getNext();
+    }
+
+    this->logger->log(INFO, "size is %f, %f, %f", this->size1.x, this->size1.y, this->size1.z);
 }
 
 };

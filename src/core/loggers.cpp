@@ -36,6 +36,7 @@ Logger *engine_logger = new Logger("oxygarum");
 Logger *SDLWindow::logger = new Logger(engine_logger, "window");
 
 Logger *Scene::logger = new Logger(engine_logger, "scene");
+Logger *SceneNode::logger = new Logger(Scene::logger, "scenenode");
 
 Logger *Object3D::logger = new Logger(engine_logger, "object3d");
 Logger *Mesh3D::logger = new Logger(Object3D::logger, "mesh3d");
