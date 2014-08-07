@@ -35,8 +35,8 @@ VolumeBox::~VolumeBox()
 
 void VolumeBox::calcVolumeBox(void)
 {
-    this->box_size1 = Vector3D();
-    this->box_size2 = Vector3D();
+    this->box_size1 = Vector3D(0.1, 0.1, 0.1);
+    this->box_size2 = Vector3D(0.1,0.1,0.1);
 }
 
 void VolumeBox::drawVolumeBox(void)

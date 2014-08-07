@@ -190,7 +190,7 @@ void SceneNode::calcVolumeBox(void)
         SceneNode *subnode = s_entry->element;
         if(subnode != NULL)
         {
-            subnode->calcVolumeBox();
+            /*subnode->calcVolumeBox();
             Vector3D m1 = Vector3D();
             Vector3D m2 = Vector3D();
             m1.x = subnode->box_size1.x * cos(subnode->rotation.x);
@@ -206,7 +206,7 @@ void SceneNode::calcVolumeBox(void)
             if(m1.z < this->box_size1.z) this->box_size1.z = m1.z;
             if(m2.x > this->box_size2.x) this->box_size2.x = m2.x;
             if(m2.y > this->box_size2.y) this->box_size2.y = m2.y;
-            if(m2.z > this->box_size2.z) this->box_size2.z = m2.z;
+            if(m2.z > this->box_size2.z) this->box_size2.z = m2.z;*/
         }
         s_entry = s_entry->getNext();
     }
@@ -221,19 +221,13 @@ void SceneNode::calcVolumeBox(void)
             Mesh3D *mesh = obj->mesh;
             if(mesh != NULL)
             {
-                Vector3D m1 = Vector3D();
-                Vector3D m2 = Vector3D();
-                mesh->getMagnitude(&m1, &m2);
-
-                m1.x = cos(obj->rotation.x) * m1.x;
-                m1.y = /*cos(obj->rotation.y) */ m1.y;
-                m1.z = /*cos(obj->rotation.z) */ m1.z;
-                m2.x = /*cos(obj->rotation.x) */ m2.x;
-                m2.y = /*cos(obj->rotation.y) */ m2.y;
-                m2.z = /*cos(obj->rotation.z) */ m2.z;
-                m1.add(obj->position);
-                m2.add(obj->position);
-
+                Vector3D m1 = mesh->box_size1;
+                Vector3D m2 = mesh->box_size2;
+                /*				m1.rotate(obj->rotation);
+                				m2.rotate(obj->rotation);
+                                m1.add(obj->position);
+                                m2.add(obj->position);
+                */
                 if(m1.x < this->box_size1.x) this->box_size1.x = m1.x;
                 if(m1.y < this->box_size1.y) this->box_size1.y = m1.y;
                 if(m1.z < this->box_size1.z) this->box_size1.z = m1.z;

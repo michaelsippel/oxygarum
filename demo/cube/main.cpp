@@ -28,19 +28,9 @@ int main(int argc, char **argv)
     wall->setFlag(OBJECT_RENDER_VBO);
     suzanne->setFlag(OBJECT_RENDER_VBO);
 
-    SceneNode *node1 = new SceneNode();
-    SceneNode *node2 = new SceneNode();
-    SceneNode *node3 = new SceneNode();
-
-    node1->objects3D->add(cube, "cube");
-    node2->objects3D->add(wall, "wall");
-    node3->objects3D->add(suzanne, "suzanne");
-
-    //node2->rotate(Vector3D(10.0f, 30.0f, 0.0f));
-
-    scene->base_node->subnodes->add(node1);
-    scene->base_node->subnodes->add(node2);
-    scene->base_node->subnodes->add(node3);
+    scene->base_node->objects3D->add(cube, "cube");
+    scene->base_node->objects3D->add(wall, "wall");
+    scene->base_node->objects3D->add(suzanne, "suzanne");
 
     Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
     scene->base_node->lights->add(light);
@@ -64,7 +54,7 @@ int main(int argc, char **argv)
     right->rotation = Vector3D(0.0f, -60.5f,  0.0f);
     right->fov = 45.0f;
 
-    right->viewport.background = Color(1.0f, 0.0f, 0.0f, 1.0f);
+    //right->viewport.background = Color(1.0f, 0.0f, 0.0f, 1.0f);
     scene->base_node->calcVolumeBox();
     Logger *fps_logger = new Logger("fps");
     float time = 0;
@@ -77,6 +67,7 @@ int main(int argc, char **argv)
 
         // render
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         left->render();
         right->render();
 
@@ -88,9 +79,8 @@ int main(int argc, char **argv)
             fps_logger->log(INFO, "%f fps, %f ms per frame", 1/frametime*1000, frametime);
             time = 0;
         }
+
         cube->rotate(Vector3D(0.0f, frametime*0.2, 0.0f));
-        //node1->updateSize();
-        //node3->rotate(Vector3D(0.0f, frametime*0.1, 0.0f));
 
         int mx, my;
         SDL_GetMouseState(&mx, &my);

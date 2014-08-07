@@ -93,6 +93,8 @@ int Object3D::getStatus(void)
 
 void Object3D::render(void)
 {
+    this->mesh->drawVolumeBox();
+
     glFeedbackBuffer(3, GL_3D, (GLfloat*) &this->feedback);
     glRenderMode(GL_FEEDBACK);
     glBegin(GL_POINTS);

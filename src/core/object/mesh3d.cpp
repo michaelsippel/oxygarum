@@ -41,6 +41,7 @@ Mesh3D::Mesh3D(int num_vertices_, Vector3D *vertices_, int num_faces_, Face **fa
     : num_vertices(num_vertices_), vertices(vertices_), num_faces(num_faces_), faces(faces_)
 {
     this->calc_normals();
+    this->calcVolumeBox();
     this->num_texcoords = 0;
     this->texcoords = NULL;
     this->instance = NULL;
@@ -51,6 +52,7 @@ Mesh3D::Mesh3D(int num_vertices_, Vector3D *vertices_, int num_texcoords_, Vecto
     : num_vertices(num_vertices_), vertices(vertices_), num_texcoords(num_texcoords_), texcoords(texcoords_), num_faces(num_faces_), faces(faces_)
 {
     this->calc_normals();
+    this->calcVolumeBox();
     this->instance = NULL;
     this->default_material = NULL;
 }
@@ -59,6 +61,7 @@ Mesh3D::Mesh3D(int num_vertices_, Vector3D *vertices_, int num_texcoords_, Vecto
     : num_vertices(num_vertices_), vertices(vertices_), num_texcoords(num_texcoords_), texcoords(texcoords_), num_faces(num_faces_), faces(faces_), default_material(material_)
 {
     this->calc_normals();
+    this->calcVolumeBox();
     this->instance = NULL;
 }
 
@@ -169,42 +172,44 @@ void Mesh3D::renderImmediate(int num_textures)
     }
 }
 
-void Mesh3D::getMagnitude(Vector3D *m1, Vector3D *m2)
+void Mesh3D::calcVolumeBox(void)
 {
+    this->VolumeBox::calcVolumeBox();
+
     int i;
     for(i = 0; i < this->num_vertices; i++)
     {
         if(this->vertices[i].x < 0)
         {
-            if(this->vertices[i].x < m1->x)
-                m1->x = this->vertices[i].x;
+            if(this->vertices[i].x < this->box_size1.x)
+                this->box_size1.x = this->vertices[i].x;
         }
         else
         {
-            if(this->vertices[i].x > m2->x)
-                m2->x = this->vertices[i].x;
+            if(this->vertices[i].x > this->box_size2.x)
+                this->box_size2.x = this->vertices[i].x;
         }
 
         if(this->vertices[i].y < 0)
         {
-            if(this->vertices[i].y < m1->y)
-                m1->y = this->vertices[i].y;
+            if(this->vertices[i].y < this->box_size1.y)
+                this->box_size1.y = this->vertices[i].y;
         }
         else
         {
-            if(this->vertices[i].y > m2->y)
-                m2->y = this->vertices[i].y;
+            if(this->vertices[i].y > this->box_size2.y)
+                this->box_size2.y = this->vertices[i].y;
         }
 
         if(this->vertices[i].z < 0)
         {
-            if(this->vertices[i].z < m1->z)
-                m1->z = this->vertices[i].z;
+            if(this->vertices[i].z < this->box_size1.z)
+                this->box_size1.z = this->vertices[i].z;
         }
         else
         {
-            if(this->vertices[i].z > m2->z)
-                m2->z = this->vertices[i].z;
+            if(this->vertices[i].z > this->box_size2.z)
+                this->box_size2.z = this->vertices[i].z;
         }
     }
 }

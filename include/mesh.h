@@ -29,6 +29,7 @@
 #include "material.h"
 #include "shader.h"
 #include "logger.h"
+#include "volumebox.h"
 
 namespace oxygarum
 {
@@ -62,7 +63,7 @@ class RenderInstance
         Vector2D *texcoords;
 };
 
-class Mesh3D
+class Mesh3D : public VolumeBox
 {
         friend class RenderInstance;
 
@@ -79,7 +80,7 @@ class Mesh3D
         void calc_normals(void);
         void renderInstance(int num_textures);
         void renderImmediate(int num_textures);
-        void getMagnitude(Vector3D *m1, Vector3D *m2);
+        void calcVolumeBox(void);
 
         static Logger *logger;
 
