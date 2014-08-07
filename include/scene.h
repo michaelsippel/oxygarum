@@ -31,11 +31,13 @@
 #include "font.h"
 #include "list.h"
 #include "logger.h"
+#include "vector.h"
+#include "volumebox.h"
 
 namespace oxygarum
 {
 
-class SceneNode : public Transformation3D
+class SceneNode : public Transformation3D, public VolumeBox
 {
     public:
         SceneNode();
@@ -54,11 +56,8 @@ class SceneNode : public Transformation3D
         //ListEntry *addParticleEmitter(ParticleEmitter *emitter);
         //ListEntry *addLight(Light *light);
 
-        Vector3D size1;
-        Vector3D size2;
+        void calcVolumeBox(void);
 
-        void drawDebugBox(void);
-        void updateSize(void);
         void render3D(void);
         void render2D(void);
 

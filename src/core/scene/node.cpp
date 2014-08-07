@@ -45,8 +45,6 @@ SceneNode::SceneNode()
     this->lights = new List<Light>();
 
     this->subnodes = new List<SceneNode>();
-
-    this->updateSize();
 }
 
 SceneNode::~SceneNode()
@@ -126,7 +124,7 @@ void SceneNode::render3D(void)
         entry = entry->next;
       }*/
 
-    this->drawDebugBox();
+    this->drawVolumeBox();
 
     // render subnodes
     ListEntry<SceneNode> *s_entry = this->subnodes->getHead();
@@ -135,8 +133,10 @@ void SceneNode::render3D(void)
         SceneNode *subnode = s_entry->element;
         if(subnode != NULL)
         {
+            glPushMatrix();
             subnode->useTransformation();
             subnode->render3D();
+            glPopMatrix();
         }
         s_entry = s_entry->getNext();
     }
@@ -179,58 +179,9 @@ void SceneNode::render2D(void)
       }*/
 }
 
-void SceneNode::drawDebugBox(void)
+void SceneNode::calcVolumeBox(void)
 {
-    glDisable(GL_LIGHTING);
-    glUseProgram(0);
-    glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
-    glBegin(GL_LINES);
-    // back
-    glVertex3f(this->size1.x, this->size1.y, this->size1.z);
-    glVertex3f(this->size1.x, this->size2.y, this->size1.z);
-
-    glVertex3f(this->size1.x, this->size2.y, this->size1.z);
-    glVertex3f(this->size2.x, this->size2.y, this->size1.z);
-
-    glVertex3f(this->size2.x, this->size2.y, this->size1.z);
-    glVertex3f(this->size2.x, this->size1.y, this->size1.z);
-
-    glVertex3f(this->size2.x, this->size1.y, this->size1.z);
-    glVertex3f(this->size1.x, this->size1.y, this->size1.z);
-
-    // middle
-    glVertex3f(this->size1.x, this->size1.y, this->size1.z);
-    glVertex3f(this->size1.x, this->size1.y, this->size2.z);
-
-    glVertex3f(this->size1.x, this->size2.y, this->size1.z);
-    glVertex3f(this->size1.x, this->size2.y, this->size2.z);
-
-    glVertex3f(this->size2.x, this->size2.y, this->size1.z);
-    glVertex3f(this->size2.x, this->size2.y, this->size2.z);
-
-    glVertex3f(this->size2.x, this->size1.y, this->size1.z);
-    glVertex3f(this->size2.x, this->size1.y, this->size2.z);
-
-    // front
-    glVertex3f(this->size1.x, this->size1.y, this->size2.z);
-    glVertex3f(this->size1.x, this->size2.y, this->size2.z);
-
-    glVertex3f(this->size1.x, this->size2.y, this->size2.z);
-    glVertex3f(this->size2.x, this->size2.y, this->size2.z);
-
-    glVertex3f(this->size2.x, this->size2.y, this->size2.z);
-    glVertex3f(this->size2.x, this->size1.y, this->size2.z);
-
-    glVertex3f(this->size2.x, this->size1.y, this->size2.z);
-    glVertex3f(this->size1.x, this->size1.y, this->size2.z);
-
-    glEnd();
-}
-
-void SceneNode::updateSize(void)
-{
-    this->size1 = Vector3D(0.1f, 0.1f, 0.1f);
-    this->size2 = Vector3D(0.1f, 0.1f, 0.1f);
+    this->VolumeBox::calcVolumeBox();
 
     // check subnodes
     ListEntry<SceneNode> *s_entry = this->subnodes->getHead();
@@ -239,13 +190,23 @@ void SceneNode::updateSize(void)
         SceneNode *subnode = s_entry->element;
         if(subnode != NULL)
         {
-            subnode->updateSize();
-            if(subnode->size1.x < this->size1.x) this->size1.x = subnode->size1.x;
-            if(subnode->size1.y < this->size1.y) this->size1.y = subnode->size1.y;
-            if(subnode->size1.z < this->size1.z) this->size1.z = subnode->size1.z;
-            if(subnode->size2.x > this->size2.x) this->size2.x = subnode->size2.x;
-            if(subnode->size2.y > this->size2.y) this->size2.y = subnode->size2.y;
-            if(subnode->size2.z > this->size2.z) this->size2.z = subnode->size2.z;
+            subnode->calcVolumeBox();
+            Vector3D m1 = Vector3D();
+            Vector3D m2 = Vector3D();
+            m1.x = subnode->box_size1.x * cos(subnode->rotation.x);
+            m1.y = subnode->box_size1.y * cos(subnode->rotation.y);
+            m1.z = subnode->box_size1.z * cos(subnode->rotation.z);
+            m2.x = subnode->box_size2.x * cos(subnode->rotation.x);
+            m2.y = subnode->box_size2.y * cos(subnode->rotation.y);
+            m2.z = subnode->box_size2.z * cos(subnode->rotation.z);
+            m1.add(subnode->position);
+            m2.add(subnode->position);
+            if(m1.x < this->box_size1.x) this->box_size1.x = m1.x;
+            if(m1.y < this->box_size1.y) this->box_size1.y = m1.y;
+            if(m1.z < this->box_size1.z) this->box_size1.z = m1.z;
+            if(m2.x > this->box_size2.x) this->box_size2.x = m2.x;
+            if(m2.y > this->box_size2.y) this->box_size2.y = m2.y;
+            if(m2.z > this->box_size2.z) this->box_size2.z = m2.z;
         }
         s_entry = s_entry->getNext();
     }
@@ -265,29 +226,29 @@ void SceneNode::updateSize(void)
                 mesh->getMagnitude(&m1, &m2);
 
                 m1.x = cos(obj->rotation.x) * m1.x;
-                m1.y = cos(obj->rotation.y) * m1.y;
-                m1.z = cos(obj->rotation.z) * m1.z;
-                m2.x = cos(obj->rotation.x) * m2.x;
-                m2.y = cos(obj->rotation.y) * m2.y;
-                m2.z = cos(obj->rotation.z) * m2.z;
+                m1.y = /*cos(obj->rotation.y) */ m1.y;
+                m1.z = /*cos(obj->rotation.z) */ m1.z;
+                m2.x = /*cos(obj->rotation.x) */ m2.x;
+                m2.y = /*cos(obj->rotation.y) */ m2.y;
+                m2.z = /*cos(obj->rotation.z) */ m2.z;
                 m1.add(obj->position);
                 m2.add(obj->position);
 
-                if(m1.x < this->size1.x) this->size1.x = m1.x;
-                if(m1.y < this->size1.y) this->size1.y = m1.y;
-                if(m1.z < this->size1.z) this->size1.z = m1.z;
-                if(m2.x > this->size2.x) this->size2.x = m2.x;
-                if(m2.y > this->size2.y) this->size2.y = m2.y;
-                if(m2.z > this->size2.z) this->size2.z = m2.z;
+                if(m1.x < this->box_size1.x) this->box_size1.x = m1.x;
+                if(m1.y < this->box_size1.y) this->box_size1.y = m1.y;
+                if(m1.z < this->box_size1.z) this->box_size1.z = m1.z;
+                if(m2.x > this->box_size2.x) this->box_size2.x = m2.x;
+                if(m2.y > this->box_size2.y) this->box_size2.y = m2.y;
+                if(m2.z > this->box_size2.z) this->box_size2.z = m2.z;
             }
         }
         o_entry = o_entry->getNext();
     }
     //padding
-    this->size1.sub(0.1);
-    this->size2.add(0.1);
+    this->box_size1.sub(0.1);
+    this->box_size2.add(0.1);
 
-    this->logger->log(INFO, "size is %f, %f, %f", this->size1.x, this->size1.y, this->size1.z);
+    this->logger->log(INFO, "box_size is %f, %f, %f", this->box_size1.x, this->box_size1.y, this->box_size1.z);
 }
 
 };
