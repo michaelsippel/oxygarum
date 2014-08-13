@@ -59,10 +59,6 @@ int main(int argc, char **argv)
     Logger *fps_logger = new Logger("fps");
     float time = 0;
 
-    Vector3D vec = Vector3D(5.0f, 10.0f, 0.0f);
-
-    float x_rot=0,y_rot=0,z_rot=0;
-
     // main loop
     while(1)
     {
@@ -73,25 +69,9 @@ int main(int argc, char **argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         left->render();
-        /*
-        		glBegin(GL_LINES);
-        		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-        			glVertex3f(0.0f, 0.0f,0.0f);
-        			glVertex3f(vec.x, vec.y, vec.z);
-
-        		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-        			glVertex3f(0.0f, 0.0f,0.0f);
-        			glVertex3f(vec.x, 0.0f, 0.0f);
-
-        			glVertex3f(0.0f, 0.0f,0.0f);
-        			glVertex3f(0.0f, vec.y, 0.0f);
-
-        			glVertex3f(0.0f, 0.0f,0.0f);
-        			glVertex3f(0.0f, 0.0f, vec.z);
-        		glEnd();
-        */
         scene->base_node->calcVolumeBox();
         //right->render();
+
         // update
         float frametime = window->update();
         time += frametime;
@@ -106,14 +86,7 @@ int main(int argc, char **argv)
         float x = ((float)mx/window->getWidth()*2) * 180.0f;
         float y = ((float)my/window->getHeight()*2) * 180.0f;
 
-        wall->setRotation(Vector3D(y,x, 0.0f));
-        /*
-        		x_rot+=2;
-        		y_rot+=2;
-        		z_rot+=50;
-
-        		vec = Vector3D(0.5f, 0.5f, 0.5f);
-        		vec.rotate(Vector3D(x_rot, y_rot, z_rot));*/
+        wall->setRotation(Vector3D(y,x, y));
     }
 
     return 0;

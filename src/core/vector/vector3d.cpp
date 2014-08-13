@@ -126,14 +126,6 @@ void Vector3D::rotate(Vector3D v)
     v.mul(0.0174532925f);
 
     float sn, cs;
-    // rotation on y-axis
-    Vector3D rotY = Vector3D();
-    sn = sin(v.y);
-    cs = cos(v.y);
-    rotY.x = this->x * cs + this->z * sn;
-    rotY.y = this->y;
-    rotY.z = -this->x * sn + this->z * cs;
-    *this = rotY;
 
     // rotation on z-axis
     Vector3D rotZ = Vector3D();
@@ -144,6 +136,15 @@ void Vector3D::rotate(Vector3D v)
     rotZ.z = this->z;
     *this = rotZ;
 
+    // rotation on y-axis
+    Vector3D rotY = Vector3D();
+    sn = sin(v.y);
+    cs = cos(v.y);
+    rotY.x = this->x * cs + this->z * sn;
+    rotY.y = this->y;
+    rotY.z = -this->x * sn + this->z * cs;
+    *this = rotY;
+
     // rotation on x-axis
     Vector3D rotX = Vector3D();
     sn = sin(v.x);
@@ -152,15 +153,6 @@ void Vector3D::rotate(Vector3D v)
     rotX.y = this->y * cs - this->z * sn;
     rotX.z = this->y * sn + this->z * cs;
     *this = rotX;
-
-    /*
-    	this->x = rotY.x;
-    	this->y = rotX.z;
-    	this->z = rotY.z;
-    */
-//	this->x = rotX.x + rotY.x + rotZ.x;
-//	this->y = rotX.y + rotY.y + rotZ.y;
-//	this->z = rotX.z + rotY.z + rotZ.z;
 }
 
 float Vector3D::scalar(Vector3D v)

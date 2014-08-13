@@ -242,26 +242,6 @@ void SceneNode::calcVolumeBox(void)
                 h.rotate(obj->rotation);
                 h.add(obj->position);
 
-                glColor4f(0.0f, 0.0f, 1.0f,1.0f);
-                glBegin(GL_LINES);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(a.x, a.y, a.z);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(b.x, b.y, b.z);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(c.x, c.y, c.z);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(d.x, d.y, d.z);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(e.x, e.y, e.z);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(f.x, f.y, f.z);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(g.x, g.y, g.z);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glVertex3f(h.x, h.y, h.z);
-                glEnd();
-
                 this->box_size1.min(a);
                 this->box_size1.min(b);
                 this->box_size1.min(c);
