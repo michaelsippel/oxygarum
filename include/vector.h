@@ -51,9 +51,14 @@ class Vector3D
         void div(Vector3D v);
         void div(float x_);
 
+        void rotate(Vector3D v);
+
         float scalar(Vector3D v);
         void dot(Vector3D v);
         void dot(Vector3D v1, Vector3D v2);
+
+        void min(Vector3D v);
+        void max(Vector3D v);
 };
 
 class Vector2D

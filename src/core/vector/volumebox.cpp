@@ -18,6 +18,7 @@
  */
 #include <GL/glew.h>
 #include <GL/gl.h>
+#include <math.h>
 #include "vector.h"
 #include "volumebox.h"
 
@@ -35,15 +36,14 @@ VolumeBox::~VolumeBox()
 
 void VolumeBox::calcVolumeBox(void)
 {
-    this->box_size1 = Vector3D(0.1, 0.1, 0.1);
-    this->box_size2 = Vector3D(0.1,0.1,0.1);
+    this->box_size1 = Vector3D();
+    this->box_size2 = Vector3D();
 }
 
 void VolumeBox::drawVolumeBox(void)
 {
     glDisable(GL_LIGHTING);
     glUseProgram(0);
-    glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
     glBegin(GL_LINES);
     // back
     glVertex3f(this->box_size1.x, this->box_size1.y, this->box_size1.z);

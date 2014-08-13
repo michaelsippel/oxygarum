@@ -120,6 +120,48 @@ void Vector3D::div(float x_)
     }
 }
 
+void Vector3D::rotate(Vector3D v)
+{
+    // convert to rad
+    v.mul(0.0174532925f);
+
+    float sn, cs;
+    // rotation on y-axis
+    Vector3D rotY = Vector3D();
+    sn = sin(v.y);
+    cs = cos(v.y);
+    rotY.x = this->x * cs + this->z * sn;
+    rotY.y = this->y;
+    rotY.z = -this->x * sn + this->z * cs;
+    *this = rotY;
+
+    // rotation on z-axis
+    Vector3D rotZ = Vector3D();
+    sn = sin(v.z);
+    cs = cos(v.z);
+    rotZ.x = this->x * cs - this->y * sn;
+    rotZ.y = this->x * sn + this->y * cs;
+    rotZ.z = this->z;
+    *this = rotZ;
+
+    // rotation on x-axis
+    Vector3D rotX = Vector3D();
+    sn = sin(v.x);
+    cs = cos(v.x);
+    rotX.x = this->x;
+    rotX.y = this->y * cs - this->z * sn;
+    rotX.z = this->y * sn + this->z * cs;
+    *this = rotX;
+
+    /*
+    	this->x = rotY.x;
+    	this->y = rotX.z;
+    	this->z = rotY.z;
+    */
+//	this->x = rotX.x + rotY.x + rotZ.x;
+//	this->y = rotX.y + rotY.y + rotZ.y;
+//	this->z = rotX.z + rotY.z + rotZ.z;
+}
 
 float Vector3D::scalar(Vector3D v)
 {
@@ -139,6 +181,20 @@ void Vector3D::dot(Vector3D v1, Vector3D v2)
 void Vector3D::dot(Vector3D v)
 {
     this->dot(*this, v);
+}
+
+void Vector3D::min(Vector3D v)
+{
+    if(v.x < this->x) this->x = v.x;
+    if(v.y < this->y) this->y = v.y;
+    if(v.z < this->z) this->z = v.z;
+}
+
+void Vector3D::max(Vector3D v)
+{
+    if(v.x > this->x) this->x = v.x;
+    if(v.y > this->y) this->y = v.y;
+    if(v.z > this->z) this->z = v.z;
 }
 
 };

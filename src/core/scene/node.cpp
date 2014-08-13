@@ -124,6 +124,7 @@ void SceneNode::render3D(void)
         entry = entry->next;
       }*/
 
+    glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
     this->drawVolumeBox();
 
     // render subnodes
@@ -190,23 +191,15 @@ void SceneNode::calcVolumeBox(void)
         SceneNode *subnode = s_entry->element;
         if(subnode != NULL)
         {
-            /*subnode->calcVolumeBox();
-            Vector3D m1 = Vector3D();
-            Vector3D m2 = Vector3D();
-            m1.x = subnode->box_size1.x * cos(subnode->rotation.x);
-            m1.y = subnode->box_size1.y * cos(subnode->rotation.y);
-            m1.z = subnode->box_size1.z * cos(subnode->rotation.z);
-            m2.x = subnode->box_size2.x * cos(subnode->rotation.x);
-            m2.y = subnode->box_size2.y * cos(subnode->rotation.y);
-            m2.z = subnode->box_size2.z * cos(subnode->rotation.z);
+            subnode->calcVolumeBox();
+            Vector3D m1 = subnode->box_size1;
+            Vector3D m2 = subnode->box_size2;
+            m1.rotate(subnode->rotation);
+            m2.rotate(subnode->rotation);
             m1.add(subnode->position);
             m2.add(subnode->position);
-            if(m1.x < this->box_size1.x) this->box_size1.x = m1.x;
-            if(m1.y < this->box_size1.y) this->box_size1.y = m1.y;
-            if(m1.z < this->box_size1.z) this->box_size1.z = m1.z;
-            if(m2.x > this->box_size2.x) this->box_size2.x = m2.x;
-            if(m2.y > this->box_size2.y) this->box_size2.y = m2.y;
-            if(m2.z > this->box_size2.z) this->box_size2.z = m2.z;*/
+            this->box_size1.min(m1);
+            this->box_size1.max(m2);
         }
         s_entry = s_entry->getNext();
     }
@@ -223,24 +216,76 @@ void SceneNode::calcVolumeBox(void)
             {
                 Vector3D m1 = mesh->box_size1;
                 Vector3D m2 = mesh->box_size2;
-                /*				m1.rotate(obj->rotation);
-                				m2.rotate(obj->rotation);
-                                m1.add(obj->position);
-                                m2.add(obj->position);
-                */
-                if(m1.x < this->box_size1.x) this->box_size1.x = m1.x;
-                if(m1.y < this->box_size1.y) this->box_size1.y = m1.y;
-                if(m1.z < this->box_size1.z) this->box_size1.z = m1.z;
-                if(m2.x > this->box_size2.x) this->box_size2.x = m2.x;
-                if(m2.y > this->box_size2.y) this->box_size2.y = m2.y;
-                if(m2.z > this->box_size2.z) this->box_size2.z = m2.z;
+
+                Vector3D a = Vector3D(m1.x, m1.y, m1.z);
+                a.rotate(obj->rotation);
+                a.add(obj->position);
+                Vector3D b = Vector3D(m2.x, m1.y, m1.z);
+                b.rotate(obj->rotation);
+                b.add(obj->position);
+                Vector3D c = Vector3D(m1.x, m2.y, m1.z);
+                c.rotate(obj->rotation);
+                c.add(obj->position);
+                Vector3D d = Vector3D(m2.x, m2.y, m1.z);
+                d.rotate(obj->rotation);
+                d.add(obj->position);
+                Vector3D e = Vector3D(m1.x, m1.y, m2.z);
+                e.rotate(obj->rotation);
+                e.add(obj->position);
+                Vector3D f = Vector3D(m2.x, m1.y, m2.z);
+                f.rotate(obj->rotation);
+                f.add(obj->position);
+                Vector3D g = Vector3D(m1.x, m2.y, m2.z);
+                g.rotate(obj->rotation);
+                g.add(obj->position);
+                Vector3D h = Vector3D(m2.x, m2.y, m2.z);
+                h.rotate(obj->rotation);
+                h.add(obj->position);
+
+                glColor4f(0.0f, 0.0f, 1.0f,1.0f);
+                glBegin(GL_LINES);
+                glVertex3f(0.0f, 0.0f, 0.0f);
+                glVertex3f(a.x, a.y, a.z);
+                glVertex3f(0.0f, 0.0f, 0.0f);
+                glVertex3f(b.x, b.y, b.z);
+                glVertex3f(0.0f, 0.0f, 0.0f);
+                glVertex3f(c.x, c.y, c.z);
+                glVertex3f(0.0f, 0.0f, 0.0f);
+                glVertex3f(d.x, d.y, d.z);
+                glVertex3f(0.0f, 0.0f, 0.0f);
+                glVertex3f(e.x, e.y, e.z);
+                glVertex3f(0.0f, 0.0f, 0.0f);
+                glVertex3f(f.x, f.y, f.z);
+                glVertex3f(0.0f, 0.0f, 0.0f);
+                glVertex3f(g.x, g.y, g.z);
+                glVertex3f(0.0f, 0.0f, 0.0f);
+                glVertex3f(h.x, h.y, h.z);
+                glEnd();
+
+                this->box_size1.min(a);
+                this->box_size1.min(b);
+                this->box_size1.min(c);
+                this->box_size1.min(d);
+                this->box_size1.min(e);
+                this->box_size1.min(f);
+                this->box_size1.min(g);
+                this->box_size1.min(h);
+
+                this->box_size2.max(a);
+                this->box_size2.max(b);
+                this->box_size2.max(c);
+                this->box_size2.max(d);
+                this->box_size2.max(e);
+                this->box_size2.max(f);
+                this->box_size2.max(g);
+                this->box_size2.max(h);
             }
         }
         o_entry = o_entry->getNext();
     }
     //padding
-    this->box_size1.sub(0.1);
-    this->box_size2.add(0.1);
+//    this->box_size1.sub(0.1);
+//    this->box_size2.add(0.1);
 
     this->logger->log(INFO, "box_size is %f, %f, %f", this->box_size1.x, this->box_size1.y, this->box_size1.z);
 }

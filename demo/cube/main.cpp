@@ -44,10 +44,10 @@ int main(int argc, char **argv)
     wall->mesh->instance = new RenderInstance(wall->mesh);
     suzanne->mesh->instance = new RenderInstance(suzanne->mesh);
 
-    Camera *left = new Camera(window, scene, Viewport(0, 0, window->getWidth()/2, window->getHeight()));
+    Camera *left = new Camera(window, scene);//, Viewport(0, 0, window->getWidth()/2, window->getHeight()));
     Camera *right = new Camera(window, scene, Viewport(window->getWidth()/2, 0, window->getWidth()/2+1, window->getHeight()));
-    left->position = Vector3D(-10.0f, -20.0f, -10.0f);
-    left->rotation = Vector3D(40.0f, -44.5f,  0.0f);
+    left->position = Vector3D(-27.9f, -20.1f, -10.4f);
+    left->rotation = Vector3D(30.0f, -60.5f,  0.0f);
     left->fov = 45.0f;
 
     right->position = Vector3D(-8.0f, -2.0f, -4.0f);
@@ -59,6 +59,10 @@ int main(int argc, char **argv)
     Logger *fps_logger = new Logger("fps");
     float time = 0;
 
+    Vector3D vec = Vector3D(5.0f, 10.0f, 0.0f);
+
+    float x_rot=0,y_rot=0,z_rot=0;
+
     // main loop
     while(1)
     {
@@ -69,8 +73,25 @@ int main(int argc, char **argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         left->render();
-        right->render();
+        /*
+        		glBegin(GL_LINES);
+        		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+        			glVertex3f(0.0f, 0.0f,0.0f);
+        			glVertex3f(vec.x, vec.y, vec.z);
 
+        		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+        			glVertex3f(0.0f, 0.0f,0.0f);
+        			glVertex3f(vec.x, 0.0f, 0.0f);
+
+        			glVertex3f(0.0f, 0.0f,0.0f);
+        			glVertex3f(0.0f, vec.y, 0.0f);
+
+        			glVertex3f(0.0f, 0.0f,0.0f);
+        			glVertex3f(0.0f, 0.0f, vec.z);
+        		glEnd();
+        */
+        scene->base_node->calcVolumeBox();
+        //right->render();
         // update
         float frametime = window->update();
         time += frametime;
@@ -80,12 +101,19 @@ int main(int argc, char **argv)
             time = 0;
         }
 
-        cube->rotate(Vector3D(0.0f, frametime*0.2, 0.0f));
-
         int mx, my;
         SDL_GetMouseState(&mx, &my);
-        light->position.x = ((float)mx/window->getWidth()) * 20.0f;
-        light->position.y = 5.0f - ((float)my/window->getHeight()) * 10.0f;
+        float x = ((float)mx/window->getWidth()*2) * 180.0f;
+        float y = ((float)my/window->getHeight()*2) * 180.0f;
+
+        wall->setRotation(Vector3D(y,x, 0.0f));
+        /*
+        		x_rot+=2;
+        		y_rot+=2;
+        		z_rot+=50;
+
+        		vec = Vector3D(0.5f, 0.5f, 0.5f);
+        		vec.rotate(Vector3D(x_rot, y_rot, z_rot));*/
     }
 
     return 0;

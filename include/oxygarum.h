@@ -43,6 +43,9 @@
 #include "logger.h"
 #include "light.h"
 #include "window.h"
+#include "vector.h"
+#include "transformation.h"
+#include "volumebox.h"
 
 #endif
 

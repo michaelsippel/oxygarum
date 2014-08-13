@@ -93,6 +93,7 @@ int Object3D::getStatus(void)
 
 void Object3D::render(void)
 {
+    glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
     this->mesh->drawVolumeBox();
 
     glFeedbackBuffer(3, GL_3D, (GLfloat*) &this->feedback);
