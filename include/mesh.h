@@ -122,6 +122,9 @@ class Mesh2D
 
 namespace loader
 {
+List<Mesh3D> *load_obj(const char *path);
+List<Mesh3D> *load_obj(const char *path, List<Material> *materials);
+
 class Object3D;
 struct load_return
 {

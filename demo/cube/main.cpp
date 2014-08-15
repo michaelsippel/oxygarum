@@ -35,10 +35,10 @@ int main(int argc, char **argv)
     Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
     scene->base_node->lights->add(light);
 
-    struct loader::load_return *ret = loader::load_oxy3d("data/scene.oxy3d");
-    cube->mesh = ret->meshes->getEntry("cube")->element;
-    wall->mesh = ret->meshes->getEntry("wall")->element;
-    suzanne->mesh = ret->meshes->getEntry("suzanne")->element;
+    //struct loader::load_return *ret = loader::load_oxy3d("data/scene.oxy3d");
+    cube->mesh = loader::load_obj("data/cube.obj")->getElement("cube");
+    wall->mesh = loader::load_obj("data/wall.obj")->getElement("wall");
+    suzanne->mesh = loader::load_obj("data/suzanne.obj")->getElement("suzanne");
 
     cube->mesh->instance = new RenderInstance(cube->mesh);
     wall->mesh->instance = new RenderInstance(wall->mesh);
@@ -69,7 +69,6 @@ int main(int argc, char **argv)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         left->render();
-        scene->base_node->calcVolumeBox();
         //right->render();
 
         // update
@@ -85,8 +84,6 @@ int main(int argc, char **argv)
         SDL_GetMouseState(&mx, &my);
         float x = ((float)mx/window->getWidth()*2) * 180.0f;
         float y = ((float)my/window->getHeight()*2) * 180.0f;
-
-        wall->setRotation(Vector3D(y,x, y));
     }
 
     return 0;

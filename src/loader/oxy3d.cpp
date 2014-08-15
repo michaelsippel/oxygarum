@@ -1,5 +1,5 @@
 /**
- *  src/loader/oxy3d_loader.cpp
+ *  src/loader/obj_loader.cpp
  *
  *  Copyright (C) 2013-2014 Michael Sippel
  *

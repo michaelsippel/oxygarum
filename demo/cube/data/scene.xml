@@ -1,0 +1,48 @@
+<program name="basic_shader">
+	<shader type="vertexshader">../shader.vert</shader>
+	<shader tpye="fragmentshader">../shader.frag</shader>
+</program>
+
+<texture name="black_texture">data/black.png</texture>
+<texture name="cube_diffuse_texture">data/cube_diffuse.png</texture>
+<texture name="cube_normal_texture">data/cube_normal.png</texture>
+<texture name="cube_emit_texture">data/cube_emit.png</texture>
+<texture name="suzanne_diffuse_texture">data/suzanne_diffuse.png</texture>
+<texture name="suzanne_normal_texture">data/suzanne_normal.png</texture>
+<texture name="wall_diffuse_texture">data/wall_diffuse.png</texture>
+<texture name="wall_normal_texture">data/wall_normal.png</texture>
+
+<material name="cube_material">
+	<color value="#ffffff" alpha="1.0"></color>
+	<param type="roughness" value="0.8"></param>
+	<param type="emission" value="0.0"></param>
+	<shading>basic_shader</shading>
+	<texture id="0" name="Texture0">cube_diffuse_texture</texture>
+	<texture id="1" name="Texture1">cube_normal_texture</texture>
+	<texture id="2" name="Texture2">cube_emit_texture</texture>
+</material>
+
+<material name="wall_material">
+	<color value="#ffffff" alpha="1.0"></color>
+	<param type="roughness" value="0.8"></param>
+	<param type="emission" value="0.0"></param>
+	<shading>basic_shader</shading>
+	<texture id="0" name="Texture0">wall_diffuse_texture</texture>
+	<texture id="1" name="Texture1">wall_normal_texture</texture>
+	<texture id="2" name="Texture2">black_texture</texture>
+</material>
+
+<material name="suzanne_material">
+	<color value="#ffffff" alpha="1.0"></color>
+	<param type="roughness" value="0.8"></param>
+	<param type="emission" value="0.0"></param>
+	<shading>basic_shader</shading>
+	<texture id="0" name="Texture0">suzanne_diffuse_texture</texture>
+	<texture id="1" name="Texture1">suzanne_normal_texture</texture>
+	<texture id="2" name="Texture2">black_texture</texture>
+</material>
+
+<obj>data/cube.obj</obj>
+<obj>data/wall.obj</obj>
+<obj>data/suzanne.obj</obj>
+
