@@ -228,7 +228,6 @@ List<Mesh3D> *load_obj(const char *path, List<Material> *materials)
                     read = 1;
                     end = 0;
                     fseek(f, start_pos, SEEK_SET);
-                    printf("%d vertices, %d faces\n", num_vertices, num_faces);
                     vertices = (Vector3D*) calloc(num_vertices, sizeof(Vector3D));
                     normals = (Vector3D*) calloc(num_normals, sizeof(Vector3D));
                     texcoords = (Vector2D*) calloc(num_texcoords, sizeof(Vector2D));
@@ -252,8 +251,6 @@ List<Mesh3D> *load_obj(const char *path, List<Material> *materials)
 
             strcpy(name, args);
             start_pos = ftell(f);
-
-            printf("obj named %s\n", name);
 
             m_read = 1;
         }

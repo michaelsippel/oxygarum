@@ -1,7 +1,7 @@
 # Blender v2.71 (sub 0) OBJ File: ''
 # www.blender.org
 mtllib wall.mtl
-o wall
+o huhu
 v -5.000000 -0.000000 5.000000
 v 5.000000 -0.000000 5.000000
 v 5.000000 0.000000 -5.000000

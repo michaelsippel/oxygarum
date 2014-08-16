@@ -11,7 +11,7 @@ OXY = ../../src/oxygarum.a
 DASYUR = ../../../Dasyur/dasyur.a
 
 cube: $(OBJS)
-	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(DASYUR) $(OXY)
+	$(CC) -o $@ $^ $(LIBDIR)$(LIBRARIES) $(OXY) $(DASYUR)
 
 %.o : %.cpp
 	$(CC) $(CFLAGS) -c -o $@ $<

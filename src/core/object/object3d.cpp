@@ -93,6 +93,12 @@ int Object3D::getStatus(void)
 
 void Object3D::render(void)
 {
+    if(mesh == NULL)
+    {
+        this->logger->log(ERROR, "object X has no mesh");
+        return;
+    }
+
     glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
     this->mesh->drawVolumeBox();
 
@@ -115,17 +121,11 @@ void Object3D::render(void)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    if(mesh == NULL)
-    {
-        this->logger->log(ERROR, "object X has no mesh");
-        return;
-    }
-
     Material *mat = this->material;
     if(mat == NULL)
     {
         mat = this->mesh->default_material;
-//		//this->logger->log(INFO, "using default material for object X");
+		this->logger->log(INFO, "using default material for object X");
     }
 
     int num_textures = 0;

@@ -1,6 +1,6 @@
 <program name="basic_shader">
 	<shader type="vertexshader">../shader.vert</shader>
-	<shader tpye="fragmentshader">../shader.frag</shader>
+	<shader type="fragmentshader">../shader.frag</shader>
 </program>
 
 <texture name="black_texture">data/black.png</texture>
@@ -45,4 +45,15 @@
 <obj>data/cube.obj</obj>
 <obj>data/wall.obj</obj>
 <obj>data/suzanne.obj</obj>
+
+<object name="cube">
+	<mesh>cube</mesh>
+</object>
+<object name="wall">
+	<mesh>huhu</mesh>
+</object>
+
+<object name="suzanne">
+	<mesh>suzanne</mesh>
+</object>
 
