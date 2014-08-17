@@ -222,7 +222,6 @@ List<Mesh3D> *load_obj(const char *path, List<Material> *materials)
                 {
                     mesh = new Mesh3D(num_vertices, vertices, num_texcoords, texcoords, num_faces, faces, mat);
                     meshes->add(mesh, name);
-					printf("loaded mesh %s: %x\n", name, mesh);
                 }
                 else
                 {

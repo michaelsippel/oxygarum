@@ -125,7 +125,7 @@ void Object3D::render(void)
     if(mat == NULL)
     {
         mat = this->mesh->default_material;
-		this->logger->log(INFO, "using default material for object X");
+        this->logger->log(INFO, "using default material for object X");
     }
 
     int num_textures = 0;

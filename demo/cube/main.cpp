@@ -15,7 +15,7 @@ using namespace oxygarum;
 int main(int argc, char **argv)
 {
     Logger *logger = new Logger("demo");
-logger->log(INFO, "Hello World");
+    logger->log(INFO, "Hello World");
 
     SDLWindow *window = new SDLWindow("Oxygarum demo", 1025, 576);
 
@@ -25,10 +25,10 @@ logger->log(INFO, "Hello World");
     struct loader::load_return *ret = loader::load_oxy3d("data/scene.xml");
 
     Scene *scene = new Scene();
-	scene->base_node->objects3D->join(ret->objects);
+    scene->base_node->objects3D->join(ret->objects);
 
     Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
-	light->move(Vector3D(4.0f, 4.0f, 0.0f));
+    light->move(Vector3D(4.0f, 4.0f, 0.0f));
     scene->base_node->lights->add(light);
 
     Camera *left = new Camera(window, scene, Viewport(0, 0, window->getWidth()/2, window->getHeight()));
@@ -66,11 +66,11 @@ logger->log(INFO, "Hello World");
             logger->log(INFO, "%f fps, %f ms per frame", 1/frametime*1000, frametime);
             time = 0;
         }
-/*
-        int mx, my;
-        SDL_GetMouseState(&mx, &my);
-        float x = ((float)mx/window->getWidth()*2) * 180.0f;
-        float y = ((float)my/window->getHeight()*2) * 180.0f;*/
+        /*
+                int mx, my;
+                SDL_GetMouseState(&mx, &my);
+                float x = ((float)mx/window->getWidth()*2) * 180.0f;
+                float y = ((float)my/window->getHeight()*2) * 180.0f;*/
     }
 
     return 0;
