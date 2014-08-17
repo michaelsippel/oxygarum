@@ -98,7 +98,6 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
 								type = GL_GEOMETRY_SHADER;
 							}
 
-							printf("load %s\n", s_node->text);
 							Shader *shader = load_shader(type, s_node->text);
 							prog->attach(shader);
 						}
@@ -107,7 +106,6 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
 				}
 
 				prog->link();
-				printf("add %s\n", p->value);
 				ret->shaders->add(prog, p->value);
 			}
 		}
@@ -116,9 +114,7 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
 			XMLParam *p = node->getParam("name");
 			if(p != NULL)
 			{
-				printf("load %s\n", node->text);
 				Texture *tex = load_texture(node->text);
-				printf("add %s\n", p->value);
 				ret->textures->add(tex, p->value);
 			}
 		}
@@ -197,7 +193,6 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
 		}
 		else if(strcmp(node->name, "obj") == 0)
 		{
-			printf("load %s\n", node->text);
 			List<Mesh3D> *meshes = load_obj(node->text, ret->materials);
 			ret->meshes->join(meshes);
 		}
@@ -215,13 +210,11 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
 					if(strcmp(o_node->name, "mesh") == 0)
 					{
 						obj->mesh = ret->meshes->getElement(o_node->text);
-						printf("%x\n", obj->mesh);
 					}
 
 					o_entry = o_entry->getNext();
 				}
 
-				printf("add %s\n", p->value);
 				ret->objects->add(obj, p->value);
 			}
 		}

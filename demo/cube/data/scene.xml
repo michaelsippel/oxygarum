@@ -49,8 +49,9 @@
 <object name="cube">
 	<mesh>cube</mesh>
 </object>
+
 <object name="wall">
-	<mesh>huhu</mesh>
+	<mesh>wall</mesh>
 </object>
 
 <object name="suzanne">
