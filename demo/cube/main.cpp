@@ -28,6 +28,7 @@ logger->log(INFO, "Hello World");
 	scene->base_node->objects3D->join(ret->objects);
 
     Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
+	light->move(Vector3D(4.0f, 4.0f, 0.0f));
     scene->base_node->lights->add(light);
 
     Camera *left = new Camera(window, scene, Viewport(0, 0, window->getWidth()/2, window->getHeight()));

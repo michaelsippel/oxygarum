@@ -48,6 +48,28 @@ struct load_return *load_oxy3d(const char *path)
     return load_oxy3d(path, NULL);
 }
 
+void _parse_vector(XMLNode *node, Vector3D *vec)
+{
+	XMLParam *xp = node->getParam("x");
+	XMLParam *yp = node->getParam("y");
+	XMLParam *zp = node->getParam("z");
+
+	if(xp != NULL)
+	{						
+		sscanf(xp->value, "%f", &vec->x);
+	}
+
+	if(yp != NULL)
+	{						
+		sscanf(yp->value, "%f", &vec->y);
+	}
+
+	if(zp != NULL)
+	{						
+		sscanf(zp->value, "%f", &vec->z);
+	}
+}
+
 struct load_return *load_oxy3d(const char *path, struct load_return *ret)
 {
     if(ret == NULL)
@@ -188,6 +210,7 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
 					m_entry = m_entry->getNext();
 				}
 
+				mat->update_values();
 				ret->materials->add(mat, p->value);
 			}
 		}
@@ -210,6 +233,18 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
 					if(strcmp(o_node->name, "mesh") == 0)
 					{
 						obj->mesh = ret->meshes->getElement(o_node->text);
+					}
+					else if(strcmp(o_node->name, "position") == 0)
+					{
+						_parse_vector(o_node, &obj->position);
+					}
+					else if(strcmp(o_node->name, "rotation") == 0)
+					{
+						_parse_vector(o_node, &obj->rotation);
+					}
+					else if(strcmp(o_node->name, "scaling") == 0)
+					{
+						_parse_vector(o_node, &obj->scaling);
 					}
 
 					o_entry = o_entry->getNext();

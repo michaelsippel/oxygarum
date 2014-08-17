@@ -14,8 +14,8 @@
 
 <material name="cube_material">
 	<color value="#ffffff" alpha="1.0"></color>
-	<param type="roughness" value="0.8"></param>
-	<param type="emission" value="0.0"></param>
+	<param type="roughness" value="0.9"></param>
+	<param type="emission" value="1.0"></param>
 	<shading>basic_shader</shading>
 	<texture id="0" name="Texture0">cube_diffuse_texture</texture>
 	<texture id="1" name="Texture1">cube_normal_texture</texture>
@@ -24,7 +24,7 @@
 
 <material name="wall_material">
 	<color value="#ffffff" alpha="1.0"></color>
-	<param type="roughness" value="0.8"></param>
+	<param type="roughness" value="0.9"></param>
 	<param type="emission" value="0.0"></param>
 	<shading>basic_shader</shading>
 	<texture id="0" name="Texture0">wall_diffuse_texture</texture>
@@ -47,14 +47,26 @@
 <obj>data/suzanne.obj</obj>
 
 <object name="cube">
+	<scaling x="1.0" y="1.0" z="1.0"></scaling>
+	<rotation type="euler" x="0.0" y="0.0" z="0.0"></rotation>
+	<position x="0.0" y="0.0" z="0.0"></position>
 	<mesh>cube</mesh>
+	<material>cube_material</material>
 </object>
 
 <object name="wall">
+	<scaling x="1.0" y="1.0" z="1.0"></scaling>
+	<rotation type="euler" x="0.0" y="0.0" z="0.0"></rotation>
+	<position x="0.0" y="0.0" z="0.0"></position>
 	<mesh>wall</mesh>
+	<material>wall_material</material>
 </object>
 
 <object name="suzanne">
+	<scaling x="1.0" y="1.0" z="1.0"></scaling>
+	<rotation type="euler" x="0.0" y="0.0" z="0.0"></rotation>
+	<position x="0.0" y="0.0" z="0.0"></position>
 	<mesh>suzanne</mesh>
+	<material>suzanne_material</material>
 </object>
 
