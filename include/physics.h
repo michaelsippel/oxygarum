@@ -31,6 +31,16 @@
 namespace oxygarum
 {
 
+class ForceField
+{
+	public:
+		ForceField();
+		~ForceField();
+
+		//int type;
+		Vector3D velocity;
+};
+
 class PhysicsObject
 {
 	public:
@@ -52,6 +62,7 @@ class PhysicsContext
 		void update(float speed);
 
 		List<PhysicsObject> *objects;
+		List<ForceField> *fields;
 };
 
 };

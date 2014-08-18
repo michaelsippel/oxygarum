@@ -1,7 +1,7 @@
 /**
- *  src/physics/softbody.c
+ *  src/physics/forcefield.cpp
  *
- *  (C) Copyright 2013 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,23 +16,20 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <stdlib.h>
-#include <GL/glew.h>
-#include <GL/gl.h>
-
 #include "physics.h"
-#include "scene.h"
-#include "vertex.h"
 #include "vector.h"
 
-char *softbodyshader =
-    "void main() {\n"
-    "	gl_Position = gl_Vertex;\n"
-    "}\n";
-
-void oxygarum_calc_softbody(physics_t *physics, physics_properties_t *properties, float anim_speed)
+namespace oxygarum
 {
-    glUseProgram(physics->vertex_program);
-    // TODO
+
+ForceField::ForceField()
+{
+	this->velocity = Vector3D();
 }
+
+ForceField::~ForceField()
+{
+}
+
+};
 

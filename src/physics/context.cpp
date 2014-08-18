@@ -25,26 +25,35 @@ namespace oxygarum
 PhysicsContext::PhysicsContext()
 {
 	this->objects = new List<PhysicsObject>();
+	this->fields = new List<ForceField>();
 }
 
 PhysicsContext::~PhysicsContext()
 {
 	delete this->objects;
+	delete this->fields;
 }
 
 void PhysicsContext::update(float speed)
 {
 	ListEntry<PhysicsObject> *entry = this->objects->getHead();
 
-	Vector3D gravity = Vector3D(0.0f, -9.80665f, 0.0f);
-	gravity.mul(speed);
-
 	while(entry != NULL)
 	{
 		PhysicsObject *obj = entry->element;
 		if(obj != NULL)
 		{
-			obj->velocity.add(gravity);
+			ListEntry<ForceField> *f_entry = this->fields->getHead();
+			while(f_entry != NULL)
+			{
+				ForceField *field = f_entry->element;
+				Vector3D v = field->velocity;
+				v.mul(speed);
+				obj->velocity.add(v);
+				
+				f_entry = f_entry->getNext();
+			}
+
 			obj->update(speed);
 		}
 

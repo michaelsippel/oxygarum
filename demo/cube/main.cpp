@@ -25,12 +25,17 @@ int main(int argc, char **argv)
     struct loader::load_return *ret = loader::load_oxy3d("data/scene.xml");
 
 	PhysicsContext *pc = new PhysicsContext();
+
+	ForceField *gravity = new ForceField();
+	gravity->velocity = Vector3D(0.0f, -9.80665f, 0.0f);
+
 	PhysicsObject *po1 = new PhysicsObject();
 	po1->object = ret->objects->getElement("cube");
 
 	PhysicsObject *po2 = new PhysicsObject();
 	po2->object = ret->objects->getElement("suzanne");
 
+	pc->fields->add(gravity);
 	pc->objects->add(po1);
 	pc->objects->add(po2);
 
