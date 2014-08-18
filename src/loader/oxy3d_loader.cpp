@@ -234,6 +234,10 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
                     {
                         obj->mesh = ret->meshes->getElement(o_node->text);
                     }
+					else if(strcmp(o_node->name, "material") == 0)
+                    {
+                        obj->material = ret->materials->getElement(o_node->text);
+                    }
                     else if(strcmp(o_node->name, "position") == 0)
                     {
                         _parse_vector(o_node, &obj->position);

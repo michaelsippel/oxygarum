@@ -1,7 +1,7 @@
 /**
- *  include/physics.h
+ *  src/physics/context.cpp
  *
- *  Copyright (C) 2013-2014 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,45 +16,32 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/**
- * @author Michael Sippel <michamimosa@gmail.com>
- */
-
-#ifndef _PHYSICS_H
-#define _PHYSICS_H
-
-#include <list.h>
-#include "object.h"
+#include "physics.h"
 #include "vector.h"
 
 namespace oxygarum
 {
 
-class PhysicsObject
+PhysicsObject::PhysicsObject()
 {
-	public:
-		PhysicsObject();
-		~PhysicsObject();
+	this->velocity = Vector3D();
+}
 
-		void update(float speed);
-
-		Object3D *object;
-		Vector3D velocity;
-};
-
-class PhysicsContext
+PhysicsObject::~PhysicsObject()
 {
-	public:
-		PhysicsContext();
-		~PhysicsContext();
+}
 
-		void update(float speed);
+void PhysicsObject::update(float speed)
+{
+	Vector3D v = this->velocity;
+	v.mul(speed);
 
-		List<PhysicsObject> *objects;
+	// just a stupid thing
+	if(this->object->position.y > 0)
+	this->object->move(v);
+	else
+	this->object->position.y = 0;
+}
+
 };
-
-};
-
-#endif
 

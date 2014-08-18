@@ -1,7 +1,7 @@
 /**
- *  include/physics.h
+ *  src/physics/context.cpp
  *
- *  Copyright (C) 2013-2014 Michael Sippel
+ *  (C) Copyright 2013-2014 Michael Sippel
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -16,45 +16,41 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/**
- * @author Michael Sippel <michamimosa@gmail.com>
- */
-
-#ifndef _PHYSICS_H
-#define _PHYSICS_H
-
-#include <list.h>
-#include "object.h"
+#include "physics.h"
 #include "vector.h"
 
 namespace oxygarum
 {
 
-class PhysicsObject
+PhysicsContext::PhysicsContext()
 {
-	public:
-		PhysicsObject();
-		~PhysicsObject();
+	this->objects = new List<PhysicsObject>();
+}
 
-		void update(float speed);
-
-		Object3D *object;
-		Vector3D velocity;
-};
-
-class PhysicsContext
+PhysicsContext::~PhysicsContext()
 {
-	public:
-		PhysicsContext();
-		~PhysicsContext();
+	delete this->objects;
+}
 
-		void update(float speed);
+void PhysicsContext::update(float speed)
+{
+	ListEntry<PhysicsObject> *entry = this->objects->getHead();
 
-		List<PhysicsObject> *objects;
+	Vector3D gravity = Vector3D(0.0f, -9.80665f, 0.0f);
+	gravity.mul(speed);
+
+	while(entry != NULL)
+	{
+		PhysicsObject *obj = entry->element;
+		if(obj != NULL)
+		{
+			obj->velocity.add(gravity);
+			obj->update(speed);
+		}
+
+		entry = entry->getNext();
+	}
+}
+
 };
-
-};
-
-#endif
 

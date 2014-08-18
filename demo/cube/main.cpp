@@ -24,6 +24,16 @@ int main(int argc, char **argv)
 
     struct loader::load_return *ret = loader::load_oxy3d("data/scene.xml");
 
+	PhysicsContext *pc = new PhysicsContext();
+	PhysicsObject *po1 = new PhysicsObject();
+	po1->object = ret->objects->getElement("cube");
+
+	PhysicsObject *po2 = new PhysicsObject();
+	po2->object = ret->objects->getElement("suzanne");
+
+	pc->objects->add(po1);
+	pc->objects->add(po2);
+
     Scene *scene = new Scene();
     scene->base_node->objects3D->join(ret->objects);
 
@@ -61,6 +71,7 @@ int main(int argc, char **argv)
         // update
         float frametime = window->update();
         time += frametime;
+		pc->update(frametime*0.001);
         if(time >= 1000)
         {
             logger->log(INFO, "%f fps, %f ms per frame", 1/frametime*1000, frametime);
