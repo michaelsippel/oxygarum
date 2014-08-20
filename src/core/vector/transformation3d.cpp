@@ -95,8 +95,8 @@ void Transformation3D::useTransformation(void)
     glRotatef(this->rotation.x, 1.0f, 0.0f, 0.0f);
     glRotatef(this->rotation.y, 0.0f, 1.0f, 0.0f);
     glRotatef(this->rotation.z, 0.0f, 0.0f, 1.0f);
-    glScalef(this->scaling.x, this->scaling.y, this->scaling.z);
     glTranslatef(this->position.x, this->position.y, this->position.z);
+    glScalef(this->scaling.x, this->scaling.y, this->scaling.z);
 }
 
 };

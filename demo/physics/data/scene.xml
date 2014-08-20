@@ -1,0 +1,34 @@
+<texture name="ground_tex">data/ground.png</texture>
+<texture name="cube_tex">data/cube.png</texture>
+
+<material name="ground_mat">
+	<color value="#ffffff" alpha="1.0f"></color>
+	<texture id="0" name="tex0">ground_tex</texture>
+</material>
+
+<material name="cube_mat">
+	<color value="#ffffff" alpha="1.0f"></color>
+	<texture id="0" name="tex0">cube_tex</texture>
+</material>
+
+<obj>data/ground.obj</obj>
+<obj>data/cube.obj</obj>
+
+<object name="ground">
+	<mesh>ground</mesh>
+	<material>ground_mat</material>
+</object>
+
+<object name="cube1">
+	<position x="0.0f" y="10.0f" z="-5.0f"></position>
+	<mesh>cube</mesh>
+	<material>cube_mat</material>
+</object>
+
+<object name="cube2">
+	<position x="-2.0f" y="0.5f" z="-5.0f"></position>
+	<scaling x="0.5" y="0.5" z="0.5"></scaling>
+	<mesh>cube</mesh>
+	<material>cube_mat</material>
+</object>
+

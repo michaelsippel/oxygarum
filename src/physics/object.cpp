@@ -24,7 +24,7 @@ namespace oxygarum
 
 PhysicsObject::PhysicsObject()
 {
-	this->velocity = Vector3D();
+    this->velocity = Vector3D();
 }
 
 PhysicsObject::~PhysicsObject()
@@ -33,14 +33,14 @@ PhysicsObject::~PhysicsObject()
 
 void PhysicsObject::update(float speed)
 {
-	Vector3D v = this->velocity;
-	v.mul(speed);
+    Vector3D v = this->velocity;
+    v.mul(speed);
 
-	// just a stupid thing
-	if(this->object->position.y > 0)
-	this->object->move(v);
-	else
-	this->object->position.y = 0;
+    // just a stupid thing
+    if(this->object->position.y > 0)
+        this->object->move(v);
+    else
+        this->object->position.y = 0;
 }
 
 };

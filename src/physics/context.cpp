@@ -24,41 +24,41 @@ namespace oxygarum
 
 PhysicsContext::PhysicsContext()
 {
-	this->objects = new List<PhysicsObject>();
-	this->fields = new List<ForceField>();
+    this->objects = new List<PhysicsObject>();
+    this->fields = new List<ForceField>();
 }
 
 PhysicsContext::~PhysicsContext()
 {
-	delete this->objects;
-	delete this->fields;
+    delete this->objects;
+    delete this->fields;
 }
 
 void PhysicsContext::update(float speed)
 {
-	ListEntry<PhysicsObject> *entry = this->objects->getHead();
+    ListEntry<PhysicsObject> *entry = this->objects->getHead();
 
-	while(entry != NULL)
-	{
-		PhysicsObject *obj = entry->element;
-		if(obj != NULL)
-		{
-			ListEntry<ForceField> *f_entry = this->fields->getHead();
-			while(f_entry != NULL)
-			{
-				ForceField *field = f_entry->element;
-				Vector3D v = field->velocity;
-				v.mul(speed);
-				obj->velocity.add(v);
-				
-				f_entry = f_entry->getNext();
-			}
+    while(entry != NULL)
+    {
+        PhysicsObject *obj = entry->element;
+        if(obj != NULL)
+        {
+            ListEntry<ForceField> *f_entry = this->fields->getHead();
+            while(f_entry != NULL)
+            {
+                ForceField *field = f_entry->element;
+                Vector3D v = field->velocity;
+                v.mul(speed);
+                obj->velocity.add(v);
 
-			obj->update(speed);
-		}
+                f_entry = f_entry->getNext();
+            }
 
-		entry = entry->getNext();
-	}
+            obj->update(speed);
+        }
+
+        entry = entry->getNext();
+    }
 }
 
 };

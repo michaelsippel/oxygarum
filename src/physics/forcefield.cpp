@@ -24,7 +24,7 @@ namespace oxygarum
 
 ForceField::ForceField()
 {
-	this->velocity = Vector3D();
+    this->velocity = Vector3D();
 }
 
 ForceField::~ForceField()

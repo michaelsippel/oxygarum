@@ -33,36 +33,36 @@ namespace oxygarum
 
 class ForceField
 {
-	public:
-		ForceField();
-		~ForceField();
+    public:
+        ForceField();
+        ~ForceField();
 
-		//int type;
-		Vector3D velocity;
+        //int type;
+        Vector3D velocity;
 };
 
 class PhysicsObject
 {
-	public:
-		PhysicsObject();
-		~PhysicsObject();
+    public:
+        PhysicsObject();
+        ~PhysicsObject();
 
-		void update(float speed);
+        void update(float speed);
 
-		Object3D *object;
-		Vector3D velocity;
+        Object3D *object;
+        Vector3D velocity;
 };
 
 class PhysicsContext
 {
-	public:
-		PhysicsContext();
-		~PhysicsContext();
+    public:
+        PhysicsContext();
+        ~PhysicsContext();
 
-		void update(float speed);
+        void update(float speed);
 
-		List<PhysicsObject> *objects;
-		List<ForceField> *fields;
+        List<PhysicsObject> *objects;
+        List<ForceField> *fields;
 };
 
 };

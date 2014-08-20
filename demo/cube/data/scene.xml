@@ -49,7 +49,7 @@
 <object name="cube">
 	<scaling x="1.0" y="1.0" z="1.0"></scaling>
 	<rotation type="euler" x="0.0" y="0.0" z="0.0"></rotation>
-	<position x="0.0" y="4.0" z="0.0"></position>
+	<position x="0.0" y="0.0" z="0.0"></position>
 	<mesh>cube</mesh>
 	<material>cube_material</material>
 </object>
@@ -65,7 +65,7 @@
 <object name="suzanne">
 	<scaling x="1.0" y="1.0" z="1.0"></scaling>
 	<rotation type="euler" x="0.0" y="0.0" z="0.0"></rotation>
-	<position x="0.0" y="5.0" z="0.0"></position>
+	<position x="0.0" y="0.0" z="0.0"></position>
 	<mesh>suzanne</mesh>
 	<material>suzanne_material</material>
 </object>
