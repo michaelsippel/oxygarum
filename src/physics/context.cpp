@@ -37,24 +37,53 @@ PhysicsContext::~PhysicsContext()
 void PhysicsContext::update(float speed)
 {
     ListEntry<PhysicsObject> *entry = this->objects->getHead();
-
     while(entry != NULL)
     {
         PhysicsObject *obj = entry->element;
         if(obj != NULL)
         {
+            bool collide = 0;
+            ListEntry<PhysicsObject> *centry = this->objects->getHead();
+            while(centry != NULL)
+            {
+                if(centry != entry)
+                {
+                    PhysicsObject *cobj = centry->element;
+                    if(cobj != NULL)
+                    {
+                        if(cobj->collision != NULL && obj->collision != NULL)
+                        {
+                            // check collision
+                            if(check_collision(cobj->collision, obj->collision))
+                            {
+                                collide = 1;
+                                break;
+                            }
+                        }
+                    }
+                }
+                centry = centry->getNext();
+            }
+
             ListEntry<ForceField> *f_entry = this->fields->getHead();
             while(f_entry != NULL)
             {
                 ForceField *field = f_entry->element;
                 Vector3D v = field->velocity;
                 v.mul(speed);
-                obj->velocity.add(v);
+
+                if(!collide)
+                {
+                    obj->push(v);
+                }
 
                 f_entry = f_entry->getNext();
             }
 
-            obj->update(speed);
+            if(!collide)
+            {
+                obj->update(speed);
+            }
         }
 
         entry = entry->getNext();

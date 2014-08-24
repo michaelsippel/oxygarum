@@ -1,5 +1,5 @@
 /**
- *  src/physics/context.cpp
+ *  src/physics/object.cpp
  *
  *  (C) Copyright 2013-2014 Michael Sippel
  *
@@ -25,6 +25,7 @@ namespace oxygarum
 PhysicsObject::PhysicsObject()
 {
     this->velocity = Vector3D();
+    this->collision = NULL;
 }
 
 PhysicsObject::~PhysicsObject()
@@ -36,11 +37,12 @@ void PhysicsObject::update(float speed)
     Vector3D v = this->velocity;
     v.mul(speed);
 
-    // just a stupid thing
-    if(this->object->position.y > 0)
-        this->object->move(v);
-    else
-        this->object->position.y = 0;
+    this->trans->move(v);
+}
+
+void PhysicsObject::push(Vector3D v)
+{
+    this->velocity.add(v);
 }
 
 };

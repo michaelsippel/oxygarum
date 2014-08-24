@@ -11,8 +11,17 @@
 	<texture id="0" name="tex0">cube_tex</texture>
 </material>
 
+<material name="ball1_mat">
+	<color value="#ff0000" alpha="1.0f"></color>
+</material>
+
+<material name="ball2_mat">
+	<color value="#00ff00" alpha="1.0f"></color>
+</material>
+
 <obj>data/ground.obj</obj>
 <obj>data/cube.obj</obj>
+<obj>data/ball.obj</obj>
 
 <object name="ground">
 	<mesh>ground</mesh>
@@ -20,15 +29,28 @@
 </object>
 
 <object name="cube1">
-	<position x="0.0f" y="10.0f" z="-5.0f"></position>
+	<position x="0.0f" y="10.0f" z="-10.0f"></position>
 	<mesh>cube</mesh>
 	<material>cube_mat</material>
 </object>
 
 <object name="cube2">
-	<position x="-2.0f" y="0.5f" z="-5.0f"></position>
+	<position x="-5.0f" y="0.5f" z="-10.0f"></position>
 	<scaling x="0.5" y="0.5" z="0.5"></scaling>
 	<mesh>cube</mesh>
 	<material>cube_mat</material>
 </object>
+
+<object name="ball1">
+	<position x="0.0f" y="2.0f" z="-5.0f"></position>
+	<mesh>Sphere</mesh>
+	<material>ball1_mat</material>
+</object>
+
+<object name="ball2">
+	<position x="-4.0f" y="2.0f" z="-5.0f"></position>
+	<mesh>Sphere</mesh>
+	<material>ball2_mat</material>
+</object>
+
 

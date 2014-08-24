@@ -41,16 +41,47 @@ class ForceField
         Vector3D velocity;
 };
 
+enum collision_type
+{
+    NONE = 0,
+    POINT,
+    BOUNDING_SPHERE,
+    BOUNDING_BOX,
+    MESH
+};
+
+class CollisionObject
+{
+    public:
+        CollisionObject();
+        ~CollisionObject();
+
+        Transformation3D *trans;
+
+        virtual Vector2D get_distance(Vector3D axis);
+};
+
+class CollisionPoint : public CollisionObject
+{
+    public:
+        CollisionPoint();
+        ~CollisionPoint();
+
+        Vector2D get_distance(Vector3D axis);
+};
+
 class PhysicsObject
 {
     public:
         PhysicsObject();
         ~PhysicsObject();
 
-        void update(float speed);
-
-        Object3D *object;
+        Transformation3D *trans;
+        CollisionObject *collision;
         Vector3D velocity;
+
+        void update(float speed);
+        void push(Vector3D v);
 };
 
 class PhysicsContext
@@ -59,11 +90,13 @@ class PhysicsContext
         PhysicsContext();
         ~PhysicsContext();
 
-        void update(float speed);
-
         List<PhysicsObject> *objects;
         List<ForceField> *fields;
+
+        void update(float speed);
 };
+
+bool check_collision(CollisionObject *obj1, CollisionObject *obj2);
 
 };
 

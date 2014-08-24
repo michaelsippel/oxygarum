@@ -12,12 +12,24 @@
 
 using namespace oxygarum;
 
+PhysicsObject *cube1;
+PhysicsObject *cube2;
+PhysicsObject *ball1;
+PhysicsObject *ball2;
+
+void key(int argc, void **argv)
+{
+    printf("PUS!\n");
+    ball2->push(Vector3D(1.0f, 0.0f, 0.0f));
+}
+
 int main(int argc, char **argv)
 {
     Logger *logger = new Logger("demo");
     logger->log(INFO, "Hello World");
 
     SDLWindow *window = new SDLWindow("Oxygarum demo", 1025, 576);
+    window->eventmgr->register_handler(SDL_KEYDOWN, &key);
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
@@ -43,12 +55,29 @@ int main(int argc, char **argv)
     ForceField *gravity = new ForceField();
     gravity->velocity = Vector3D(0.0f, -9.80665f, 0.0f);
 
-    pc->fields->add(gravity);
+    //pc->fields->add(gravity);
 
-    PhysicsObject *cube = new PhysicsObject();
-    cube->object = ret->objects->getElement("cube1");
+    cube1 = new PhysicsObject();
+    cube1->trans = ret->objects->getElement("cube1");
 
-    pc->objects->add(cube);
+    cube2 = new PhysicsObject();
+    cube2->trans = ret->objects->getElement("cube2");
+
+    ball1 = new PhysicsObject();
+    ball1->trans = ret->objects->getElement("ball1");
+    ball1->collision = new CollisionPoint();
+    ball1->collision->trans = ball1->trans;
+
+    ball2 = new PhysicsObject();
+    ball2->trans = ret->objects->getElement("ball2");
+    ball2->collision = new CollisionPoint();
+    ball2->collision->trans = ball2->trans;
+
+
+    pc->objects->add(cube1);
+    pc->objects->add(cube2);
+    pc->objects->add(ball1);
+    pc->objects->add(ball2);
 
     // main loop
     while(1)
