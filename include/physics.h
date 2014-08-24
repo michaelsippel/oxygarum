@@ -70,6 +70,18 @@ class CollisionPoint : public CollisionObject
         Vector2D get_distance(Vector3D axis);
 };
 
+class BoundingSphere : public CollisionObject
+{
+    public:
+        BoundingSphere();
+        BoundingSphere(float radius_);
+        ~BoundingSphere();
+
+        float radius;
+
+        Vector2D get_distance(Vector3D axis);
+};
+
 class PhysicsObject
 {
     public:

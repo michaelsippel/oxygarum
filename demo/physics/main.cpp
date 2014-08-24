@@ -19,7 +19,6 @@ PhysicsObject *ball2;
 
 void key(int argc, void **argv)
 {
-    printf("PUS!\n");
     ball2->push(Vector3D(1.0f, 0.0f, 0.0f));
 }
 
@@ -65,12 +64,12 @@ int main(int argc, char **argv)
 
     ball1 = new PhysicsObject();
     ball1->trans = ret->objects->getElement("ball1");
-    ball1->collision = new CollisionPoint();
+    ball1->collision = new BoundingSphere(1.0f);
     ball1->collision->trans = ball1->trans;
 
     ball2 = new PhysicsObject();
     ball2->trans = ret->objects->getElement("ball2");
-    ball2->collision = new CollisionPoint();
+    ball2->collision = new BoundingSphere(1.0f);
     ball2->collision->trans = ball2->trans;
 
 

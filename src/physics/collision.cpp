@@ -73,5 +73,27 @@ Vector2D CollisionPoint::get_distance(Vector3D axis)
     return dist;
 }
 
+//sphere
+BoundingSphere::BoundingSphere()
+{
+}
+
+BoundingSphere::BoundingSphere(float radius_)
+    : radius(radius_)
+{
+}
+
+BoundingSphere::~BoundingSphere()
+{
+}
+
+Vector2D BoundingSphere::get_distance(Vector3D axis)
+{
+    float projection = axis.scalar(this->trans->position);
+    Vector2D dist = Vector2D(projection-radius, projection+radius);
+
+    return dist;
+}
+
 };
 

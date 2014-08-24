@@ -42,7 +42,7 @@
 </object>
 
 <object name="ball1">
-	<position x="0.0f" y="2.0f" z="-5.0f"></position>
+	<position x="0.0f" y="1.0f" z="-5.0f"></position>
 	<mesh>Sphere</mesh>
 	<material>ball1_mat</material>
 </object>
