@@ -37,7 +37,7 @@ void PhysicsObject::update(float speed)
     Vector3D v = this->velocity;
     v.mul(speed);
 
-    this->trans->move(v);
+    this->move(v);
 }
 
 void PhysicsObject::push(Vector3D v)

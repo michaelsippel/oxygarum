@@ -33,12 +33,12 @@ int main(int argc, char **argv)
 
     Camera *left = new Camera(window, scene, Viewport(0, 0, window->getWidth()/2, window->getHeight()));
     Camera *right = new Camera(window, scene, Viewport(window->getWidth()/2, 0, window->getWidth()/2+1, window->getHeight()));
-    left->position = Vector3D(-27.9f, -20.1f, -10.4f);
-    left->rotation = Vector3D(30.0f, -60.5f,  0.0f);
+    left->position = new Vector3D(-27.9f, -20.1f, -10.4f);
+    left->rotation = new Vector3D(30.0f, -60.5f,  0.0f);
     left->fov = 45.0f;
 
-    right->position = Vector3D(-8.0f, -2.0f, -4.0f);
-    right->rotation = Vector3D(0.0f, -60.5f,  0.0f);
+    right->position = new Vector3D(-8.0f, -2.0f, -4.0f);
+    right->rotation = new Vector3D(0.0f, -60.5f,  0.0f);
     right->fov = 45.0f;
 
     //right->viewport.background = Color(1.0f, 0.0f, 0.0f, 1.0f);

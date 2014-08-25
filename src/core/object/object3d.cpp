@@ -30,8 +30,7 @@ namespace oxygarum
 
 Object3D::Object3D()
 {
-    this->position = Vector3D();
-    this->rotation = Vector3D();
+    Transformation3D();
 
     this->mesh = NULL;
     this->material = NULL;
@@ -41,8 +40,7 @@ Object3D::Object3D()
 
 Object3D::Object3D(Transformation3D transform)
 {
-    this->position = transform.position;
-    this->rotation = transform.rotation;
+    Transformation3D(transform.position, transform.rotation, transform.scaling);
 
     this->mesh = NULL;
     this->material = NULL;
@@ -52,8 +50,7 @@ Object3D::Object3D(Transformation3D transform)
 
 Object3D::Object3D(Vector3D position_)
 {
-    this->position = position_;
-    this->rotation = Vector3D();
+    Transformation3D(position_, Vector3D());
 
     this->mesh = NULL;
     this->material = NULL;
@@ -63,8 +60,7 @@ Object3D::Object3D(Vector3D position_)
 
 Object3D::Object3D(Vector3D position_, Vector3D rotation_)
 {
-    this->position = position_;
-    this->rotation = rotation_;
+    Transformation3D();
 
     this->mesh = NULL;
     this->material = NULL;

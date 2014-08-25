@@ -35,8 +35,7 @@ namespace oxygarum
 
 SceneNode::SceneNode()
 {
-    this->position = Vector3D();
-    this->rotation = Vector3D();
+    Transformation3D();
 
     this->objects3D = new List<Object3D>();
     //this->objects2D = new List<Object2D>();
@@ -194,10 +193,10 @@ void SceneNode::calcVolumeBox(void)
             subnode->calcVolumeBox();
             Vector3D m1 = subnode->box_size1;
             Vector3D m2 = subnode->box_size2;
-            m1.rotate(subnode->rotation);
-            m2.rotate(subnode->rotation);
-            m1.add(subnode->position);
-            m2.add(subnode->position);
+            m1.rotate(*subnode->rotation);
+            m2.rotate(*subnode->rotation);
+            m1.add(*subnode->position);
+            m2.add(*subnode->position);
             this->box_size1.min(m1);
             this->box_size1.max(m2);
         }
@@ -218,29 +217,29 @@ void SceneNode::calcVolumeBox(void)
                 Vector3D m2 = mesh->box_size2;
 
                 Vector3D a = Vector3D(m1.x, m1.y, m1.z);
-                a.rotate(obj->rotation);
-                a.add(obj->position);
+                a.rotate(*obj->rotation);
+                a.add(*obj->position);
                 Vector3D b = Vector3D(m2.x, m1.y, m1.z);
-                b.rotate(obj->rotation);
-                b.add(obj->position);
+                b.rotate(*obj->rotation);
+                b.add(*obj->position);
                 Vector3D c = Vector3D(m1.x, m2.y, m1.z);
-                c.rotate(obj->rotation);
-                c.add(obj->position);
+                c.rotate(*obj->rotation);
+                c.add(*obj->position);
                 Vector3D d = Vector3D(m2.x, m2.y, m1.z);
-                d.rotate(obj->rotation);
-                d.add(obj->position);
+                d.rotate(*obj->rotation);
+                d.add(*obj->position);
                 Vector3D e = Vector3D(m1.x, m1.y, m2.z);
-                e.rotate(obj->rotation);
-                e.add(obj->position);
+                e.rotate(*obj->rotation);
+                e.add(*obj->position);
                 Vector3D f = Vector3D(m2.x, m1.y, m2.z);
-                f.rotate(obj->rotation);
-                f.add(obj->position);
+                f.rotate(*obj->rotation);
+                f.add(*obj->position);
                 Vector3D g = Vector3D(m1.x, m2.y, m2.z);
-                g.rotate(obj->rotation);
-                g.add(obj->position);
+                g.rotate(*obj->rotation);
+                g.add(*obj->position);
                 Vector3D h = Vector3D(m2.x, m2.y, m2.z);
-                h.rotate(obj->rotation);
-                h.add(obj->position);
+                h.rotate(*obj->rotation);
+                h.add(*obj->position);
 
                 this->box_size1.min(a);
                 this->box_size1.min(b);

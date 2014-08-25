@@ -240,15 +240,15 @@ struct load_return *load_oxy3d(const char *path, struct load_return *ret)
                     }
                     else if(strcmp(o_node->name, "position") == 0)
                     {
-                        _parse_vector(o_node, &obj->position);
+                        _parse_vector(o_node, obj->position);
                     }
                     else if(strcmp(o_node->name, "rotation") == 0)
                     {
-                        _parse_vector(o_node, &obj->rotation);
+                        _parse_vector(o_node, obj->rotation);
                     }
                     else if(strcmp(o_node->name, "scaling") == 0)
                     {
-                        _parse_vector(o_node, &obj->scaling);
+                        _parse_vector(o_node, obj->scaling);
                     }
 
                     o_entry = o_entry->getNext();

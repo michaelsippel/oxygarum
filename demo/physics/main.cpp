@@ -38,13 +38,13 @@ int main(int argc, char **argv)
     Scene *scene = new Scene();
     scene->base_node->objects3D->join(ret->objects);
 
-    //Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
-    //light->move(Vector3D(4.0f, 4.0f, 0.0f));
-    //scene->base_node->lights->add(light);
+    Light *light = new Light(GL_LIGHT0, Color(1.0f, 1.0f, 1.0f, 1.0f));
+    light->move(Vector3D(4.0f, 4.0f, 0.0f));
+    scene->base_node->lights->add(light);
 
     Camera *cam = new Camera(window, scene, Viewport(0, 0, window->getWidth(), window->getHeight()));
-    cam->position = Vector3D(0.0f, -2.0f, 0.0f);
-    cam->rotation = Vector3D(0.0f, 0.0f, 0.0f);
+    cam->position = new Vector3D(0.0f, -2.0f, 0.0f);
+    cam->rotation = new Vector3D(0.0f, 0.0f, 0.0f);
     cam->fov = 90.0f;
 
     scene->base_node->calcVolumeBox();
@@ -57,21 +57,20 @@ int main(int argc, char **argv)
     //pc->fields->add(gravity);
 
     cube1 = new PhysicsObject();
-    cube1->trans = ret->objects->getElement("cube1");
+    cube1->parent(ret->objects->getElement("cube1"));
 
     cube2 = new PhysicsObject();
-    cube2->trans = ret->objects->getElement("cube2");
+    cube2->parent(ret->objects->getElement("cube2"));
 
     ball1 = new PhysicsObject();
-    ball1->trans = ret->objects->getElement("ball1");
     ball1->collision = new BoundingSphere(1.0f);
-    ball1->collision->trans = ball1->trans;
+    ball1->parent(ret->objects->getElement("ball1"));
+    ball1->collision->parent(ret->objects->getElement("ball1"));
 
     ball2 = new PhysicsObject();
-    ball2->trans = ret->objects->getElement("ball2");
     ball2->collision = new BoundingSphere(1.0f);
-    ball2->collision->trans = ball2->trans;
-
+    ball2->parent(ret->objects->getElement("ball2"));
+    ball2->collision->parent(ret->objects->getElement("ball2"));
 
     pc->objects->add(cube1);
     pc->objects->add(cube2);

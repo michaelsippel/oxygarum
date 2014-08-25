@@ -24,12 +24,7 @@ namespace oxygarum
 
 bool check_collision(CollisionObject *obj1, CollisionObject *obj2)
 {
-    if(obj1->trans == NULL || obj2->trans == NULL)
-    {
-        return false;
-    }
-
-    Vector3D axis = Vector3D(obj1->trans->position, obj2->trans->position);
+    Vector3D axis = Vector3D(*obj1->position, *obj2->position);
     axis.normalize();
 
     Vector2D d1 = obj1->get_distance(axis);
@@ -67,7 +62,7 @@ CollisionPoint::~CollisionPoint()
 
 Vector2D CollisionPoint::get_distance(Vector3D axis)
 {
-    float projection = axis.scalar(this->trans->position);
+    float projection = axis.scalar(*this->position);
     Vector2D dist = Vector2D(projection-0.05, projection+0.05);
 
     return dist;
@@ -89,7 +84,7 @@ BoundingSphere::~BoundingSphere()
 
 Vector2D BoundingSphere::get_distance(Vector3D axis)
 {
-    float projection = axis.scalar(this->trans->position);
+    float projection = axis.scalar(*this->position);
     Vector2D dist = Vector2D(projection-radius, projection+radius);
 
     return dist;

@@ -32,47 +32,42 @@ namespace oxygarum
  */
 Camera::Camera()
 {
+    Transformation3D();
     this->window = new SDLWindow();
     this->scene = new Scene();
     this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
-    this->position = Vector3D();
-    this->rotation = Vector3D();
     this->fov = 45.0f;
 }
 
 Camera::Camera(SDLWindow *window_)
     : window(window_)
 {
+    Transformation3D();
     this->scene = new Scene();
     this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
-    this->position = Vector3D();
-    this->rotation = Vector3D();
     this->fov = 45.0f;
 }
 
 Camera::Camera(SDLWindow *window_, Scene *scene_)
     : window(window_), scene(scene_)
 {
+    Transformation3D();
     this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
-    this->position = Vector3D();
-    this->rotation = Vector3D();
     this->fov = 45.0f;
 }
 
 Camera::Camera(SDLWindow *window_, Scene *scene_, Viewport viewport_)
     : window(window_), scene(scene_), viewport(viewport_)
 {
-    this->position = Vector3D();
-    this->rotation = Vector3D();
+    Transformation3D();
     this->fov = 45.0f;
 }
 
 Camera::Camera(SDLWindow *window_, Transformation3D transform)
     : window(window_)
 {
+    Transformation3D(transform.position, transform.rotation, transform.scaling);
     this->scene = new Scene();
-    this->position = transform.position;
-    this->rotation = transform.rotation;
     this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
     this->fov = 45.0f;
 }
@@ -80,9 +75,8 @@ Camera::Camera(SDLWindow *window_, Transformation3D transform)
 Camera::Camera(SDLWindow *window_, Vector3D position_)
     : window(window_)
 {
+    Transformation3D(position_, Vector3D());
     this->scene = new Scene();
-    this->position = position_;
-    this->rotation = Vector3D();
     this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
     this->fov = 45.0f;
 }
@@ -90,9 +84,8 @@ Camera::Camera(SDLWindow *window_, Vector3D position_)
 Camera::Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_)
     : window(window_)
 {
+    Transformation3D(position_, rotation_);
     this->scene = new Scene();
-    this->position = position_;
-    this->rotation = rotation_;
     this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
     this->fov = 45.0f;
 }
@@ -100,9 +93,8 @@ Camera::Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_)
 Camera::Camera(SDLWindow *window_, Vector3D position_, Vector3D rotation_, float fov_)
     : window(window_), fov(fov_)
 {
+    Transformation3D(position_, rotation_);
     this->scene = new Scene();
-    this->position = position_;
-    this->rotation = rotation_;
     this->viewport = Viewport(0, 0, window->getWidth(), window->getHeight());
 }
 

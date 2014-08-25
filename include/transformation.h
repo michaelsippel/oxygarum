@@ -25,6 +25,7 @@
 #define _TRANSFORMATION_H
 
 #include "vector.h"
+#include <list.h>
 
 namespace oxygarum
 {
@@ -37,13 +38,15 @@ class Transformation3D
 {
     public:
         Transformation3D();
+        Transformation3D(Vector3D *position_, Vector3D *rotation_);
+        Transformation3D(Vector3D *position_, Vector3D *rotation_, Vector3D *scaling_);
         Transformation3D(Vector3D position_, Vector3D rotation_);
         Transformation3D(Vector3D position_, Vector3D rotation_, Vector3D scaling_);
         ~Transformation3D();
 
-        Vector3D position;
-        Vector3D rotation;
-        Vector3D scaling;
+        Vector3D *position;
+        Vector3D *rotation;
+        Vector3D *scaling;
 
         void setPosition(Vector3D position_);
         void setRotation(Vector3D rotation_);
@@ -56,6 +59,11 @@ class Transformation3D
         void scale(float x_);
 
         void useTransformation(void);
+
+        void parent(Transformation3D *parent_);
+        void parent_position(Transformation3D *parent_);
+        void parent_rotation(Transformation3D *parent_);
+        void parent_scaling(Transformation3D *parent_);
 };
 
 /**

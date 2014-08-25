@@ -50,13 +50,11 @@ enum collision_type
     MESH
 };
 
-class CollisionObject
+class CollisionObject : public Transformation3D
 {
     public:
         CollisionObject();
         ~CollisionObject();
-
-        Transformation3D *trans;
 
         virtual Vector2D get_distance(Vector3D axis);
 };
@@ -82,13 +80,12 @@ class BoundingSphere : public CollisionObject
         Vector2D get_distance(Vector3D axis);
 };
 
-class PhysicsObject
+class PhysicsObject : public Transformation3D
 {
     public:
         PhysicsObject();
         ~PhysicsObject();
 
-        Transformation3D *trans;
         CollisionObject *collision;
         Vector3D velocity;
 
