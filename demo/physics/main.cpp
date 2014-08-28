@@ -47,8 +47,6 @@ int main(int argc, char **argv)
     cam->rotation = new Vector3D(0.0f, 0.0f, 0.0f);
     cam->fov = 90.0f;
 
-    scene->base_node->calcVolumeBox();
-
     PhysicsContext *pc = new PhysicsContext();
 
     ForceField *gravity = new ForceField();
@@ -63,12 +61,12 @@ int main(int argc, char **argv)
     cube2->parent(ret->objects->getElement("cube2"));
 
     ball1 = new PhysicsObject();
-    ball1->collision = new BoundingSphere(1.0f);
+    ball1->collision = new BoundingSphere(1.0f, ball1);
     ball1->parent(ret->objects->getElement("ball1"));
     ball1->collision->parent(ret->objects->getElement("ball1"));
 
     ball2 = new PhysicsObject();
-    ball2->collision = new BoundingSphere(1.0f);
+    ball2->collision = new BoundingSphere(1.0f, ball2);
     ball2->parent(ret->objects->getElement("ball2"));
     ball2->collision->parent(ret->objects->getElement("ball2"));
 
@@ -77,11 +75,16 @@ int main(int argc, char **argv)
     pc->objects->add(ball1);
     pc->objects->add(ball2);
 
+	pc->collisions->add(ball1->collision);
+	pc->collisions->add(ball2->collision);
+
     // main loop
     while(1)
     {
         // handle events
         window->poll_events();
+
+    	scene->base_node->calcVolumeBox();
 
         // render
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

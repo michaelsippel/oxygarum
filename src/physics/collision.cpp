@@ -38,8 +38,29 @@ bool check_collision(CollisionObject *obj1, CollisionObject *obj2)
     return false;
 }
 
+void handle_collision(CollisionObject *obj1, CollisionObject *obj2)
+{
+	if(obj1->body != NULL)
+	{
+		// take impulse
+		if(obj2->body != NULL)
+		{
+			obj2->body->velocity.add(obj1->body->velocity);
+		}
+		obj1->body->velocity = Vector3D();
+	}
+}
+
 CollisionObject::CollisionObject()
 {
+	this->body = NULL;
+	this->collisions = new List<CollisionObject>();
+}
+
+CollisionObject::CollisionObject(PhysicsObject *body_)
+: body(body_)
+{
+	this->collisions = new List<CollisionObject>();
 }
 
 CollisionObject::~CollisionObject()
@@ -54,6 +75,7 @@ Vector2D CollisionObject::get_distance(Vector3D axis)
 //Point
 CollisionPoint::CollisionPoint()
 {
+	CollisionObject();
 }
 
 CollisionPoint::~CollisionPoint()
@@ -68,13 +90,20 @@ Vector2D CollisionPoint::get_distance(Vector3D axis)
     return dist;
 }
 
-//sphere
+//Sphere
 BoundingSphere::BoundingSphere()
 {
+	CollisionObject();
 }
 
 BoundingSphere::BoundingSphere(float radius_)
     : radius(radius_)
+{
+	CollisionObject();
+}
+
+BoundingSphere::BoundingSphere(float radius_, PhysicsObject *body_)
+    : CollisionObject(body_), radius(radius_)
 {
 }
 

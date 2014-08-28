@@ -31,6 +31,8 @@
 namespace oxygarum
 {
 
+class PhysicsObject;
+
 class ForceField
 {
     public:
@@ -54,7 +56,11 @@ class CollisionObject : public Transformation3D
 {
     public:
         CollisionObject();
+        CollisionObject(PhysicsObject *body_);
         ~CollisionObject();
+
+		PhysicsObject *body;
+		List<CollisionObject> *collisions;
 
         virtual Vector2D get_distance(Vector3D axis);
 };
@@ -73,6 +79,7 @@ class BoundingSphere : public CollisionObject
     public:
         BoundingSphere();
         BoundingSphere(float radius_);
+        BoundingSphere(float radius_, PhysicsObject *body_);
         ~BoundingSphere();
 
         float radius;
@@ -100,12 +107,14 @@ class PhysicsContext
         ~PhysicsContext();
 
         List<PhysicsObject> *objects;
+		List<CollisionObject> *collisions;
         List<ForceField> *fields;
 
         void update(float speed);
 };
 
 bool check_collision(CollisionObject *obj1, CollisionObject *obj2);
+void handle_collision(CollisionObject *obj1, CollisionObject *obj2);
 
 };
 

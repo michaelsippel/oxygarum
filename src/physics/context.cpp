@@ -25,46 +25,66 @@ namespace oxygarum
 PhysicsContext::PhysicsContext()
 {
     this->objects = new List<PhysicsObject>();
+	this->collisions = new List<CollisionObject>();
     this->fields = new List<ForceField>();
 }
 
 PhysicsContext::~PhysicsContext()
 {
     delete this->objects;
+	delete this->collisions;
     delete this->fields;
 }
 
 void PhysicsContext::update(float speed)
 {
+	// check all combinations of collisions
+    ListEntry<CollisionObject> *c1_entry = collisions->getHead();
+    while(c1_entry != NULL)
+    {
+		ListEntry<CollisionObject> *c2_entry = c1_entry->getNext();
+		while(c2_entry != NULL)
+		{
+		    if(c1_entry->element != NULL && c2_entry->element != NULL)
+		    {
+		        CollisionObject *obj1 = c1_entry->element;
+		        CollisionObject *obj2 = c2_entry->element;
+
+		        if(check_collision(obj1, obj2))
+		        {
+					if(obj1->collisions->isContained(obj2) == NULL)
+					{
+						handle_collision(obj1, obj2);
+					}
+
+					if(obj2->collisions->isContained(obj1) == NULL)
+					{
+						handle_collision(obj2, obj1);
+					}
+
+					obj1->collisions->add(obj2);
+					obj2->collisions->add(obj1);
+				}
+				else
+				{
+					ListEntry<CollisionObject> *e1 = obj1->collisions->isContained(obj2);
+					ListEntry<CollisionObject> *e2 = obj2->collisions->isContained(obj1);
+					if(e1 != NULL) obj1->collisions->remove(e1);
+					if(e2 != NULL) obj2->collisions->remove(e2);
+				}
+		    }
+		    c2_entry = c2_entry->getNext();
+		}
+		c1_entry = c1_entry->getNext();
+    }
+    
+	// move objects
     ListEntry<PhysicsObject> *entry = this->objects->getHead();
     while(entry != NULL)
     {
         PhysicsObject *obj = entry->element;
         if(obj != NULL)
         {
-            bool collide = 0;
-            ListEntry<PhysicsObject> *centry = this->objects->getHead();
-            while(centry != NULL)
-            {
-                if(centry != entry)
-                {
-                    PhysicsObject *cobj = centry->element;
-                    if(cobj != NULL)
-                    {
-                        if(cobj->collision != NULL && obj->collision != NULL)
-                        {
-                            // check collision
-                            if(check_collision(cobj->collision, obj->collision))
-                            {
-                                collide = 1;
-                                break;
-                            }
-                        }
-                    }
-                }
-                centry = centry->getNext();
-            }
-
             ListEntry<ForceField> *f_entry = this->fields->getHead();
             while(f_entry != NULL)
             {
@@ -72,18 +92,12 @@ void PhysicsContext::update(float speed)
                 Vector3D v = field->velocity;
                 v.mul(speed);
 
-                if(!collide)
-                {
-                    obj->push(v);
-                }
+                obj->push(v);
 
                 f_entry = f_entry->getNext();
             }
 
-            if(!collide)
-            {
-                obj->update(speed);
-            }
+            obj->update(speed);
         }
 
         entry = entry->getNext();

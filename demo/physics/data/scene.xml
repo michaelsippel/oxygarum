@@ -42,15 +42,14 @@
 </object>
 
 <object name="ball1">
-	<position x="0.0f" y="1.0f" z="-5.0f"></position>
+	<position x="0.0f" y="2.0f" z="-5.0f"></position>
 	<mesh>Sphere</mesh>
 	<material>ball1_mat</material>
 </object>
 
 <object name="ball2">
-	<position x="-4.0f" y="2.0f" z="-5.0f"></position>
+	<position x="-6.0f" y="2.0f" z="-5.0f"></position>
 	<mesh>Sphere</mesh>
 	<material>ball2_mat</material>
 </object>
-
 

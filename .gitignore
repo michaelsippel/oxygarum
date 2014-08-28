@@ -18,6 +18,7 @@ demo/cube/cube
 demo/pong/pong
 demo/gui/gui
 demo/particle/particle
+demo/physics/physics
 .gitignore~
 makefile~
 makefile.linux~
