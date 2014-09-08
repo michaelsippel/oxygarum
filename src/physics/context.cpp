@@ -25,66 +25,60 @@ namespace oxygarum
 PhysicsContext::PhysicsContext()
 {
     this->objects = new List<PhysicsObject>();
-	this->collisions = new List<CollisionObject>();
+    this->collisions = new List<CollisionObject>();
     this->fields = new List<ForceField>();
 }
 
 PhysicsContext::~PhysicsContext()
 {
     delete this->objects;
-	delete this->collisions;
+    delete this->collisions;
     delete this->fields;
 }
 
 void PhysicsContext::update(float speed)
 {
-	// check all combinations of collisions
+    // check all combinations of collisions
     ListEntry<CollisionObject> *c1_entry = collisions->getHead();
     while(c1_entry != NULL)
     {
-		ListEntry<CollisionObject> *c2_entry = c1_entry->getNext();
-		while(c2_entry != NULL)
-		{
-		    if(c1_entry->element != NULL && c2_entry->element != NULL)
-		    {
-		        CollisionObject *obj1 = c1_entry->element;
-		        CollisionObject *obj2 = c2_entry->element;
+        ListEntry<CollisionObject> *c2_entry = c1_entry->getNext();
+        while(c2_entry != NULL)
+        {
+            if(c1_entry->element != NULL && c2_entry->element != NULL)
+            {
+                CollisionObject *obj1 = c1_entry->element;
+                CollisionObject *obj2 = c2_entry->element;
 
-		        if(check_collision(obj1, obj2))
-		        {
-					Vector3D p1 = Vector3D();
-					Vector3D p2 = Vector3D();
+                if(check_collision(obj1, obj2))
+                {
+                    if(obj1->collisions->isContained(obj2) == NULL)
+                    {
+                        handle_collision(obj1, obj2);
+                    }
 
-					if(obj1->collisions->isContained(obj2) == NULL)
-					{
-						p2 = handle_collision(obj1, obj2);
-					}
+                    if(obj2->collisions->isContained(obj1) == NULL)
+                    {
+                        handle_collision(obj2, obj1);
+                    }
 
-					if(obj2->collisions->isContained(obj1) == NULL)
-					{
-						p1 = handle_collision(obj2, obj1);
-					}
-					
-					if(obj1->body != NULL) obj1->body->push(p1);
-					if(obj2->body != NULL) obj2->body->push(p2);
-
-					obj1->collisions->add(obj2);
-					obj2->collisions->add(obj1);
-				}
-				else
-				{
-					ListEntry<CollisionObject> *e1 = obj1->collisions->isContained(obj2);
-					ListEntry<CollisionObject> *e2 = obj2->collisions->isContained(obj1);
-					if(e1 != NULL) obj1->collisions->remove(e1);
-					if(e2 != NULL) obj2->collisions->remove(e2);
-				}
-		    }
-		    c2_entry = c2_entry->getNext();
-		}
-		c1_entry = c1_entry->getNext();
+                    obj1->collisions->add(obj2);
+                    obj2->collisions->add(obj1);
+                }
+                else
+                {
+                    ListEntry<CollisionObject> *e1 = obj1->collisions->isContained(obj2);
+                    ListEntry<CollisionObject> *e2 = obj2->collisions->isContained(obj1);
+                    if(e1 != NULL) obj1->collisions->remove(e1);
+                    if(e2 != NULL) obj2->collisions->remove(e2);
+                }
+            }
+            c2_entry = c2_entry->getNext();
+        }
+        c1_entry = c1_entry->getNext();
     }
-    
-	// move objects
+
+    // move objects
     ListEntry<PhysicsObject> *entry = this->objects->getHead();
     while(entry != NULL)
     {

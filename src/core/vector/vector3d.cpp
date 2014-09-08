@@ -52,21 +52,21 @@ void Vector3D::normalize(void)
 {
     float len = this->length();
 
-	if(len != 0.0f)
-	{
-    	this->x /= len;
-    	this->y /= len;
-    	this->z /= len;
-	}
+    if(len != 0.0f)
+    {
+        this->x /= len;
+        this->y /= len;
+        this->z /= len;
+    }
 }
 
 float Vector3D::length(void)
 {
     return sqrt(
-                    this->x * this->x +
-                    this->y * this->y +
-                    this->z * this->z
-                );
+               this->x * this->x +
+               this->y * this->y +
+               this->z * this->z
+           );
 }
 
 void Vector3D::add(Vector3D v)
@@ -130,11 +130,11 @@ void Vector3D::div(float x_)
 
 void Vector3D::reflect(Vector3D normal)
 {
-	Vector3D a = *this;
-	double product = a.dot(normal);
-	this->x = a.x - 2 * normal.x * product;
-	this->y = a.y - 2 * normal.y * product;
-	this->z = a.z - 2 * normal.z * product;
+    Vector3D a = *this;
+    double product = a.dot(normal);
+    this->x = a.x - 2 * normal.x * product;
+    this->y = a.y - 2 * normal.y * product;
+    this->z = a.z - 2 * normal.z * product;
 }
 
 void Vector3D::rotate(Vector3D v)

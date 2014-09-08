@@ -41,7 +41,7 @@ class Vector3D
         float x, y, z;
 
         void normalize(void);
-		float length(void);
+        float length(void);
 
         void add(Vector3D v);
         void add(float x_);
@@ -53,8 +53,8 @@ class Vector3D
         void div(float x_);
 
         void rotate(Vector3D v);
-		void scale(float x_);
-		void reflect(Vector3D normal);
+        void scale(float x_);
+        void reflect(Vector3D normal);
 
         float dot(Vector3D v);
         void cross(Vector3D v);

@@ -40,58 +40,51 @@ bool check_collision(CollisionObject *obj1, CollisionObject *obj2)
     return false;
 }
 
-Vector3D handle_collision(CollisionObject *obj1, CollisionObject *obj2)
+void handle_collision(CollisionObject *obj1, CollisionObject *obj2)
 {
-	/**
-	 * obj1 is the actor:
-	 *     - gives his impulse to obj2
+    /**
+     * obj1 is the actor:
+     *     - gives his impulse to obj2
      *     - reflects on obj2
-     * obj2 is passive: 
+     * obj2 is passive:
      *     - it will be pushed by obj1
      */
 
-	Vector3D ivec = Vector3D();
+    if(obj1->body != NULL)
+    {
+        Vector3D normal = obj2->get_normal(*obj1->position);
+        Vector3D dir = obj1->body->velocity;
+        dir.normalize();
 
-	if(obj1->body != NULL)
-	{
-		Vector3D normal = obj2->get_normal(*obj1->position);
-		Vector3D dir = obj1->body->velocity;
-		dir.normalize();
+        float impulse = -obj1->body->velocity.length();
 
-		float impulse = -obj1->body->velocity.length();
+        Vector3D diff = Vector3D(normal, dir);
+        float split_a = diff.length() * 0.5f;
+        float split_b = split_a - 1.0;
 
-		printf("COLLISION:\n\tactor impulse: %f\n", impulse);
+        // give impulse to obj2
+        Vector3D ivec = normal;
+        ivec.mul(impulse * split_a);
+        obj2->body->push(ivec);
 
-		Vector3D diff = Vector3D(normal, dir);
-		float split_a = diff.length() * 0.5f;
-		float split_b = split_a - 1.0;
-
-		printf("\tsplit: %f ... %f\n", split_a, split_b);
-
-		// give impulse to obj2
-		ivec = normal;
-		ivec.mul(impulse * split_a);
-
-		// reflection
-		normal.mul(-1.0f);
-		obj1->body->velocity = Vector3D(normal, dir);
-		obj1->body->velocity.normalize();
-		obj1->body->velocity.mul(impulse * split_b);
-	}
-
-	return ivec;
+        // reflection
+        normal.mul(-1.0f);
+        obj1->body->velocity = Vector3D(normal, dir);
+        obj1->body->velocity.normalize();
+        obj1->body->velocity.mul(impulse * split_b);
+    }
 }
 
 CollisionObject::CollisionObject()
 {
-	this->body = NULL;
-	this->collisions = new List<CollisionObject>();
+    this->body = NULL;
+    this->collisions = new List<CollisionObject>();
 }
 
 CollisionObject::CollisionObject(PhysicsObject *body_)
-: body(body_)
+    : body(body_)
 {
-	this->collisions = new List<CollisionObject>();
+    this->collisions = new List<CollisionObject>();
 }
 
 CollisionObject::~CollisionObject()
@@ -112,7 +105,7 @@ Vector3D CollisionObject::get_normal(Vector3D pos)
 //Point
 CollisionPoint::CollisionPoint()
 {
-	CollisionObject();
+    CollisionObject();
 }
 
 CollisionPoint::~CollisionPoint()
@@ -130,21 +123,21 @@ Vector2D CollisionPoint::get_distance(Vector3D axis)
 Vector3D CollisionPoint::get_normal(Vector3D pos)
 {
     Vector3D normal = Vector3D(*this->position, pos);
-	normal.normalize();
+    normal.normalize();
 
-	return normal;
+    return normal;
 }
 
 //Sphere
 BoundingSphere::BoundingSphere()
 {
-	CollisionObject();
+    CollisionObject();
 }
 
 BoundingSphere::BoundingSphere(float radius_)
     : radius(radius_)
 {
-	CollisionObject();
+    CollisionObject();
 }
 
 BoundingSphere::BoundingSphere(float radius_, PhysicsObject *body_)
@@ -167,9 +160,9 @@ Vector2D BoundingSphere::get_distance(Vector3D axis)
 Vector3D BoundingSphere::get_normal(Vector3D pos)
 {
     Vector3D normal = Vector3D(*this->position, pos);
-	normal.normalize();
+    normal.normalize();
 
-	return normal;
+    return normal;
 }
 
 

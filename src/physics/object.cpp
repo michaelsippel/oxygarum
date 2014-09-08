@@ -34,6 +34,9 @@ PhysicsObject::~PhysicsObject()
 
 void PhysicsObject::update(float speed)
 {
+    this->velocity.add(this->unpaid_force);
+    this->unpaid_force = Vector3D();
+
     Vector3D v = this->velocity;
 
     v.mul(speed);
@@ -42,12 +45,12 @@ void PhysicsObject::update(float speed)
 
 void PhysicsObject::push(Vector3D v)
 {
-    this->velocity.add(v);
+    this->unpaid_force.add(v);
 }
 
 void PhysicsObject::pull(Vector3D v)
 {
-    this->velocity.sub(v);
+    this->unpaid_force.sub(v);
 }
 
 };

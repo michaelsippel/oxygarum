@@ -75,16 +75,16 @@ int main(int argc, char **argv)
     pc->objects->add(ball1);
     pc->objects->add(ball2);
 
-	pc->collisions->add(ball1->collision);
-	pc->collisions->add(ball2->collision);
-	
+    pc->collisions->add(ball1->collision);
+    pc->collisions->add(ball2->collision);
+
     // main loop
     while(1)
     {
         // handle events
         window->poll_events();
 
-    	//scene->base_node->calcVolumeBox();
+        //scene->base_node->calcVolumeBox();
 
         // render
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
