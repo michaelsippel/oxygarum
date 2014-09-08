@@ -50,15 +50,23 @@ Vector3D::~Vector3D()
 
 void Vector3D::normalize(void)
 {
-    float len = sqrt(
+    float len = this->length();
+
+	if(len != 0.0f)
+	{
+    	this->x /= len;
+    	this->y /= len;
+    	this->z /= len;
+	}
+}
+
+float Vector3D::length(void)
+{
+    return sqrt(
                     this->x * this->x +
                     this->y * this->y +
                     this->z * this->z
                 );
-
-    this->x /= len;
-    this->y /= len;
-    this->z /= len;
 }
 
 void Vector3D::add(Vector3D v)
@@ -105,19 +113,28 @@ void Vector3D::mul(float x_)
 
 void Vector3D::div(Vector3D v)
 {
-    if(v.x > 0.0f) this->x /= v.x;
-    if(v.y > 0.0f) this->y /= v.y;
-    if(v.z > 0.0f) this->z /= v.z;
+    if(v.x != 0.0f) this->x /= v.x;
+    if(v.y != 0.0f) this->y /= v.y;
+    if(v.z != 0.0f) this->z /= v.z;
 }
 
 void Vector3D::div(float x_)
 {
-    if(x_ > 0.0f)
+    if(x_ != 0.0f)
     {
         this->x /= x_;
         this->y /= x_;
         this->z /= x_;
     }
+}
+
+void Vector3D::reflect(Vector3D normal)
+{
+	Vector3D a = *this;
+	double product = a.dot(normal);
+	this->x = a.x - 2 * normal.x * product;
+	this->y = a.y - 2 * normal.y * product;
+	this->z = a.z - 2 * normal.z * product;
 }
 
 void Vector3D::rotate(Vector3D v)
@@ -155,7 +172,7 @@ void Vector3D::rotate(Vector3D v)
     *this = rotX;
 }
 
-float Vector3D::scalar(Vector3D v)
+float Vector3D::dot(Vector3D v)
 {
     return (
                this->x * v.x +
@@ -163,16 +180,16 @@ float Vector3D::scalar(Vector3D v)
                this->z * v.z);
 }
 
-void Vector3D::dot(Vector3D v1, Vector3D v2)
+void Vector3D::cross(Vector3D v1, Vector3D v2)
 {
     this->x = (v1.y * v2.z) - (v1.z * v2.y);
     this->y = (v1.z * v2.x) - (v1.x * v2.z);
     this->z = (v1.x * v2.y) - (v1.y * v2.x);
 }
 
-void Vector3D::dot(Vector3D v)
+void Vector3D::cross(Vector3D v)
 {
-    this->dot(*this, v);
+    this->cross(*this, v);
 }
 
 void Vector3D::min(Vector3D v)

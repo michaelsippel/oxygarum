@@ -59,10 +59,13 @@ class CollisionObject : public Transformation3D
         CollisionObject(PhysicsObject *body_);
         ~CollisionObject();
 
+		static const enum collision_type type = NONE;
+
 		PhysicsObject *body;
 		List<CollisionObject> *collisions;
 
         virtual Vector2D get_distance(Vector3D axis);
+		virtual Vector3D get_normal(Vector3D pos);
 };
 
 class CollisionPoint : public CollisionObject
@@ -71,7 +74,10 @@ class CollisionPoint : public CollisionObject
         CollisionPoint();
         ~CollisionPoint();
 
+		static const enum collision_type type = POINT;
+
         Vector2D get_distance(Vector3D axis);
+		Vector3D get_normal(Vector3D pos);
 };
 
 class BoundingSphere : public CollisionObject
@@ -82,9 +88,12 @@ class BoundingSphere : public CollisionObject
         BoundingSphere(float radius_, PhysicsObject *body_);
         ~BoundingSphere();
 
+		static const enum collision_type type = BOUNDING_SPHERE;
+
         float radius;
 
         Vector2D get_distance(Vector3D axis);
+		Vector3D get_normal(Vector3D pos);
 };
 
 class PhysicsObject : public Transformation3D
@@ -98,6 +107,7 @@ class PhysicsObject : public Transformation3D
 
         void update(float speed);
         void push(Vector3D v);
+        void pull(Vector3D v);
 };
 
 class PhysicsContext
@@ -114,7 +124,7 @@ class PhysicsContext
 };
 
 bool check_collision(CollisionObject *obj1, CollisionObject *obj2);
-void handle_collision(CollisionObject *obj1, CollisionObject *obj2);
+Vector3D handle_collision(CollisionObject *obj1, CollisionObject *obj2);
 
 };
 

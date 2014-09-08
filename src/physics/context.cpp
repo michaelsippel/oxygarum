@@ -52,15 +52,21 @@ void PhysicsContext::update(float speed)
 
 		        if(check_collision(obj1, obj2))
 		        {
+					Vector3D p1 = Vector3D();
+					Vector3D p2 = Vector3D();
+
 					if(obj1->collisions->isContained(obj2) == NULL)
 					{
-						handle_collision(obj1, obj2);
+						p2 = handle_collision(obj1, obj2);
 					}
 
 					if(obj2->collisions->isContained(obj1) == NULL)
 					{
-						handle_collision(obj2, obj1);
+						p1 = handle_collision(obj2, obj1);
 					}
+					
+					if(obj1->body != NULL) obj1->body->push(p1);
+					if(obj2->body != NULL) obj2->body->push(p2);
 
 					obj1->collisions->add(obj2);
 					obj2->collisions->add(obj1);

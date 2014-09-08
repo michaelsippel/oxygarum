@@ -83,7 +83,7 @@ void Mesh3D::calc_normals(void)
         Vector3D edge1 = Vector3D(this->vertices[face->vertices[0]], this->vertices[face->vertices[1]]);
         Vector3D edge2 = Vector3D(this->vertices[face->vertices[1]], this->vertices[face->vertices[2]]);
 
-        face->normal.dot(edge1, edge2);
+        face->normal.cross(edge1, edge2);
         face->normal.normalize();
 
         for(j = 0; j < face->num_vertices; j++)

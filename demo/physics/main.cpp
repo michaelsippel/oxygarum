@@ -19,7 +19,7 @@ PhysicsObject *ball2;
 
 void key(int argc, void **argv)
 {
-    ball2->push(Vector3D(1.0f, 0.0f, 0.0f));
+    ball2->push(Vector3D(2.0f, 0.0f, 0.0f));
 }
 
 int main(int argc, char **argv)
@@ -77,14 +77,14 @@ int main(int argc, char **argv)
 
 	pc->collisions->add(ball1->collision);
 	pc->collisions->add(ball2->collision);
-
+	
     // main loop
     while(1)
     {
         // handle events
         window->poll_events();
 
-    	scene->base_node->calcVolumeBox();
+    	//scene->base_node->calcVolumeBox();
 
         // render
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -45,5 +45,10 @@ void PhysicsObject::push(Vector3D v)
     this->velocity.add(v);
 }
 
+void PhysicsObject::pull(Vector3D v)
+{
+    this->velocity.sub(v);
+}
+
 };
 

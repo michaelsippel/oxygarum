@@ -81,21 +81,21 @@ void Vector2D::sub(float x_)
     this->y -= x_;
 }
 
-float Vector2D::scalar(Vector2D v)
+float Vector2D::dot(Vector2D v)
 {
     return (this->x * v.x +
             this->y * v.y);
 }
 
-void Vector2D::dot(Vector2D v1, Vector2D v2)
+void Vector2D::cross(Vector2D v1, Vector2D v2)
 {
     this->x = (v1.y * v2.x) - (v1.x * v2.y);
     this->y = (v1.x * v2.y) - (v1.y * v2.x);
 }
 
-void Vector2D::dot(Vector2D v)
+void Vector2D::cross(Vector2D v)
 {
-    this->dot(*this, v);
+    this->cross(*this, v);
 }
 
 };

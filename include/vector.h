@@ -41,6 +41,7 @@ class Vector3D
         float x, y, z;
 
         void normalize(void);
+		float length(void);
 
         void add(Vector3D v);
         void add(float x_);
@@ -52,10 +53,12 @@ class Vector3D
         void div(float x_);
 
         void rotate(Vector3D v);
+		void scale(float x_);
+		void reflect(Vector3D normal);
 
-        float scalar(Vector3D v);
-        void dot(Vector3D v);
-        void dot(Vector3D v1, Vector3D v2);
+        float dot(Vector3D v);
+        void cross(Vector3D v);
+        void cross(Vector3D v1, Vector3D v2);
 
         void min(Vector3D v);
         void max(Vector3D v);
@@ -82,9 +85,9 @@ class Vector2D
         void div(Vector2D v);
         void div(float x_);
 
-        float scalar(Vector2D v);
-        void dot(Vector2D v);
-        void dot(Vector2D v1, Vector2D v2);
+        float dot(Vector2D v);
+        void cross(Vector2D v);
+        void cross(Vector2D v1, Vector2D v2);
 };
 
 };
