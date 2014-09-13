@@ -27,6 +27,7 @@
 #include <list.h>
 #include "object.h"
 #include "vector.h"
+#include "volumebox.h"
 
 namespace oxygarum
 {
@@ -66,6 +67,10 @@ class CollisionObject : public Transformation3D
 
         virtual Vector2D get_distance(Vector3D axis);
         virtual Vector3D get_normal(Vector3D pos);
+
+    protected:
+        Vector2D dist;
+        void point_projection(Vector3D axis, Vector3D point);
 };
 
 class CollisionPoint : public CollisionObject
@@ -95,6 +100,19 @@ class BoundingSphere : public CollisionObject
         Vector2D get_distance(Vector3D axis);
         Vector3D get_normal(Vector3D pos);
 };
+
+class BoundingBox : public VolumeBox, public CollisionObject
+{
+    public:
+        BoundingBox();
+        ~BoundingBox();
+
+        static const enum collision_type type = BOUNDING_BOX;
+
+        Vector2D get_distance(Vector3D axis);
+        Vector3D get_normal(Vector3D pos);
+};
+
 
 class PhysicsObject : public Transformation3D
 {

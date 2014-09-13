@@ -70,13 +70,22 @@ int main(int argc, char **argv)
     ball2->parent(ret->objects->getElement("ball2"));
     ball2->collision->parent(ret->objects->getElement("ball2"));
 
-    pc->objects->add(cube1);
-    pc->objects->add(cube2);
+//    pc->objects->add(cube1);
+//    pc->objects->add(cube2);
     pc->objects->add(ball1);
     pc->objects->add(ball2);
 
     pc->collisions->add(ball1->collision);
+    ball1->pull(Vector3D(0.0f, 2.0f, 0.0f));
     pc->collisions->add(ball2->collision);
+    ball2->pull(Vector3D(0.0f, 1.0f, 0.0f));
+
+    BoundingBox *bb = new BoundingBox();
+    bb->box_size1 = Vector3D(-1.0f, -1.0f, -1.0f);
+    bb->box_size2 = Vector3D( 1.0f, 1.0f, 1.0f);
+    bb->move(Vector3D(0.0f, 0.0f, -5.0f));
+
+    pc->collisions->add(bb);
 
     // main loop
     while(1)
@@ -89,6 +98,9 @@ int main(int argc, char **argv)
         // render
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         cam->render();
+
+        bb->useTransformation();
+        bb->drawVolumeBox();
 
         // update
         float frametime = window->update();
