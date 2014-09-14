@@ -84,6 +84,7 @@ int main(int argc, char **argv)
     bb->box_size1 = Vector3D(-1.0f, -1.0f, -1.0f);
     bb->box_size2 = Vector3D( 1.0f, 1.0f, 1.0f);
     bb->move(Vector3D(0.0f, 0.0f, -5.0f));
+    bb->update_poly();
 
     pc->collisions->add(bb);
 

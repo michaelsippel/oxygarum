@@ -50,6 +50,7 @@ enum collision_type
     POINT,
     BOUNDING_SPHERE,
     BOUNDING_BOX,
+    POLYGON,
     MESH
 };
 
@@ -67,10 +68,7 @@ class CollisionObject : public Transformation3D
 
         virtual Vector2D get_distance(Vector3D axis);
         virtual Vector3D get_normal(Vector3D pos);
-
-    protected:
-        Vector2D dist;
-        void point_projection(Vector3D axis, Vector3D point);
+        virtual bool check_collision(CollisionObject *obj);
 };
 
 class CollisionPoint : public CollisionObject
@@ -101,7 +99,30 @@ class BoundingSphere : public CollisionObject
         Vector3D get_normal(Vector3D pos);
 };
 
-class BoundingBox : public VolumeBox, public CollisionObject
+class CollisionPolygon : public CollisionObject
+{
+    public:
+        CollisionPolygon();
+        CollisionPolygon(int num_vertices_, Vector3D *vertices_, int num_normals_, Vector3D *normals_);
+        CollisionPolygon(Face *face);
+        ~CollisionPolygon();
+
+        static const enum collision_type type = POLYGON;
+
+        Vector2D get_distance(Vector3D axis);
+        Vector3D get_normal(Vector3D pos);
+
+        bool check_collision(CollisionObject *obj);
+
+    protected:
+        int num_normals;
+        Vector3D *normals;
+
+        int num_vertices;
+        Vector3D *vertices;
+};
+
+class BoundingBox : public CollisionPolygon, public VolumeBox
 {
     public:
         BoundingBox();
@@ -109,8 +130,7 @@ class BoundingBox : public VolumeBox, public CollisionObject
 
         static const enum collision_type type = BOUNDING_BOX;
 
-        Vector2D get_distance(Vector3D axis);
-        Vector3D get_normal(Vector3D pos);
+        void update_poly(void);
 };
 
 

@@ -50,7 +50,7 @@ void PhysicsContext::update(float speed)
                 CollisionObject *obj1 = c1_entry->element;
                 CollisionObject *obj2 = c2_entry->element;
 
-                if(check_collision(obj1, obj2) && check_collision(obj2, obj1))
+                if(check_collision(obj1, obj2))
                 {
                     if(obj1->collisions->isContained(obj2) == NULL)
                     {

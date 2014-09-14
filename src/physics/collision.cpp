@@ -38,13 +38,19 @@ bool check_intersect(Vector2D d1, Vector2D d2)
 
 bool check_collision(CollisionObject *obj1, CollisionObject *obj2)
 {
-    Vector3D axis = Vector3D(*obj1->position, *obj2->position);
-    axis.normalize();
+    if(!obj1->check_collision(obj2))
+    {
+        return false;
+    }
 
-    Vector2D d1 = obj1->get_distance(axis);
-    Vector2D d2 = obj2->get_distance(axis);
+    if(!obj2->check_collision(obj1))
+    {
+        return false;
+    }
 
-    return check_intersect(d1, d2);
+    printf("collision!\n");
+
+    return true;
 }
 
 void handle_collision(CollisionObject *obj1, CollisionObject *obj2)
@@ -59,6 +65,8 @@ void handle_collision(CollisionObject *obj1, CollisionObject *obj2)
 
     if(obj1->body != NULL)
     {
+        obj1->body->velocity = Vector3D();
+        return;
         Vector3D normal = obj2->get_normal(*obj1->position);
         Vector3D dir = obj1->body->velocity;
         dir.normalize();
@@ -111,12 +119,15 @@ Vector3D CollisionObject::get_normal(Vector3D pos)
     return Vector3D();
 }
 
-void CollisionObject::point_projection(Vector3D axis, Vector3D point)
+bool CollisionObject::check_collision(CollisionObject *obj)
 {
-    float p = axis.dot(point);
+    Vector3D axis = Vector3D(*this->position, *obj->position);
+    axis.normalize();
 
-    if(p < this->dist.x) this->dist.x = p;
-    if(p > this->dist.y) this->dist.y = p;
+    Vector2D d1 = this->get_distance(axis);
+    Vector2D d2 = obj->get_distance(axis);
+
+    return check_intersect(d1, d2);
 }
 
 //Point
@@ -132,9 +143,9 @@ CollisionPoint::~CollisionPoint()
 Vector2D CollisionPoint::get_distance(Vector3D axis)
 {
     float projection = axis.dot(*this->position);
-    this->dist = Vector2D(projection-0.05, projection+0.05);
+    Vector2D dist = Vector2D(projection-0.05, projection+0.05);
 
-    return this->dist;
+    return dist;
 }
 
 Vector3D CollisionPoint::get_normal(Vector3D pos)
@@ -169,9 +180,9 @@ BoundingSphere::~BoundingSphere()
 Vector2D BoundingSphere::get_distance(Vector3D axis)
 {
     float projection = axis.dot(*this->position);
-    this->dist = Vector2D(projection-radius, projection+radius);
+    Vector2D dist = Vector2D(projection-radius, projection+radius);
 
-    return this->dist;
+    return dist;
 }
 
 Vector3D BoundingSphere::get_normal(Vector3D pos)
@@ -182,72 +193,132 @@ Vector3D BoundingSphere::get_normal(Vector3D pos)
     return normal;
 }
 
+// Polygon
+CollisionPolygon::CollisionPolygon()
+{
+    CollisionObject();
+}
+
+CollisionPolygon::CollisionPolygon(int num_vertices_, Vector3D *vertices_, int num_normals_, Vector3D *normals_)
+    : num_vertices(num_vertices_), vertices(vertices_), num_normals(num_normals_), normals(normals_)
+{
+    CollisionObject();
+}
+
+CollisionPolygon::CollisionPolygon(Face *face)
+{
+    CollisionObject();
+}
+
+CollisionPolygon::~CollisionPolygon()
+{
+}
+
+Vector2D CollisionPolygon::get_distance(Vector3D axis)
+{
+    int i;
+    Vector2D dist = Vector2D();
+
+    for(i = 0; i < this->num_vertices; i++)
+    {
+        float projection = axis.dot(this->vertices[i]);
+        if(projection < dist.x) dist.x = projection;
+        if(projection > dist.y) dist.y = projection;
+    }
+
+    return dist;
+}
+
+Vector3D CollisionPolygon::get_normal(Vector3D pos)
+{
+    return Vector3D();
+}
+
+bool CollisionPolygon::check_collision(CollisionObject *obj)
+{
+    int i;
+
+    for(i = 0; i < this->num_normals; i++)
+    {
+        Vector3D axis = this->normals[i];
+
+        printf("projecting on axis (%f;%f;%f):\n", this->normals[i].x, this->normals[i].y, this->normals[i].z);
+
+        Vector2D d1 = this->get_distance(this->normals[i]);
+        Vector2D d2 = obj->get_distance(this->normals[i]);
+
+        if(!check_intersect(d1, d2))
+        {
+            printf("\tno intersect. yay!\n");
+            return false;
+        }
+        printf("\tintersects on this axis\n");
+    }
+
+    return true;
+}
+
 // Bounding Box
 BoundingBox::BoundingBox()
 {
     CollisionObject();
+    Vector3D *v = (Vector3D*) calloc(sizeof(Vector3D), 8);
+    Vector3D *n = (Vector3D*) calloc(sizeof(Vector3D), 3);
+
+    this->num_vertices = 8;
+    this->num_normals = 3;
+    this->vertices = v;
+    this->normals = n;
+    //CollisionPolygon(8, v, 3, n); // FIXME: why this won't work?
 }
 
 BoundingBox::~BoundingBox()
 {
 }
 
-Vector2D BoundingBox::get_distance(Vector3D axis)
+void BoundingBox::update_poly(void)
 {
     Vector3D m1 = this->box_size1;
     Vector3D m2 = this->box_size2;
 
-    this->dist = Vector2D();
+    //if(this->num_vertices != 4 || this->num_normals != 3) return;
 
-    Vector3D a = Vector3D(m1.x, m1.y, m1.z);
-    a.rotate(*this->rotation);
-    a.add(*this->position);
-    this->point_projection(axis, a);
 
-    Vector3D b = Vector3D(m2.x, m1.y, m1.z);
-    b.rotate(*this->rotation);
-    b.add(*this->position);
-    this->point_projection(axis, b);
+    this->vertices[0] = Vector3D(m1.x, m1.y, m1.z);
+    this->vertices[0].rotate(*this->rotation);
+    this->vertices[0].add(*this->position);
 
-    Vector3D c = Vector3D(m1.x, m2.y, m1.z);
-    c.rotate(*this->rotation);
-    c.add(*this->position);
-    this->point_projection(axis, c);
+    this->vertices[1] = Vector3D(m2.x, m1.y, m1.z);
+    this->vertices[1].rotate(*this->rotation);
+    this->vertices[1].add(*this->position);
 
-    Vector3D d = Vector3D(m2.x, m2.y, m1.z);
-    d.rotate(*this->rotation);
-    d.add(*this->position);
-    this->point_projection(axis, d);
+    this->vertices[2] = Vector3D(m1.x, m2.y, m1.z);
+    this->vertices[2].rotate(*this->rotation);
+    this->vertices[2].add(*this->position);
 
-    Vector3D e = Vector3D(m1.x, m1.y, m2.z);
-    e.rotate(*this->rotation);
-    e.add(*this->position);
-    this->point_projection(axis, e);
+    this->vertices[3] = Vector3D(m2.x, m2.y, m1.z);
+    this->vertices[3].rotate(*this->rotation);
+    this->vertices[3].add(*this->position);
 
-    Vector3D f = Vector3D(m2.x, m1.y, m2.z);
-    f.rotate(*this->rotation);
-    f.add(*this->position);
-    this->point_projection(axis, f);
+    this->vertices[4] = Vector3D(m1.x, m1.y, m2.z);
+    this->vertices[4].rotate(*this->rotation);
+    this->vertices[4].add(*this->position);
 
-    Vector3D g = Vector3D(m1.x, m2.y, m2.z);
-    g.rotate(*this->rotation);
-    g.add(*this->position);
-    this->point_projection(axis, g);
+    this->vertices[5] = Vector3D(m2.x, m1.y, m2.z);
+    this->vertices[5].rotate(*this->rotation);
+    this->vertices[5].add(*this->position);
 
-    Vector3D h = Vector3D(m2.x, m2.y, m2.z);
-    h.rotate(*this->rotation);
-    h.add(*this->position);
-    this->point_projection(axis, h);
+    this->vertices[6] = Vector3D(m1.x, m2.y, m2.z);
+    this->vertices[6].rotate(*this->rotation);
+    this->vertices[6].add(*this->position);
 
-    return this->dist;
-}
+    this->vertices[7] = Vector3D(m2.x, m2.y, m2.z);
+    this->vertices[7].rotate(*this->rotation);
+    this->vertices[7].add(*this->position);
 
-Vector3D BoundingBox::get_normal(Vector3D pos)
-{
-    Vector3D normal = Vector3D(*this->position, pos);
-    normal.normalize();
-
-    return normal;
+    this->normals[0] = Vector3D(1.0f, 0.0f, 0.0f);
+    this->normals[1] = Vector3D(0.0f, 1.0f, 0.0f);
+    this->normals[2] = Vector3D(0.0f, 0.0f, 1.0f);
 }
 
 };
